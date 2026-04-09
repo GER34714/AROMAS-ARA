@@ -3,890 +3,656 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ROJAS ARTESANIAS</title>
-  <meta name="description" content="Catálogo premium de ROJAS ARTESANIAS." />
-  <meta property="og:title" content="ROJAS ARTESANIAS" />
-  <meta property="og:description" content="Catálogo premium de joyería artesanal." />
-  <meta property="og:image" content="https://iili.io/B11FmCB.png" />
+  <title>Aromas Ara</title>
+  <meta name="description" content="Fragancias para cada rincón de tu hogar. Encontrá textiles, difusores, aerosoles, home spray, sahumerios y más." />
+  <meta property="og:title" content="Aromas Ara" />
+  <meta property="og:description" content="Fragancias para cada rincón de tu hogar." />
   <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#090909" />
+  <meta property="og:image" content="https://iili.io/BlwPdiJ.png" />
+  <meta name="theme-color" content="#efe7df" />
   <style>
-    :root {
-      --bg: #060606;
-      --bg-2: #0c0c0f;
-      --panel: rgba(255,255,255,0.05);
-      --panel-2: rgba(255,255,255,0.08);
-      --gold: #d7b56d;
-      --gold-soft: #a88846;
-      --silver: #e8e3da;
-      --text: #f4efe7;
-      --muted: #bfb8ae;
-      --border: rgba(215,181,109,0.25);
-      --shadow: 0 12px 40px rgba(0,0,0,0.45);
-      --radius: 22px;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 20% 0%, rgba(215,181,109,0.10), transparent 28%),
-        radial-gradient(circle at 80% 18%, rgba(255,255,255,0.05), transparent 22%),
-        radial-gradient(circle at 50% 100%, rgba(120,90,45,0.12), transparent 30%),
-        linear-gradient(180deg, #0a0a0a 0%, #050505 45%, #090909 100%);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(125deg, transparent 0%, rgba(255,255,255,0.025) 48%, transparent 52%),
-        radial-gradient(circle at 12% 22%, rgba(255,255,255,0.03) 0 2px, transparent 3px),
-        radial-gradient(circle at 72% 16%, rgba(215,181,109,0.05) 0 2px, transparent 3px),
-        radial-gradient(circle at 82% 70%, rgba(255,255,255,0.02) 0 1px, transparent 2px);
-      mix-blend-mode: screen;
-      opacity: 0.7;
-      z-index: 0;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
-
-    .container {
-      width: min(1180px, calc(100% - 24px));
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(18px);
-      background: rgba(5,5,5,0.72);
-      border-bottom: 1px solid rgba(215,181,109,0.12);
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 14px 0;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .brand img {
-      width: 48px;
-      height: 48px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 14px rgba(215,181,109,0.22));
-    }
-
-    .brand-text {
-      min-width: 0;
-    }
-
-    .brand-text strong {
-      display: block;
-      letter-spacing: 0.12em;
-      font-size: 0.88rem;
-      color: var(--gold);
-    }
-
-    .brand-text span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a,
-    .chip {
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(215,181,109,0.14);
-      background: rgba(255,255,255,0.03);
-      color: var(--silver);
-      font-size: 0.9rem;
-      transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
-    }
-
-    .nav-links a:hover,
-    .chip:hover,
-    .chip.active {
-      transform: translateY(-4px);
-      border-color: rgba(215,181,109,0.45);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.28);
-      background: rgba(255,255,255,0.055);
-    }
-
-    .menu-btn {
-      display: none;
-      border: 1px solid rgba(215,181,109,0.15);
-      background: rgba(255,255,255,0.03);
-      color: var(--text);
-      border-radius: 14px;
-      padding: 10px 12px;
-      cursor: pointer;
-    }
-
-    .hero {
-      padding: 26px 0 18px;
-    }
-
-    .hero-wrap {
-      position: relative;
-      min-height: 74svh;
-      border-radius: 32px;
-      overflow: hidden;
-      border: 1px solid rgba(215,181,109,0.18);
-      box-shadow: var(--shadow);
-      background: #0b0b0b;
-      isolation: isolate;
-    }
-
-    .hero-media {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(1.05) contrast(1.05) brightness(0.66);
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(0,0,0,0.84) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.55) 100%),
-        radial-gradient(circle at 20% 20%, rgba(215,181,109,0.15), transparent 24%),
-        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 30%, rgba(0,0,0,0.3));
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      width: min(620px, 100%);
-      padding: 38px;
-      margin: 36px;
-      border-radius: 28px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
-      border: 1px solid rgba(255,255,255,0.11);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.74rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 14px;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 28px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold));
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(2.2rem, 6vw, 4.8rem);
-      line-height: 0.95;
-      letter-spacing: 0.04em;
-      color: #f7f2e7;
-      text-shadow: 0 0 18px rgba(215,181,109,0.10);
-    }
-
-    .accent {
-      color: var(--gold);
-      background: linear-gradient(180deg, #f4ddb0 0%, #d7b56d 45%, #8f6d31 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero p {
-      color: var(--silver);
-      font-size: 1rem;
-      line-height: 1.7;
-      margin: 18px 0 0;
-      max-width: 54ch;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .btn {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 14px 18px;
-      border-radius: 999px;
-      border: 1px solid rgba(215,181,109,0.25);
-      color: #110d06;
-      background: linear-gradient(180deg, #f0d89f 0%, #d7b56d 48%, #a87f39 100%);
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      overflow: hidden;
-      transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
-      box-shadow: 0 12px 28px rgba(167,129,56,0.22);
-    }
-
-    .btn::after {
-      content: "";
-      position: absolute;
-      top: -30%;
-      left: -80%;
-      width: 42%;
-      height: 160%;
-      transform: rotate(18deg);
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
-      animation: shine 4.8s linear infinite;
-      pointer-events: none;
-    }
-
-    .btn:hover,
-    .btn:focus-visible {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 36px rgba(167,129,56,0.30);
-      filter: brightness(1.03);
-    }
-
-    .btn.secondary {
-      color: var(--text);
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(12px);
-      box-shadow: none;
-    }
-
-    .btn.secondary::after {
-      opacity: 0.35;
-    }
-
-    @keyframes shine {
-      0% { left: -80%; }
-      100% { left: 150%; }
-    }
-
-    .banner {
-      padding: 4px 0 6px;
-    }
-
-    .banner-box {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      align-items: center;
-      gap: 22px;
-      border-radius: 28px;
-      border: 1px solid rgba(215,181,109,0.14);
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-      backdrop-filter: blur(16px);
-      padding: 22px;
-      box-shadow: var(--shadow);
-    }
-
-    .banner-box img {
-      width: 100%;
-      max-height: 170px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 18px rgba(215,181,109,0.20));
-    }
-
-    .banner-copy h2,
-    .section-head h2 {
-      margin: 0 0 10px;
-      font-size: clamp(1.5rem, 3.2vw, 2.5rem);
-      letter-spacing: 0.04em;
-      color: var(--gold);
-    }
-
-    .banner-copy p,
-    .section-head p,
-    .footer p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    section {
-      padding: 22px 0;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-
-    .filters {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-
-    .catalog-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      border-radius: 22px;
-      overflow: hidden;
-      border: 1px solid rgba(215,181,109,0.18);
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-      backdrop-filter: blur(14px);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.30);
-      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
-      cursor: pointer;
-      min-height: 100%;
-    }
-
-    .card:hover,
-    .card:focus-visible {
-      transform: translateY(-8px);
-      box-shadow: 0 18px 36px rgba(0,0,0,0.38);
-      border-color: rgba(215,181,109,0.36);
-    }
-
-    .card-media {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background: radial-gradient(circle at 50% 20%, rgba(255,255,255,0.08), rgba(0,0,0,0.3));
-      padding: 10px;
-      display: grid;
-      place-items: center;
-    }
-
-    .card-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.34));
-    }
-
-    .card-body {
-      padding: 12px 12px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      min-height: 0;
-    }
-
-    .card-title {
-      margin: 0;
-      font-size: 0.95rem;
-      line-height: 1.25;
-      color: var(--silver);
-    }
-
-    .card-sub {
-      font-size: 0.78rem;
-      color: var(--gold);
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-    }
-
-    .card-cta {
-      margin-top: auto;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 18px;
-    }
-
-    .panel {
-      border-radius: 28px;
-      padding: 24px;
-      border: 1px solid rgba(215,181,109,0.14);
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
-      transition: transform .28s ease, box-shadow .28s ease;
-    }
-
-    .panel:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 18px 36px rgba(0,0,0,0.34);
-    }
-
-    .panel h3 {
-      margin: 0 0 10px;
-      color: var(--gold);
-      font-size: 1.35rem;
-    }
-
-    .panel ul {
-      padding-left: 18px;
-      margin: 14px 0 0;
-      color: var(--silver);
-      line-height: 1.8;
-    }
-
-    .cta-box {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .footer {
-      padding: 26px 0 110px;
-      text-align: center;
-    }
-
-    .footer a {
-      color: var(--gold);
-      font-weight: 700;
-    }
-
-    .wa-float {
-      position: fixed;
-      right: 16px;
-      bottom: 16px;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      z-index: 15;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(215,181,109,0.18);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 14px 30px rgba(0,0,0,0.35);
-      transition: transform .25s ease, opacity .25s ease;
-    }
-
-    .wa-float:hover {
-      transform: translateY(-4px);
-    }
-
-    .wa-float img {
-      width: 32px;
-      height: 32px;
-      object-fit: contain;
-    }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.78);
-      backdrop-filter: blur(12px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      z-index: 40;
-    }
-
-    .modal.open { display: flex; }
-
-    .modal-card {
-      width: min(900px, 100%);
-      max-height: min(90vh, 900px);
-      overflow: auto;
-      border-radius: 28px;
-      border: 1px solid rgba(215,181,109,0.22);
-      background: linear-gradient(180deg, rgba(18,18,20,0.96), rgba(8,8,10,0.96));
-      box-shadow: 0 24px 60px rgba(0,0,0,0.55);
-      padding: 18px;
-    }
-
-    .modal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .modal-image {
-      border-radius: 24px;
-      border: 1px solid rgba(215,181,109,0.14);
-      background: rgba(255,255,255,0.03);
-      padding: 16px;
-    }
-
-    .modal-image img {
-      width: 100%;
-      max-height: 70vh;
-      object-fit: contain;
-      margin: 0 auto;
-    }
-
-    .modal-copy h3 {
-      margin: 0 0 10px;
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
-      color: var(--gold);
-    }
-
-    .modal-copy p {
-      margin: 0 0 16px;
-      color: var(--silver);
-      line-height: 1.75;
-    }
-
-    .close {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 1px solid rgba(215,181,109,0.2);
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      cursor: pointer;
-      margin-left: auto;
-      display: grid;
-      place-items: center;
-      font-size: 1.2rem;
-    }
-
-    @media (max-width: 980px) {
-      .catalog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .about-grid, .modal-grid, .banner-box { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 760px) {
-      .menu-btn { display: inline-flex; }
-      .nav-links {
-        display: none;
-        position: absolute;
-        left: 12px;
-        right: 12px;
-        top: calc(100% + 8px);
-        padding: 12px;
-        border-radius: 22px;
-        border: 1px solid rgba(215,181,109,0.14);
-        background: rgba(8,8,10,0.92);
-        backdrop-filter: blur(18px);
-        box-shadow: var(--shadow);
-      }
-      .nav-links.open { display: flex; flex-direction: column; align-items: stretch; }
-      .hero-wrap { min-height: auto; }
-      .hero-content {
-        width: auto;
-        margin: 14px;
-        padding: 20px;
-      }
-      .hero { padding-top: 16px; }
-      .hero p { font-size: 0.95rem; }
-      .section-head { flex-direction: column; align-items: start; }
-      .catalog-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-      }
-      .card-media { padding: 8px; }
-      .card-body { padding: 10px 10px 12px; gap: 6px; }
-      .card-title { font-size: 0.82rem; }
-      .card-sub { font-size: 0.65rem; }
-      .card-cta { font-size: 0.72rem; }
-      .cta-box { align-items: stretch; }
-      .btn { width: 100%; }
-      .wa-float { bottom: 14px; right: 14px; }
-    }
-
-    @media (max-width: 420px) {
-      .container { width: min(100% - 14px, 1180px); }
-      .hero-content { padding: 18px; }
-      .catalog-grid { gap: 8px; }
-      .card {
-        border-radius: 18px;
-      }
-      .card-body { padding: 8px 8px 10px; }
-      .card-title { font-size: 0.76rem; }
-      .card-media { aspect-ratio: 0.92 / 1; }
-      .brand img { width: 42px; height: 42px; }
+    :root{
+      --bg:#fbf8f5;
+      --bg-soft:#f4ede7;
+      --card:#fffdfa;
+      --line:#eadfd6;
+      --text:#5d4b43;
+      --muted:#8a7368;
+      --accent:#c8a891;
+      --shadow:0 12px 30px rgba(116,88,74,.10);
+      --radius-xl:28px;
+      --radius-lg:22px;
+      --header-h:74px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:linear-gradient(180deg,#fdfaf7 0%,#fbf8f5 35%,#f8f2ed 100%);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
+    .container{width:min(1180px,calc(100% - 28px));margin:0 auto}
+
+    header{
+      position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+      background:rgba(251,248,245,.82);
+      border-bottom:1px solid rgba(234,223,214,.72);
+    }
+    .topbar{min-height:var(--header-h);display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;flex-direction:column;line-height:1}
+    .brand strong{font-size:1.28rem;letter-spacing:.08em;font-weight:800;text-transform:uppercase}
+    .brand span{color:var(--muted);font-size:.83rem;margin-top:7px;letter-spacing:.04em}
+    .desktop-nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .desktop-nav a{padding:10px 14px;border-radius:999px;color:var(--muted);transition:.22s ease}
+    .desktop-nav a:hover{background:var(--bg-soft);color:var(--text)}
+    .header-actions{display:flex;align-items:center;gap:10px}
+    .wa-btn,.ghost-btn,.soft-btn{border:none;cursor:pointer;border-radius:999px;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+    .wa-btn:hover,.ghost-btn:hover,.soft-btn:hover{transform:translateY(-1px)}
+    .wa-btn{background:linear-gradient(135deg,var(--accent),#b9957d);color:white;padding:12px 18px;font-weight:700;box-shadow:var(--shadow)}
+    .ghost-btn{background:transparent;border:1px solid var(--line);color:var(--text);padding:11px 16px}
+    .soft-btn{background:var(--card);border:1px solid var(--line);color:var(--text);padding:12px 16px}
+    .menu-toggle{display:none}
+
+    .mobile-sheet{position:fixed;inset:0;z-index:70;background:rgba(72,50,41,.34);opacity:0;pointer-events:none;transition:.22s ease}
+    .mobile-sheet.active{opacity:1;pointer-events:auto}
+    .mobile-panel{position:absolute;right:0;top:0;height:100%;width:min(86vw,360px);background:#fffdfa;border-left:1px solid var(--line);padding:20px;transform:translateX(100%);transition:.22s ease}
+    .mobile-sheet.active .mobile-panel{transform:translateX(0)}
+    .mobile-panel .nav{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+    .mobile-panel .nav a{padding:14px 16px;border-radius:18px;background:var(--bg-soft);border:none;text-align:left;color:var(--text)}
+
+    .banner-section{padding:20px 0 10px}
+    .banner-card{
+      position:relative;
+      min-height:370px;
+      border-radius:var(--radius-xl);
+      overflow:hidden;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      background:#efe5dc;
+    }
+    .banner-card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center;
+      position:absolute;
+      inset:0;
+    }
+    .banner-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg, rgba(62,44,37,.50) 0%, rgba(62,44,37,.18) 42%, rgba(62,44,37,.05) 100%);
+    }
+    .banner-content{
+      position:relative;
+      z-index:2;
+      padding:clamp(24px,4vw,42px);
+      display:flex;
+      flex-direction:column;
+      justify-content:end;
+      min-height:370px;
+      max-width:560px;
+    }
+    .banner-kicker{
+      display:inline-flex;
+      width:max-content;
+      align-items:center;
+      gap:8px;
+      padding:9px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.22);
+      color:#fff;
+      font-size:.84rem;
+      font-weight:700;
+      margin-bottom:14px;
+      backdrop-filter:blur(10px);
+    }
+    .banner-content h1{
+      color:#fff;
+      font-size:clamp(2rem,4.6vw,3.9rem);
+      line-height:.96;
+      letter-spacing:-.04em;
+      max-width:9ch;
+    }
+    .banner-content p{
+      color:rgba(255,255,255,.92);
+      margin-top:14px;
+      line-height:1.7;
+      font-size:1rem;
+      max-width:46ch;
+    }
+    .banner-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .banner-actions .ghost-btn{
+      color:#fff;
+      border-color:rgba(255,255,255,.34);
+      background:rgba(255,255,255,.08);
+    }
+
+    section{padding:24px 0}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:18px}
+    .section-head h2{font-size:clamp(1.45rem,2.5vw,2.1rem);letter-spacing:-.03em}
+    .section-head p{color:var(--muted);max-width:55ch;line-height:1.6}
+
+    .carousel-wrap{position:relative;padding:0 44px}
+    .carousel-track{display:grid;grid-auto-flow:column;grid-auto-columns:calc(22% - 10px);gap:14px;overflow:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none}
+    .carousel-track::-webkit-scrollbar{display:none}
+    .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:999px;border:1px solid var(--line);background:rgba(255,253,250,.95);box-shadow:var(--shadow);cursor:pointer;z-index:2}
+    .carousel-btn.prev{left:0}.carousel-btn.next{right:0}
+    .cat-card{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);scroll-snap-align:start;min-width:0;transition:transform .22s ease}
+    .cat-card:hover{transform:translateY(-4px)}
+    .cat-card .img-wrap{aspect-ratio:4/4.8;overflow:hidden;background:var(--bg-soft)}
+    .cat-card img{width:100%;height:100%;object-fit:cover}
+    .cat-card .body{padding:14px}
+    .cat-card h3{font-size:1rem;line-height:1.15}
+    .cat-card p{font-size:.88rem;color:var(--muted);margin-top:8px;line-height:1.5;min-height:40px}
+    .cat-card span{display:inline-flex;margin-top:12px;color:#9b7a66;font-weight:700;font-size:.9rem}
+
+    .catalog-shell{
+      background:rgba(255,253,250,.52);
+      border:1px solid var(--line);
+      border-radius:var(--radius-xl);
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+    .catalog-toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .search-box{flex:1 1 260px;display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:0 16px;min-height:50px}
+    .search-box input{border:none;background:transparent;outline:none;width:100%;color:var(--text)}
+    .chips{display:flex;gap:10px;flex-wrap:wrap}
+    .chip{border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:999px;cursor:pointer;color:var(--muted)}
+    .chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+    .products-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+    .product-card{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+    .product-media{aspect-ratio:1/1.08;background:linear-gradient(180deg,#f7efe8,#fdfbf8);overflow:hidden;padding:14px;border-bottom:1px solid var(--line);display:grid;place-items:center}
+    .product-media img{width:100%;height:100%;object-fit:contain;object-position:center}
+    .product-body{padding:16px;display:flex;flex-direction:column;gap:12px;flex:1}
+    .product-top{display:flex;align-items:start;justify-content:space-between;gap:10px}
+    .product-title{font-size:1rem;line-height:1.2;font-weight:800}
+    .pill{white-space:nowrap;border-radius:999px;padding:8px 11px;font-size:.76rem;font-weight:700;background:#f7efe9;color:#9a755f;border:1px solid var(--line)}
+    .product-body p{color:var(--muted);font-size:.92rem;line-height:1.6;min-height:60px}
+    .status{margin-top:auto;color:#a07963;font-weight:700;font-size:.95rem}
+    .product-actions{display:flex;gap:10px;padding-top:2px}
+    .product-actions .soft-btn,.product-actions .ghost-btn{padding:11px 13px;font-size:.92rem;width:100%;text-align:center}
+
+    .bands{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .band-card{min-height:200px;padding:26px;border-radius:24px;position:relative;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:end}
+    .band-card:nth-child(1){background:linear-gradient(180deg,#f8f1eb,#efe2d6)}
+    .band-card:nth-child(2){background:linear-gradient(180deg,#f5eee8,#e8ddd2)}
+    .band-card:nth-child(3){background:linear-gradient(180deg,#fbf5ef,#eaded3)}
+    .band-card h3{font-size:1.3rem}
+    .band-card p{margin-top:8px;color:var(--muted);line-height:1.6;max-width:28ch}
+
+    .cta-box{background:linear-gradient(135deg,#f1e5db,#e7d7ca);border:1px solid var(--line);border-radius:30px;padding:28px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .cta-box h3{font-size:clamp(1.5rem,2.4vw,2.2rem);line-height:1.1;max-width:14ch}
+    .cta-box p{color:var(--muted);line-height:1.65;max-width:50ch}
+
+    footer{padding:36px 0 80px;margin-top:20px;border-top:1px solid rgba(234,223,214,.8)}
+    .footer-wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .footer-wrap p{color:var(--muted);line-height:1.7;max-width:60ch}
+    .footer-credit a{color:#aa7f69;font-weight:800}
+
+    .floating-wa{position:fixed;right:16px;bottom:18px;z-index:44;width:58px;height:58px;border-radius:999px;display:grid;place-items:center;transition:transform .25s ease,opacity .25s ease}
+    .floating-wa.hidden{opacity:0;transform:translateY(26px);pointer-events:none}
+    .floating-wa img{width:58px;height:58px;object-fit:contain;filter:drop-shadow(0 14px 28px rgba(0,0,0,.22))}
+
+    .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(38,24,18,.52);backdrop-filter:blur(8px)}
+    .modal.open{display:flex}
+    .modal-card{width:min(100%,980px);max-height:92vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);padding:18px}
+    .modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+    .modal-media{background:linear-gradient(180deg,#f7efe8,#fdfbf8);border:1px solid var(--line);border-radius:24px;min-height:420px;padding:20px;display:grid;place-items:center}
+    .modal-media img{width:100%;height:100%;object-fit:contain;object-position:center;max-height:68vh}
+    .modal-body{padding:8px 2px 4px}
+    .modal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+    .modal-body h4{font-size:clamp(1.7rem,3vw,2.4rem);line-height:1.02;letter-spacing:-.04em}
+    .modal-body p{margin-top:14px;color:var(--muted);line-height:1.75;font-size:1rem}
+    .features{display:grid;gap:10px;margin:20px 0 24px}
+    .feature{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:16px;background:var(--bg-soft);border:1px solid var(--line);color:var(--text)}
+    .close-btn{width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:var(--bg-soft);cursor:pointer;color:var(--text);flex:0 0 auto}
+
+    @media (max-width:1040px){
+      .products-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .bands,.modal-grid{grid-template-columns:1fr}
+      .carousel-track{grid-auto-columns:calc(30% - 10px)}
+    }
+    @media (max-width:760px){
+      .desktop-nav,.header-actions .wa-btn,.header-actions .ghost-btn{display:none}
+      .menu-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:#fff}
+      .carousel-wrap{padding:0 6px}
+      .carousel-btn{display:none}
+      .carousel-track{grid-auto-columns:52%}
+      .products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+      .bands{grid-template-columns:1fr}
+      .banner-card,.catalog-shell{border-radius:24px}
+      .modal-media{min-height:300px}
+    }
+    @media (max-width:480px){
+      :root{--header-h:68px}
+      .container{width:min(100% - 18px,1180px)}
+      .brand strong{font-size:1.06rem}
+      .brand span{font-size:.74rem}
+      .banner-card{min-height:290px}
+      .banner-content{min-height:290px;padding:22px}
+      .banner-content h1{font-size:1.9rem;max-width:11ch}
+      .banner-content p{font-size:.92rem}
+      .carousel-track{grid-auto-columns:40%}
+      .cat-card .body{padding:11px}
+      .cat-card h3{font-size:.9rem}
+      .cat-card p{display:none}
+      .products-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .product-card{border-radius:20px}
+      .product-media{padding:10px;aspect-ratio:1/1}
+      .product-body{padding:12px}
+      .product-title{font-size:.9rem}
+      .product-body p{display:none}
+      .product-actions{flex-direction:column;gap:8px}
+      .product-actions .soft-btn,.product-actions .ghost-btn{font-size:.82rem;padding:10px}
+      .status{font-size:.88rem}
+      .cta-box{padding:22px}
+      .modal{padding:10px}
+      .modal-card{border-radius:22px;padding:12px}
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav">
-      <a class="brand" href="#inicio">
-        <img src="https://iili.io/B1197gj.png" alt="Logo Rojas Artesanias" />
-        <div class="brand-text">
-          <strong>ROJAS ARTESANIAS</strong>
-          <span>JOYERIA ARTESANAL</span>
-        </div>
-      </a>
-
-      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
-
-      <nav class="nav-links" id="navLinks">
-        <a href="#inicio">Inicio</a>
-        <a href="#catalogo">Catalogo</a>
-        <a href="#coleccion">Coleccion</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
+<header>
+  <div class="container topbar">
+    <a class="brand" href="#inicio">
+      <strong>Aromas Ara</strong>
+      <span>fragancias para cada rincón</span>
+    </a>
+    <nav class="desktop-nav">
+      <a href="#categorias">Categorías</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#novedades">Novedades</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="header-actions">
+      <a class="ghost-btn" href="#catalogo">Ver catálogo</a>
+      <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20los%20productos%20de%20Aromas%20Ara.">WhatsApp</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main>
-    <section class="hero" id="inicio">
-      <div class="container">
-        <div class="hero-wrap">
-          <img class="hero-media" src="https://iili.io/B11FmCB.png" alt="Hero Rojas Artesanias" />
-          <div class="hero-overlay"></div>
-          <div class="hero-content">
-            <span class="eyebrow">Coleccion destacada</span>
-            <h1>ROJAS <span class="accent">ARTESANIAS</span></h1>
-            <p>
-              Piezas con presencia, detalle y una identidad visual pensada para mostrar cada joya con elegancia.
-              Un catalogo premium donde cada producto respira y se luce como corresponde.
-            </p>
-            <div class="hero-actions">
-              <a class="btn" href="#catalogo">Ver catalogo</a>
-              <a class="btn secondary" href="#contacto">Consultar</a>
-            </div>
+<div class="mobile-sheet" id="mobileSheet">
+  <div class="mobile-panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <strong style="font-size:1.12rem;">Aromas Ara</strong>
+      <button class="menu-toggle" id="closeMenu" aria-label="Cerrar menú">✕</button>
+    </div>
+    <div class="nav">
+      <a href="#inicio">Inicio</a>
+      <a href="#categorias">Categorías</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#novedades">Novedades</a>
+      <a href="#contacto">Contacto</a>
+      <a class="wa-btn" style="text-align:center;margin-top:10px;display:block" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20los%20productos%20de%20Aromas%20Ara.">Ir a WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section class="banner-section" id="inicio">
+    <div class="container">
+      <div class="banner-card">
+        <img src="https://iili.io/BlwPdiJ.png" alt="Banner Aromas Ara" />
+        <div class="banner-overlay"></div>
+        <div class="banner-content">
+          <span class="banner-kicker">Aromas Ara</span>
+          <h1>Fragancias suaves para disfrutar y regalar</h1>
+          <p>Explorá textiles, difusores, aerosoles, home spray, sahumerios y líneas especiales en una propuesta delicada, simple y cálida.</p>
+          <div class="banner-actions">
+            <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20ver%20el%20cat%C3%A1logo%20de%20Aromas%20Ara.">Consultar por WhatsApp</a>
+            <a class="ghost-btn" href="#catalogo">Ver catálogo</a>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="banner">
-      <div class="container">
-        <div class="banner-box">
-          <img src="https://iili.io/B1197gj.png" alt="Marca Rojas Artesanias" />
-          <div class="banner-copy">
-            <h2>Brillo, presencia y detalle</h2>
-            <p>
-              Una propuesta visual oscura, elegante y refinada, con acentos dorados y una grilla compacta para que la experiencia en movil se sienta premium y comoda al mismo tiempo.
-            </p>
-          </div>
+  <section id="categorias">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Elegí una línea y seguí explorando</h2>
+          <p>Una entrada simple para recorrer las categorías principales y llegar rápido a cada sección del catálogo.</p>
         </div>
       </div>
-    </section>
 
-    <section id="catalogo">
-      <div class="container">
+      <div class="carousel-wrap">
+        <button class="carousel-btn prev" type="button" id="prevBtn">‹</button>
+        <div class="carousel-track" id="carouselTrack">
+          <a class="cat-card" href="#catalogo" data-filter="Textiles">
+            <div class="img-wrap"><img src="https://iili.io/BlXVne9.png" alt="Textiles" /></div>
+            <div class="body"><h3>Textiles</h3><p>Brumas y fragancias para telas, ropa de cama y ambientes.</p><span>Ver productos</span></div>
+          </a>
+          <a class="cat-card" href="#catalogo" data-filter="Difusores">
+            <div class="img-wrap"><img src="https://iili.io/BlhLlO7.png" alt="Difusores" /></div>
+            <div class="body"><h3>Difusores</h3><p>Opciones suaves para aromatizar distintos espacios.</p><span>Ver productos</span></div>
+          </a>
+          <a class="cat-card" href="#catalogo" data-filter="Aerosoles">
+            <div class="img-wrap"><img src="https://iili.io/BlXqdba.png" alt="Aerosoles" /></div>
+            <div class="body"><h3>Aerosoles</h3><p>Fragancias listas para usar y perfumar al instante.</p><span>Ver productos</span></div>
+          </a>
+          <a class="cat-card" href="#catalogo" data-filter="Home Spray">
+            <div class="img-wrap"><img src="https://iili.io/BlhwBh7.png" alt="Home Spray" /></div>
+            <div class="body"><h3>Home Spray</h3><p>Formatos prácticos con aromas cálidos y frescos.</p><span>Ver productos</span></div>
+          </a>
+          <a class="cat-card" href="#catalogo" data-filter="Sahumerios">
+            <div class="img-wrap"><img src="https://iili.io/BlhJIqP.png" alt="Sahumerios" /></div>
+            <div class="body"><h3>Sahumerios</h3><p>Opciones para rituales, descanso y momentos especiales.</p><span>Ver productos</span></div>
+          </a>
+          <a class="cat-card" href="#catalogo" data-filter="Difusores Premium">
+            <div class="img-wrap"><img src="https://iili.io/Blh6QPR.png" alt="Difusores Premium" /></div>
+            <div class="body"><h3>Difusores Premium</h3><p>Presentaciones elegantes para regalar o decorar.</p><span>Ver productos</span></div>
+          </a>
+        </div>
+        <button class="carousel-btn next" type="button" id="nextBtn">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="catalogo">
+    <div class="container">
+      <div class="catalog-shell">
         <div class="section-head">
           <div>
-            <h2>Catalogo</h2>
-            <p>Piezas destacadas presentadas en una grilla compacta, pensada para movil y escritorio.</p>
+            <h2>Catálogo</h2>
+            <p>Una primera selección con previews de línea para dejar la base visual armada hasta cargar productos reales desde el panel.</p>
           </div>
         </div>
 
-        <div class="filters">
-          <button class="chip active" type="button">Destacados</button>
-          <button class="chip" type="button">Anillos</button>
-          <button class="chip" type="button">Aros</button>
-          <button class="chip" type="button">Pulseras</button>
-          <button class="chip" type="button">Collares</button>
+        <div class="catalog-toolbar">
+          <label class="search-box">
+            <span>⌕</span>
+            <input type="search" id="searchInput" placeholder="Buscar por producto o categoría" />
+          </label>
+          <div class="chips" id="chips">
+            <button class="chip active" data-category="Todos">Todos</button>
+            <button class="chip" data-category="Textiles">Textiles</button>
+            <button class="chip" data-category="Difusores">Difusores</button>
+            <button class="chip" data-category="Aerosoles">Aerosoles</button>
+            <button class="chip" data-category="Home Spray">Home Spray</button>
+            <button class="chip" data-category="Sahumerios">Sahumerios</button>
+            <button class="chip" data-category="Difusores Premium">Difusores Premium</button>
+          </div>
         </div>
 
-        <div class="catalog-grid" id="catalogGrid"></div>
-      </div>
-    </section>
-
-    <section id="coleccion">
-      <div class="container">
-        <div class="about-grid">
-          <div class="panel">
-            <h3>Una estetica pensada para joyeria</h3>
-            <p>
-              Fondo oscuro con profundidad, acentos metalicos, detalles brillantes controlados y cards que se levantan apenas para marcar jerarquia y direccion visual.
-            </p>
-            <ul>
-              <li>Grilla compacta en movil con dos columnas.</li>
-              <li>Fotos enteras, sin recortes agresivos.</li>
-              <li>Detalle de producto con mas presencia.</li>
-              <li>Visual premium sin caer en excesos.</li>
-            </ul>
-          </div>
-          <div class="panel cta-box" id="contacto">
-            <div>
-              <h3>Consultas por WhatsApp</h3>
-              <p>
-                Aca despues te cambio el numero real y el texto exacto para dejarlo listo para la joyeria.
-              </p>
+        <div class="products-grid" id="productsGrid">
+          <article class="product-card" data-category="Textiles" data-name="Aromatizador Textil 250 ml" data-image="https://iili.io/BlXVne9.png" data-description="Vista previa de la línea Textiles. Después, desde el panel, vas cargando cada producto real con su imagen propia." data-features='["Línea base para sembrar el catálogo","Ideal para fragancias textiles","Después se reemplaza por productos reales"]'>
+            <div class="product-media"><img src="https://iili.io/BlXVne9.png" alt="Vista previa categoría Textiles" /></div>
+            <div class="product-body">
+              <div class="product-top"><h3 class="product-title">Aromatizador Textil 250 ml</h3><span class="pill">Textiles</span></div>
+              <p>Vista previa de la línea Textiles. Después, desde el panel, vas cargando cada producto real con su imagen propia.</p>
+              <div class="status">Por encargue</div>
+              <div class="product-actions">
+                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Aromatizador%20Textil%20250%20ml.">Consultar</a>
+                <button class="ghost-btn open-modal">Ver más</button>
+              </div>
             </div>
-            <a class="btn" id="waMain" href="https://wa.me/5490000000000?text=Hola%20ROJAS%20ARTESANIAS%2C%20quiero%20hacer%20una%20consulta" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
-          </div>
+          </article>
+
+          <article class="product-card" data-category="Difusores" data-name="Difusor Aromático" data-image="https://iili.io/BlhLlO7.png" data-description="Vista previa de la línea Difusores. Después vas reemplazando estas cards por productos reales desde el admin." data-features='["Base inicial de la línea","Aromatización delicada para ambientes","Se reemplaza por fichas reales"]'>
+            <div class="product-media"><img src="https://iili.io/BlhLlO7.png" alt="Vista previa categoría Difusores" /></div>
+            <div class="product-body">
+              <div class="product-top"><h3 class="product-title">Difusor Aromático</h3><span class="pill">Difusores</span></div>
+              <p>Vista previa de la línea Difusores. Después vas reemplazando estas cards por productos reales desde el admin.</p>
+              <div class="status">Por encargue</div>
+              <div class="product-actions">
+                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Difusor%20Arom%C3%A1tico.">Consultar</a>
+                <button class="ghost-btn open-modal">Ver más</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="Aerosoles" data-name="Aerosol Aromatizador" data-image="https://iili.io/BlXqdba.png" data-description="Vista previa de la línea Aerosoles. Sirve para sembrar la base hasta cargar productos puntuales." data-features='["Formato práctico de la línea","Preview para el catálogo inicial","Después se carga cada producto"]'>
+            <div class="product-media"><img src="https://iili.io/BlXqdba.png" alt="Vista previa categoría Aerosoles" /></div>
+            <div class="product-body">
+              <div class="product-top"><h3 class="product-title">Aerosol Aromatizador</h3><span class="pill">Aerosoles</span></div>
+              <p>Vista previa de la línea Aerosoles. Sirve para sembrar la base hasta cargar productos puntuales.</p>
+              <div class="status">Por encargue</div>
+              <div class="product-actions">
+                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Aerosol%20Aromatizador.">Consultar</a>
+                <button class="ghost-btn open-modal">Ver más</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="Home Spray" data-name="Home Spray" data-image="https://iili.io/BlhwBh7.png" data-description="Vista previa de la línea Home Spray. Después se reemplaza por productos o fragancias específicas." data-features='["Línea lista para crecer","Preview visual de la categoría","Luego se cargan variantes reales"]'>
+            <div class="product-media"><img src="https://iili.io/BlhwBh7.png" alt="Vista previa categoría Home Spray" /></div>
+            <div class="product-body">
+              <div class="product-top"><h3 class="product-title">Home Spray</h3><span class="pill">Home Spray</span></div>
+              <p>Vista previa de la línea Home Spray. Después se reemplaza por productos o fragancias específicas.</p>
+              <div class="status">Por encargue</div>
+              <div class="product-actions">
+                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Home%20Spray.">Consultar</a>
+                <button class="ghost-btn open-modal">Ver más</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="Sahumerios" data-name="Sahumerios" data-image="https://iili.io/BlhJIqP.png" data-description="Vista previa de la línea Sahumerios. Ideal para dejar la base armada hasta sumar más productos reales." data-features='["Pensado para sumar calma y ritual","Preview inicial de la categoría","Luego se carga el detalle real"]'>
+            <div class="product-media"><img src="https://iili.io/BlhJIqP.png" alt="Vista previa categoría Sahumerios" /></div>
+            <div class="product-body">
+              <div class="product-top"><h3 class="product-title">Sahumerios</h3><span class="pill">Sahumerios</span></div>
+              <p>Vista previa de la línea Sahumerios. Ideal para dejar la base armada hasta sumar más productos reales.</p>
+              <div class="status">Por encargue</div>
+              <div class="product-actions">
+                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Sahumerios.">Consultar</a>
+                <button class="ghost-btn open-modal">Ver más</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="Difusores Premium" data-name="Difusor Premium" data-image="https://iili.io/Blh6QPR.png" data-description="Vista previa de la línea Difusores Premium. Después desde el panel podés cargar la imagen real de cada producto." data-features='["Presentación elegante","Ideal para regalos","Luego se reemplaza por producto real"]'>
+            <div class="product-media"><img src="https://iili.io/Blh6QPR.png" alt="Vista previa categoría Difusores Premium" /></div>
+            <div class="product-body">
+              <div class="product-top"><h3 class="product-title">Difusor Premium</h3><span class="pill">Premium</span></div>
+              <p>Vista previa de la línea Difusores Premium. Después desde el panel podés cargar la imagen real de cada producto.</p>
+              <div class="status">Por encargue</div>
+              <div class="product-actions">
+                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Difusor%20Premium.">Consultar</a>
+                <button class="ghost-btn open-modal">Ver más</button>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container">
-      <p>Creado y diseñado por <a href="https://ciborg347oficial.onrender.com" target="_blank" rel="noopener noreferrer">Ciborg 347</a></p>
     </div>
-  </footer>
+  </section>
 
-  <a class="wa-float" id="waFloat" href="https://wa.me/5490000000000?text=Hola%20ROJAS%20ARTESANIAS%2C%20quiero%20hacer%20una%20consulta" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-    <img src="https://iili.io/BdFrUs1.webp" alt="WhatsApp" />
-  </a>
-
-  <div class="modal" id="productModal" aria-hidden="true">
-    <div class="modal-card">
-      <button class="close" id="closeModal" aria-label="Cerrar">✕</button>
-      <div class="modal-grid">
-        <div class="modal-image">
-          <img id="modalImg" src="" alt="Producto" />
+  <section id="novedades">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Secciones listas para seguir creciendo</h2>
+          <p>Después, desde el panel, se pueden sumar más productos al inicio, destacados, ofertas y próximos lanzamientos.</p>
         </div>
-        <div class="modal-copy">
-          <span class="eyebrow">Detalle</span>
-          <h3 id="modalTitle">Producto</h3>
-          <p id="modalDesc">Descripcion del producto.</p>
-          <a class="btn" id="modalWa" href="#" target="_blank" rel="noopener noreferrer">Consultar esta pieza</a>
+      </div>
+      <div class="bands">
+        <article class="band-card"><h3>Nuevos productos</h3><p>Un espacio pensado para destacar ingresos recientes y darle movimiento a la tienda.</p></article>
+        <article class="band-card"><h3>Ofertas</h3><p>Una sección simple para resaltar productos especiales sin recargar la experiencia.</p></article>
+        <article class="band-card"><h3>Próximos lanzamientos</h3><p>Ideal para anticipar lo que viene y mantener el catálogo siempre activo.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="container">
+      <div class="cta-box">
+        <div>
+          <h3>¿Querés consultar por algún producto?</h3>
+          <p>Podés escribir directo por WhatsApp y seguir viendo opciones a medida que se sumen más categorías, fragancias y líneas al catálogo.</p>
+        </div>
+        <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20hacer%20una%20consulta%20sobre%20Aromas%20Ara.">Escribir ahora</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-wrap">
+    <div>
+      <strong style="font-size:1.18rem;display:block;margin-bottom:8px;">Aromas Ara</strong>
+      <p>Una base pensada para seguir creciendo con más categorías, productos, destacados, ofertas y próximos lanzamientos desde un panel autoadministrable.</p>
+    </div>
+    <div class="footer-credit">
+      <p>Creado y diseñado por <a href="https://ciborg347oficial.onrender.com" target="_blank" rel="noopener">Ciborg 347</a></p>
+    </div>
+  </div>
+</footer>
+
+<a class="floating-wa" id="floatingWa" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20los%20productos%20de%20Aromas%20Ara." aria-label="WhatsApp">
+  <img src="https://iili.io/BdFrUs1.webp" alt="WhatsApp" />
+</a>
+
+<div class="modal" id="productModal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-grid">
+      <div class="modal-media">
+        <img id="modalImage" src="" alt="" />
+      </div>
+      <div class="modal-body">
+        <div class="modal-top">
+          <h4 id="modalTitle"></h4>
+          <button class="close-btn" id="closeModal" aria-label="Cerrar">✕</button>
+        </div>
+        <p id="modalDescription"></p>
+        <div class="features" id="modalFeatures"></div>
+        <div class="product-actions">
+          <a class="soft-btn" id="modalWhatsapp" href="#" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+          <button class="ghost-btn" id="closeModalSecondary" type="button">Cerrar</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    const products = [
-      "https://iili.io/B1cSzNI.png",
-      "https://iili.io/B1cSo9p.png",
-      "https://iili.io/B1cSCSR.png",
-      "https://iili.io/B1cSxAN.png",
-      "https://iili.io/B1cSaS4.png",
-      "https://iili.io/B1cSUWF.png",
-      "https://iili.io/B1cSyfs.png",
-      "https://iili.io/B1cUo0b.png",
-      "https://iili.io/B1cUMep.png",
-      "https://iili.io/B1cUT5Q.png",
-      "https://iili.io/B1cUXII.png",
-      "https://iili.io/B1cUerG.png",
-      "https://iili.io/B1cUNBn.png",
-      "https://iili.io/B1cg86g.png",
-      "https://iili.io/B1cgkn1.png",
-      "https://iili.io/B1cgOZP.png",
-      "https://iili.io/B1cgPup.png",
-      "https://iili.io/B1crHAl.png"
-    ].map((src, index) => ({
-      src,
-      title: `Pieza ${String(index + 1).padStart(2, "0")}`,
-      category: index % 4 === 0 ? "Anillo" : index % 4 === 1 ? "Aros" : index % 4 === 2 ? "Pulsera" : "Collar",
-      description: "Pieza artesanal presentada en una visual premium. Aca despues te cambio el nombre real, la descripcion y cualquier detalle puntual que quieras mostrar."
-    }));
+<script>
+const chips=[...document.querySelectorAll('.chip')];
+const cards=[...document.querySelectorAll('.product-card')];
+const searchInput=document.getElementById('searchInput');
+let activeCategory='Todos';
 
-    const grid = document.getElementById("catalogGrid");
-    const modal = document.getElementById("productModal");
-    const modalImg = document.getElementById("modalImg");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalDesc = document.getElementById("modalDesc");
-    const modalWa = document.getElementById("modalWa");
-    const closeModal = document.getElementById("closeModal");
-    const menuBtn = document.getElementById("menuBtn");
-    const navLinks = document.getElementById("navLinks");
+function renderProducts(){
+  const term=searchInput.value.trim().toLowerCase();
+  cards.forEach(card=>{
+    const category=card.dataset.category;
+    const name=card.dataset.name.toLowerCase();
+    const matchCategory=activeCategory==='Todos'||category===activeCategory;
+    const matchTerm=!term||name.includes(term)||category.toLowerCase().includes(term);
+    card.style.display=matchCategory&&matchTerm?'':'none';
+  });
+}
 
-    function renderProducts() {
-      grid.innerHTML = products.map((item, index) => `
-        <article class="card" tabindex="0" data-index="${index}">
-          <div class="card-media">
-            <img src="${item.src}" alt="${item.title}" loading="lazy" />
-          </div>
-          <div class="card-body">
-            <span class="card-sub">${item.category}</span>
-            <h3 class="card-title">${item.title}</h3>
-            <span class="card-cta">Tocar para ver detalle</span>
-          </div>
-        </article>
-      `).join("");
-
-      grid.querySelectorAll(".card").forEach(card => {
-        card.addEventListener("click", () => openModal(Number(card.dataset.index)));
-        card.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            openModal(Number(card.dataset.index));
-          }
-        });
-      });
-    }
-
-    function openModal(index) {
-      const item = products[index];
-      modalImg.src = item.src;
-      modalImg.alt = item.title;
-      modalTitle.textContent = item.title;
-      modalDesc.textContent = item.description;
-      const msg = encodeURIComponent(`Hola ROJAS ARTESANIAS, quiero consultar por ${item.title}.`);
-      modalWa.href = `https://wa.me/5490000000000?text=${msg}`;
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeProductModal() {
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-    }
-
-    closeModal.addEventListener("click", closeProductModal);
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) closeProductModal();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeProductModal();
-    });
-
-    menuBtn.addEventListener("click", () => {
-      navLinks.classList.toggle("open");
-    });
-
-    navLinks.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => navLinks.classList.remove("open"));
-    });
-
-    const footer = document.querySelector("footer");
-    const waFloat = document.getElementById("waFloat");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        waFloat.style.opacity = entry.isIntersecting ? "0" : "1";
-        waFloat.style.pointerEvents = entry.isIntersecting ? "none" : "auto";
-        waFloat.style.transform = entry.isIntersecting ? "translateY(10px)" : "translateY(0)";
-      });
-    }, { threshold: 0.2 });
-    observer.observe(footer);
-
+chips.forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    chips.forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    activeCategory=chip.dataset.category;
     renderProducts();
-  </script>
+  });
+});
+
+searchInput.addEventListener('input',renderProducts);
+
+document.querySelectorAll('[data-filter]').forEach(link=>{
+  link.addEventListener('click',()=>{
+    const category=link.dataset.filter;
+    activeCategory=category;
+    chips.forEach(c=>c.classList.toggle('active',c.dataset.category===category));
+    renderProducts();
+  });
+});
+
+const track=document.getElementById('carouselTrack');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+prevBtn.addEventListener('click',()=>track.scrollBy({left:-340,behavior:'smooth'}));
+nextBtn.addEventListener('click',()=>track.scrollBy({left:340,behavior:'smooth'}));
+
+let autoScroll;
+function startCarousel(){
+  clearInterval(autoScroll);
+  autoScroll=setInterval(()=>{
+    const maxScroll=track.scrollWidth-track.clientWidth;
+    const next=track.scrollLeft+340;
+    if(next>=maxScroll-10){
+      track.scrollTo({left:0,behavior:'smooth'});
+    }else{
+      track.scrollBy({left:340,behavior:'smooth'});
+    }
+  },2600);
+}
+function stopCarousel(){clearInterval(autoScroll)}
+track.addEventListener('mouseenter',stopCarousel);
+track.addEventListener('mouseleave',startCarousel);
+track.addEventListener('touchstart',stopCarousel,{passive:true});
+track.addEventListener('touchend',startCarousel,{passive:true});
+startCarousel();
+
+const menuToggle=document.getElementById('menuToggle');
+const closeMenu=document.getElementById('closeMenu');
+const mobileSheet=document.getElementById('mobileSheet');
+menuToggle.addEventListener('click',()=>mobileSheet.classList.add('active'));
+closeMenu.addEventListener('click',()=>mobileSheet.classList.remove('active'));
+mobileSheet.addEventListener('click',e=>{if(e.target===mobileSheet)mobileSheet.classList.remove('active')});
+mobileSheet.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobileSheet.classList.remove('active')));
+
+const floatingWa=document.getElementById('floatingWa');
+const footer=document.querySelector('footer');
+new IntersectionObserver(entries=>{
+  entries.forEach(entry=>floatingWa.classList.toggle('hidden',entry.isIntersecting));
+},{threshold:.15}).observe(footer);
+
+const modal=document.getElementById('productModal');
+const modalImage=document.getElementById('modalImage');
+const modalTitle=document.getElementById('modalTitle');
+const modalDescription=document.getElementById('modalDescription');
+const modalFeatures=document.getElementById('modalFeatures');
+const modalWhatsapp=document.getElementById('modalWhatsapp');
+const closeModal=document.getElementById('closeModal');
+const closeModalSecondary=document.getElementById('closeModalSecondary');
+
+function openModal(card){
+  const name=card.dataset.name;
+  const image=card.dataset.image;
+  const description=card.dataset.description;
+  const features=JSON.parse(card.dataset.features || '[]');
+  modalTitle.textContent=name;
+  modalImage.src=image;
+  modalImage.alt=name;
+  modalDescription.textContent=description;
+  modalFeatures.innerHTML='';
+  features.forEach(item=>{
+    const div=document.createElement('div');
+    div.className='feature';
+    div.textContent=item;
+    modalFeatures.appendChild(div);
+  });
+  modalWhatsapp.href=`https://wa.me/5491153899579?text=${encodeURIComponent('Hola, quiero consultar por ' + name + ' de Aromas Ara.')}`;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+}
+function hideModal(){
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+}
+
+document.querySelectorAll('.open-modal').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    const card=e.currentTarget.closest('.product-card');
+    openModal(card);
+  });
+});
+closeModal.addEventListener('click',hideModal);
+closeModalSecondary.addEventListener('click',hideModal);
+modal.addEventListener('click',e=>{if(e.target===modal)hideModal()});
+</script>
 </body>
 </html>
