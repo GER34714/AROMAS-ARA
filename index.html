@@ -3,1140 +3,330 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Catálogo | Tienda</title>
-  <meta name="description" content="Catálogo online de productos aromáticos con novedades, ofertas, lanzamientos y consultas por WhatsApp." />
-  <meta property="og:title" content="Catálogo | Tienda" />
-  <meta property="og:description" content="Descubrí productos, novedades, ofertas y próximos lanzamientos." />
+  <title>Aromas Ara | Inicio</title>
+  <meta name="description" content="Aromas Ara. Fragancias delicadas para el hogar, regalos y detalles especiales." />
+  <meta property="og:title" content="Aromas Ara" />
+  <meta property="og:description" content="Fragancias delicadas para el hogar, regalos y detalles especiales." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="" />
-  <meta name="theme-color" content="#111111" />
+  <meta property="og:image" content="https://iili.io/BlwPdiJ.png" />
+  <meta name="theme-color" content="#f8edf4" />
   <style>
-    :root {
-      --bg: #f6f1eb;
-      --surface: #ffffff;
-      --surface-2: #fbf8f4;
-      --text: #171717;
-      --muted: #6a6a6a;
-      --line: #e8ddd1;
-      --accent: #6f4e37;
-      --accent-2: #c8945d;
-      --ok: #1f8f5f;
-      --danger: #b64646;
-      --shadow: 0 14px 40px rgba(44, 25, 9, 0.10);
-      --radius-xl: 28px;
-      --radius-lg: 22px;
-      --radius-md: 16px;
-      --header-h: 84px;
+    :root{
+      --bg:#fff9fc;
+      --bg-soft:#fff4f8;
+      --surface:#ffffff;
+      --surface-2:#f8f4ff;
+      --line:#efdde9;
+      --text:#57474f;
+      --muted:#8c7582;
+      --pink:#e5a8c7;
+      --pink-strong:#d97db0;
+      --blue:#9ec6f2;
+      --blue-strong:#74a9e5;
+      --gold:#d7b38c;
+      --shadow:0 18px 42px rgba(164,100,139,.10);
+      --radius-xl:30px;
+      --radius-lg:24px;
+      --radius-md:18px;
+      --container:1220px;
     }
-
-    body.dark {
-      --bg: #111111;
-      --surface: #1b1b1b;
-      --surface-2: #171717;
-      --text: #f3efe8;
-      --muted: #b4aba0;
-      --line: #2d2b27;
-      --accent: #d2a16c;
-      --accent-2: #f2c58d;
-      --ok: #43bc85;
-      --danger: #d86f6f;
-      --shadow: 0 18px 50px rgba(0,0,0,0.30);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-
-    img { max-width: 100%; display: block; }
-    a { color: inherit; text-decoration: none; }
-    button, input, select { font: inherit; }
-
-    .container {
-      width: min(1180px, calc(100% - 28px));
-      margin: 0 auto;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 60;
-      backdrop-filter: blur(14px);
-      background: color-mix(in srgb, var(--bg) 84%, transparent);
-      border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
-    }
-
-    .header-inner {
-      min-height: var(--header-h);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .brand-mark {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
       background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), transparent 35%),
-        linear-gradient(135deg, var(--accent-2), var(--accent));
-      box-shadow: var(--shadow);
-      flex: 0 0 auto;
-    }
-
-    .brand-text strong {
-      display: block;
-      font-size: 1rem;
-      letter-spacing: .02em;
-    }
-
-    .brand-text span {
-      color: var(--muted);
-      font-size: .86rem;
-      display: block;
-      line-height: 1.2;
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .nav a {
-      padding: 10px 14px;
-      border-radius: 999px;
-      color: var(--muted);
-      transition: .22s ease;
-    }
-
-    .nav a:hover,
-    .nav a.active {
-      color: var(--text);
-      background: var(--surface);
-      box-shadow: var(--shadow);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex: 0 0 auto;
-    }
-
-    .icon-btn,
-    .btn,
-    .chip-btn {
-      border: 0;
-      cursor: pointer;
-      transition: transform .18s ease, opacity .18s ease, background .22s ease;
-    }
-
-    .icon-btn:hover,
-    .btn:hover,
-    .chip-btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .icon-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      background: var(--surface);
-      color: var(--text);
-      box-shadow: var(--shadow);
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 48px;
-      padding: 0 20px;
-      border-radius: 14px;
-      font-weight: 600;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #fff;
-      box-shadow: var(--shadow);
-    }
-
-    .btn-secondary {
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
-    .menu-toggle { display: none; }
-
-    .hero {
-      padding: 34px 0 18px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 18px;
-      align-items: stretch;
-    }
-
-    .hero-copy,
-    .hero-panel {
-      background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 92%, transparent), color-mix(in srgb, var(--surface-2) 95%, transparent));
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-copy {
-      padding: 34px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: 430px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-copy::after {
-      content: "";
-      position: absolute;
-      inset: auto -100px -140px auto;
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      background: radial-gradient(circle, color-mix(in srgb, var(--accent-2) 26%, transparent), transparent 60%);
-      pointer-events: none;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      align-self: flex-start;
-      padding: 9px 14px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: color-mix(in srgb, var(--surface) 88%, transparent);
-      color: var(--muted);
-      font-size: .88rem;
-      font-weight: 600;
-      margin-bottom: 18px;
-    }
-
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(2.2rem, 5vw, 4.7rem);
-      line-height: .96;
-      letter-spacing: -.05em;
-      max-width: 10ch;
-    }
-
-    .hero p {
-      max-width: 58ch;
-      color: var(--muted);
-      font-size: 1.02rem;
-      line-height: 1.65;
-      margin: 18px 0 0;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .hero-meta {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 26px;
-    }
-
-    .meta-card {
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: color-mix(in srgb, var(--surface) 90%, transparent);
-    }
-
-    .meta-card strong {
-      display: block;
-      font-size: 1.15rem;
-      margin-bottom: 4px;
-    }
-
-    .meta-card span {
-      color: var(--muted);
-      font-size: .92rem;
-    }
-
-    .hero-panel {
-      padding: 18px;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 14px;
-      min-height: 430px;
-    }
-
-    .hero-banner {
-      border-radius: 24px;
-      min-height: 190px;
-      background:
-        linear-gradient(135deg, rgba(0,0,0,.08), transparent),
-        linear-gradient(160deg, #d6b48b, #8b6b50 42%, #4f3b2a 100%);
-      position: relative;
-      overflow: hidden;
-      padding: 24px;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-
-    .hero-banner::before,
-    .hero-banner::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255,255,255,.12);
-      filter: blur(10px);
-    }
-
-    .hero-banner::before {
-      width: 240px;
-      height: 240px;
-      top: -90px;
-      right: -40px;
-    }
-
-    .hero-banner::after {
-      width: 120px;
-      height: 120px;
-      left: -30px;
-      bottom: -20px;
-    }
-
-    .hero-banner small {
-      font-size: .83rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      opacity: .82;
-    }
-
-    .hero-banner strong {
-      font-size: clamp(1.7rem, 3vw, 2.7rem);
-      line-height: .98;
-      max-width: 9ch;
-      margin-top: 10px;
-      letter-spacing: -.04em;
-    }
-
-    .season-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .season-card {
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: var(--surface);
-      padding: 16px;
-    }
-
-    .season-card span {
-      display: block;
-      color: var(--muted);
-      font-size: .86rem;
-      margin-bottom: 8px;
-    }
-
-    .season-card strong {
-      display: block;
-      line-height: 1.2;
-    }
-
-    .section {
-      padding: 22px 0;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 18px;
-    }
-
-    .section-head h2 {
-      margin: 0;
-      font-size: clamp(1.45rem, 2.5vw, 2.3rem);
-      letter-spacing: -.04em;
-    }
-
-    .section-head p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      max-width: 60ch;
-      line-height: 1.6;
-    }
-
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .category-card {
-      background: linear-gradient(180deg, var(--surface), var(--surface-2));
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 22px;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      min-height: 170px;
-    }
-
-    .category-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: flex-start;
-    }
-
-    .category-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 18px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, color-mix(in srgb, var(--accent-2) 35%, transparent), color-mix(in srgb, var(--accent) 22%, transparent));
-      font-size: 1.25rem;
-    }
-
-    .category-card small {
-      color: var(--muted);
-      font-size: .88rem;
-    }
-
-    .category-card strong {
-      font-size: 1.08rem;
-      line-height: 1.2;
-    }
-
-    .filters-bar {
-      display: grid;
-      grid-template-columns: 1.2fr .85fr .85fr;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .field,
-    .chip-group {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      min-height: 56px;
-      box-shadow: var(--shadow);
-    }
-
-    .field {
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      gap: 10px;
-    }
-
-    .field input,
-    .field select {
-      width: 100%;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      color: var(--text);
-    }
-
-    .chip-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .chip-group::-webkit-scrollbar { display: none; }
-
-    .chip-btn {
-      min-height: 40px;
-      padding: 0 14px;
-      border-radius: 999px;
-      background: transparent;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    .chip-btn.active {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #fff;
-    }
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .product-card {
-      background: linear-gradient(180deg, var(--surface), var(--surface-2));
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-
-    .product-image {
-      aspect-ratio: 1 / 1;
-      position: relative;
-      background:
-        radial-gradient(circle at 25% 20%, rgba(255,255,255,.65), transparent 20%),
-        linear-gradient(160deg, color-mix(in srgb, var(--accent-2) 34%, transparent), color-mix(in srgb, var(--accent) 12%, transparent));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-    }
-
-    .product-image::before {
-      content: attr(data-badge);
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      background: rgba(255,255,255,.92);
-      color: #222;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: .76rem;
-      font-weight: 700;
-      box-shadow: var(--shadow);
-      display: none;
-    }
-
-    .product-image.has-badge::before { display: inline-flex; }
-
-    .product-image span {
-      width: 78%;
-      height: 78%;
-      border-radius: 28px;
-      border: 1px solid rgba(255,255,255,.55);
-      background: linear-gradient(180deg, rgba(255,255,255,.48), rgba(255,255,255,.18));
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 14px;
-      font-weight: 700;
-      line-height: 1.15;
-      color: var(--text);
-      backdrop-filter: blur(10px);
-    }
-
-    .product-body {
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-    }
-
-    .product-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .tag {
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: color-mix(in srgb, var(--surface) 55%, var(--bg));
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-size: .78rem;
-      font-weight: 600;
-    }
-
-    .product-title {
-      margin: 0;
-      font-size: 1.06rem;
-      line-height: 1.28;
-      letter-spacing: -.02em;
-    }
-
-    .product-desc {
-      margin: 0;
-      color: var(--muted);
-      font-size: .93rem;
-      line-height: 1.55;
-    }
-
-    .price-row {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding-top: 10px;
-    }
-
-    .price {
-      font-size: 1.16rem;
-      font-weight: 800;
-      letter-spacing: -.02em;
-    }
-
-    .price.muted { color: var(--muted); font-size: 1rem; font-weight: 700; }
-    .price.warning { color: var(--accent); }
-    .price.danger { color: var(--danger); }
-
-    .section-banner {
-      border-radius: 26px;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      background: linear-gradient(130deg, var(--surface), color-mix(in srgb, var(--accent-2) 16%, var(--surface)));
-      padding: 24px;
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 18px;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .section-banner::after {
-      content: "";
-      position: absolute;
-      inset: auto -80px -120px auto;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      background: radial-gradient(circle, color-mix(in srgb, var(--accent-2) 28%, transparent), transparent 60%);
-    }
-
-    .section-banner h3 {
-      margin: 0;
-      font-size: clamp(1.4rem, 2.2vw, 2.2rem);
-      letter-spacing: -.04em;
-    }
-
-    .section-banner p {
-      margin: 10px 0 0;
-      color: var(--muted);
-      line-height: 1.6;
-      max-width: 50ch;
-    }
-
-    .section-banner-card {
-      position: relative;
-      z-index: 1;
-      border-radius: 22px;
-      border: 1px solid var(--line);
-      background: color-mix(in srgb, var(--surface) 82%, transparent);
-      min-height: 180px;
-      display: grid;
-      place-items: center;
-      font-size: 1.1rem;
-      font-weight: 800;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .about-card {
-      border-radius: 26px;
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, var(--surface), var(--surface-2));
-      box-shadow: var(--shadow);
-      padding: 24px;
-    }
-
-    .about-card h3 {
-      margin: 0 0 10px;
-      font-size: 1.24rem;
-      letter-spacing: -.03em;
-    }
-
-    .about-card p,
-    .about-card li {
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .about-card ul {
-      margin: 0;
-      padding-left: 18px;
-    }
-
-    .footer {
-      margin-top: 24px;
-      padding: 26px 0 110px;
-      border-top: 1px solid var(--line);
-    }
-
-    .footer-box {
-      border-radius: 26px;
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, var(--surface), var(--surface-2));
-      box-shadow: var(--shadow);
-      padding: 28px;
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .footer-box h3 {
-      margin: 0;
-      font-size: clamp(1.5rem, 2.5vw, 2.3rem);
-      letter-spacing: -.04em;
-    }
-
-    .footer-box p {
-      margin: 10px 0 0;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .footer-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: flex-end;
-      align-items: center;
-    }
-
-    .floating-wa {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 45;
-      width: 62px;
-      height: 62px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: #25D366;
-      box-shadow: 0 18px 30px rgba(37, 211, 102, 0.34);
-      transition: transform .22s ease, opacity .22s ease;
-    }
-
-    .floating-wa.hidden {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(18px);
-    }
-
-    .floating-wa svg {
-      width: 31px;
-      height: 31px;
-      fill: #fff;
-    }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(8,8,8,.5);
-      backdrop-filter: blur(6px);
-      opacity: 0;
-      pointer-events: none;
-      transition: .24s ease;
-      z-index: 75;
-    }
-
-    .overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal {
-      position: fixed;
-      inset: 50% auto auto 50%;
-      transform: translate(-50%, -44%);
-      width: min(980px, calc(100% - 24px));
-      background: var(--surface);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      border-radius: 30px;
-      z-index: 80;
-      opacity: 0;
-      pointer-events: none;
-      transition: .24s ease;
-      max-height: 90vh;
-      overflow: hidden;
-    }
-
-    .modal.open {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translate(-50%, -50%);
-    }
-
-    .modal-wrap {
-      display: grid;
-      grid-template-columns: .95fr 1.05fr;
-      min-height: 580px;
-    }
-
-    .modal-visual {
-      background:
-        radial-gradient(circle at 25% 22%, rgba(255,255,255,.65), transparent 22%),
-        linear-gradient(160deg, color-mix(in srgb, var(--accent-2) 42%, transparent), color-mix(in srgb, var(--accent) 15%, transparent));
-      padding: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-visual-box {
-      width: 100%;
-      max-width: 360px;
-      aspect-ratio: 1 / 1;
-      border-radius: 34px;
-      border: 1px solid rgba(255,255,255,.55);
-      background: linear-gradient(180deg, rgba(255,255,255,.48), rgba(255,255,255,.18));
-      backdrop-filter: blur(10px);
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 24px;
-      font-size: 1.5rem;
-      font-weight: 800;
-      line-height: 1.12;
-    }
-
-    .modal-content {
-      padding: 24px;
-      overflow-y: auto;
-    }
-
-    .modal-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .modal-title {
-      margin: 0;
-      font-size: clamp(1.7rem, 3vw, 2.5rem);
-      letter-spacing: -.05em;
-    }
-
-    .close-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      border: 0;
-      background: var(--surface-2);
-      color: var(--text);
-      cursor: pointer;
-    }
-
-    .modal-copy {
-      color: var(--muted);
-      line-height: 1.7;
-      margin: 0 0 16px;
-    }
-
-    .option-block {
-      margin-top: 16px;
-    }
-
-    .option-label {
-      display: block;
-      font-size: .92rem;
-      color: var(--muted);
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-
-    .option-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .option-btn {
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: var(--surface-2);
-      color: var(--text);
-      cursor: pointer;
-      transition: .18s ease;
-    }
-
-    .option-btn.active {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      border-color: transparent;
-      color: #fff;
-    }
-
-    .modal-info {
-      margin-top: 20px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: var(--surface-2);
-      display: grid;
-      gap: 12px;
-    }
-
-    .status-pill {
-      align-self: flex-start;
-      display: inline-flex;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: .78rem;
-      font-weight: 700;
-      letter-spacing: .02em;
-    }
-
-    .status-available { background: rgba(31,143,95,.12); color: var(--ok); }
-    .status-preorder { background: rgba(200,148,93,.15); color: var(--accent); }
-    .status-unavailable { background: rgba(182,70,70,.12); color: var(--danger); }
-
-    .modal-price {
-      font-size: 1.65rem;
-      font-weight: 900;
-      letter-spacing: -.03em;
-    }
-
-    .modal-price.muted { color: var(--muted); font-size: 1.15rem; font-weight: 700; }
-    .modal-price.warning { color: var(--accent); }
-    .modal-price.danger { color: var(--danger); }
-
-    .muted-note {
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: .94rem;
-    }
-
-    .modal-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .empty-state {
-      grid-column: 1 / -1;
-      padding: 40px 20px;
-      text-align: center;
-      border: 1px dashed var(--line);
-      border-radius: 24px;
-      color: var(--muted);
-      background: color-mix(in srgb, var(--surface) 70%, transparent);
-    }
-
-    @media (max-width: 1080px) {
-      .hero-grid,
-      .section-banner,
-      .footer-box,
-      .modal-wrap,
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .categories,
-      .products-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 860px) {
-      :root { --header-h: 74px; }
-
-      .menu-toggle { display: inline-grid; }
-      .nav {
-        position: fixed;
-        top: calc(var(--header-h) + 8px);
-        left: 14px;
-        right: 14px;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 24px;
-        padding: 12px;
-        box-shadow: var(--shadow);
-        flex-direction: column;
-        align-items: stretch;
-        opacity: 0;
-        pointer-events: none;
-        transform: translateY(-8px);
-        transition: .22s ease;
-      }
-
-      .nav.open {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateY(0);
-      }
-
-      .nav a {
-        border-radius: 16px;
-      }
-
-      .header-actions .btn-secondary:not(.menu-toggle) {
-        display: none;
-      }
-
-      .hero-copy,
-      .hero-panel,
-      .footer-box,
-      .about-card,
-      .modal-content,
-      .modal-visual {
-        padding: 20px;
-      }
-
-      .hero-meta,
-      .categories,
-      .products-grid,
-      .season-list,
-      .filters-bar {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .container { width: min(100% - 18px, 100%); }
-      .hero h1 { max-width: 12ch; }
-      .hero-copy, .hero-panel { min-height: auto; }
-      .hero-meta,
-      .categories,
-      .products-grid,
-      .season-list,
-      .filters-bar,
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-      .footer-actions { justify-content: flex-start; }
-      .modal { width: calc(100% - 14px); border-radius: 24px; }
-      .modal-wrap { min-height: auto; }
-      .modal-visual { min-height: 280px; }
-      .product-image span { width: 84%; height: 84%; border-radius: 24px; }
+        radial-gradient(circle at top left, rgba(229,168,199,.22), transparent 24%),
+        radial-gradient(circle at top right, rgba(158,198,242,.16), transparent 18%),
+        radial-gradient(circle at bottom right, rgba(215,179,140,.14), transparent 18%),
+        linear-gradient(180deg,#fffafd 0%,#fff8fb 34%,#fdf8ff 68%,#fff9fc 100%);
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.7) 0 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,.35) 0 1px, transparent 1px);
+      background-size:120px 120px, 180px 180px;
+      background-position:0 0, 40px 60px;
+      opacity:.35;
+      z-index:-1;
+    }
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
+    .container{width:min(calc(100% - 28px), var(--container));margin-inline:auto}
+
+    .cursor-stars{position:fixed;inset:0;pointer-events:none;z-index:1000}
+    .star{
+      position:fixed;
+      width:10px;
+      height:10px;
+      pointer-events:none;
+      opacity:.9;
+      animation:starFade .9s ease-out forwards;
+      background:radial-gradient(circle, rgba(255,255,255,.95) 0%, rgba(255,255,255,.55) 40%, rgba(255,255,255,0) 72%);
+      filter:drop-shadow(0 0 10px rgba(217,125,176,.55));
+      border-radius:50%;
+    }
+    .star::after{
+      content:"";
+      position:absolute;
+      inset:50% auto auto 50%;
+      width:2px;height:14px;
+      background:linear-gradient(180deg, rgba(255,255,255,.95), transparent);
+      transform:translate(-50%,-50%);
+      border-radius:999px;
+    }
+    .star::before{
+      content:"";
+      position:absolute;
+      inset:50% auto auto 50%;
+      width:14px;height:2px;
+      background:linear-gradient(90deg, rgba(255,255,255,.95), transparent);
+      transform:translate(-50%,-50%);
+      border-radius:999px;
+    }
+    @keyframes starFade{
+      0%{transform:scale(.4);opacity:0}
+      20%{transform:scale(1);opacity:1}
+      100%{transform:translateY(-16px) scale(.8);opacity:0}
+    }
+
+    .site-header{
+      position:sticky;top:0;z-index:60;
+      backdrop-filter:blur(16px);
+      background:rgba(255,249,252,.78);
+      border-bottom:1px solid rgba(239,221,233,.8);
+    }
+    .header-inner{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;flex-direction:column;line-height:1}
+    .brand strong{font-size:1.15rem;letter-spacing:.12em;text-transform:uppercase}
+    .brand span{margin-top:7px;font-size:.78rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+    .desktop-nav{display:flex;align-items:center;gap:10px}
+    .desktop-nav a{padding:10px 14px;border-radius:999px;color:var(--muted);transition:.2s ease}
+    .desktop-nav a:hover{background:var(--surface);color:var(--text)}
+    .header-actions{display:flex;align-items:center;gap:10px}
+    .cta-btn,.ghost-btn,.icon-btn{border:none;cursor:pointer;transition:transform .18s ease,background .18s ease}
+    .cta-btn:hover,.ghost-btn:hover,.icon-btn:hover{transform:translateY(-1px)}
+    .cta-btn{
+      padding:13px 18px;border-radius:999px;color:#fff;font-weight:800;
+      background:linear-gradient(135deg,var(--pink-strong),var(--blue-strong));
+      box-shadow:0 16px 34px rgba(217,125,176,.22);
+    }
+    .ghost-btn{padding:13px 18px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--text)}
+    .icon-btn{width:44px;height:44px;border-radius:999px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;color:var(--text)}
+    .menu-toggle{display:none}
+    .mobile-panel{display:none;padding:0 0 18px}
+    .mobile-panel.open{display:block}
+    .mobile-links{display:grid;gap:10px;padding-top:12px}
+    .mobile-links a{padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:18px}
+
+    .hero-banner{padding:18px 0 10px}
+    .banner-box{
+      position:relative;overflow:hidden;border-radius:34px;min-height:480px;
+      border:1px solid rgba(239,221,233,.9);box-shadow:var(--shadow);
+      background:#f7eef5;
+    }
+    .banner-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+    .banner-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(90deg, rgba(255,248,252,.92) 0%, rgba(255,248,252,.82) 24%, rgba(255,248,252,.28) 56%, rgba(255,248,252,.08) 100%);
+    }
+    .banner-content{
+      position:relative;z-index:2;max-width:590px;padding:56px 52px 52px;
+      display:flex;flex-direction:column;justify-content:center;min-height:480px;
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;width:max-content;
+      padding:10px 15px;border-radius:999px;background:rgba(255,255,255,.75);
+      border:1px solid rgba(239,221,233,.95);color:var(--muted);font-size:.86rem;font-weight:700;
+      backdrop-filter:blur(10px);
+    }
+    .banner-content h1{margin:18px 0 0;font-size:clamp(2.35rem,5vw,4.8rem);line-height:.92;letter-spacing:-.05em;max-width:8ch}
+    .banner-content p{margin:18px 0 0;font-size:1.05rem;line-height:1.7;color:var(--muted);max-width:52ch}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+    .hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+    .hero-badges span{
+      padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.8);border:1px solid rgba(239,221,233,.95);
+      color:var(--muted);font-size:.88rem;backdrop-filter:blur(10px)
+    }
+
+    .section{padding:24px 0}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:18px}
+    .section-head h2{margin:0;font-size:clamp(1.45rem,2.8vw,2.3rem);line-height:1;letter-spacing:-.03em}
+    .section-head p{margin:10px 0 0;color:var(--muted);max-width:66ch;line-height:1.65}
+
+    .carousel-shell{
+      position:relative;
+      padding:18px 18px 10px;
+      background:linear-gradient(180deg, rgba(255,255,255,.7), rgba(248,244,255,.72));
+      border:1px solid rgba(239,221,233,.9);
+      border-radius:30px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .carousel-track{
+      display:grid;grid-auto-flow:column;grid-auto-columns:calc(19% - 10px);gap:14px;
+      overflow:auto;scrollbar-width:none;scroll-snap-type:x mandatory;padding-bottom:6px;
+    }
+    .carousel-track::-webkit-scrollbar{display:none}
+    .cat-card{
+      background:rgba(255,255,255,.84);border:1px solid rgba(239,221,233,.95);border-radius:24px;overflow:hidden;
+      box-shadow:0 12px 26px rgba(164,100,139,.08);scroll-snap-align:start;transition:.22s ease;
+      min-width:0;
+    }
+    .cat-card:hover{transform:translateY(-4px)}
+    .cat-card .img-wrap{aspect-ratio:4/4.6;background:linear-gradient(180deg,#fff,#f9f3fb);overflow:hidden}
+    .cat-card img{width:100%;height:100%;object-fit:cover}
+    .cat-card .body{padding:14px}
+    .cat-card h3{margin:0;font-size:1rem;line-height:1.15}
+    .cat-card p{margin:8px 0 0;color:var(--muted);font-size:.88rem;line-height:1.45;min-height:38px}
+    .cat-card span{display:inline-flex;margin-top:12px;color:var(--pink-strong);font-weight:800;font-size:.88rem}
+
+    .feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .feature-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.9), rgba(248,244,255,.85));
+      border:1px solid rgba(239,221,233,.95);border-radius:26px;padding:24px;box-shadow:var(--shadow)
+    }
+    .feature-card h3{margin:0;font-size:1.12rem}
+    .feature-card p{margin:10px 0 0;color:var(--muted);line-height:1.7}
+
+    .mini-showcase{display:grid;grid-template-columns:1.08fr .92fr;gap:18px}
+    .showcase-main,.showcase-side{
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(248,244,255,.86));
+      border:1px solid rgba(239,221,233,.95);border-radius:28px;box-shadow:var(--shadow)
+    }
+    .showcase-main{padding:26px;display:grid;grid-template-columns:.96fr 1.04fr;gap:16px;align-items:center}
+    .showcase-main .visual{background:linear-gradient(180deg,#fff,#f7f0fb);border-radius:24px;padding:14px;border:1px solid rgba(239,221,233,.95)}
+    .showcase-main .visual img{width:100%;height:100%;object-fit:contain;max-height:330px}
+    .showcase-main .copy h3{margin:0;font-size:clamp(1.5rem,2.6vw,2.2rem);line-height:1.02}
+    .showcase-main .copy p{margin:14px 0 0;color:var(--muted);line-height:1.7}
+    .showcase-pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .showcase-pills span{padding:9px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--muted);font-size:.84rem}
+    .showcase-side{padding:24px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(135deg, rgba(229,168,199,.14), rgba(158,198,242,.16), rgba(255,255,255,.92))}
+    .showcase-side h3{margin:0;font-size:1.35rem}
+    .showcase-side p{margin:12px 0 0;color:var(--muted);line-height:1.75}
+    .showcase-side .cta-btn{margin-top:18px;width:max-content}
+
+    .catalog-cta{
+      display:grid;grid-template-columns:1.15fr .85fr;gap:18px;
+    }
+    .catalog-cta-box,.catalog-cta-side{
+      border-radius:30px;padding:28px;border:1px solid rgba(239,221,233,.95);box-shadow:var(--shadow)
+    }
+    .catalog-cta-box{background:linear-gradient(135deg, rgba(255,255,255,.92), rgba(248,244,255,.88), rgba(255,244,248,.92))}
+    .catalog-cta-box h3{margin:0;font-size:clamp(1.7rem,2.8vw,2.5rem);line-height:1.02;max-width:12ch}
+    .catalog-cta-box p{margin:14px 0 0;color:var(--muted);line-height:1.75;max-width:58ch}
+    .catalog-cta-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+    .catalog-cta-side{background:linear-gradient(180deg, rgba(158,198,242,.18), rgba(229,168,199,.16), rgba(255,255,255,.88));display:flex;flex-direction:column;justify-content:center}
+    .catalog-cta-side h4{margin:0;font-size:1.2rem}
+    .catalog-cta-side p{margin:10px 0 0;color:var(--muted);line-height:1.7}
+
+    footer{padding:30px 0 92px}
+    .footer-card{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:20px 22px;border-radius:24px;background:rgba(255,255,255,.84);border:1px solid rgba(239,221,233,.95);box-shadow:var(--shadow)}
+    .footer-card p{margin:0;color:var(--muted)}
+    .footer-card a{color:var(--pink-strong);font-weight:800}
+
+    .floating-wa{
+      position:fixed;right:16px;bottom:16px;z-index:44;width:58px;height:58px;border-radius:999px;
+      display:grid;place-items:center;background:#25D366;color:#fff;box-shadow:0 14px 28px rgba(37,211,102,.28);
+      transition:transform .25s ease,opacity .25s ease;
+    }
+    .floating-wa.hidden{opacity:0;transform:translateY(24px);pointer-events:none}
+    .floating-wa svg{width:30px;height:30px;fill:currentColor}
+
+    @media (max-width:1080px){
+      .carousel-track{grid-auto-columns:calc(27% - 10px)}
+      .mini-showcase,.catalog-cta,.showcase-main{grid-template-columns:1fr}
+      .feature-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:860px){
+      .desktop-nav,.header-actions .cta-btn{display:none}
+      .menu-toggle{display:grid}
+      .banner-box,.banner-content{min-height:auto}
+      .banner-content{padding:28px 24px 30px;max-width:unset}
+      .banner-overlay{background:linear-gradient(180deg, rgba(255,248,252,.92) 0%, rgba(255,248,252,.82) 34%, rgba(255,248,252,.36) 72%, rgba(255,248,252,.16) 100%)}
+      .carousel-track{grid-auto-columns:44%}
+    }
+    @media (max-width:520px){
+      .container{width:min(calc(100% - 18px), var(--container))}
+      .header-inner{min-height:70px}
+      .brand strong{font-size:1rem}
+      .brand span{font-size:.72rem}
+      .hero-banner{padding-top:10px}
+      .banner-box{border-radius:26px;min-height:420px}
+      .banner-content{padding:22px 18px 24px}
+      .banner-content h1{font-size:2.05rem;max-width:10ch}
+      .banner-content p{font-size:.95rem}
+      .hero-actions .cta-btn,.hero-actions .ghost-btn,.catalog-cta-actions .cta-btn,.catalog-cta-actions .ghost-btn{width:100%;text-align:center}
+      .carousel-shell{padding:14px 12px 8px}
+      .carousel-track{grid-auto-columns:52%}
+      .cat-card p{display:none}
+      .feature-card,.showcase-main,.showcase-side,.catalog-cta-box,.catalog-cta-side{padding:20px}
+      .floating-wa{width:54px;height:54px}
     }
   </style>
 </head>
 <body>
+  <div class="cursor-stars" id="cursorStars"></div>
+
   <header class="site-header">
     <div class="container header-inner">
-      <a href="#inicio" class="brand" aria-label="Ir al inicio">
-        <div class="brand-mark"></div>
-        <div class="brand-text">
-          <strong>Tu Tienda</strong>
-          <span>Catalogo simple, claro y facil de recorrer</span>
-        </div>
+      <a class="brand" href="#inicio">
+        <strong>Aromas Ara</strong>
+        <span>fragancias para cada rincón</span>
       </a>
 
-      <nav class="nav" id="mainNav">
-        <a href="#inicio">Inicio</a>
-        <a href="#categorias">Categorias</a>
-        <a href="#catalogo">Productos</a>
-        <a href="#nuevos">Nuevos</a>
-        <a href="#ofertas">Ofertas</a>
-        <a href="#lanzamientos">Lanzamientos</a>
+      <nav class="desktop-nav" aria-label="Principal">
+        <a href="#categorias">Categorías</a>
+        <a href="#destacados">Destacados</a>
+        <a href="catalogo.html">Compras</a>
         <a href="#contacto">Contacto</a>
       </nav>
 
       <div class="header-actions">
-        <button class="icon-btn" id="themeToggle" aria-label="Cambiar tema">◐</button>
-        <a class="btn btn-secondary" href="#catalogo">Ver catalogo</a>
+        <a class="ghost-btn" href="catalogo.html">Ver catálogo</a>
+        <a class="cta-btn" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Aromas%20Ara." target="_blank" rel="noopener noreferrer">WhatsApp</a>
         <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
       </div>
     </div>
+
+    <div class="container mobile-panel" id="mobilePanel">
+      <nav class="mobile-links" aria-label="Menu movil">
+        <a href="#categorias">Categorías</a>
+        <a href="#destacados">Destacados</a>
+        <a href="catalogo.html">Compras</a>
+        <a href="#contacto">Contacto</a>
+        <a href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Aromas%20Ara." target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <section class="hero" id="inicio">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow">Temporada actual · Catalogo online</div>
-          <h1>Productos para regalar, perfumar y vender mejor.</h1>
-          <p>Una tienda visual, clara y facil de usar. El objetivo es que quien entre vea rapido los productos, encuentre novedades, ofertas o proximos lanzamientos y consulte por WhatsApp sin perderse.</p>
-          <div class="hero-actions">
-            <a href="#catalogo" class="btn btn-primary">Ver productos</a>
-            <a href="#contacto" class="btn btn-secondary">Consultar por WhatsApp</a>
-          </div>
-          <div class="hero-meta">
-            <div class="meta-card">
-              <strong>Simple</strong>
-              <span>Para quien compra y para quien carga productos</span>
+  <main id="inicio">
+    <section class="hero-banner">
+      <div class="container">
+        <div class="banner-box">
+          <img src="https://iili.io/BlwPdiJ.png" alt="Banner Aromas Ara" />
+          <div class="banner-overlay"></div>
+          <div class="banner-content">
+            <span class="eyebrow">Aromas Ara · detalles, hogar y regalos</span>
+            <h1>Fragancias suaves con una impronta delicada</h1>
+            <p>Una selección pensada para acompañar tus espacios con armonía, color y ese toque especial que transforma lo cotidiano.</p>
+            <div class="hero-actions">
+              <a class="cta-btn" href="catalogo.html">Ir a compras</a>
+              <a class="ghost-btn" href="#categorias">Ver categorías</a>
             </div>
-            <div class="meta-card">
-              <strong>Visual</strong>
-              <span>Cards claras, filtros rapidos y fichas limpias</span>
-            </div>
-            <div class="meta-card">
-              <strong>Flexible</strong>
-              <span>Disponible, por encargue u oferta cuando quieras</span>
+            <div class="hero-badges">
+              <span>Por encargue</span>
+              <span>Atención personalizada</span>
+              <span>Catálogo en crecimiento</span>
             </div>
           </div>
-        </div>
-
-        <div class="hero-panel">
-          <div class="hero-banner">
-            <small>Coleccion actual</small>
-            <strong>Novedades, aromas y regalos para cada momento.</strong>
-          </div>
-          <div class="season-list">
-            <div class="season-card">
-              <span>Seccion dinamica</span>
-              <strong>Nuevos productos</strong>
-            </div>
-            <div class="season-card">
-              <span>Seccion dinamica</span>
-              <strong>En oferta</strong>
-            </div>
-            <div class="season-card">
-              <span>Seccion dinamica</span>
-              <strong>Por encargue</strong>
-            </div>
-            <div class="season-card">
-              <span>Seccion dinamica</span>
-              <strong>Proximos lanzamientos</strong>
-            </div>
-          </div>
-          <a href="#nuevos" class="btn btn-secondary">Ver novedades</a>
         </div>
       </div>
     </section>
@@ -1145,668 +335,163 @@
       <div class="container">
         <div class="section-head">
           <div>
-            <h2>Categorias principales</h2>
-            <p>La idea es que la persona entre y ya vea rapido por donde empezar. Estas cards despues se completan desde el panel con las categorias reales que quieran usar.</p>
+            <h2>Explorá las líneas principales</h2>
+            <p>Una entrada visual pensada para descubrir cada categoría y seguir directo a la parte de compras con una experiencia más clara.</p>
           </div>
         </div>
-        <div class="categories" id="categoriesGrid"></div>
+
+        <div class="carousel-shell">
+          <div class="carousel-track" id="carouselTrack">
+            <a class="cat-card" href="catalogo.html?categoria=Textiles">
+              <div class="img-wrap"><img src="https://iili.io/BlXVne9.png" alt="Textiles" /></div>
+              <div class="body"><h3>Textiles</h3><p>Brumas suaves para telas, ropa de cama y ambientes.</p><span>Ver línea</span></div>
+            </a>
+            <a class="cat-card" href="catalogo.html?categoria=Difusores">
+              <div class="img-wrap"><img src="https://iili.io/BlhLlO7.png" alt="Difusores" /></div>
+              <div class="body"><h3>Difusores</h3><p>Fragancias delicadas para acompañar tus espacios.</p><span>Ver línea</span></div>
+            </a>
+            <a class="cat-card" href="catalogo.html?categoria=Aerosoles">
+              <div class="img-wrap"><img src="https://iili.io/BlXqdba.png" alt="Aerosoles" /></div>
+              <div class="body"><h3>Aerosoles</h3><p>Una forma práctica de perfumar al instante.</p><span>Ver línea</span></div>
+            </a>
+            <a class="cat-card" href="catalogo.html?categoria=Home%20Spray">
+              <div class="img-wrap"><img src="https://iili.io/BlhwBh7.png" alt="Home Spray" /></div>
+              <div class="body"><h3>Home Spray</h3><p>Formatos cálidos, frescos y muy fáciles de usar.</p><span>Ver línea</span></div>
+            </a>
+            <a class="cat-card" href="catalogo.html?categoria=Sahumerios">
+              <div class="img-wrap"><img src="https://iili.io/BlhJIqP.png" alt="Sahumerios" /></div>
+              <div class="body"><h3>Sahumerios</h3><p>Rituales, calma y momentos especiales.</p><span>Ver línea</span></div>
+            </a>
+            <a class="cat-card" href="catalogo.html?categoria=Difusores%20Premium">
+              <div class="img-wrap"><img src="https://iili.io/Blh6QPR.png" alt="Difusores Premium" /></div>
+              <div class="body"><h3>Difusores Premium</h3><p>Presentaciones elegantes para regalar o decorar.</p><span>Ver línea</span></div>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="catalogo">
+    <section class="section">
       <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>Catalogo</h2>
-            <p>Una vista simple, ordenada y facil de recorrer. Al abrir cada producto se puede elegir aroma o variante, ver el estado y consultar por WhatsApp.</p>
-          </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>Más presencia visual</h3>
+            <p>Una base pensada para verse delicada, femenina y premium sin perder claridad al momento de navegar.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Recorrido simple</h3>
+            <p>Primero una entrada linda y ordenada; después, la parte de compras separada para consultar mejor cada producto.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Lista para crecer</h3>
+            <p>El panel después te va a permitir sumar más categorías, mover el carrusel, destacar productos y cargar nuevas líneas.</p>
+          </article>
         </div>
-
-        <div class="filters-bar">
-          <div class="field">
-            <span>⌕</span>
-            <input type="text" id="searchInput" placeholder="Buscar por nombre, aroma o categoria" />
-          </div>
-          <div class="field">
-            <select id="categorySelect">
-              <option value="all">Todas las categorias</option>
-            </select>
-          </div>
-          <div class="chip-group" id="statusChips">
-            <button class="chip-btn active" data-status="all">Todo</button>
-            <button class="chip-btn" data-status="available">Con precio</button>
-            <button class="chip-btn" data-status="preorder">Por encargue</button>
-            <button class="chip-btn" data-status="unavailable">Consultar</button>
-          </div>
-        </div>
-
-        <div class="products-grid" id="productsGrid"></div>
       </div>
     </section>
 
-    <section class="section" id="nuevos">
+    <section class="section" id="destacados">
       <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>Nuevos productos</h2>
-            <p>Una seccion para mover novedades sin tocar toda la home. Desde el panel solo se marca el switch y aparece aca.</p>
-          </div>
+        <div class="mini-showcase">
+          <article class="showcase-main">
+            <div class="visual">
+              <img src="https://iili.io/BlSO7N1.png" alt="Línea destacada" />
+            </div>
+            <div class="copy">
+              <h3>Una línea pensada para regalos, hogar y detalles especiales</h3>
+              <p>Con una estética suave y una experiencia más ordenada, la web puede mostrar mejor cada categoría y acompañar el crecimiento del catálogo desde una base premium.</p>
+              <div class="showcase-pills">
+                <span>Home premium</span>
+                <span>Compras aparte</span>
+                <span>Más impacto visual</span>
+              </div>
+            </div>
+          </article>
+
+          <aside class="showcase-side">
+            <h3>Descubrí la parte de compras</h3>
+            <p>Una sección separada para que la experiencia se sienta más tienda real, con más foco en consultar, elegir y seguir explorando el catálogo.</p>
+            <a class="cta-btn" href="catalogo.html">Ir al catálogo</a>
+          </aside>
         </div>
-        <div class="products-grid" id="newProductsGrid"></div>
       </div>
     </section>
 
-    <section class="section" id="ofertas">
+    <section class="section" id="contacto">
       <div class="container">
-        <div class="section-banner">
-          <div>
-            <h3>Ofertas destacadas para mover rapido.</h3>
-            <p>Ideal para productos seleccionados, promociones de temporada o combos. No hace falta una logica complicada: solo se marcan desde el panel y listo.</p>
-            <div class="hero-actions">
-              <a href="#catalogo" class="btn btn-primary">Ver ofertas</a>
-              <a href="#contacto" class="btn btn-secondary">Consultar promo</a>
+        <div class="catalog-cta">
+          <div class="catalog-cta-box">
+            <h3>¿Querés ver productos y consultar por encargue?</h3>
+            <p>Entrá al catálogo, recorré las categorías y escribí directo por WhatsApp con la línea o producto que más te guste. Esta base queda lista para sumar nuevos ingresos, ofertas y más secciones después.</p>
+            <div class="catalog-cta-actions">
+              <a class="cta-btn" href="catalogo.html">Ver compras</a>
+              <a class="ghost-btn" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Aromas%20Ara." target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
             </div>
           </div>
-          <div class="section-banner-card">Seccion para promociones, packs u oportunidades puntuales.</div>
-        </div>
-        <div style="height:16px"></div>
-        <div class="products-grid" id="offerProductsGrid"></div>
-      </div>
-    </section>
 
-    <section class="section" id="lanzamientos">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>Proximos lanzamientos</h2>
-            <p>Una seccion pensada para generar interes antes de tener el producto disponible. Tambien sirve para mostrar lo que entra por encargue.</p>
+          <div class="catalog-cta-side">
+            <h4>Aromas Ara</h4>
+            <p>Una propuesta delicada, con colores suaves, toques de rosa y azul, y una estructura pensada para verse linda desde el inicio y crecer bien desde el admin.</p>
           </div>
-        </div>
-        <div class="products-grid" id="launchProductsGrid"></div>
-      </div>
-    </section>
-
-    <section class="section" id="sobre">
-      <div class="container about-grid">
-        <div class="about-card">
-          <h3>Una web que no abrume</h3>
-          <p>La idea de este frente es que se vea prolijo, tenga una logica comercial clara y no se sienta pesada. Puede crecer en productos, categorias y secciones sin dejar de ser facil de usar.</p>
-        </div>
-        <div class="about-card">
-          <h3>Preparada para el panel</h3>
-          <ul>
-            <li>Productos con precio, por encargue o consultar disponibilidad</li>
-            <li>Secciones dinamicas para nuevos, ofertas y lanzamientos</li>
-            <li>Categorias simples para filtrar rapido</li>
-            <li>Boton de WhatsApp listo para cada ficha</li>
-          </ul>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer" id="contacto">
+  <footer>
     <div class="container">
-      <div class="footer-box">
-        <div>
-          <h3>Queres hacer una consulta directa?</h3>
-          <p>La persona puede entrar, mirar los productos y escribir directo. El catalogo tiene que ayudar a vender, no complicar la experiencia.</p>
-        </div>
-        <div class="footer-actions">
-          <a class="btn btn-primary" id="footerWhatsApp" href="https://wa.me/5490000000000?text=Hola%2C%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener noreferrer">WhatsApp</a>
-          <a class="btn btn-secondary" href="#inicio">Volver arriba</a>
-        </div>
+      <div class="footer-card">
+        <p>Aromas Ara · Fragancias para cada rincón</p>
+        <p>Creado y diseñado por <a href="https://ciborg347oficial.onrender.com" target="_blank" rel="noopener noreferrer">Ciborg 347</a></p>
       </div>
     </div>
   </footer>
 
-  <a class="floating-wa" id="floatingWa" href="https://wa.me/5490000000000?text=Hola%2C%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.07 0C5.53 0 .21 5.32.21 11.86c0 2.09.55 4.13 1.59 5.93L0 24l6.39-1.67a11.8 11.8 0 0 0 5.68 1.45h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.24-6.15-3.42-8.44Zm-8.45 18.3h-.01a9.82 9.82 0 0 1-5-1.37l-.36-.21-3.79.99 1.01-3.69-.23-.38a9.8 9.8 0 0 1-1.5-5.25c0-5.43 4.42-9.85 9.86-9.85 2.63 0 5.1 1.02 6.96 2.89a9.78 9.78 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.84 9.86Zm5.4-7.38c-.29-.14-1.73-.85-2-.95-.27-.1-.47-.14-.67.14-.19.29-.77.95-.94 1.14-.17.19-.34.22-.63.07-.29-.14-1.21-.45-2.3-1.43-.85-.76-1.43-1.69-1.59-1.98-.17-.29-.02-.44.12-.58.12-.12.29-.31.43-.46.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.14-.67-1.62-.92-2.23-.24-.58-.49-.5-.67-.5h-.57c-.19 0-.5.07-.76.36-.26.29-1 1-.99 2.44.02 1.44 1.03 2.83 1.17 3.02.14.19 2.03 3.1 4.92 4.34.69.29 1.23.46 1.65.58.69.22 1.32.19 1.82.12.56-.08 1.73-.71 1.97-1.4.24-.69.24-1.28.17-1.4-.08-.12-.27-.19-.56-.34Z"/></svg>
+  <a class="floating-wa" id="floatingWa" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Aromas%20Ara." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <svg class="bi bi-whatsapp" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.601 2.326A7.854 7.854 0 0 0 8.035 0C3.67 0 .118 3.552.117 7.918c0 1.399.366 2.762 1.062 3.965L0 16l4.207-1.102a7.944 7.944 0 0 0 3.829.981h.003c4.365 0 7.917-3.552 7.918-7.918A7.88 7.88 0 0 0 13.6 2.326zM8.04 14.63h-.002a6.68 6.68 0 0 1-3.403-.933l-.244-.145-2.498.655.666-2.433-.158-.25a6.666 6.666 0 0 1-1.025-3.56c.001-3.678 2.994-6.671 6.674-6.671a6.63 6.63 0 0 1 4.722 1.958 6.63 6.63 0 0 1 1.958 4.722c-.001 3.678-2.994 6.671-6.67 6.671zm3.615-4.994c-.197-.099-1.17-.578-1.352-.643-.182-.066-.315-.099-.448.1-.132.197-.513.643-.628.775-.115.132-.23.148-.428.05-.197-.1-.834-.307-1.588-.98-.586-.523-.981-1.169-1.096-1.366-.115-.198-.012-.305.087-.404.09-.09.197-.23.296-.346.099-.115.132-.197.198-.33.065-.132.032-.247-.017-.346-.05-.099-.448-1.08-.613-1.478-.161-.387-.325-.335-.448-.341l-.38-.006a.729.729 0 0 0-.529.247c-.182.198-.694.678-.694 1.653s.71 1.916.81 2.048c.098.132 1.398 2.136 3.387 2.995.473.204.84.326 1.127.417.474.151.906.13 1.247.079.38-.056 1.17-.479 1.336-.942.165-.462.165-.859.116-.942-.05-.083-.182-.132-.38-.231z"/></svg>
   </a>
 
-  <div class="overlay" id="overlay"></div>
-  <div class="modal" id="productModal" aria-hidden="true">
-    <div class="modal-wrap">
-      <div class="modal-visual">
-        <div class="modal-visual-box" id="modalVisualBox">Producto</div>
-      </div>
-      <div class="modal-content">
-        <div class="modal-top">
-          <div>
-            <div class="eyebrow" style="margin:0 0 12px">Detalle del producto</div>
-            <h3 class="modal-title" id="modalTitle">Producto</h3>
-          </div>
-          <button class="close-btn" id="closeModal" aria-label="Cerrar">✕</button>
-        </div>
-        <p class="modal-copy" id="modalDescription"></p>
-        <div class="option-block">
-          <span class="option-label">Elegi aroma o variante</span>
-          <div class="option-grid" id="variantOptions"></div>
-        </div>
-        <div class="modal-info">
-          <span class="status-pill" id="modalStatus"></span>
-          <div class="modal-price" id="modalPrice"></div>
-          <div class="muted-note" id="modalNote"></div>
-        </div>
-        <div class="modal-actions">
-          <a class="btn btn-primary" id="modalWhatsapp" href="#" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
-          <button class="btn btn-secondary" id="modalCloseAlt">Seguir viendo</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script>
-    const WHATSAPP_NUMBER = '5490000000000';
+    const menuToggle=document.getElementById('menuToggle');
+    const mobilePanel=document.getElementById('mobilePanel');
+    if(menuToggle){menuToggle.addEventListener('click',()=>mobilePanel.classList.toggle('open'));}
 
-    const categories = [
-      { id: 'textiles', name: 'Textiles', icon: '🧴', count: 18, desc: 'Perfumes para telas, almohadones y ambientes.' },
-      { id: 'difusores', name: 'Difusores', icon: '🏠', count: 14, desc: 'Opciones aromaticas para perfumar espacios.' },
-      { id: 'aerosoles', name: 'Aerosoles', icon: '✨', count: 12, desc: 'Fragancias practicas para cada momento.' },
-      { id: 'regalos', name: 'Regalos', icon: '🎁', count: 9, desc: 'Peluches, sets y productos ideales para regalar.' },
-      { id: 'home-spray', name: 'Home Spray', icon: '🌿', count: 8, desc: 'Aromas para refrescar y acompañar el hogar.' },
-      { id: 'sahumerios', name: 'Sahumerios', icon: '🕯️', count: 11, desc: 'Lineas aromaticas para momentos de pausa.' },
-      { id: 'velas', name: 'Velas y hornillos', icon: '🔥', count: 7, desc: 'Detalles calidos para decorar y aromatizar.' },
-      { id: 'novedades', name: 'Novedades', icon: '⭐', count: 10, desc: 'Ingresos nuevos y lanzamientos de temporada.' }
-    ];
-
-    const products = [
-      {
-        id: 1,
-        name: 'Aromatizador Textil 250 ml',
-        category: 'textiles',
-        categoryName: 'Textiles',
-        short: 'Una linea elegida para perfumar telas y ambientes de forma practica.',
-        imageLabel: 'Textil 250 ml',
-        badge: 'Destacado',
-        featured: true,
-        isNew: true,
-        isOffer: false,
-        isLaunch: false,
-        variants: [
-          { name: 'Bamboo', status: 'available', price: 7800, note: 'Disponible para entrega inmediata.' },
-          { name: 'Breeze', status: 'available', price: 7800, note: 'Disponible para entrega inmediata.' },
-          { name: 'Duvet', status: 'unavailable', price: null, note: 'Consultar disponibilidad antes de confirmar.' },
-          { name: 'Flores Blancas', status: 'available', price: 8200, note: 'Disponible con stock limitado.' },
-          { name: 'Jazmin', status: 'preorder', price: null, note: 'Se puede pedir por encargue.' },
-          { name: 'Lavanda', status: 'available', price: 7900, note: 'Disponible para entrega inmediata.' }
-        ]
-      },
-      {
-        id: 2,
-        name: 'Difusor Aromatico',
-        category: 'difusores',
-        categoryName: 'Difusores',
-        short: 'Una presentacion elegante para decorar y perfumar al mismo tiempo.',
-        imageLabel: 'Difusor',
-        badge: 'Nuevo',
-        featured: true,
-        isNew: true,
-        isOffer: false,
-        isLaunch: false,
-        variants: [
-          { name: 'Bergamota', status: 'available', price: 12500, note: 'Disponible en local.' },
-          { name: 'Lola', status: 'available', price: 12500, note: 'Disponible en local.' },
-          { name: 'Rocio', status: 'preorder', price: null, note: 'En ingreso. Se toma pedido.' },
-          { name: 'Magnolia y Fresias', status: 'available', price: 12800, note: 'Disponible con pocas unidades.' }
-        ]
-      },
-      {
-        id: 3,
-        name: 'Aerosol Aromatizador 280 cc',
-        category: 'aerosoles',
-        categoryName: 'Aerosoles',
-        short: 'Ideal para perfumar rapido cualquier espacio con una fragancia definida.',
-        imageLabel: 'Aerosol 280 cc',
-        badge: 'Oferta',
-        featured: true,
-        isNew: false,
-        isOffer: true,
-        isLaunch: false,
-        variants: [
-          { name: 'Bamboo Breeze', status: 'available', price: 6900, note: 'Precio promocional por tiempo limitado.' },
-          { name: 'Citronella', status: 'available', price: 6700, note: 'Precio promocional por tiempo limitado.' },
-          { name: 'Palo Santo', status: 'preorder', price: null, note: 'Disponible por encargue.' }
-        ]
-      },
-      {
-        id: 4,
-        name: 'Home Spray',
-        category: 'home-spray',
-        categoryName: 'Home Spray',
-        short: 'Para sumar aroma y presencia en cualquier ambiente de la casa.',
-        imageLabel: 'Home Spray',
-        badge: '',
-        featured: true,
-        isNew: false,
-        isOffer: false,
-        isLaunch: false,
-        variants: [
-          { name: 'Marino', status: 'available', price: 8600, note: 'Disponible para entrega inmediata.' },
-          { name: 'Naranja Pimienta', status: 'available', price: 8800, note: 'Disponible en stock.' },
-          { name: 'Oriente Ambarada', status: 'unavailable', price: null, note: 'Consultar disponibilidad.' }
-        ]
-      },
-      {
-        id: 5,
-        name: 'Tarjetas Aromaticas',
-        category: 'regalos',
-        categoryName: 'Regalos',
-        short: 'Un detalle simple para regalar o sumar a compras especiales.',
-        imageLabel: 'Tarjetas',
-        badge: '',
-        featured: false,
-        isNew: true,
-        isOffer: false,
-        isLaunch: false,
-        variants: [
-          { name: 'Lilas', status: 'available', price: 3500, note: 'Disponible para entrega inmediata.' },
-          { name: 'Coco', status: 'available', price: 3500, note: 'Disponible para entrega inmediata.' }
-        ]
-      },
-      {
-        id: 6,
-        name: 'Peluche Aromatico',
-        category: 'regalos',
-        categoryName: 'Regalos',
-        short: 'Una propuesta tierna para regalar, decorar o sumar al catalogo especial.',
-        imageLabel: 'Peluche',
-        badge: 'Lanzamiento',
-        featured: false,
-        isNew: false,
-        isOffer: false,
-        isLaunch: true,
-        variants: [
-          { name: 'Coleccion especial', status: 'preorder', price: null, note: 'Disponible por encargue. Consultar fecha de ingreso.' }
-        ]
-      },
-      {
-        id: 7,
-        name: 'Sahumerios Premium',
-        category: 'sahumerios',
-        categoryName: 'Sahumerios',
-        short: 'Una linea para quienes buscan una opcion mas ritual, relajante y decorativa.',
-        imageLabel: 'Sahumerios',
-        badge: '',
-        featured: false,
-        isNew: false,
-        isOffer: true,
-        isLaunch: false,
-        variants: [
-          { name: 'Palo Santo', status: 'available', price: 4900, note: 'Precio promocional.' },
-          { name: 'Lavanda', status: 'available', price: 4900, note: 'Precio promocional.' },
-          { name: 'Ambar', status: 'preorder', price: null, note: 'Disponible por encargue.' }
-        ]
-      },
-      {
-        id: 8,
-        name: 'Velas Aromaticas',
-        category: 'velas',
-        categoryName: 'Velas y hornillos',
-        short: 'Una opcion calida para ambientar, regalar o decorar con aroma.',
-        imageLabel: 'Velas',
-        badge: '',
-        featured: false,
-        isNew: false,
-        isOffer: false,
-        isLaunch: false,
-        variants: [
-          { name: 'Vainilla', status: 'available', price: 9600, note: 'Disponible para entrega inmediata.' },
-          { name: 'Canela', status: 'available', price: 9600, note: 'Disponible para entrega inmediata.' }
-        ]
-      },
-      {
-        id: 9,
-        name: 'Difusor Premium',
-        category: 'difusores',
-        categoryName: 'Difusores',
-        short: 'Una presentacion mas premium para destacar aromas y sumar valor.',
-        imageLabel: 'Premium',
-        badge: 'Lanzamiento',
-        featured: false,
-        isNew: false,
-        isOffer: false,
-        isLaunch: true,
-        variants: [
-          { name: 'Floral', status: 'preorder', price: null, note: 'Ingreso proximo. Se toma reserva.' },
-          { name: 'Citrico', status: 'preorder', price: null, note: 'Ingreso proximo. Se toma reserva.' }
-        ]
-      },
-      {
-        id: 10,
-        name: 'Pack Regalo',
-        category: 'regalos',
-        categoryName: 'Regalos',
-        short: 'Combinacion pensada para regalo o promo especial.',
-        imageLabel: 'Pack',
-        badge: 'Oferta',
-        featured: false,
-        isNew: false,
-        isOffer: true,
-        isLaunch: false,
-        variants: [
-          { name: 'Pack Clasico', status: 'available', price: 14900, note: 'Precio especial por cantidad limitada.' }
-        ]
-      },
-      {
-        id: 11,
-        name: 'Aceite Esencial',
-        category: 'novedades',
-        categoryName: 'Novedades',
-        short: 'Una linea para sumar variedad y nuevas opciones al catalogo.',
-        imageLabel: 'Aceite',
-        badge: 'Nuevo',
-        featured: false,
-        isNew: true,
-        isOffer: false,
-        isLaunch: false,
-        variants: [
-          { name: 'Eucalipto', status: 'available', price: 9300, note: 'Disponible.' },
-          { name: 'Lavanda', status: 'available', price: 9300, note: 'Disponible.' }
-        ]
-      },
-      {
-        id: 12,
-        name: 'Linea Especial por Encargue',
-        category: 'novedades',
-        categoryName: 'Novedades',
-        short: 'Productos que no siempre estan en stock pero se pueden pedir.',
-        imageLabel: 'Por Encargue',
-        badge: '',
-        featured: false,
-        isNew: false,
-        isOffer: false,
-        isLaunch: true,
-        variants: [
-          { name: 'Consultar opciones', status: 'preorder', price: null, note: 'Se trabaja a pedido.' }
-        ]
-      }
-    ];
-
-    const elements = {
-      categoriesGrid: document.getElementById('categoriesGrid'),
-      categorySelect: document.getElementById('categorySelect'),
-      productsGrid: document.getElementById('productsGrid'),
-      newProductsGrid: document.getElementById('newProductsGrid'),
-      offerProductsGrid: document.getElementById('offerProductsGrid'),
-      launchProductsGrid: document.getElementById('launchProductsGrid'),
-      searchInput: document.getElementById('searchInput'),
-      statusChips: document.getElementById('statusChips'),
-      themeToggle: document.getElementById('themeToggle'),
-      menuToggle: document.getElementById('menuToggle'),
-      mainNav: document.getElementById('mainNav'),
-      overlay: document.getElementById('overlay'),
-      productModal: document.getElementById('productModal'),
-      closeModal: document.getElementById('closeModal'),
-      modalCloseAlt: document.getElementById('modalCloseAlt'),
-      modalTitle: document.getElementById('modalTitle'),
-      modalDescription: document.getElementById('modalDescription'),
-      modalVisualBox: document.getElementById('modalVisualBox'),
-      variantOptions: document.getElementById('variantOptions'),
-      modalStatus: document.getElementById('modalStatus'),
-      modalPrice: document.getElementById('modalPrice'),
-      modalNote: document.getElementById('modalNote'),
-      modalWhatsapp: document.getElementById('modalWhatsapp'),
-      floatingWa: document.getElementById('floatingWa')
-    };
-
-    const state = {
-      search: '',
-      category: 'all',
-      status: 'all',
-      product: null,
-      variantIndex: 0
-    };
-
-    function formatPrice(value) {
-      if (!value) return '';
-      return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(value);
+    const track=document.getElementById('carouselTrack');
+    let autoScroll;
+    function startCarousel(){
+      clearInterval(autoScroll);
+      autoScroll=setInterval(()=>{
+        const maxScroll=track.scrollWidth-track.clientWidth;
+        const next=track.scrollLeft+280;
+        if(next>=maxScroll-10){track.scrollTo({left:0,behavior:'smooth'});}else{track.scrollBy({left:280,behavior:'smooth'});}
+      },2500);
     }
+    function stopCarousel(){clearInterval(autoScroll);}
+    track.addEventListener('mouseenter',stopCarousel);
+    track.addEventListener('mouseleave',startCarousel);
+    track.addEventListener('touchstart',stopCarousel,{passive:true});
+    track.addEventListener('touchend',startCarousel,{passive:true});
+    startCarousel();
 
-    function buildWhatsappMessage(product, variant) {
-      const statusLabel = variant.status === 'preorder'
-        ? 'Me interesa pedir por encargue'
-        : variant.status === 'unavailable'
-          ? 'Quiero consultar disponibilidad'
-          : 'Quiero consultar';
+    const floatingWa=document.getElementById('floatingWa');
+    const footer=document.querySelector('footer');
+    new IntersectionObserver(entries=>{entries.forEach(entry=>floatingWa.classList.toggle('hidden',entry.isIntersecting));},{threshold:.15}).observe(footer);
 
-      return `Hola, ${statusLabel} por ${product.name} - ${variant.name}.`;
-    }
-
-    function buildWhatsappLink(text) {
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-    }
-
-    function firstVariant(product) {
-      return product.variants[0];
-    }
-
-    function statusConfig(variant) {
-      if (variant.status === 'available') {
-        return {
-          text: 'Disponible con precio',
-          cls: 'status-available',
-          priceCls: '',
-          priceText: formatPrice(variant.price)
-        };
-      }
-      if (variant.status === 'preorder') {
-        return {
-          text: 'Disponible por encargue',
-          cls: 'status-preorder',
-          priceCls: 'warning',
-          priceText: 'Por encargue'
-        };
-      }
-      return {
-        text: 'Consultar disponibilidad',
-        cls: 'status-unavailable',
-        priceCls: 'muted',
-        priceText: 'Consultar disponibilidad'
-      };
-    }
-
-    function renderCategories() {
-      elements.categoriesGrid.innerHTML = categories.map(cat => `
-        <button class="category-card" type="button" onclick="setCategory('${cat.id}')">
-          <div class="category-top">
-            <div class="category-icon">${cat.icon}</div>
-            <small>${cat.count} items</small>
-          </div>
-          <div>
-            <strong>${cat.name}</strong>
-            <small>${cat.desc}</small>
-          </div>
-        </button>
-      `).join('');
-    }
-
-    function renderCategorySelect() {
-      elements.categorySelect.innerHTML = '<option value="all">Todas las categorias</option>' +
-        categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
-    }
-
-    function matchesFilters(product) {
-      const term = state.search.trim().toLowerCase();
-      const searchable = [
-        product.name,
-        product.categoryName,
-        product.short,
-        ...product.variants.map(v => v.name)
-      ].join(' ').toLowerCase();
-
-      if (term && !searchable.includes(term)) return false;
-      if (state.category !== 'all' && product.category !== state.category) return false;
-      if (state.status !== 'all' && !product.variants.some(v => v.status === state.status)) return false;
-      return true;
-    }
-
-    function createProductCard(product) {
-      const variant = firstVariant(product);
-      const config = statusConfig(variant);
-      const badge = product.badge || '';
-      return `
-        <article class="product-card">
-          <div class="product-image ${badge ? 'has-badge' : ''}" data-badge="${badge}">
-            <span>${product.imageLabel}</span>
-          </div>
-          <div class="product-body">
-            <div class="product-tags">
-              <span class="tag">${product.categoryName}</span>
-              <span class="tag">${product.variants.length} opciones</span>
-            </div>
-            <h3 class="product-title">${product.name}</h3>
-            <p class="product-desc">${product.short}</p>
-            <div class="price-row">
-              <div class="price ${config.priceCls}">${config.priceText}</div>
-              <button class="btn btn-secondary" type="button" onclick="openProduct(${product.id})">Ver</button>
-            </div>
-          </div>
-        </article>
-      `;
-    }
-
-    function renderGrid(target, list) {
-      if (!list.length) {
-        target.innerHTML = '<div class="empty-state">No hay productos para mostrar con esos filtros.</div>';
-        return;
-      }
-      target.innerHTML = list.map(createProductCard).join('');
-    }
-
-    function renderProducts() {
-      const filtered = products.filter(matchesFilters);
-      renderGrid(elements.productsGrid, filtered);
-      renderGrid(elements.newProductsGrid, products.filter(p => p.isNew));
-      renderGrid(elements.offerProductsGrid, products.filter(p => p.isOffer));
-      renderGrid(elements.launchProductsGrid, products.filter(p => p.isLaunch));
-    }
-
-    function openProduct(id) {
-      const product = products.find(item => item.id === id);
-      if (!product) return;
-      state.product = product;
-      state.variantIndex = 0;
-      fillModal();
-      elements.overlay.classList.add('open');
-      elements.productModal.classList.add('open');
-      elements.productModal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeProduct() {
-      elements.overlay.classList.remove('open');
-      elements.productModal.classList.remove('open');
-      elements.productModal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
-    function fillModal() {
-      const product = state.product;
-      const variant = product.variants[state.variantIndex];
-      const config = statusConfig(variant);
-
-      elements.modalTitle.textContent = product.name;
-      elements.modalDescription.textContent = product.short;
-      elements.modalVisualBox.textContent = product.imageLabel;
-      elements.modalStatus.className = `status-pill ${config.cls}`;
-      elements.modalStatus.textContent = config.text;
-      elements.modalPrice.className = `modal-price ${config.priceCls}`;
-      elements.modalPrice.textContent = config.priceText;
-      elements.modalNote.textContent = variant.note;
-      elements.modalWhatsapp.href = buildWhatsappLink(buildWhatsappMessage(product, variant));
-
-      elements.variantOptions.innerHTML = product.variants.map((variantItem, index) => `
-        <button class="option-btn ${index === state.variantIndex ? 'active' : ''}" type="button" onclick="selectVariant(${index})">${variantItem.name}</button>
-      `).join('');
-    }
-
-    function selectVariant(index) {
-      state.variantIndex = index;
-      fillModal();
-    }
-
-    function setCategory(categoryId) {
-      state.category = categoryId;
-      elements.categorySelect.value = categoryId;
-      renderProducts();
-      document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function updateStatusChips(status) {
-      state.status = status;
-      [...elements.statusChips.querySelectorAll('.chip-btn')].forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.status === status);
+    const cursorStars=document.getElementById('cursorStars');
+    let lastStar=0;
+    if(window.matchMedia('(pointer:fine)').matches){
+      document.addEventListener('pointermove',e=>{
+        const now=Date.now();
+        if(now-lastStar<55)return;
+        lastStar=now;
+        const star=document.createElement('span');
+        star.className='star';
+        star.style.left=e.clientX+'px';
+        star.style.top=e.clientY+'px';
+        cursorStars.appendChild(star);
+        setTimeout(()=>star.remove(),900);
       });
-      renderProducts();
     }
-
-    function setTheme(mode) {
-      document.body.classList.toggle('dark', mode === 'dark');
-      localStorage.setItem('catalog-theme', mode);
-    }
-
-    function initTheme() {
-      const stored = localStorage.getItem('catalog-theme');
-      if (stored) {
-        setTheme(stored);
-      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setTheme('dark');
-      }
-    }
-
-    function observeFooter() {
-      const footer = document.querySelector('.footer');
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          elements.floatingWa.classList.toggle('hidden', entry.isIntersecting);
-        });
-      }, { threshold: 0.1 });
-      observer.observe(footer);
-    }
-
-    elements.searchInput.addEventListener('input', (e) => {
-      state.search = e.target.value;
-      renderProducts();
-    });
-
-    elements.categorySelect.addEventListener('change', (e) => {
-      state.category = e.target.value;
-      renderProducts();
-    });
-
-    elements.statusChips.addEventListener('click', (e) => {
-      const button = e.target.closest('.chip-btn');
-      if (!button) return;
-      updateStatusChips(button.dataset.status);
-    });
-
-    elements.themeToggle.addEventListener('click', () => {
-      const next = document.body.classList.contains('dark') ? 'light' : 'dark';
-      setTheme(next);
-    });
-
-    elements.menuToggle.addEventListener('click', () => {
-      elements.mainNav.classList.toggle('open');
-    });
-
-    elements.closeModal.addEventListener('click', closeProduct);
-    elements.modalCloseAlt.addEventListener('click', closeProduct);
-    elements.overlay.addEventListener('click', closeProduct);
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeProduct();
-    });
-
-    window.openProduct = openProduct;
-    window.selectVariant = selectVariant;
-    window.setCategory = setCategory;
-
-    renderCategories();
-    renderCategorySelect();
-    renderProducts();
-    initTheme();
-    observeFooter();
   </script>
 </body>
 </html>
- 
