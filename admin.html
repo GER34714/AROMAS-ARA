@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administración - Aromas Ara</title>
+  <meta name="description" content="Panel de administración para gestionar productos de Aromas Ara" />
+  <style>
+    :root{
+      --bg:#fbf8f5;
+      --bg-soft:#f4ede7;
+      --card:#fffdfa;
+      --line:#eadfd6;
+      --text:#5d4b43;
+      --muted:#8a7368;
+      --accent:#c8a891;
+      --shadow:0 12px 30px rgba(116,88,74,.10);
+      --radius-xl:28px;
+      --radius-lg:22px;
+      --header-h:74px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:linear-gradient(180deg,#fdfaf7 0%,#fbf8f5 35%,#f8f2ed 100%);
+      color:var(--text);
+      overflow-x:hidden;
+      min-height:100vh;
+    }
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
+    .container{width:min(1180px,calc(100% - 28px));margin:0 auto}
+
+    header{
+      position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+      background:rgba(251,248,245,.82);
+      border-bottom:1px solid rgba(234,223,214,.72);
+    }
+    .topbar{min-height:var(--header-h);display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;flex-direction:column;line-height:1}
+    .brand strong{font-size:1.28rem;letter-spacing:.08em;font-weight:800;text-transform:uppercase}
+    .brand span{color:var(--muted);font-size:.83rem;margin-top:7px;letter-spacing:.04em}
+    .header-actions{display:flex;align-items:center;gap:10px}
+    .wa-btn,.ghost-btn,.soft-btn,.primary-btn{border:none;cursor:pointer;border-radius:999px;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+    .wa-btn:hover,.ghost-btn:hover,.soft-btn:hover,.primary-btn:hover{transform:translateY(-1px)}
+    .primary-btn{background:linear-gradient(135deg,var(--accent),#b9957d);color:white;padding:12px 18px;font-weight:700;box-shadow:var(--shadow)}
+    .ghost-btn{background:transparent;border:1px solid var(--line);color:var(--text);padding:11px 16px}
+    .soft-btn{background:var(--card);border:1px solid var(--line);color:var(--text);padding:12px 16px}
+
+    /* Login Screen */
+    .login-container{
+      display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;
+    }
+    .login-card{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius-xl);
+      box-shadow:var(--shadow);padding:32px;width:100%;max-width:420px;
+    }
+    .login-header{text-align:center;margin-bottom:28px}
+    .login-header h2{font-size:1.8rem;margin-bottom:8px}
+    .login-header p{color:var(--muted)}
+    .form-group{margin-bottom:20px}
+    .form-group label{display:block;margin-bottom:8px;font-weight:600}
+    .form-group input{width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:999px;background:var(--bg-soft);outline:none;color:var(--text)}
+    .form-group input:focus{border-color:var(--accent)}
+
+    /* Admin Dashboard */
+    .admin-container{display:none}
+    .admin-container.active{display:block}
+    .admin-header{padding:20px 0}
+    .admin-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px 0}
+    .stat-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;text-align:center}
+    .stat-number{font-size:2rem;font-weight:800;color:var(--accent)}
+    .stat-label{color:var(--muted);margin-top:4px}
+
+    .products-section{margin-top:32px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:18px}
+    .section-head h2{font-size:clamp(1.45rem,2.5vw,2.1rem);letter-spacing:-.03em}
+    .section-head p{color:var(--muted);max-width:55ch;line-height:1.6}
+
+    .products-table{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+    table{width:100%;border-collapse:collapse}
+    th{background:var(--bg-soft);padding:16px;text-align:left;font-weight:600;border-bottom:1px solid var(--line)}
+    td{padding:16px;border-bottom:1px solid var(--line)}
+    tr:last-child td{border-bottom:none}
+    .product-img{width:60px;height:60px;border-radius:12px;object-fit:cover;background:var(--bg-soft)}
+    .actions-cell{display:flex;gap:8px}
+    .btn-small{padding:8px 12px;font-size:.88rem;border-radius:12px}
+    .btn-edit{background:var(--bg-soft);color:var(--text);border:1px solid var(--line)}
+    .btn-delete{background:#fee; color:#c00;border:1px solid #fcc}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(38,24,18,.52);backdrop-filter:blur(8px)}
+    .modal.open{display:flex}
+    .modal-card{width:min(100%,680px);max-height:92vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);padding:24px}
+    .modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .modal-header h3{font-size:1.4rem}
+    .close-btn{width:40px;height:40px;border-radius:999px;border:1px solid var(--line);background:var(--bg-soft);cursor:pointer;color:var(--text)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .form-grid.full{grid-template-columns:1fr}
+    .form-actions{display:flex;gap:12px;margin-top:20px}
+
+    @media (max-width:760px){
+      .form-grid{grid-template-columns:1fr}
+      .stats-grid{grid-template-columns:1fr}
+      .admin-actions{flex-direction:column;align-items:stretch}
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div class="login-container" id="loginContainer">
+    <div class="login-card">
+      <div class="login-header">
+        <h2>Panel Admin</h2>
+        <p>Aromas Ara - Gestión de Productos</p>
+      </div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" required placeholder="Ingresa la contraseña">
+        </div>
+        <button type="submit" class="primary-btn" style="width:100%">Ingresar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div class="admin-container" id="adminContainer">
+    <header>
+      <div class="container topbar">
+        <a class="brand" href="index.html">
+          <strong>Aromas Ara</strong>
+          <span>panel de administración</span>
+        </a>
+        <div class="header-actions">
+          <button class="ghost-btn" id="logoutBtn">Cerrar sesión</button>
+          <a class="primary-btn" href="index.html">Ver tienda</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="admin-header">
+        <div class="section-head">
+          <div>
+            <h1>Panel de Administración</h1>
+            <p>Gestioná los productos del catálogo</p>
+          </div>
+        </div>
+        <div class="admin-actions">
+          <button class="primary-btn" id="addProductBtn">+ Agregar Producto</button>
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="totalProducts">0</div>
+            <div class="stat-label">Total Productos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="totalCategories">6</div>
+            <div class="stat-label">Categorías</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="products-section">
+        <div class="section-head">
+          <div>
+            <h2>Productos</h2>
+            <p>Administrá el catálogo completo</p>
+          </div>
+        </div>
+        <div class="products-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody">
+              <!-- Products will be loaded here -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Product Modal -->
+  <div class="modal" id="productModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Agregar Producto</h3>
+        <button class="close-btn" id="closeModal">✕</button>
+      </div>
+      <form id="productForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="productName">Nombre del Producto</label>
+            <input type="text" id="productName" required>
+          </div>
+          <div class="form-group">
+            <label for="productCategory">Categoría</label>
+            <select id="productCategory" required>
+              <option value="">Seleccionar categoría</option>
+              <option value="Textiles">Textiles</option>
+              <option value="Difusores">Difusores</option>
+              <option value="Aerosoles">Aerosoles</option>
+              <option value="Home Spray">Home Spray</option>
+              <option value="Sahumerios">Sahumerios</option>
+              <option value="Difusores Premium">Difusores Premium</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid full">
+          <div class="form-group">
+            <label for="productDescription">Descripción</label>
+            <textarea id="productDescription" rows="3" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg-soft);outline:none;color:var(--text);resize:vertical"></textarea>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="productPrice">Precio</label>
+            <input type="number" id="productPrice" step="0.01" placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label for="productStatus">Estado</label>
+            <select id="productStatus">
+              <option value="Por encargue">Por encargue</option>
+              <option value="Disponible">Disponible</option>
+              <option value="Agotado">Agotado</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid full">
+          <div class="form-group">
+            <label for="productImage">URL de la Imagen</label>
+            <input type="url" id="productImage" placeholder="https://...">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="ghost-btn" id="cancelBtn">Cancelar</button>
+          <button type="submit" class="primary-btn">Guardar Producto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    // Importar cliente Supabase
+    import { productsAPI, categoriesAPI } from './js/supabase-client.js';
+    
+    // Admin password - en producción debería estar en variables de entorno
+    const ADMIN_PASSWORD = 'admin123';
+    
+    // DOM Elements
+    const loginContainer = document.getElementById('loginContainer');
+    const adminContainer = document.getElementById('adminContainer');
+    const loginForm = document.getElementById('loginForm');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const productModal = document.getElementById('productModal');
+    const addProductBtn = document.getElementById('addProductBtn');
+    const closeModal = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const productForm = document.getElementById('productForm');
+    const productsTableBody = document.getElementById('productsTableBody');
+    const totalProducts = document.getElementById('totalProducts');
+
+    let products = [];
+    let editingProductId = null;
+
+    // Login functionality
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const password = document.getElementById('password').value;
+      
+      if (password === ADMIN_PASSWORD) {
+        loginContainer.style.display = 'none';
+        adminContainer.classList.add('active');
+        loadProducts();
+      } else {
+        alert('Contraseña incorrecta');
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      adminContainer.classList.remove('active');
+      loginContainer.style.display = 'flex';
+      document.getElementById('password').value = '';
+    });
+
+    // Modal functionality
+    addProductBtn.addEventListener('click', () => {
+      editingProductId = null;
+      document.getElementById('modalTitle').textContent = 'Agregar Producto';
+      productForm.reset();
+      productModal.classList.add('open');
+    });
+
+    closeModal.addEventListener('click', () => {
+      productModal.classList.remove('open');
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      productModal.classList.remove('open');
+    });
+
+    // Product form submission
+    productForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const productData = {
+        name: document.getElementById('productName').value,
+        category: document.getElementById('productCategory').value,
+        description: document.getElementById('productDescription').value,
+        price: parseFloat(document.getElementById('productPrice').value) || 0,
+        status: document.getElementById('productStatus').value,
+        image_url: document.getElementById('productImage').value || `https://iili.io/Bl${Math.random().toString(36).substr(2, 6)}.png`,
+        features: []
+      };
+
+      try {
+        if (editingProductId) {
+          // Update existing product
+          await productsAPI.update(editingProductId, productData);
+        } else {
+          // Add new product
+          await productsAPI.create(productData);
+        }
+
+        productModal.classList.remove('open');
+        await loadProducts();
+      } catch (error) {
+        console.error('Error saving product:', error);
+        alert('Error al guardar el producto. Por favor, intenta nuevamente.');
+      }
+    });
+
+    // Load products from Supabase
+    async function loadProducts() {
+      try {
+        products = await productsAPI.getAll();
+        productsTableBody.innerHTML = '';
+        totalProducts.textContent = products.length;
+
+        products.forEach(product => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><img src="${product.image_url || 'https://via.placeholder.com/60'}" alt="${product.name}" class="product-img"></td>
+            <td><strong>${product.name}</strong></td>
+            <td>${product.category}</td>
+            <td>$${product.price ? product.price.toFixed(2) : '0.00'}</td>
+            <td>${product.status || 'Por encargue'}</td>
+            <td>
+              <div class="actions-cell">
+                <button class="btn-small btn-edit" onclick="editProduct('${product.id}')">Editar</button>
+                <button class="btn-small btn-delete" onclick="deleteProduct('${product.id}')">Eliminar</button>
+              </div>
+            </td>
+          `;
+          productsTableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error loading products:', error);
+        alert('Error al cargar los productos. Por favor, recarga la página.');
+      }
+    }
+
+    // Edit product
+    window.editProduct = async function(id) {
+      try {
+        const product = products.find(p => p.id === id);
+        if (product) {
+          editingProductId = id;
+          document.getElementById('modalTitle').textContent = 'Editar Producto';
+          document.getElementById('productName').value = product.name;
+          document.getElementById('productCategory').value = product.category;
+          document.getElementById('productDescription').value = product.description || '';
+          document.getElementById('productPrice').value = product.price || '';
+          document.getElementById('productStatus').value = product.status || 'Por encargue';
+          document.getElementById('productImage').value = product.image_url || '';
+          productModal.classList.add('open');
+        }
+      } catch (error) {
+        console.error('Error editing product:', error);
+        alert('Error al cargar el producto para editar.');
+      }
+    };
+
+    // Delete product
+    window.deleteProduct = async function(id) {
+      if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+        try {
+          await productsAPI.delete(id);
+          await loadProducts();
+        } catch (error) {
+          console.error('Error deleting product:', error);
+          alert('Error al eliminar el producto. Por favor, intenta nuevamente.');
+        }
+      }
+    };
+
+    // Close modal on outside click
+    productModal.addEventListener('click', (e) => {
+      if (e.target === productModal) {
+        productModal.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>
