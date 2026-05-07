@@ -126,4 +126,50 @@ export const categoriesAPI = {
   }
 };
 
+// API para storage de imágenes
+export const storageAPI = {
+  // Subir imagen
+  async uploadImage(file, folder = 'products', compress = true) {
+    try {
+      const timestamp = Date.now();
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${timestamp}.${fileExt}`;
+      const filePath = `${folder}/${fileName}`;
+
+      // Para desarrollo, simplemente retornar una URL temporal
+      if (window.location.hostname === 'localhost') {
+        const reader = new FileReader();
+        return new Promise((resolve) => {
+          reader.onload = (e) => {
+            resolve({
+              url: e.target.result,
+              path: filePath
+            });
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // Para producción, subir a Supabase Storage
+      const { data, error } = await supabase.storage
+        .from('aromas-ara-images')
+        .upload(filePath, file);
+
+      if (error) throw error;
+
+      const { data: publicUrl } = supabase.storage
+        .from('aromas-ara-images')
+        .getPublicUrl(filePath);
+
+      return {
+        url: publicUrl.publicUrl,
+        path: filePath
+      };
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error;
+    }
+  }
+};
+
 export default supabase;
