@@ -34,7 +34,7 @@ INSERT INTO categories (name, description) VALUES
 ('Home Spray', 'Formatos prácticos con aromas cálidos y frescos'),
 ('Sahumerios', 'Opciones para rituales, descanso y momentos especiales'),
 ('Difusores Premium', 'Presentaciones elegantes para regalar o decorar')
-ON CONFLICT (name) DO NOTHING;
+ON CONFLICT (name) DO UPDATE SET description = EXCLUDED.description;
 
 -- Tabla para el carrito de compras
 CREATE TABLE IF NOT EXISTS cart_items (
