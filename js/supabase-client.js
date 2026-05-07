@@ -1,5 +1,5 @@
 // Cliente de Supabase para gestión de productos
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+import { createClient } from '@supabase/supabase-js';
 
 import config from '../config/supabase-config.js';
 
@@ -172,4 +172,5 @@ export const storageAPI = {
   }
 };
 
+export { supabase };
 export default supabase;
