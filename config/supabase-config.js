@@ -1,6 +1,6 @@
 // Configuración de Supabase
 const SUPABASE_CONFIG = {
-  url: 'https://irgwupsgnjvnnatqoehyj.supabase.co',
+  url: 'https://irgwupsgnjvnatqoehyj.supabase.co',
   anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnbmp2bmF0cW9laHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMDc2NDcsImV4cCI6MjA5MzY4MzY0N30.ZA96YiJ7ZTt6EqnnLYGf0IHLLFd8POkZ1Z4HnmpxIl4'
 };
 
