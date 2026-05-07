@@ -200,17 +200,6 @@
       cursor:grabbing;
     }
     .categories-carousel-track::-webkit-scrollbar{display:none}
-    .categories-carousel-btn{
-      position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;
-      border:1px solid var(--line);background:rgba(255,253,250,.95);box-shadow:var(--shadow);
-      cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;
-      font-size:18px;color:var(--text);transition:all 0.3s ease;opacity:0;pointer-events:none;
-    }
-    .categories-carousel-btn:hover{
-      background:var(--card);transform:translateY(-50%) scale(1.1);
-    }
-    .categories-carousel-btn.prev{left:0}
-    .categories-carousel-btn.next{right:0}
     .category-carousel-card{
       background:var(--card);border:1px solid var(--line);border-radius:16px;
       overflow:hidden;box-shadow:var(--shadow);scroll-snap-align:start;min-width:0;
@@ -923,8 +912,6 @@ async function loadCategories() {
         <div class="categories-carousel-track" id="categoriesCarouselTrack">
           <!-- Category cards will be inserted here -->
         </div>
-        <button class="categories-carousel-btn prev" id="categoriesCarouselPrev">‹</button>
-        <button class="categories-carousel-btn next" id="categoriesCarouselNext">›</button>
       `;
     } else {
       // Grid mode for few categories
@@ -1311,14 +1298,13 @@ function startAutoCarouselRotation() {
   console.log('Starting rotation - Mode:', useCarousel ? 'carousel' : 'grid');
   
   if (useCarousel) {
-    // Carousel mode: CSS animation for continuous movement
     const track = document.getElementById('categoriesCarouselTrack');
+    
     if (track) {
       // Clone cards for seamless loop
       const cards = track.querySelectorAll('.category-carousel-card');
       const cardCount = cards.length;
       
-      // Create seamless loop by duplicating cards
       if (cardCount > 0 && !track.dataset.cloned) {
         cards.forEach(card => {
           const clone = card.cloneNode(true);
@@ -1329,24 +1315,20 @@ function startAutoCarouselRotation() {
         track.dataset.cloned = 'true';
       }
       
-      // Add CSS animation for continuous scrolling
+      // Start smooth automatic scrolling with CSS animation
       track.style.animation = 'scrollCategories 30s linear infinite';
-      track.style.animationPlayState = isUserInteracting ? 'paused' : 'running';
+      track.style.animationPlayState = 'running';
       
-      // Pause on hover
+      // Pause on hover for better UX
       track.addEventListener('mouseenter', () => {
         track.style.animationPlayState = 'paused';
-        isUserInteracting = true;
       });
       
       track.addEventListener('mouseleave', () => {
-        setTimeout(() => {
-          isUserInteracting = false;
-          track.style.animationPlayState = 'running';
-        }, 1000);
+        track.style.animationPlayState = 'running';
       });
       
-      console.log('CSS animation carousel started');
+      console.log('Smooth automatic carousel started');
     }
   } else {
     // Grid mode: highlight rotation
