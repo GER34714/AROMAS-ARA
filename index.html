@@ -321,40 +321,13 @@
     <div class="container">
       <div class="section-head">
         <div>
-          <h2>Elegí una línea y seguí explorando</h2>
-          <p>Una entrada simple para recorrer las categorías principales y llegar rápido a cada sección del catálogo.</p>
+          <h2>Categorías</h2>
+          <p>Explorá nuestras categorías de productos.</p>
         </div>
       </div>
 
-      <div class="carousel-wrap">
-        <button class="carousel-btn prev" type="button" id="prevBtn">‹</button>
-        <div class="carousel-track" id="carouselTrack">
-          <a class="cat-card" href="#catalogo" data-filter="Textiles">
-            <div class="img-wrap"><img src="https://iili.io/BlXVne9.png" alt="Textiles" /></div>
-            <div class="body"><h3>Textiles</h3><p>Brumas y fragancias para telas, ropa de cama y ambientes.</p><span>Ver productos</span></div>
-          </a>
-          <a class="cat-card" href="#catalogo" data-filter="Difusores">
-            <div class="img-wrap"><img src="https://iili.io/BlhLlO7.png" alt="Difusores" /></div>
-            <div class="body"><h3>Difusores</h3><p>Opciones suaves para aromatizar distintos espacios.</p><span>Ver productos</span></div>
-          </a>
-          <a class="cat-card" href="#catalogo" data-filter="Aerosoles">
-            <div class="img-wrap"><img src="https://iili.io/BlXqdba.png" alt="Aerosoles" /></div>
-            <div class="body"><h3>Aerosoles</h3><p>Fragancias listas para usar y perfumar al instante.</p><span>Ver productos</span></div>
-          </a>
-          <a class="cat-card" href="#catalogo" data-filter="Home Spray">
-            <div class="img-wrap"><img src="https://iili.io/BlhwBh7.png" alt="Home Spray" /></div>
-            <div class="body"><h3>Home Spray</h3><p>Formatos prácticos con aromas cálidos y frescos.</p><span>Ver productos</span></div>
-          </a>
-          <a class="cat-card" href="#catalogo" data-filter="Sahumerios">
-            <div class="img-wrap"><img src="https://iili.io/BlhJIqP.png" alt="Sahumerios" /></div>
-            <div class="body"><h3>Sahumerios</h3><p>Opciones para rituales, descanso y momentos especiales.</p><span>Ver productos</span></div>
-          </a>
-          <a class="cat-card" href="#catalogo" data-filter="Difusores Premium">
-            <div class="img-wrap"><img src="https://iili.io/Blh6QPR.png" alt="Difusores Premium" /></div>
-            <div class="body"><h3>Difusores Premium</h3><p>Presentaciones elegantes para regalar o decorar.</p><span>Ver productos</span></div>
-          </a>
-        </div>
-        <button class="carousel-btn next" type="button" id="nextBtn">›</button>
+      <div class="categories-badges" id="categoriesBadges" style="display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0;">
+        <!-- Las categorías se cargarán dinámicamente desde la base de datos -->
       </div>
     </div>
   </section>
@@ -375,94 +348,12 @@
             <input type="search" id="searchInput" placeholder="Buscar por producto o categoría" />
           </label>
           <div class="chips" id="chips">
-            <button class="chip active" data-category="Todos">Todos</button>
-            <button class="chip" data-category="Textiles">Textiles</button>
-            <button class="chip" data-category="Difusores">Difusores</button>
-            <button class="chip" data-category="Aerosoles">Aerosoles</button>
-            <button class="chip" data-category="Home Spray">Home Spray</button>
-            <button class="chip" data-category="Sahumerios">Sahumerios</button>
-            <button class="chip" data-category="Difusores Premium">Difusores Premium</button>
+            <!-- Las categorías se cargarán dinámicamente desde la base de datos -->
           </div>
         </div>
 
         <div class="products-grid" id="productsGrid">
-          <article class="product-card" data-category="Textiles" data-name="Aromatizador Textil 250 ml" data-image="https://iili.io/BlXVne9.png" data-description="Vista previa de la línea Textiles. Después, desde el panel, vas cargando cada producto real con su imagen propia." data-features='["Línea base para sembrar el catálogo","Ideal para fragancias textiles","Después se reemplaza por productos reales"]'>
-            <div class="product-media"><img src="https://iili.io/BlXVne9.png" alt="Vista previa categoría Textiles" /></div>
-            <div class="product-body">
-              <div class="product-top"><h3 class="product-title">Aromatizador Textil 250 ml</h3><span class="pill">Textiles</span></div>
-              <p>Vista previa de la línea Textiles. Después, desde el panel, vas cargando cada producto real con su imagen propia.</p>
-              <div class="status">Por encargue</div>
-              <div class="product-actions">
-                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Aromatizador%20Textil%20250%20ml.">Consultar</a>
-                <button class="ghost-btn open-modal">Ver más</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="product-card" data-category="Difusores" data-name="Difusor Aromático" data-image="https://iili.io/BlhLlO7.png" data-description="Vista previa de la línea Difusores. Después vas reemplazando estas cards por productos reales desde el admin." data-features='["Base inicial de la línea","Aromatización delicada para ambientes","Se reemplaza por fichas reales"]'>
-            <div class="product-media"><img src="https://iili.io/BlhLlO7.png" alt="Vista previa categoría Difusores" /></div>
-            <div class="product-body">
-              <div class="product-top"><h3 class="product-title">Difusor Aromático</h3><span class="pill">Difusores</span></div>
-              <p>Vista previa de la línea Difusores. Después vas reemplazando estas cards por productos reales desde el admin.</p>
-              <div class="status">Por encargue</div>
-              <div class="product-actions">
-                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Difusor%20Arom%C3%A1tico.">Consultar</a>
-                <button class="ghost-btn open-modal">Ver más</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="product-card" data-category="Aerosoles" data-name="Aerosol Aromatizador" data-image="https://iili.io/BlXqdba.png" data-description="Vista previa de la línea Aerosoles. Sirve para sembrar la base hasta cargar productos puntuales." data-features='["Formato práctico de la línea","Preview para el catálogo inicial","Después se carga cada producto"]'>
-            <div class="product-media"><img src="https://iili.io/BlXqdba.png" alt="Vista previa categoría Aerosoles" /></div>
-            <div class="product-body">
-              <div class="product-top"><h3 class="product-title">Aerosol Aromatizador</h3><span class="pill">Aerosoles</span></div>
-              <p>Vista previa de la línea Aerosoles. Sirve para sembrar la base hasta cargar productos puntuales.</p>
-              <div class="status">Por encargue</div>
-              <div class="product-actions">
-                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Aerosol%20Aromatizador.">Consultar</a>
-                <button class="ghost-btn open-modal">Ver más</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="product-card" data-category="Home Spray" data-name="Home Spray" data-image="https://iili.io/BlhwBh7.png" data-description="Vista previa de la línea Home Spray. Después se reemplaza por productos o fragancias específicas." data-features='["Línea lista para crecer","Preview visual de la categoría","Luego se cargan variantes reales"]'>
-            <div class="product-media"><img src="https://iili.io/BlhwBh7.png" alt="Vista previa categoría Home Spray" /></div>
-            <div class="product-body">
-              <div class="product-top"><h3 class="product-title">Home Spray</h3><span class="pill">Home Spray</span></div>
-              <p>Vista previa de la línea Home Spray. Después se reemplaza por productos o fragancias específicas.</p>
-              <div class="status">Por encargue</div>
-              <div class="product-actions">
-                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Home%20Spray.">Consultar</a>
-                <button class="ghost-btn open-modal">Ver más</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="product-card" data-category="Sahumerios" data-name="Sahumerios" data-image="https://iili.io/BlhJIqP.png" data-description="Vista previa de la línea Sahumerios. Ideal para dejar la base armada hasta sumar más productos reales." data-features='["Pensado para sumar calma y ritual","Preview inicial de la categoría","Luego se carga el detalle real"]'>
-            <div class="product-media"><img src="https://iili.io/BlhJIqP.png" alt="Vista previa categoría Sahumerios" /></div>
-            <div class="product-body">
-              <div class="product-top"><h3 class="product-title">Sahumerios</h3><span class="pill">Sahumerios</span></div>
-              <p>Vista previa de la línea Sahumerios. Ideal para dejar la base armada hasta sumar más productos reales.</p>
-              <div class="status">Por encargue</div>
-              <div class="product-actions">
-                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Sahumerios.">Consultar</a>
-                <button class="ghost-btn open-modal">Ver más</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="product-card" data-category="Difusores Premium" data-name="Difusor Premium" data-image="https://iili.io/Blh6QPR.png" data-description="Vista previa de la línea Difusores Premium. Después desde el panel podés cargar la imagen real de cada producto." data-features='["Presentación elegante","Ideal para regalos","Luego se reemplaza por producto real"]'>
-            <div class="product-media"><img src="https://iili.io/Blh6QPR.png" alt="Vista previa categoría Difusores Premium" /></div>
-            <div class="product-body">
-              <div class="product-top"><h3 class="product-title">Difusor Premium</h3><span class="pill">Premium</span></div>
-              <p>Vista previa de la línea Difusores Premium. Después desde el panel podés cargar la imagen real de cada producto.</p>
-              <div class="status">Por encargue</div>
-              <div class="product-actions">
-                <a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20Difusor%20Premium.">Consultar</a>
-                <button class="ghost-btn open-modal">Ver más</button>
-              </div>
-            </div>
-          </article>
+          <!-- Los productos se cargarán dinámicamente desde Supabase -->
         </div>
       </div>
     </div>
@@ -535,126 +426,542 @@
   </div>
 </div>
 
+<!-- Modal del Carrito -->
+<div id="cartModal" class="modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>🛒 Tu Carrito</h3>
+      <button class="close-btn" id="closeCartModal" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="cartItems">
+        <!-- Los items del carrito se cargarán dinámicamente -->
+      </div>
+      <div id="cartSummary" style="display: none;">
+        <div class="cart-summary-item">
+          <span>Disponibles:</span>
+          <span id="availableTotal">$0.00</span>
+        </div>
+        <div class="cart-summary-item">
+          <span>Por encargue:</span>
+          <span id="orderTotal">$0.00</span>
+        </div>
+        <div class="cart-summary-item total">
+          <span>Total:</span>
+          <span id="grandTotal">$0.00</span>
+        </div>
+      </div>
+      <div id="cartActions" style="display: none;">
+        <button class="wa-btn" id="checkoutBtn">Realizar Pedido</button>
+        <button class="ghost-btn" id="clearCartBtn">Vaciar Carrito</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const chips=[...document.querySelectorAll('.chip')];
-const cards=[...document.querySelectorAll('.product-card')];
-const searchInput=document.getElementById('searchInput');
-let activeCategory='Todos';
+// Usar la misma configuración que el admin
+const supabaseClient = supabase.createClient(
+  'https://irgwupsgnjvnatqoehyj.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnbmp2bmF0cW9laHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMDc2NDcsImV4cCI6MjA5MzY4MzY0N30.ZA96YiJ7ZTt6EqnnLYGf0IHLLFd8POkZ1Z4HnmpxIl4'
+);
 
-function renderProducts(){
-  const term=searchInput.value.trim().toLowerCase();
-  cards.forEach(card=>{
-    const category=card.dataset.category;
-    const name=card.dataset.name.toLowerCase();
-    const matchCategory=activeCategory==='Todos'||category===activeCategory;
-    const matchTerm=!term||name.includes(term)||category.toLowerCase().includes(term);
-    card.style.display=matchCategory&&matchTerm?'':'none';
+// DOM Elements
+const searchInput = document.getElementById('searchInput');
+const productsGrid = document.getElementById('productsGrid');
+const cartBtn = document.getElementById('cartBtn');
+const cartBtnMobile = document.getElementById('cartBtnMobile');
+const cartCount = document.getElementById('cartCount');
+const cartCountMobile = document.getElementById('cartCountMobile');
+const cartModal = document.getElementById('cartModal');
+const cartItems = document.getElementById('cartItems');
+const cartSummary = document.getElementById('cartSummary');
+const cartActions = document.getElementById('cartActions');
+const closeCartModal = document.getElementById('closeCartModal');
+const checkoutBtn = document.getElementById('checkoutBtn');
+const clearCartBtn = document.getElementById('clearCartBtn');
+
+// Product modal elements
+const modal = document.getElementById('productModal');
+const modalImage = document.getElementById('modalImage');
+const modalTitle = document.getElementById('modalTitle');
+const modalDescription = document.getElementById('modalDescription');
+const modalFeatures = document.getElementById('modalFeatures');
+const modalWhatsapp = document.getElementById('modalWhatsapp');
+const closeModal = document.getElementById('closeModal');
+const closeModalSecondary = document.getElementById('closeModalSecondary');
+
+// State
+let products = [];
+let activeCategory = 'Todos';
+let cartData = null;
+
+// Load categories once and use in both sections
+async function loadCategories() {
+  try {
+    const { data, error } = await supabaseClient
+      .from('categories')
+      .select('*')
+      .order('name');
+    
+    if (error) throw error;
+    
+    // Remove duplicates by name
+    const uniqueCategories = [...new Map(data.map(cat => [cat.name, cat])).values()];
+    
+    // Load badges for top section
+    const categoriesBadges = document.getElementById('categoriesBadges');
+    categoriesBadges.innerHTML = '';
+    
+    uniqueCategories.forEach(category => {
+      const badge = document.createElement('button');
+      badge.className = 'chip';
+      badge.style.cssText = 'text-decoration: none; color: inherit;';
+      badge.textContent = category.name;
+      badge.addEventListener('click', () => {
+        // Set active category filter
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        badge.classList.add('active');
+        activeCategory = category.name;
+        renderProducts();
+        // Scroll to catalog
+        document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+      });
+      categoriesBadges.appendChild(badge);
+    });
+    
+    // Load chips for catalog toolbar
+    const chipsContainer = document.getElementById('chips');
+    chipsContainer.innerHTML = '';
+    
+    // Add "Todos" chip first
+    const todosChip = document.createElement('button');
+    todosChip.className = 'chip active';
+    todosChip.dataset.category = 'Todos';
+    todosChip.textContent = 'Todos';
+    todosChip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      todosChip.classList.add('active');
+      activeCategory = 'Todos';
+      renderProducts();
+    });
+    chipsContainer.appendChild(todosChip);
+    
+    // Add category chips
+    uniqueCategories.forEach(category => {
+      const chip = document.createElement('button');
+      chip.className = 'chip';
+      chip.dataset.category = category.name;
+      chip.textContent = category.name;
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        activeCategory = category.name;
+        renderProducts();
+      });
+      chipsContainer.appendChild(chip);
+    });
+    
+  } catch (error) {
+    console.error('Error loading categories:', error);
+  }
+}
+
+// Initialize app
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadCategories();
+  await loadProducts();
+  await loadCart();
+  setupEventListeners();
+});
+
+// Load products from Supabase - simple como el admin
+async function loadProducts() {
+  try {
+    const { data, error } = await supabaseClient
+      .from('products')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    
+    products = data || [];
+    renderProducts();
+    
+  } catch (error) {
+    console.error('Error loading products:', error);
+    productsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">Error al cargar los productos. Por favor, recarga la página.</div>';
+  }
+}
+
+// Render products
+function renderProducts() {
+  const term = searchInput.value.trim().toLowerCase();
+  const filteredProducts = products.filter(product => {
+    // Ocultar productos "Sin categoría" en la tienda pública
+    if (product.category === 'Sin categoría') return false;
+    
+    const matchCategory = activeCategory === 'Todos' || product.category === activeCategory;
+    const matchTerm = !term || 
+      product.name.toLowerCase().includes(term) || 
+      product.category.toLowerCase().includes(term) ||
+      (product.description && product.description.toLowerCase().includes(term));
+    
+    return matchCategory && matchTerm;
+  });
+
+  productsGrid.innerHTML = '';
+  
+  if (filteredProducts.length === 0) {
+    productsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">No se encontraron productos.</div>';
+    return;
+  }
+
+  filteredProducts.forEach(product => {
+    const productCard = createProductCard(product);
+    productsGrid.appendChild(productCard);
   });
 }
 
-chips.forEach(chip=>{
-  chip.addEventListener('click',()=>{
-    chips.forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    activeCategory=chip.dataset.category;
-    renderProducts();
-  });
-});
+// Create product card
+function createProductCard(product) {
+  const article = document.createElement('article');
+  article.className = 'product-card';
+  article.dataset.category = product.category;
+  article.dataset.name = product.name;
+  article.dataset.image = product.image_url;
+  article.dataset.description = product.description || '';
+  article.dataset.features = JSON.stringify(product.features || []);
+  article.dataset.productId = product.id;
+  article.dataset.status = product.status || 'Por encargue';
 
-searchInput.addEventListener('input',renderProducts);
+  const statusClass = product.status === 'Disponible' ? 'status-disponible' : 
+                     product.status === 'Agotado' ? 'status-agotado' : 'status-encargue';
 
-document.querySelectorAll('[data-filter]').forEach(link=>{
-  link.addEventListener('click',()=>{
-    const category=link.dataset.filter;
-    activeCategory=category;
-    chips.forEach(c=>c.classList.toggle('active',c.dataset.category===category));
-    renderProducts();
-  });
-});
+  article.innerHTML = `
+    <div class="product-media">
+      <img src="${product.image_url || 'https://placehold.co/300x300'}" alt="${product.name}" />
+    </div>
+    <div class="product-body">
+      <div class="product-top">
+        <h3 class="product-title">${product.name}</h3>
+        <span class="product-status ${statusClass}">${product.status || 'Por encargue'}</span>
+      </div>
+      <p>${product.description || 'Sin descripción disponible.'}</p>
+      <div class="status">$${product.price ? product.price.toFixed(2) : '0.00'}</div>
+      <div class="product-actions">
+        ${product.status === 'Disponible' ? 
+          `<button class="soft-btn add-to-cart" data-product-id="${product.id}">Agregar al Carrito</button>` :
+          `<a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=${encodeURIComponent('Hola, quiero consultar por ' + product.name + ' de Aromas Ara.')}">Consultar</a>`
+        }
+        <button class="ghost-btn open-modal">Ver más</button>
+      </div>
+    </div>
+  `;
 
-const track=document.getElementById('carouselTrack');
-const prevBtn=document.getElementById('prevBtn');
-const nextBtn=document.getElementById('nextBtn');
-prevBtn.addEventListener('click',()=>track.scrollBy({left:-340,behavior:'smooth'}));
-nextBtn.addEventListener('click',()=>track.scrollBy({left:340,behavior:'smooth'}));
+  return article;
+}
 
-let autoScroll;
-function startCarousel(){
-  clearInterval(autoScroll);
-  autoScroll=setInterval(()=>{
-    const maxScroll=track.scrollWidth-track.clientWidth;
-    const next=track.scrollLeft+340;
-    if(next>=maxScroll-10){
-      track.scrollTo({left:0,behavior:'smooth'});
-    }else{
-      track.scrollBy({left:340,behavior:'smooth'});
+// Load cart - simplificado
+async function loadCart() {
+  try {
+    // Por ahora deshabilitado para evitar errores
+    cartData = { items: [], totalItems: 0, availableTotal: 0, orderTotal: 0 };
+    updateCartUI();
+  } catch (error) {
+    console.error('Error loading cart:', error);
+  }
+}
+
+// Update cart UI
+function updateCartUI() {
+  const count = cartData.totalItems;
+  
+  // Update cart count badges - verificar que existan
+  if (cartCount) {
+    if (count > 0) {
+      cartCount.textContent = count;
+      cartCount.style.display = 'flex';
+    } else {
+      cartCount.style.display = 'none';
     }
-  },2600);
+  }
+  
+  if (cartCountMobile) {
+    if (count > 0) {
+      cartCountMobile.textContent = count;
+      cartCountMobile.style.display = 'flex';
+    } else {
+      cartCountMobile.style.display = 'none';
+    }
+  }
+
+  // Update cart modal - verificar que existan
+  if (cartItems && cartSummary && cartActions) {
+    if (cartData.items.length === 0) {
+      cartItems.innerHTML = `
+        <div class="empty-cart">
+          <div class="empty-cart-icon">🛒</div>
+          <p>Tu carrito está vacío</p>
+        </div>
+      `;
+      cartSummary.style.display = 'none';
+      cartActions.style.display = 'none';
+    } else {
+      renderCartItems();
+      cartSummary.style.display = 'block';
+      cartActions.style.display = 'flex';
+    }
+  }
 }
-function stopCarousel(){clearInterval(autoScroll)}
-track.addEventListener('mouseenter',stopCarousel);
-track.addEventListener('mouseleave',startCarousel);
-track.addEventListener('touchstart',stopCarousel,{passive:true});
-track.addEventListener('touchend',startCarousel,{passive:true});
-startCarousel();
 
-const menuToggle=document.getElementById('menuToggle');
-const closeMenu=document.getElementById('closeMenu');
-const mobileSheet=document.getElementById('mobileSheet');
-menuToggle.addEventListener('click',()=>mobileSheet.classList.add('active'));
-closeMenu.addEventListener('click',()=>mobileSheet.classList.remove('active'));
-mobileSheet.addEventListener('click',e=>{if(e.target===mobileSheet)mobileSheet.classList.remove('active')});
-mobileSheet.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobileSheet.classList.remove('active')));
+// Render cart items
+function renderCartItems() {
+  cartItems.innerHTML = '';
+  
+  cartData.items.forEach(item => {
+    const cartItem = document.createElement('div');
+    cartItem.className = 'cart-item';
+    
+    const statusClass = item.products.status === 'Disponible' ? 'status-disponible' : 
+                       item.products.status === 'Agotado' ? 'status-agotado' : 'status-encargue';
 
-const floatingWa=document.getElementById('floatingWa');
-const footer=document.querySelector('footer');
-new IntersectionObserver(entries=>{
-  entries.forEach(entry=>floatingWa.classList.toggle('hidden',entry.isIntersecting));
-},{threshold:.15}).observe(footer);
+    cartItem.innerHTML = `
+      <img src="${item.products.image_url || 'https://placehold.co/60x60'}" alt="${item.products.name}" class="cart-item-img">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.products.name}</div>
+        <div class="cart-item-category">${item.products.category}</div>
+        <div class="cart-item-price">$${(item.products.price || 0).toFixed(2)}</div>
+        <div class="product-status ${statusClass}" style="margin-top: 4px;">${item.products.status || 'Por encargue'}</div>
+      </div>
+      <div class="cart-item-quantity">
+        <button class="quantity-btn" onclick="updateCartItemQuantity('${item.id}', ${item.quantity - 1})">-</button>
+        <span>${item.quantity}</span>
+        <button class="quantity-btn" onclick="updateCartItemQuantity('${item.id}', ${item.quantity + 1})">+</button>
+      </div>
+    `;
+    
+    cartItems.appendChild(cartItem);
+  });
 
-const modal=document.getElementById('productModal');
-const modalImage=document.getElementById('modalImage');
-const modalTitle=document.getElementById('modalTitle');
-const modalDescription=document.getElementById('modalDescription');
-const modalFeatures=document.getElementById('modalFeatures');
-const modalWhatsapp=document.getElementById('modalWhatsapp');
-const closeModal=document.getElementById('closeModal');
-const closeModalSecondary=document.getElementById('closeModalSecondary');
+  // Update summary
+  document.getElementById('availableTotal').textContent = `$${cartData.availableTotal.toFixed(2)}`;
+  document.getElementById('orderTotal').textContent = `$${cartData.orderTotal.toFixed(2)}`;
+  document.getElementById('grandTotal').textContent = `$${(cartData.availableTotal + cartData.orderTotal).toFixed(2)}`;
+}
 
-function openModal(card){
-  const name=card.dataset.name;
-  const image=card.dataset.image;
-  const description=card.dataset.description;
-  const features=JSON.parse(card.dataset.features || '[]');
-  modalTitle.textContent=name;
-  modalImage.src=image;
-  modalImage.alt=name;
-  modalDescription.textContent=description;
-  modalFeatures.innerHTML='';
-  features.forEach(item=>{
-    const div=document.createElement('div');
-    div.className='feature';
-    div.textContent=item;
+// Setup event listeners
+function setupEventListeners() {
+  // Category chips - setup dynamically after loading
+  // This is now handled in the loadCategories function
+  
+  // Search functionality
+  if (searchInput) {
+    searchInput.addEventListener('input', renderProducts);
+  }
+
+  // Category filters from carousel
+  const filterLinks = document.querySelectorAll('[data-filter]');
+  if (filterLinks && filterLinks.length > 0) {
+    filterLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const category = link.dataset.filter;
+        activeCategory = category;
+        // Update chip states dynamically
+        document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.category === category));
+        renderProducts();
+      });
+    });
+  }
+
+  // Cart buttons - verificar que existan
+  if (cartBtn && cartModal) {
+    cartBtn.addEventListener('click', () => cartModal.classList.add('open'));
+  }
+  if (cartBtnMobile && cartModal) {
+    cartBtnMobile.addEventListener('click', () => cartModal.classList.add('open'));
+  }
+  if (closeCartModal && cartModal) {
+    closeCartModal.addEventListener('click', () => cartModal.classList.remove('open'));
+  }
+  
+  if (cartModal) {
+    cartModal.addEventListener('click', (e) => {
+      if (e.target === cartModal) cartModal.classList.remove('open');
+    });
+  }
+
+  // Add to cart buttons (event delegation)
+  if (productsGrid) {
+    productsGrid.addEventListener('click', async (e) => {
+      if (e.target.classList.contains('add-to-cart')) {
+        const productId = e.target.dataset.productId;
+        try {
+          // Cart API deshabilitado por ahora
+          // await cartAPI.addItem(productId);
+          // await loadCart();
+          
+          // Show feedback
+          const originalText = e.target.textContent;
+          e.target.textContent = '✓ Agregado';
+          e.target.disabled = true;
+          setTimeout(() => {
+            e.target.textContent = originalText;
+            e.target.disabled = false;
+          }, 1500);
+        } catch (error) {
+          console.error('Error adding to cart:', error);
+          alert('Error al agregar el producto al carrito. Por favor, intenta nuevamente.');
+        }
+      }
+    });
+  }
+
+  // Product modal buttons
+  const modalBtns = document.querySelectorAll('.open-modal');
+  if (modalBtns && modalBtns.length > 0) {
+    modalBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const card = e.currentTarget.closest('.product-card');
+        if (card) openModal(card);
+      });
+    });
+  }
+
+  if (closeModal) closeModal.addEventListener('click', hideModal);
+  if (closeModalSecondary) closeModalSecondary.addEventListener('click', hideModal);
+  if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
+
+  // Checkout button
+  if (checkoutBtn) checkoutBtn.addEventListener('click', handleCheckout);
+
+  // Clear cart button
+  if (clearCartBtn) {
+    clearCartBtn.addEventListener('click', async () => {
+      if (confirm('¿Estás seguro de que quieres vaciar el carrito?')) {
+        try {
+          // await cartAPI.clearCart();
+          await loadCart();
+        } catch (error) {
+          console.error('Error clearing cart:', error);
+          alert('Error al vaciar el carrito. Por favor, intenta nuevamente.');
+        }
+      }
+    });
+  }
+
+  // Mobile menu
+  const menuToggle = document.getElementById('menuToggle');
+  const closeMenu = document.getElementById('closeMenu');
+  const mobileSheet = document.getElementById('mobileSheet');
+  
+  if (menuToggle && mobileSheet) {
+    menuToggle.addEventListener('click', () => mobileSheet.classList.add('active'));
+  }
+  if (closeMenu && mobileSheet) {
+    closeMenu.addEventListener('click', () => mobileSheet.classList.remove('active'));
+  }
+  if (mobileSheet) {
+    mobileSheet.addEventListener('click', e => { 
+      if (e.target === mobileSheet) mobileSheet.classList.remove('active'); 
+    });
+    const mobileLinks = mobileSheet.querySelectorAll('a');
+    if (mobileLinks && mobileLinks.length > 0) {
+      mobileLinks.forEach(a => a.addEventListener('click', () => mobileSheet.classList.remove('active')));
+    }
+  }
+
+  // Floating WhatsApp
+  const floatingWa = document.getElementById('floatingWa');
+  const footer = document.querySelector('footer');
+  if (floatingWa && footer) {
+    new IntersectionObserver(entries => {
+      entries.forEach(entry => floatingWa.classList.toggle('hidden', entry.isIntersecting));
+    }, { threshold: 0.15 }).observe(footer);
+  }
+}
+
+// Update cart item quantity
+window.updateCartItemQuantity = async function(itemId, newQuantity) {
+  if (newQuantity < 1) return;
+  
+  try {
+    await cartAPI.updateQuantity(itemId, newQuantity);
+    await loadCart();
+  } catch (error) {
+    console.error('Error updating cart item:', error);
+    alert('Error al actualizar la cantidad. Por favor, intenta nuevamente.');
+  }
+};
+
+// Handle checkout
+async function handleCheckout() {
+  if (cartData.items.length === 0) return;
+
+  const availableItems = cartData.availableItems;
+  const orderItems = cartData.orderItems;
+
+  let message = 'Hola, quiero realizar un pedido de Aromas Ara:\n\n';
+
+  if (availableItems.length > 0) {
+    message += '📦 Productos disponibles para comprar:\n';
+    availableItems.forEach(item => {
+      message += `• ${item.products.name} (x${item.quantity}) - $${(item.products.price * item.quantity).toFixed(2)}\n`;
+    });
+    message += `\nSubtotal disponibles: $${cartData.availableTotal.toFixed(2)}\n\n`;
+  }
+
+  if (orderItems.length > 0) {
+    message += '🔍 Productos para consultar por encargue:\n';
+    orderItems.forEach(item => {
+      message += `• ${item.products.name} (x${item.quantity})\n`;
+    });
+    message += '\nQuería consultar disponibilidad y precios de estos productos por encargue.\n\n';
+  }
+
+  message += `Total general: $${(cartData.availableTotal + cartData.orderTotal).toFixed(2)}\n\n`;
+  message += '¿Podrían confirmarme el pedido y los tiempos de entrega? ¡Gracias!';
+
+  const whatsappUrl = `https://wa.me/5491153899579?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, '_blank');
+}
+
+// Product modal functions
+function openModal(card) {
+  const name = card.dataset.name;
+  const image = card.dataset.image;
+  const description = card.dataset.description;
+  const features = JSON.parse(card.dataset.features || '[]');
+  const status = card.dataset.status;
+  
+  modalTitle.textContent = name;
+  modalImage.src = image;
+  modalImage.alt = name;
+  modalDescription.textContent = description;
+  modalFeatures.innerHTML = '';
+  
+  features.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'feature';
+    div.textContent = item;
     modalFeatures.appendChild(div);
   });
-  modalWhatsapp.href=`https://wa.me/5491153899579?text=${encodeURIComponent('Hola, quiero consultar por ' + name + ' de Aromas Ara.')}`;
+
+  // Custom WhatsApp message based on product status
+  let whatsappMessage = status === 'Disponible' ? 
+    `Hola, quiero comprar ${name} de Aromas Ara.` :
+    `Hola, quiero consultar por ${name} de Aromas Ara.`;
+  
+  modalWhatsapp.href = `https://wa.me/5491153899579?text=${encodeURIComponent(whatsappMessage)}`;
   modal.classList.add('open');
-  modal.setAttribute('aria-hidden','false');
-}
-function hideModal(){
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden','true');
+  modal.setAttribute('aria-hidden', 'false');
 }
 
-document.querySelectorAll('.open-modal').forEach(btn=>{
-  btn.addEventListener('click',e=>{
-    const card=e.currentTarget.closest('.product-card');
-    openModal(card);
-  });
-});
-closeModal.addEventListener('click',hideModal);
-closeModalSecondary.addEventListener('click',hideModal);
-modal.addEventListener('click',e=>{if(e.target===modal)hideModal()});
+function hideModal() {
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+}
 </script>
 </body>
 </html>
