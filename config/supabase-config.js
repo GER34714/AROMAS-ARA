@@ -1,13 +1,13 @@
-// Configuración de Supabase
-const SUPABASE_CONFIG = {
-  url: 'https://irgwupsgnjvnatqoehyj.supabase.co',
-  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnbmp2bmF0cW9laHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMDc2NDcsImV4cCI6MjA5MzY4MzY0N30.ZA96YiJ7ZTt6EqnnLYGf0IHLLFd8POkZ1Z4HnmpxIl4'
+// Configuración de Supabase - Variables de entorno seguras
+// Vite solo expone variables con prefijo VITE_ al frontend
+const config = {
+  url: import.meta.env.VITE_SUPABASE_URL,
+  anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY
 };
 
-// Para desarrollo local, puedes usar variables de entorno
-const config = {
-  url: import.meta.env?.VITE_SUPABASE_URL || SUPABASE_CONFIG.url,
-  anonKey: import.meta.env?.VITE_SUPABASE_ANON_KEY || SUPABASE_CONFIG.anonKey
-};
+// Validar que las variables existan
+if (!config.url || !config.anonKey) {
+  throw new Error('Faltan variables de entorno de Supabase. Revisa tu archivo .env.local');
+}
 
 export default config;

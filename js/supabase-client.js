@@ -1,7 +1,7 @@
 // Cliente de Supabase para gestión de productos
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://irgwupsgnjvnatqoehyj.supabase.co';
+const supabaseUrl = 'https://irgwupsgnjvnnatqoehyj.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnam52bm5hdHFvZWh5aiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzE1MzU0ODA4LCJleHAiOjIwMzA5MzA4MDh9.5J8o0wu5kL1l2C9JzP5p3NQq3q5q5q5q5q5q5q5q5q5q';
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Supabase Connection</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Test de Conexión a Supabase</h1>
+    <div id="results"></div>
+    
+    <script>
+        const supabase = supabase.createClient(
+            'https://irgwupsgnjvnatqoehyj.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnbmp2bmF0cW9laHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMDc2NDcsImV4cCI6MjA5MzY4MzY0N30.ZA96YiJ7ZTt6EqnnLYGf0IHLLFd8POkZ1Z4HnmpxIl4'
+        );
+        
+        async function testConnection() {
+            const results = document.getElementById('results');
+            
+            try {
+                results.innerHTML = '<p>Conectando a Supabase...</p>';
+                
+                // Test 1: Verificar conexión
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('count')
+                    .limit(1);
+                
+                if (error) {
+                    results.innerHTML = `<p style="color: red;">Error de conexión: ${error.message}</p>`;
+                    return;
+                }
+                
+                // Test 2: Obtener productos
+                const { data: products, error: productsError } = await supabase
+                    .from('products')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+                
+                if (productsError) {
+                    results.innerHTML = `<p style="color: red;">Error al obtener productos: ${productsError.message}</p>`;
+                    return;
+                }
+                
+                results.innerHTML = `
+                    <p style="color: green;">✅ Conexión exitosa</p>
+                    <p><strong>Total de productos encontrados:</strong> ${products.length}</p>
+                    <h3>Productos:</h3>
+                    <ul>
+                        ${products.map(p => `
+                            <li>
+                                <strong>${p.name}</strong> - ${p.category} - $${p.price || 0}
+                                <br><small>ID: ${p.id} | Status: ${p.status || 'Sin estado'}</small>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                
+            } catch (error) {
+                results.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Ejecutar test al cargar la página
+        testConnection();
+    </script>
+</body>
+</html>
