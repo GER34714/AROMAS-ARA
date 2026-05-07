@@ -507,6 +507,31 @@
     .category-stat-label{
       font-size:0.85rem;color:var(--muted);margin-top:2px;
     }
+    
+    /* Categories Section */
+    .categories-section{
+      margin:24px 0;
+    }
+    .categories-section h3{
+      font-size:1.1rem;font-weight:600;margin-bottom:16px;color:var(--text);
+    }
+    .categories-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;
+    }
+    .category-card{
+      background:var(--card);border:1px solid var(--line);border-radius:12px;
+      padding:12px;text-align:center;transition:all 0.3s ease;cursor:pointer;
+    }
+    .category-card:hover{
+      transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--accent);
+    }
+    .category-card-image{
+      width:60px;height:60px;border-radius:8px;object-fit:cover;
+      margin:0 auto 8px;border:1px solid var(--line);
+    }
+    .category-card-name{
+      font-weight:500;color:var(--text);font-size:0.9rem;
+    }
     .empty-categories{
       text-align:center;padding:40px;color:var(--muted);
     }
@@ -607,6 +632,39 @@
     }
     @keyframes spin{
       to{transform:rotate(360deg)}
+    }
+    
+    /* Category Image Upload */
+    .category-image-upload{
+      display:flex;flex-direction:column;gap:8px;
+    }
+    .category-image-preview{
+      width:100px;height:100px;border:2px dashed var(--line);border-radius:12px;
+      display:flex;align-items:center;justify-content:center;cursor:pointer;
+      transition:all 0.3s ease;overflow:hidden;position:relative;
+    }
+    .category-image-preview:hover{
+      border-color:var(--accent);background:var(--bg-soft);
+    }
+    .category-image-preview img{
+      width:100%;height:100%;object-fit:cover;border-radius:10px;
+    }
+    .category-upload-placeholder{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;padding:12px;color:var(--muted);font-size:0.85rem;
+    }
+    .category-upload-placeholder .upload-icon{
+      font-size:24px;margin-bottom:4px;
+    }
+    .upload-button.small{
+      font-size:0.85rem;padding:6px 12px;
+    }
+    .category-item-with-image{
+      display:flex;align-items:center;gap:12px;
+    }
+    .category-item-image{
+      width:40px;height:40px;border-radius:8px;object-fit:cover;
+      border:1px solid var(--line);
     }
     
     /* Responsive */
@@ -729,6 +787,14 @@
         <div class="stat-card">
           <div class="stat-label">Por Encargue</div>
           <div class="stat-value" id="orderProducts">0</div>
+        </div>
+      </div>
+
+      <!-- Categories Grid -->
+      <div class="categories-section" id="categoriesSection">
+        <h3>🏷️ Categorías</h3>
+        <div class="categories-grid" id="categoriesGrid">
+          <!-- Categories will be loaded here -->
         </div>
       </div>
 
@@ -860,6 +926,21 @@
               <label for="categoryNameInput">Nombre de la Categoría</label>
               <input type="text" id="categoryNameInput" required placeholder="Ej: Difusores Premium">
             </div>
+            <div class="form-group">
+              <label for="categoryImageInput">Imagen de la Categoría (opcional)</label>
+              <div class="category-image-upload">
+                <input type="file" id="categoryImageInput" accept="image/*" style="display:none;">
+                <div id="categoryImagePreview" class="category-image-preview">
+                  <div class="category-upload-placeholder">
+                    <span class="upload-icon">📷</span>
+                    <span class="upload-text">Clic para agregar imagen</span>
+                  </div>
+                </div>
+                <button type="button" class="upload-button small" onclick="document.getElementById('categoryImageInput').click()">
+                  Seleccionar Imagen
+                </button>
+              </div>
+            </div>
             <div class="form-actions">
               <button type="button" class="ghost-btn" id="cancelCategoryBtn">Cancelar</button>
               <button type="submit" class="wa-btn" id="saveCategoryBtn">Guardar Categoría</button>
@@ -925,6 +1006,12 @@
     const categoryItemList = document.getElementById('categoryItemList');
     const totalCategoriesCount = document.getElementById('totalCategoriesCount');
     const categoriesWithProducts = document.getElementById('categoriesWithProducts');
+    
+    // Category Image Elements
+    const categoryImageInput = document.getElementById('categoryImageInput');
+    const categoryImagePreview = document.getElementById('categoryImagePreview');
+    const categoriesGrid = document.getElementById('categoriesGrid');
+    const categoriesSection = document.getElementById('categoriesSection');
     
     // These will be initialized inside DOMContentLoaded
     let searchInput, filterCategory, filterStatus, sortBy, clearFiltersBtn, resultsCount;
@@ -1035,6 +1122,22 @@
       categoryForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         await saveCategory();
+      });
+
+      // Category Image Upload
+      categoryImageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            categoryImagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      categoryImagePreview.addEventListener('click', () => {
+        categoryImageInput.click();
       });
 
       // Modal
@@ -1859,7 +1962,13 @@
         <div class="category-item-row" data-category-id="${category.id}" data-index="${index}">
           <div class="category-item-info">
             <span class="category-drag-handle">⋮⋮</span>
-            <span class="category-name-display">${category.name}</span>
+            <div class="category-item-with-image">
+              ${category.image_url ? 
+                `<img src="${category.image_url}" alt="${category.name}" class="category-item-image">` : 
+                `<div class="category-item-image" style="background:var(--bg-soft);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);">📁</div>`
+              }
+              <span class="category-name-display">${category.name}</span>
+            </div>
           </div>
           <div class="category-item-actions">
             <button class="category-action-btn edit" onclick="editCategory('${category.id}', '${category.name}')" title="Editar categoría">✏️</button>
@@ -1978,6 +2087,12 @@
 
     function resetCategoryForm() {
       categoryForm.reset();
+      categoryImagePreview.innerHTML = `
+        <div class="category-upload-placeholder">
+          <span class="upload-icon">📷</span>
+          <span class="upload-text">Clic para agregar imagen</span>
+        </div>
+      `;
       editingCategoryId = null;
       categoryFormTitle.textContent = '➕ Agregar Nueva Categoría';
       saveCategoryBtn.textContent = 'Guardar Categoría';
@@ -1992,11 +2107,42 @@
       }
       
       try {
+        // Handle category image upload
+        let categoryImageUrl = null;
+        const imageFile = categoryImageInput.files[0];
+        if (imageFile) {
+          // Compress image before upload
+          const compressedFile = await compressAndResizeImage(imageFile, 200, 200, 0.8);
+          
+          const fileName = `category_${Date.now()}_${Math.random().toString(36).substr(2, 9)}.jpg`;
+          const filePath = `categories/${fileName}`;
+
+          const { data: uploadData, error: uploadError } = await supabaseClient.storage
+            .from('aromas-ara-images')
+            .upload(filePath, compressedFile, {
+              cacheControl: '3600',
+              upsert: false
+            });
+
+          if (uploadError) throw uploadError;
+
+          const { data: { publicUrl } } = supabaseClient.storage
+            .from('aromas-ara-images')
+            .getPublicUrl(filePath);
+
+          categoryImageUrl = publicUrl;
+        }
+
         if (editingCategoryId) {
           // Update existing category
+          const updateData = { name: categoryName };
+          if (categoryImageUrl) {
+            updateData.image_url = categoryImageUrl;
+          }
+          
           const { error } = await supabaseClient
             .from('categories')
-            .update({ name: categoryName })
+            .update(updateData)
             .eq('id', editingCategoryId);
           
           if (error) throw error;
@@ -2025,12 +2171,18 @@
           }
           
           // Add new category
+          const newCategoryData = { 
+            name: categoryName,
+            sort_order: categories.length + 1
+          };
+          
+          if (categoryImageUrl) {
+            newCategoryData.image_url = categoryImageUrl;
+          }
+          
           const { error } = await supabaseClient
             .from('categories')
-            .insert({ 
-              name: categoryName,
-              sort_order: categories.length + 1
-            });
+            .insert(newCategoryData);
           
           if (error) throw error;
           
@@ -2039,6 +2191,7 @@
         
         await loadCategoriesForManagement();
         await loadCategories(); // Update product form categories
+        await loadCategoriesForDashboard(); // Update dashboard categories
         resetCategoryForm();
         
       } catch (error) {
@@ -2078,20 +2231,56 @@
           .delete()
           .eq('id', id);
         
-        if (error) throw error;
-        
-        notificationManager.success(`Categoría "${name}" eliminada exitosamente`);
-        await loadCategoriesForManagement();
-        await loadCategories(); // Update product form categories
-        
       } catch (error) {
         console.error('Error deleting category:', error);
         notificationManager.error(`Error al eliminar la categoría "${name}"`);
       }
     };
 
-    // Category Functions
+    // Load categories for product form
     async function loadCategories() {
+      try {
+        const { data, error } = await supabaseClient
+          .from('categories')
+          .select('*')
+          .order('sort_order', { ascending: true });
+        
+        if (error) throw error;
+        
+        const categoriesData = data || [];
+        const uniqueCategories = [...new Map(categoriesData.map(cat => [cat.name, cat])).values()];
+        
+        // Update product form category select
+        productCategory.innerHTML = '<option value="">Seleccionar categoría</option>';
+        
+        // Update filter category select
+        filterCategory.innerHTML = '<option value="">Todas las categorías</option>';
+        
+        uniqueCategories.forEach(category => {
+          // Add to product form
+          const option = document.createElement('option');
+          option.value = category.name;
+          option.textContent = category.name;
+          option.dataset.categoryId = category.id;
+          productCategory.appendChild(option);
+          
+          // Add to filter
+          const filterOption = document.createElement('option');
+          filterOption.value = category.name;
+          filterOption.textContent = category.name;
+          filterCategory.appendChild(filterOption);
+        });
+        
+        // Update dropdown after loading categories
+        updateCategoryDropdown();
+        
+      } catch (error) {
+        console.error('Error loading categories:', error);
+      }
+    }
+
+    // Load categories for dashboard
+    async function loadCategoriesForDashboard() {
       try {
         const { data, error } = await supabaseClient
           .from('categories')

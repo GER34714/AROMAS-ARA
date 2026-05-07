@@ -177,6 +177,157 @@
     .cat-card h3{font-size:1rem;line-height:1.15}
     .cat-card p{font-size:.88rem;color:var(--muted);margin-top:8px;line-height:1.5;min-height:40px}
     .cat-card span{display:inline-flex;margin-top:12px;color:#9b7a66;font-weight:700;font-size:.9rem}
+    
+    /* Categories Container */
+    .categories-carousel, .categories-grid{
+      position:relative;padding:0;margin:20px 40px; /* More padding for better centering */
+      overflow: hidden;
+      width: 100%;
+    }
+    .categories-grid-track{
+      display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:40px;
+      justify-items:center;align-items:start;max-width:1200px;margin:0 auto;
+    }
+    .categories-carousel-track{
+      display:flex;flex-direction:row;gap:12px;
+      overflow:hidden;padding-bottom:6px;scrollbar-width:none;
+      cursor:grab;user-select:none;min-width:max-content;
+      width: max-content;
+      animation: scrollCategories 30s linear infinite;
+      animation-play-state: running;
+    }
+    .categories-carousel-track:active{
+      cursor:grabbing;
+    }
+    .categories-carousel-track::-webkit-scrollbar{display:none}
+    .categories-carousel-btn{
+      position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;
+      border:1px solid var(--line);background:rgba(255,253,250,.95);box-shadow:var(--shadow);
+      cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;
+      font-size:18px;color:var(--text);transition:all 0.3s ease;opacity:0;pointer-events:none;
+    }
+    .categories-carousel-btn:hover{
+      background:var(--card);transform:translateY(-50%) scale(1.1);
+    }
+    .categories-carousel-btn.prev{left:0}
+    .categories-carousel-btn.next{right:0}
+    .category-carousel-card{
+      background:var(--card);border:1px solid var(--line);border-radius:16px;
+      overflow:hidden;box-shadow:var(--shadow);scroll-snap-align:start;min-width:0;
+      transition:all 0.3s cubic-bezier(0.4,0,0.2,1);cursor:pointer;
+      width: 180px;
+      flex-shrink: 0;
+    }
+    .categories-grid .category-carousel-card{
+      width:180px;height:220px; /* Larger size for grid mode */
+    }
+    .category-carousel-card:hover{
+      transform:translateY(-6px) scale(1.05);box-shadow:0 12px 30px rgba(102,126,234,0.2);
+      border-color:var(--accent);
+    }
+    .category-carousel-card.selected{
+      border-color:var(--accent);background:linear-gradient(135deg,var(--card),#f0f4ff);
+      transform:translateY(-8px) scale(1.08);box-shadow:0 16px 40px rgba(102,126,234,0.4);
+    }
+    .category-carousel-card.selected .category-body h3{
+      color:var(--accent-dark);font-weight:700;
+    }
+    .category-carousel-card.highlighted{
+      transform:translateY(-8px) scale(1.08);
+      box-shadow:0 16px 40px rgba(102,126,234,0.4);
+      border-color:var(--accent);
+      background:linear-gradient(135deg,var(--card),#f0f4ff);
+    }
+    .category-carousel-card.highlighted .category-body h3{
+      color:var(--accent-dark);font-weight:700;
+    }
+    .categories-carousel .category-carousel-card.carousel-highlighted{
+      transform:translateY(-8px) scale(1.08);
+      box-shadow:0 20px 60px rgba(102,126,234,0.5);
+      border-color:var(--accent);
+      background:linear-gradient(135deg,var(--card),#f0f4ff);
+      z-index:10;
+      position:relative;
+    }
+    .categories-carousel .category-carousel-card.carousel-highlighted .category-body h3{
+      color:var(--accent-dark);font-weight:700;
+    }
+    @keyframes highlightPulse{
+      0%{
+        box-shadow:0 20px 60px rgba(102,126,234,0.5);
+      }
+      50%{
+        box-shadow:0 25px 70px rgba(102,126,234,0.7);
+      }
+      100%{
+        box-shadow:0 20px 60px rgba(102,126,234,0.5);
+      }
+    }
+    .category-carousel-card.highlighted{
+      animation:highlightPulse 2.5s ease-in-out;
+    }
+    @keyframes ripple{
+      to{
+        transform:translate(-50%, -50%) scale(4);
+        opacity:0;
+      }
+    }
+    @keyframes pulse{
+      0%{
+        opacity:0.8;
+      }
+      100%{
+        opacity:0;
+      }
+    }
+    @keyframes scrollCategories{
+      0%{
+        transform: translateX(0);
+      }
+      100%{
+        transform: translateX(-50%);
+      }
+    }
+    @keyframes scrollCategoriesMobile{
+      0%{
+        transform: translateX(0);
+      }
+      100%{
+        transform: translateX(-50%);
+      }
+    }
+    @keyframes scrollCategoriesSmall{
+      0%{
+        transform: translateX(0);
+      }
+      100%{
+        transform: translateX(-50%);
+      }
+    }
+    .category-img-wrap{
+      aspect-ratio:1/1;overflow:hidden;background:var(--bg-soft);
+      width:100%;height:120px;margin:0 auto;border-radius:8px;
+    }
+    .category-img-wrap img{
+      width:100%;height:100%;object-fit:cover;transition:transform 0.3s ease;border-radius:8px;
+    }
+    .category-carousel-card:hover .category-img-wrap img{
+      transform:scale(1.1);
+    }
+    .category-no-image{
+      display:flex;align-items:center;justify-content:center;flex-direction:column;
+      height:100%;background:var(--bg-soft);color:var(--muted);
+    }
+    .category-no-image-icon{
+      font-size:24px;margin-bottom:4px;opacity:0.7;
+    }
+    .category-body{
+      padding:12px;text-align:center;
+    }
+    .category-body h3{
+      font-size:0.85rem;font-weight:600;color:var(--text);line-height:1.2;
+      margin:0;
+    }
 
     .catalog-shell{
       background:rgba(255,253,250,.52);
@@ -217,6 +368,14 @@
     .product-body{padding:16px;position:relative;z-index:2}
     .product-body h3{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.3;transition:color 0.3s ease}
     .product-card:hover .product-body h3{color:var(--accent-dark)}
+    .product-no-image{
+      display:flex;align-items:center;justify-content:center;flex-direction:column;
+      padding:20px;background:linear-gradient(135deg,var(--bg-soft),#f0f4ff);border-radius:12px;
+      min-height:120px;color:var(--muted);font-size:0.9rem;
+    }
+    .no-image-icon{
+      font-size:32px;margin-bottom:8px;opacity:0.7;
+    }
     .product-body p{color:var(--muted);font-size:.9rem;margin-bottom:12px;line-height:1.5}
     .status{font-weight:700;font-size:1rem;color:var(--accent);margin-bottom:12px;padding:6px 14px;background:var(--gradient-2);color:white;border-radius:20px;display:inline-block;font-size:0.85rem}
     .product-actions{display:flex;gap:8px}
@@ -391,6 +550,13 @@
       .products-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .bands,.modal-grid{grid-template-columns:1fr}
       .carousel-track{grid-auto-columns:calc(30% - 10px)}
+      .categories-carousel-track{
+        width: max-content;
+      }
+      .categories-carousel .category-carousel-card{width:160px;height:200px;flex-shrink:0}
+      .categories-carousel .cloned-card{width:160px;height:200px;flex-shrink:0}
+      .categories-carousel .categories-carousel-track{animation: scrollCategories 30s linear infinite}
+      .categories-carousel .category-img-wrap{width:80%;height:80%;border-radius:6px}
     }
     @media (max-width:760px){
       .desktop-nav,.header-actions .wa-btn,.header-actions .ghost-btn{display:none}
@@ -400,6 +566,15 @@
       .carousel-wrap{padding:0 6px}
       .carousel-btn{display:none}
       .carousel-track{grid-auto-columns:52%}
+      .categories-carousel-track{
+        width: max-content;
+      }
+      .categories-carousel .category-carousel-card{width:120px;height:150px;flex-shrink:0}
+      .categories-carousel .cloned-card{width:120px;height:150px;flex-shrink:0}
+      .categories-carousel{padding:10px 20px}
+      .categories-carousel .category-body h3{font-size:0.7rem}
+      .categories-carousel .category-img-wrap{width:75%;height:75%;border-radius:5px}
+      .categories-carousel .categories-carousel-track{animation: scrollCategoriesMobile 40s linear infinite}
       .products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
       .bands{grid-template-columns:1fr}
       .banner-card,.catalog-shell{border-radius:24px}
@@ -415,6 +590,16 @@
       .banner-content h1{font-size:1.9rem;max-width:11ch}
       .banner-content p{font-size:.92rem}
       .carousel-track{grid-auto-columns:40%}
+      .categories-carousel-track{
+        width: max-content;
+      }
+      .categories-carousel .category-carousel-card{width:100px;height:120px;flex-shrink:0}
+      .categories-carousel .cloned-card{width:100px;height:120px;flex-shrink:0}
+      .categories-carousel{padding:8px 15px}
+      .categories-carousel .category-body h3{font-size:0.65rem}
+      .categories-carousel .category-img-wrap{width:70%;height:70%;border-radius:4px}
+      .categories-carousel .category-body{padding:6px}
+      .categories-carousel .categories-carousel-track{animation: scrollCategoriesSmall 50s linear infinite}
       .cat-card .body{padding:11px}
       .cat-card h3{font-size:.9rem}
       .cat-card p{display:none}
@@ -692,46 +877,207 @@ let isUserInteracting = false;
 // Load categories once and use in both sections
 async function loadCategories() {
   try {
+    console.log('🔄 Loading categories...');
+    console.log('📡 Supabase URL:', supabaseClient.supabaseUrl);
+    
     const { data, error } = await supabaseClient
       .from('categories')
       .select('*')
       .order('name');
     
-    if (error) throw error;
+    if (error) {
+      console.error('❌ Supabase error:', error);
+      console.error('❌ Error details:', error.message, error.hint, error.details);
+      throw error;
+    }
     
     // Remove duplicates by name
     const uniqueCategories = [...new Map(data.map(cat => [cat.name, cat])).values()];
+    console.log('Categories loaded:', uniqueCategories.length, uniqueCategories);
     
-    // Load badges for top section
+    // Load category carousel with images for top section
     const categoriesBadges = document.getElementById('categoriesBadges');
+    if (!categoriesBadges) {
+      console.error('categoriesBadges element not found!');
+      return;
+    }
     categoriesBadges.innerHTML = '';
     
+    // Determine display mode based on category count
+    const maxFitCategories = 2; // Maximum categories that fit without carousel
+    const shouldUseCarousel = uniqueCategories.length > maxFitCategories;
+    console.log('=== CATEGORY MODE DETECTION ===');
+    console.log('Categories count:', uniqueCategories.length);
+    console.log('Max fit categories:', maxFitCategories);
+    console.log('Comparison: uniqueCategories.length > maxFitCategories =', uniqueCategories.length, '>', maxFitCategories, '=', shouldUseCarousel);
+    console.log('Using carousel mode:', shouldUseCarousel);
+    console.log('=============================');
+    
+    // Create container based on mode
+    const container = document.createElement('div');
+    container.className = shouldUseCarousel ? 'categories-carousel' : 'categories-grid';
+    
+    if (shouldUseCarousel) {
+      // Carousel mode for many categories
+      container.innerHTML = `
+        <div class="categories-carousel-track" id="categoriesCarouselTrack">
+          <!-- Category cards will be inserted here -->
+        </div>
+        <button class="categories-carousel-btn prev" id="categoriesCarouselPrev">‹</button>
+        <button class="categories-carousel-btn next" id="categoriesCarouselNext">›</button>
+      `;
+    } else {
+      // Grid mode for few categories
+      container.innerHTML = `
+        <div class="categories-grid-track" id="categoriesGridTrack">
+          <!-- Category cards will be inserted here -->
+        </div>
+      `;
+    }
+    
+    categoriesBadges.appendChild(container);
+    
+    // Store mode for later use
+    categoriesBadges.dataset.useCarousel = shouldUseCarousel;
+    
+    // Get appropriate track based on mode
+    let track;
+    if (shouldUseCarousel) {
+      track = document.getElementById('categoriesCarouselTrack');
+    } else {
+      track = document.getElementById('categoriesGridTrack');
+    }
+    
+    if (!track) {
+      console.error('Track element not found! Mode:', shouldUseCarousel ? 'carousel' : 'grid');
+      return;
+    }
+    
+    console.log('Track found:', track);
+    
     uniqueCategories.forEach(category => {
-      const badge = document.createElement('button');
-      badge.className = 'chip';
-      badge.style.cssText = 'text-decoration: none; color: inherit;';
-      badge.textContent = category.name;
-      badge.addEventListener('click', () => {
+      const categoryCard = document.createElement('div');
+      categoryCard.className = 'category-carousel-card';
+      categoryCard.style.cursor = 'pointer';
+      categoryCard.dataset.category = category.name;
+      
+      categoryCard.innerHTML = `
+        <div class="category-img-wrap">
+          ${category.image_url ? 
+            `<img src="${category.image_url}" alt="${category.name}" />` : 
+            `<div class="category-no-image">
+              <div class="category-no-image-icon">🏷️</div>
+              <span>Sin imagen</span>
+            </div>`
+          }
+        </div>
+        <div class="category-body">
+          <h3>${category.name}</h3>
+        </div>
+      `;
+      
+      // Add haptic feedback and visual states
+      categoryCard.addEventListener('mouseenter', () => {
+        categoryCard.style.transform = 'translateY(-8px) scale(1.08)';
+        categoryCard.style.boxShadow = '0 16px 40px rgba(102,126,234,0.3)';
+      });
+      
+      categoryCard.addEventListener('mouseleave', () => {
+        if (!categoryCard.classList.contains('selected')) {
+          categoryCard.style.transform = '';
+          categoryCard.style.boxShadow = '';
+        }
+      });
+      
+      // Enhanced touch feedback for mobile
+      categoryCard.addEventListener('touchstart', (e) => {
+        // Haptic feedback if available
+        if (navigator.vibrate) {
+          navigator.vibrate(50);
+        }
+        
+        categoryCard.style.transform = 'translateY(-8px) scale(0.95)';
+        categoryCard.style.transition = 'transform 0.1s ease';
+        
+        // Add visual pulse effect
+        const pulse = document.createElement('div');
+        pulse.style.cssText = `
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(102,126,234,0.1);
+          border-radius: 16px;
+          animation: pulse 0.3s ease-out;
+          pointer-events: none;
+        `;
+        categoryCard.appendChild(pulse);
+        setTimeout(() => pulse.remove(), 300);
+      });
+      
+      categoryCard.addEventListener('touchend', () => {
+        categoryCard.style.transition = 'transform 0.3s cubic-bezier(0.4,0,0.2,1)';
+        if (!categoryCard.classList.contains('selected')) {
+          categoryCard.style.transform = '';
+        }
+      });
+      
+      categoryCard.addEventListener('click', () => {
+        // Remove previous selection
+        document.querySelectorAll('.category-carousel-card').forEach(card => {
+          card.classList.remove('selected');
+          card.style.transform = '';
+          card.style.boxShadow = '';
+        });
+        
+        // Add selection to clicked card
+        categoryCard.classList.add('selected');
+        categoryCard.style.transform = 'translateY(-8px) scale(1.08)';
+        categoryCard.style.boxShadow = '0 16px 40px rgba(102,126,234,0.4)';
+        
+        // Visual feedback - ripple effect
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 20px;
+          height: 20px;
+          background: rgba(102,126,234,0.3);
+          border-radius: 50%;
+          transform: translate(-50%, -50%) scale(0);
+          animation: ripple 0.6s ease-out;
+          pointer-events: none;
+        `;
+        categoryCard.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+        
         // User is interacting, pause rotation
         isUserInteracting = true;
-        stopCategoryRotation();
+        stopAutoCarouselRotation();
         
         // Set active category filter
         document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        badge.classList.add('active');
         activeCategory = category.name;
         renderProducts();
         // Scroll to catalog
         document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
         
+        // Update chip states in catalog toolbar
+        const catalogChips = document.querySelectorAll('#chips .chip');
+        catalogChips.forEach(chip => {
+          chip.classList.toggle('active', chip.dataset.category === category.name);
+        });
+        
         // Resume rotation after 10 seconds of no interaction
         setTimeout(() => {
           isUserInteracting = false;
-          startCategoryRotation();
+          startAutoCarouselRotation();
         }, 10000);
       });
-      categoriesBadges.appendChild(badge);
+      track.appendChild(categoryCard);
     });
+    
+    // Initialize carousel
+    initializeCategoriesCarousel();
     
     // Load chips for catalog toolbar
     const chipsContainer = document.getElementById('chips');
@@ -826,17 +1172,235 @@ function stopCategoryRotation() {
   }
 }
 
+// Initialize categories display (carousel or grid)
+function initializeCategoriesCarousel() {
+  const categoriesBadges = document.getElementById('categoriesBadges');
+  const useCarousel = categoriesBadges.dataset.useCarousel === 'true';
+  
+  console.log('=== INITIALIZING CAROUSEL ===');
+  console.log('categoriesBadges.dataset.useCarousel:', categoriesBadges.dataset.useCarousel);
+  console.log('useCarousel (parsed):', useCarousel);
+  console.log('============================');
+  
+  if (useCarousel) {
+    // Initialize carousel mode
+    const track = document.getElementById('categoriesCarouselTrack');
+    const prevBtn = document.getElementById('categoriesCarouselPrev');
+    const nextBtn = document.getElementById('categoriesCarouselNext');
+    
+    if (!track || !prevBtn || !nextBtn) return;
+    
+    // Hide buttons initially
+    prevBtn.style.opacity = '0';
+    prevBtn.style.pointerEvents = 'none';
+    nextBtn.style.opacity = '0';
+    nextBtn.style.pointerEvents = 'none';
+    
+    // Show/hide buttons on interaction
+    const showButtons = () => {
+      prevBtn.style.opacity = '1';
+      prevBtn.style.pointerEvents = 'auto';
+      nextBtn.style.opacity = '1';
+      nextBtn.style.pointerEvents = 'auto';
+      
+      // Hide buttons after 3 seconds of no interaction
+      clearTimeout(window.carouselButtonsTimeout);
+      window.carouselButtonsTimeout = setTimeout(() => {
+        prevBtn.style.opacity = '0';
+        prevBtn.style.pointerEvents = 'none';
+        nextBtn.style.opacity = '0';
+        nextBtn.style.pointerEvents = 'none';
+      }, 3000);
+    };
+    
+    // Carousel navigation
+    prevBtn.addEventListener('click', () => {
+      track.scrollBy({ left: -136, behavior: 'smooth' });
+      showButtons();
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      track.scrollBy({ left: 136, behavior: 'smooth' });
+      showButtons();
+    });
+    
+    // Touch/swipe support
+    let startX = 0;
+    let scrollLeft = 0;
+    let isDown = false;
+    
+    track.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - track.offsetLeft;
+      scrollLeft = track.scrollLeft;
+      showButtons();
+    });
+    
+    track.addEventListener('mouseleave', () => {
+      isDown = false;
+    });
+    
+    track.addEventListener('mouseup', () => {
+      isDown = false;
+    });
+    
+    track.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - track.offsetLeft;
+      const walk = (x - startX) * 2;
+      track.scrollLeft = scrollLeft - walk;
+    });
+    
+    // Touch events for mobile
+    track.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].pageX - track.offsetLeft;
+      scrollLeft = track.scrollLeft;
+      showButtons();
+    });
+    
+    track.addEventListener('touchmove', (e) => {
+      const x = e.touches[0].pageX - track.offsetLeft;
+      const walk = (x - startX) * 2;
+      track.scrollLeft = scrollLeft - walk;
+    });
+    
+    // Show buttons on hover
+    track.addEventListener('mouseenter', () => {
+      isUserInteracting = true;
+      stopAutoCarouselRotation();
+      showButtons();
+    });
+    
+    track.addEventListener('mouseleave', () => {
+      setTimeout(() => {
+        isUserInteracting = false;
+        startAutoCarouselRotation();
+      }, 3000);
+    });
+    
+  } else {
+    // Grid mode - no carousel functionality needed
+    // Just add hover effects and basic interactions
+    const gridTrack = document.getElementById('categoriesGridTrack');
+    if (gridTrack) {
+      gridTrack.addEventListener('mouseenter', () => {
+        isUserInteracting = true;
+      });
+      
+      gridTrack.addEventListener('mouseleave', () => {
+        setTimeout(() => {
+          isUserInteracting = false;
+        }, 3000);
+      });
+    }
+  }
+}
+
+// Auto rotation for categories carousel
+let autoCarouselInterval = null;
+
+function startAutoCarouselRotation() {
+  if (autoCarouselInterval) {
+    clearInterval(autoCarouselInterval);
+  }
+  
+  const categoriesBadges = document.getElementById('categoriesBadges');
+  const useCarousel = categoriesBadges?.dataset.useCarousel === 'true';
+  
+  console.log('Starting rotation - Mode:', useCarousel ? 'carousel' : 'grid');
+  
+  if (useCarousel) {
+    // Carousel mode: CSS animation for continuous movement
+    const track = document.getElementById('categoriesCarouselTrack');
+    if (track) {
+      // Clone cards for seamless loop
+      const cards = track.querySelectorAll('.category-carousel-card');
+      const cardCount = cards.length;
+      
+      // Create seamless loop by duplicating cards
+      if (cardCount > 0 && !track.dataset.cloned) {
+        cards.forEach(card => {
+          const clone = card.cloneNode(true);
+          clone.classList.remove('carousel-highlighted');
+          clone.classList.add('cloned-card');
+          track.appendChild(clone);
+        });
+        track.dataset.cloned = 'true';
+      }
+      
+      // Add CSS animation for continuous scrolling
+      track.style.animation = 'scrollCategories 30s linear infinite';
+      track.style.animationPlayState = isUserInteracting ? 'paused' : 'running';
+      
+      // Pause on hover
+      track.addEventListener('mouseenter', () => {
+        track.style.animationPlayState = 'paused';
+        isUserInteracting = true;
+      });
+      
+      track.addEventListener('mouseleave', () => {
+        setTimeout(() => {
+          isUserInteracting = false;
+          track.style.animationPlayState = 'running';
+        }, 1000);
+      });
+      
+      console.log('CSS animation carousel started');
+    }
+  } else {
+    // Grid mode: highlight rotation
+    const gridTrack = document.getElementById('categoriesGridTrack');
+    if (gridTrack) {
+      const cards = gridTrack.querySelectorAll('.category-carousel-card');
+      console.log('Grid mode - cards found:', cards.length);
+      
+      if (cards.length > 0) {
+        // Remove previous highlight
+        cards.forEach(card => card.classList.remove('highlighted'));
+        
+        // Find current highlighted index
+        let currentIndex = -1;
+        cards.forEach((card, index) => {
+          if (card.classList.contains('highlighted')) {
+            currentIndex = index;
+          }
+        });
+        
+        // If no card is highlighted, start with first one
+        if (currentIndex === -1) {
+          currentIndex = -1; // Will become 0 after +1
+        }
+        
+        // Move to next card
+        const nextIndex = (currentIndex + 1) % cards.length;
+        console.log('Highlighting card:', nextIndex);
+        cards[nextIndex].classList.add('highlighted');
+      }
+    }
+  }
+}
+
+function stopAutoCarouselRotation() {
+  if (autoCarouselInterval) {
+    clearInterval(autoCarouselInterval);
+    autoCarouselInterval = null;
+  }
+}
+
 // Initialize app
 document.addEventListener('DOMContentLoaded', async () => {
+  console.log('DOM Content Loaded - Initializing app...');
   await loadCategories();
   await loadProducts();
   await loadCart();
   setupEventListeners();
   
-  // Start rotation after a short delay to let everything load
+  // Start auto carousel rotation after a short delay
   setTimeout(() => {
-    startCategoryRotation();
-  }, 1000);
+    console.log('Starting auto rotation...');
+    startAutoCarouselRotation();
+  }, 150);
 });
 
 // Load products from Supabase - simple como el admin
@@ -904,7 +1468,13 @@ function createProductCard(product) {
 
   article.innerHTML = `
     <div class="product-media">
-      <img src="${product.image_url || 'https://placehold.co/300x300'}" alt="${product.name}" />
+      ${product.image_url ? 
+        `<img src="${product.image_url}" alt="${product.name}" />` : 
+        `<div class="product-no-image">
+          <div class="no-image-icon">📷</div>
+          <span>Sin imagen</span>
+        </div>`
+      }
     </div>
     <div class="product-body">
       <div class="product-top">
@@ -1222,49 +1792,9 @@ function setupEventListeners() {
 }
 
 // Update cart item quantity
-window.updateCartItemQuantity = async function(itemId, newQuantity) {
-  if (newQuantity < 1) return;
-  
-  try {
-    await cartAPI.updateQuantity(itemId, newQuantity);
-    await loadCart();
-  } catch (error) {
-    console.error('Error updating cart item:', error);
-    alert('Error al actualizar la cantidad. Por favor, intenta nuevamente.');
-  }
+window.updateCartItemQuantity = function(itemId, newQuantity) {
+  updateCartItemQuantity(itemId, newQuantity);
 };
-
-// Handle checkout
-async function handleCheckout() {
-  if (cartData.items.length === 0) return;
-
-  const availableItems = cartData.availableItems;
-  const orderItems = cartData.orderItems;
-
-  let message = 'Hola, quiero realizar un pedido de Aromas Ara:\n\n';
-
-  if (availableItems.length > 0) {
-    message += '📦 Productos disponibles para comprar:\n';
-    availableItems.forEach(item => {
-      message += `• ${item.products.name} (x${item.quantity}) - $${(item.products.price * item.quantity).toFixed(2)}\n`;
-    });
-    message += `\nSubtotal disponibles: $${cartData.availableTotal.toFixed(2)}\n\n`;
-  }
-
-  if (orderItems.length > 0) {
-    message += '🔍 Productos para consultar por encargue:\n';
-    orderItems.forEach(item => {
-      message += `• ${item.products.name} (x${item.quantity})\n`;
-    });
-    message += '\nQuería consultar disponibilidad y precios de estos productos por encargue.\n\n';
-  }
-
-  message += `Total general: $${(cartData.availableTotal + cartData.orderTotal).toFixed(2)}\n\n`;
-  message += '¿Podrían confirmarme el pedido y los tiempos de entrega? ¡Gracias!';
-
-  const whatsappUrl = `https://wa.me/5491153899579?text=${encodeURIComponent(message)}`;
-  window.open(whatsappUrl, '_blank');
-}
 
 // Product modal functions
 function openModal(card) {
