@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panel Admin - Aromas Ara</title>
-  <script type="module" src="js/supabase-client.js"></script>
+  <script type="module" src="/js/supabase-client.js"></script>
   <style>
     :root{
       --bg:#fbf8f5;
@@ -250,7 +250,7 @@
 
   <script type="module">
     // Importar el cliente de Supabase
-    import supabase from './js/supabase-client.js';
+    import supabase from '/js/supabase-client.js';
 
     // Variables globales
     let products = [];
@@ -408,7 +408,7 @@
         const imageFile = productImageFile.files[0];
         if (imageFile) {
           try {
-            const { storageAPI } = await import('./js/supabase-client.js');
+            const { storageAPI } = await import('/js/supabase-client.js');
             const uploadResult = await storageAPI.uploadImage(imageFile, 'products', true);
             imageUrl = uploadResult.url;
           } catch (error) {
