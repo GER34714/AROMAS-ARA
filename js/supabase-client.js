@@ -1,16 +1,17 @@
 // Cliente de Supabase para gestión de productos
-import { createClient } from '@supabase/supabase-js';
+const { createClient } = window.supabase;
 
-import config from '../config/supabase-config.js';
+const supabaseUrl = 'https://irgwupsgnjvnnatqoehyj.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnam52bm5hdHFvZWh5aiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzE1MzU0ODA4LCJleHAiOjIwMzA5MzA4MDh9.5J8o0wu5kL1l2C9JzP5p3NQq3q5q5q5q5q5q5q5q5q5q';
 
-const supabase = createClient(config.url, config.anonKey);
+const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
 // API para productos
-export const productsAPI = {
+const productsAPI = {
   // Obtener todos los productos
   async getAll() {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('products')
         .select('*')
         .order('created_at', { ascending: false });
@@ -26,7 +27,7 @@ export const productsAPI = {
   // Obtener producto por ID
   async getById(id) {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('products')
         .select('*')
         .eq('id', id)
@@ -43,7 +44,7 @@ export const productsAPI = {
   // Crear nuevo producto
   async create(product) {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('products')
         .insert([product])
         .select();
@@ -59,7 +60,7 @@ export const productsAPI = {
   // Actualizar producto
   async update(id, updates) {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('products')
         .update(updates)
         .eq('id', id)
@@ -76,7 +77,7 @@ export const productsAPI = {
   // Eliminar producto
   async delete(id) {
     try {
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from('products')
         .delete()
         .eq('id', id);
@@ -92,7 +93,7 @@ export const productsAPI = {
   // Obtener productos por categoría
   async getByCategory(category) {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('products')
         .select('*')
         .eq('category', category)
@@ -108,11 +109,11 @@ export const productsAPI = {
 };
 
 // API para categorías
-export const categoriesAPI = {
+const categoriesAPI = {
   // Obtener todas las categorías
   async getAll() {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('categories')
         .select('*')
         .order('name');
@@ -127,7 +128,7 @@ export const categoriesAPI = {
 };
 
 // API para storage de imágenes
-export const storageAPI = {
+const storageAPI = {
   // Subir imagen
   async uploadImage(file, folder = 'products', compress = true) {
     try {
@@ -151,13 +152,13 @@ export const storageAPI = {
       }
 
       // Para producción, subir a Supabase Storage
-      const { data, error } = await supabase.storage
+      const { data, error } = await supabaseClient.storage
         .from('aromas-ara-images')
         .upload(filePath, file);
 
       if (error) throw error;
 
-      const { data: publicUrl } = supabase.storage
+      const { data: publicUrl } = supabaseClient.storage
         .from('aromas-ara-images')
         .getPublicUrl(filePath);
 
@@ -172,5 +173,8 @@ export const storageAPI = {
   }
 };
 
-export { supabase };
-export default supabase;
+// Make APIs globally available
+window.supabaseClient = supabaseClient;
+window.productsAPI = productsAPI;
+window.categoriesAPI = categoriesAPI;
+window.storageAPI = storageAPI;
