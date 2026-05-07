@@ -10,14 +10,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
+          # cache: 'npm'  ← SACAR ESTA LÍNEA
       
       - name: Verify files exist
         run: |
           echo "Checking if package.json exists..."
           ls -la
           echo "Current directory: $(pwd)"
-          echo "Files in root:"
           find . -maxdepth 1 -name "*.json" -o -name "*.html" -o -name "*.js"
       
       - name: Install dependencies
@@ -29,8 +28,6 @@ jobs:
       - name: Verify build
         run: |
           echo "Checking dist folder..."
-          ls -la dist/
-          echo "Checking if files exist in dist..."
           ls -la dist/ || echo "dist folder not found"
       
       - uses: peaceiris/actions-gh-pages@v3
