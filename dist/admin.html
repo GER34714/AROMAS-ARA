@@ -476,7 +476,7 @@
     const imagePreview = document.getElementById('imagePreview');
     const compressionInfo = document.getElementById('compressionInfo');
     const compressionStatus = document.getElementById('compressionStatus');
-    const productsTable = document.getElementById('productsTable');
+    const productsTable = document.getElementById('productsTableBody');
     const refreshBtn = document.getElementById('refreshBtn');
     const addCategoryBtn = document.getElementById('addCategoryBtn');
     const dropZone = document.getElementById('dropZone');
@@ -867,8 +867,7 @@
     }
 
     function renderProducts() {
-      const tbody = productsTable.querySelector('tbody');
-      tbody.innerHTML = '';
+      productsTable.innerHTML = '';
 
       products.forEach(product => {
         const tr = document.createElement('tr');
@@ -901,7 +900,7 @@
             </div>
           </td>
         `;
-        tbody.appendChild(tr);
+        productsTable.appendChild(tr);
       });
     }
 
