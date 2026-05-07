@@ -1,11 +1,11 @@
 // Cliente de Supabase para gestión de productos
 import { createClient } from '@supabase/supabase-js';
-const supabase = { createClient };
 
 const supabaseUrl = 'https://irgwupsgnjvnatqoehyj.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnam52bm5hdHFvZWh5aiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzE1MzU0ODA4LCJleHAiOjIwMzA5MzA4MDh9.5J8o0wu5kL1l2C9JzP5p3NQq3q5q5q5q5q5q5q5q5q5q';
 
-const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabaseClient = supabase;
 
 // API para productos
 const productsAPI = {
@@ -181,4 +181,5 @@ window.categoriesAPI = categoriesAPI;
 window.storageAPI = storageAPI;
 
 // Named exports
-export { supabase, supabaseClient, productsAPI, storageAPI };
+export { supabase, supabaseClient, productsAPI, categoriesAPI, storageAPI };
+export default supabase;
