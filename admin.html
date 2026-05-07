@@ -99,71 +99,6 @@
     .btn-edit:hover{background:var(--card)}
     .btn-delete:hover{background:#ff3838}
 
-    /* Image Management Styles */
-    .image-preview{
-      display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
-      gap:12px;margin-top:16px;min-height:140px;
-    }
-    .preview-item{
-      position:relative;border:2px solid var(--line);border-radius:12px;
-      overflow:hidden;background:var(--bg-soft);aspect-ratio:1;
-      cursor:move;transition:all 0.3s ease;
-    }
-    .preview-item.dragging{
-      opacity:0.5;transform:scale(0.95);border-color:var(--accent);
-    }
-    .preview-item.drag-over{
-      border-color:var(--accent);background:var(--card);
-    }
-    .preview-item img{
-      width:100%;height:100%;object-fit:cover;
-    }
-    .preview-item .remove-btn{
-      position:absolute;top:4px;right:4px;width:24px;height:24px;
-      border-radius:50%;background:rgba(255,71,87,0.9);color:white;
-      border:none;cursor:pointer;display:flex;align-items:center;
-      justify-content:center;font-size:12px;transition:all 0.2s ease;
-      z-index:2;
-    }
-    .preview-item .remove-btn:hover{
-      background:#ff3838;transform:scale(1.1);
-    }
-    .preview-item .image-badge{
-      position:absolute;top:4px;left:4px;background:var(--accent);
-      color:white;padding:2px 6px;border-radius:6px;font-size:10px;
-      font-weight:600;z-index:2;
-    }
-    .preview-item.primary .image-badge{
-      background:#25D366;
-    }
-    .drop-zone{
-      border:3px dashed var(--accent);background:var(--bg-soft);
-      border-radius:12px;padding:32px;text-align:center;
-      transition:all 0.3s ease;position:relative;
-    }
-    .drop-zone.drag-over{
-      background:var(--card);border-color:var(--accent);
-      transform:scale(1.02);
-    }
-    .drop-zone .drop-icon{
-      font-size:48px;margin-bottom:12px;opacity:0.6;
-    }
-    .image-gallery{
-      display:flex;gap:8px;align-items:center;flex-wrap:wrap;
-    }
-    .gallery-thumbnail{
-      width:40px;height:40px;border-radius:6px;object-fit:cover;
-      border:2px solid var(--line);cursor:pointer;transition:all 0.2s ease;
-    }
-    .gallery-thumbnail:hover{
-      border-color:var(--accent);transform:scale(1.1);
-    }
-    .gallery-more{
-      width:40px;height:40px;border-radius:6px;background:var(--bg-soft);
-      border:2px solid var(--line);display:flex;align-items:center;
-      justify-content:center;font-size:11px;font-weight:600;color:var(--muted);
-    }
-
     /* Modal */
     .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(38,24,18,.52);backdrop-filter:blur(8px)}
     .modal.open{display:flex}
@@ -424,17 +359,13 @@
         <div class="form-grid full">
           <div class="form-group">
             <label>Imágenes del Producto</label>
-            <div id="dropZone" class="drop-zone">
+            <div style="border:2px dashed var(--line);border-radius:12px;padding:20px;text-align:center;background:var(--bg-soft);">
               <input type="file" id="productImages" multiple accept="image/*" style="display:none;">
-              <div class="drop-icon">📸</div>
               <button type="button" class="ghost-btn" onclick="document.getElementById('productImages').click()">
                 📷 Seleccionar Imágenes
               </button>
               <p style="margin-top:8px;color:var(--muted);font-size:0.9rem;">
-                Arrastrá imágenes aquí o hacé clic para seleccionar. La primera será la principal.
-              </p>
-              <p style="margin-top:4px;color:var(--muted);font-size:0.85rem;">
-                💡 Podés reordenar las imágenes arrastrándolas. La primera será la imagen principal del producto.
+                Podés seleccionar múltiples imágenes. La primera será la principal. Todas se comprimirán automáticamente.
               </p>
               <div id="imagePreview" class="image-preview" style="display:none;"></div>
               <div id="compressionInfo" style="margin-top:8px;font-size:0.85rem;color:var(--muted);display:none;">
@@ -467,19 +398,19 @@
     const closeModal = document.getElementById('closeModal');
     const cancelBtn = document.getElementById('cancelBtn');
     const productForm = document.getElementById('productForm');
-    const productName = document.getElementById('productName');
+    const productsTableBody = document.getElementById('productsTableBody');
+    const totalProducts = document.getElementById('totalProducts');
+    const availableProducts = document.getElementById('availableProducts');
+    const orderProducts = document.getElementById('orderProducts');
     const productCategory = document.getElementById('productCategory');
-    const productDescription = document.getElementById('productDescription');
-    const productPrice = document.getElementById('productPrice');
-    const productStatus = document.getElementById('productStatus');
+    const addCategoryBtn = document.getElementById('addCategoryBtn');
     const productImages = document.getElementById('productImages');
     const imagePreview = document.getElementById('imagePreview');
     const compressionInfo = document.getElementById('compressionInfo');
     const compressionStatus = document.getElementById('compressionStatus');
-    const productsTable = document.getElementById('productsTable');
     const refreshBtn = document.getElementById('refreshBtn');
-    const addCategoryBtn = document.getElementById('addCategoryBtn');
-    const dropZone = document.getElementById('dropZone');
+    const categoryDisplay = document.getElementById('categoryDisplay');
+    const selectedCategoryText = document.getElementById('selectedCategoryText');
 
     // State
     let products = [];
@@ -489,18 +420,16 @@
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
-      // Setup drag and drop
-      setupDragAndDrop();
-      
       // Login
-      loginForm.addEventListener('submit', async (e) => {
+      loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const password = document.getElementById('password').value;
         if (password === 'admin123') {
           loginContainer.style.display = 'none';
           adminContainer.classList.add('active');
-          await loadProducts();
-          await loadCategories();
+          loadProducts();
+          loadCategories();
+          setupCategoryDropdown();
         } else {
           alert('Contraseña incorrecta');
         }
@@ -508,11 +437,12 @@
 
       // Logout
       logoutBtn.addEventListener('click', () => {
-        loginContainer.style.display = 'flex';
         adminContainer.classList.remove('active');
+        loginContainer.style.display = 'flex';
+        loginForm.reset();
       });
 
-      // Modal
+      // Product Modal
       addProductBtn.addEventListener('click', () => {
         editingProductId = null;
         document.getElementById('modalTitle').textContent = 'Agregar Producto';
@@ -521,71 +451,52 @@
         productModal.classList.add('open');
       });
 
-      closeModal.addEventListener('click', () => {
-        productModal.classList.remove('open');
-      });
+      closeModal.addEventListener('click', () => productModal.classList.remove('open'));
+      cancelBtn.addEventListener('click', () => productModal.classList.remove('open'));
 
-      cancelBtn.addEventListener('click', () => {
-        productModal.classList.remove('open');
-      });
-
+      // Close modal on outside click
       productModal.addEventListener('click', (e) => {
         if (e.target === productModal) {
           productModal.classList.remove('open');
         }
       });
 
-      // Form Submit
+      // Product Form
       productForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        const productData = {
-          name: productName.value,
-          category: productCategory.value,
-          description: productDescription.value,
-          price: parseFloat(productPrice.value) || 0,
-          status: productStatus.value,
-          features: []
-        };
-        
-        if (editingProductId) {
-          await supabaseClient.from('products').update(productData).eq('id', editingProductId);
-        } else {
-          await supabaseClient.from('products').insert(productData);
-        }
-        
-        // Upload images
-        if (uploadedImages.length > 0) {
-          const imageUrls = [];
-          for (let i = 0; i < uploadedImages.length; i++) {
-            const file = uploadedImages[i];
-            const fileName = `${Date.now()}_${i}.jpg`;
-            const { data, error } = await supabaseClient.storage
-              .from('aromas-ara-images')
-              .upload(fileName, file);
-            
-            if (!error) {
-              const { data: { publicUrl } } = supabaseClient.storage
-                .from('aromas-ara-images')
-                .getPublicUrl(fileName);
-              
-              imageUrls.push(publicUrl);
-            }
+        try {
+          let finalImages = [...currentProductImages];
+          
+          // If new images uploaded, upload them to Supabase Storage
+          if (uploadedImages.length > 0) {
+            const uploadResults = await uploadMultipleImages(uploadedImages);
+            finalImages = uploadResults;
           }
           
-          // Update product with images array
-          const productId = editingProductId || data[0]?.id;
-          if (imageUrls.length > 0) {
-            await supabaseClient.from('products').update({ 
-              image_url: imageUrls[0], // First image as main
-              images: imageUrls // All images
-            }).eq('id', productId);
+          const productData = {
+            name: document.getElementById('productName').value,
+            category: document.getElementById('productCategory').value,
+            description: document.getElementById('productDescription').value,
+            price: parseFloat(document.getElementById('productPrice').value) || 0,
+            status: document.getElementById('productStatus').value,
+            image_url: finalImages.length > 0 ? finalImages[0] : `https://picsum.photos/300/300?random=${Math.random()}`,
+            images: finalImages,
+            features: []
+          };
+          
+          if (editingProductId) {
+            await supabaseClient.from('products').update(productData).eq('id', editingProductId);
+          } else {
+            await supabaseClient.from('products').insert(productData);
           }
+          
+          productModal.classList.remove('open');
+          await loadProducts();
+          alert('Producto guardado exitosamente');
+        } catch (error) {
+          console.error('Error saving product:', error);
+          alert('Error al guardar el producto.');
         }
-        
-        await loadProducts();
-        productModal.classList.remove('open');
-        alert(editingProductId ? 'Producto actualizado' : 'Producto agregado');
       });
 
       // Image Upload
@@ -641,51 +552,6 @@
       });
     });
 
-    // Drag and Drop Functions
-    function setupDragAndDrop() {
-      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, preventDefaults, false);
-        document.body.addEventListener(eventName, preventDefaults, false);
-      });
-
-      ['dragenter', 'dragover'].forEach(eventName => {
-        dropZone.addEventListener(eventName, highlight, false);
-      });
-
-      ['dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, unhighlight, false);
-      });
-
-      dropZone.addEventListener('drop', handleDrop, false);
-    }
-
-    function preventDefaults(e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-    function highlight(e) {
-      dropZone.classList.add('drag-over');
-    }
-
-    function unhighlight(e) {
-      dropZone.classList.remove('drag-over');
-    }
-
-    function handleDrop(e) {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-      handleFiles(files);
-    }
-
-    function handleFiles(files) {
-      if (files.length > 0) {
-        productImages.files = files;
-        const event = new Event('change', { bubbles: true });
-        productImages.dispatchEvent(event);
-      }
-    }
-
     // Image Functions
     function resetImageUpload() {
       uploadedImages = [];
@@ -704,70 +570,14 @@
         reader.onload = (e) => {
           const previewItem = document.createElement('div');
           previewItem.className = 'preview-item';
-          if (index === 0) previewItem.classList.add('primary');
-          previewItem.draggable = true;
-          previewItem.dataset.index = index;
           previewItem.innerHTML = `
-            <span class="image-badge">${index === 0 ? 'Principal' : index + 1}</span>
             <img src="${e.target.result}" alt="Preview ${index + 1}">
             <button type="button" class="remove-btn" onclick="removeImage(${index})">✕</button>
           `;
-          
-          // Add drag event listeners
-          previewItem.addEventListener('dragstart', handleDragStart);
-          previewItem.addEventListener('dragend', handleDragEnd);
-          previewItem.addEventListener('dragover', handleDragOver);
-          previewItem.addEventListener('drop', handleImageDrop);
-          
           imagePreview.appendChild(previewItem);
         };
         reader.readAsDataURL(file);
       });
-    }
-
-    let draggedElement = null;
-
-    function handleDragStart(e) {
-      draggedElement = this;
-      this.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/html', this.innerHTML);
-    }
-
-    function handleDragEnd(e) {
-      this.classList.remove('dragging');
-      const allItems = document.querySelectorAll('.preview-item');
-      allItems.forEach(item => item.classList.remove('drag-over'));
-    }
-
-    function handleDragOver(e) {
-      if (e.preventDefault) {
-        e.preventDefault();
-      }
-      e.dataTransfer.dropEffect = 'move';
-      this.classList.add('drag-over');
-      return false;
-    }
-
-    function handleImageDrop(e) {
-      if (e.stopPropagation) {
-        e.stopPropagation();
-      }
-      
-      if (draggedElement !== this) {
-        const draggedIndex = parseInt(draggedElement.dataset.index);
-        const targetIndex = parseInt(this.dataset.index);
-        
-        // Swap images in array
-        const temp = uploadedImages[draggedIndex];
-        uploadedImages[draggedIndex] = uploadedImages[targetIndex];
-        uploadedImages[targetIndex] = temp;
-        
-        // Refresh preview
-        previewImages();
-      }
-      
-      return false;
     }
 
     window.removeImage = function(index) {
@@ -867,30 +677,24 @@
     }
 
     function renderProducts() {
-      const tbody = productsTable.querySelector('tbody');
-      tbody.innerHTML = '';
+      productsTableBody.innerHTML = '';
+      
+      if (products.length === 0) {
+        productsTableBody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 40px; color: var(--muted);">
+              No hay productos cargados. Agrega tu primer producto.
+            </td>
+          </tr>
+        `;
+        return;
+      }
 
       products.forEach(product => {
-        const tr = document.createElement('tr');
-        
-        // Create image gallery HTML
-        let imageGalleryHtml = '';
-        if (product.images && product.images.length > 0) {
-          imageGalleryHtml = '<div class="image-gallery">';
-          product.images.slice(0, 3).forEach((img, index) => {
-            imageGalleryHtml += `<img src="${img}" alt="${product.name} ${index + 1}" class="gallery-thumbnail">`;
-          });
-          if (product.images.length > 3) {
-            imageGalleryHtml += `<div class="gallery-more">+${product.images.length - 3}</div>`;
-          }
-          imageGalleryHtml += '</div>';
-        } else {
-          imageGalleryHtml = `<img src="${product.image_url || 'https://placehold.co/60x60'}" alt="${product.name}" class="product-img">`;
-        }
-        
-        tr.innerHTML = `
-          <td data-label="Imagen">${imageGalleryHtml}</td>
-          <td data-label="Nombre">${product.name}</td>
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td data-label="Imagen"><img src="${product.image_url || 'https://picsum.photos/60/60?random=' + Math.random()}" alt="${product.name}" class="product-img"></td>
+          <td data-label="Producto"><strong>${product.name}</strong></td>
           <td data-label="Categoría">${product.category}</td>
           <td data-label="Precio">$${product.price ? product.price.toFixed(2) : '0.00'}</td>
           <td data-label="Estado">${product.status || 'Por encargue'}</td>
@@ -901,7 +705,7 @@
             </div>
           </td>
         `;
-        tbody.appendChild(tr);
+        productsTableBody.appendChild(row);
       });
     }
 
@@ -929,7 +733,7 @@
         selectedCategoryText.textContent = product.category || 'Seleccionar categoría';
         
         resetImageUpload();
-        currentProductImages = product.images || [product.image_url].filter(Boolean);
+        currentProductImages = product.images || [];
         
         if (currentProductImages.length > 0) {
           previewCurrentImages();
@@ -965,26 +769,12 @@
       currentProductImages.forEach((url, index) => {
         const previewItem = document.createElement('div');
         previewItem.className = 'preview-item';
-        if (index === 0) previewItem.classList.add('primary');
-        previewItem.draggable = true;
-        previewItem.dataset.index = index;
         previewItem.innerHTML = `
-          <span class="image-badge">${index === 0 ? 'Principal' : index + 1}</span>
           <img src="${url}" alt="Current ${index + 1}">
           <button type="button" class="remove-btn" onclick="removeCurrentImage(${index})">✕</button>
         `;
-        
-        // Add drag event listeners for existing images
-        previewItem.addEventListener('dragstart', handleDragStart);
-        previewItem.addEventListener('dragend', handleDragEnd);
-        previewItem.addEventListener('dragover', handleDragOver);
-        previewItem.addEventListener('drop', handleImageDrop);
-        
         imagePreview.appendChild(previewItem);
       });
-      
-      // Update uploadedImages to match currentProductImages for editing
-      uploadedImages = [...currentProductImages];
     }
 
     window.removeCurrentImage = function(index) {
