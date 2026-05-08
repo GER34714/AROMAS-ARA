@@ -365,6 +365,174 @@
     .no-image-icon{
       font-size:32px;margin-bottom:8px;opacity:0.7;
     }
+    
+    /* Product Badges */
+    .product-badges {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .product-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      color: white;
+      font-size: 11px;
+      font-weight: bold;
+      line-height: 1;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    
+    .badge-nuevo { background: #2D6A4F; }
+    .badge-oferta { background: #E63946; }
+    .badge-lanzamiento { background: #6c757d; }
+    
+    /* Offer Pricing */
+    .offer-pricing {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .original-price {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+    
+    .offer-price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #E63946;
+    }
+    
+    .discount-percentage {
+      font-size: 0.75rem;
+      color: #E63946;
+      font-weight: 600;
+    }
+    
+    /* Offers Carousel */
+    .offers-carousel {
+      position: relative;
+      margin: 40px 0;
+    }
+    
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .carousel-track::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .carousel-track .product-card {
+      flex: 0 0 25%;
+      min-width: 0;
+      scroll-snap-align: start;
+    }
+    
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 250, 0.95);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      color: var(--text);
+    }
+    
+    .carousel-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .carousel-btn.prev {
+      left: 16px;
+    }
+    
+    .carousel-btn.next {
+      right: 16px;
+    }
+    
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    
+    .indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--line);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .indicator.active {
+      background: var(--accent);
+      transform: scale(1.2);
+    }
+    
+    @media (max-width: 768px) {
+      .carousel-track .product-card {
+        flex: 0 0 50%;
+      }
+      
+      .carousel-btn {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .carousel-btn.prev {
+        left: 8px;
+      }
+      
+      .carousel-btn.next {
+        right: 8px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .carousel-track .product-card {
+        flex: 0 0 100%;
+      }
+      
+      .carousel-btn {
+        width: 36px;
+        height: 36px;
+      }
+    }
     .product-body p{color:var(--muted);font-size:.9rem;margin-bottom:12px;line-height:1.5}
     .status{font-weight:700;font-size:1rem;color:var(--accent);margin-bottom:12px;padding:6px 14px;background:var(--gradient-2);color:white;border-radius:20px;display:inline-block;font-size:0.85rem}
     .product-actions{display:flex;gap:8px}
@@ -964,18 +1132,38 @@
     </div>
   </section>
 
-  <section id="novedades">
+  <!-- Ofertas Section -->
+  <section id="ofertas" style="display: none;">
     <div class="container">
       <div class="section-head">
         <div>
-          <h2>Secciones listas para seguir creciendo</h2>
-          <p>Cada perfume es una experiencia. Explorá nuestra colección completa.</p>
+          <h2>🔥 Ofertas Especiales</h2>
+          <p>Aprovechá nuestras promociones exclusivas en los productos que más te gustan.</p>
         </div>
       </div>
-      <div class="bands">
-        <article class="band-card"><h3>Nuevos productos</h3><p>Un espacio pensado para destacar ingresos recientes y darle movimiento a la tienda.</p></article>
-        <article class="band-card"><h3>Ofertas</h3><p>Una sección simple para resaltar productos especiales sin recargar la experiencia.</p></article>
-        <article class="band-card"><h3>Próximos lanzamientos</h3><p>Ideal para anticipar lo que viene y mantener el catálogo siempre activo.</p></article>
+      
+      <div class="offers-carousel">
+        <div class="carousel-container">
+          <button class="carousel-btn prev" id="ofertasPrevBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          
+          <div class="carousel-track" id="ofertasCarouselTrack">
+            <!-- Offer products will be loaded dynamically -->
+          </div>
+          
+          <button class="carousel-btn next" id="ofertasNextBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="carousel-indicators" id="ofertasIndicators">
+          <!-- Indicators will be added dynamically -->
+        </div>
       </div>
     </div>
   </section>
@@ -1629,19 +1817,284 @@ function stopAutoCarouselRotation() {
 }
 
 // Initialize app
+// Load special sections
+async function loadSpecialSections() {
+  try {
+    // Load new products
+    const { data: nuevosProductos, error: errorNuevos } = await supabaseClient
+      .from('products')
+      .select('*')
+      .eq('es_nuevo', true)
+      .order('created_at', { ascending: false })
+      .limit(6);
+    
+    if (!errorNuevos && nuevosProductos && nuevosProductos.length > 0) {
+      const nuevosSection = document.getElementById('nuevos-productos');
+      const nuevosGrid = document.getElementById('nuevosProductosGrid');
+      
+      if (nuevosSection && nuevosGrid) {
+        nuevosSection.style.display = 'block';
+        nuevosGrid.innerHTML = '';
+        
+        nuevosProductos.forEach(product => {
+          const productCard = createProductCard(product);
+          nuevosGrid.appendChild(productCard);
+        });
+      }
+    }
+    
+    // Load offers
+    console.log('Cargando ofertas...');
+    
+    // First, let's check all products to see their en_oferta status
+    const { data: allProducts, error: allProductsError } = await supabaseClient
+      .from('products')
+      .select('id, name, en_oferta, price')
+      .limit(10);
+    
+    console.log('Todos los productos (primeros 10):', allProducts);
+    console.log('Error todos los productos:', allProductsError);
+    
+    // Now try the specific query for offers
+    const { data: ofertasProductos, error: ofertasError } = await supabaseClient
+      .from('products')
+      .select('*')
+      .eq('en_oferta', true)
+      .limit(8);
+    
+    console.log('Ofertas cargadas:', { ofertasProductos, ofertasError });
+    console.log('Número de ofertas encontradas:', ofertasProductos?.length || 0);
+    
+    // Try alternative query to see if it's a boolean issue
+    const { data: ofertasProductos2, error: ofertasError2 } = await supabaseClient
+      .from('products')
+      .select('*')
+      .in('en_oferta', [true, 'true', 1, '1'])
+      .limit(8);
+    
+    console.log('Ofertas cargadas (query alternativa):', { ofertasProductos2, ofertasError2 });
+    
+    if (ofertasError) {
+      console.error('Error cargando ofertas:', ofertasError);
+    }
+    
+    // Always show ofertas section for debugging
+    const ofertasSection = document.getElementById('ofertas');
+    const ofertasCarouselTrack = document.getElementById('ofertasCarouselTrack');
+    const ofertasIndicators = document.getElementById('ofertasIndicators');
+    
+    console.log('Elementos encontrados:', { 
+      ofertasSection: !!ofertasSection, 
+      ofertasCarouselTrack: !!ofertasCarouselTrack, 
+      ofertasIndicators: !!ofertasIndicators 
+    });
+    
+    if (ofertasSection && ofertasCarouselTrack && ofertasIndicators) {
+      ofertasSection.style.display = 'block';
+      ofertasCarouselTrack.innerHTML = '';
+      ofertasIndicators.innerHTML = '';
+      
+      // Use the query that returns results
+    const ofertasResults = ofertasProductos2?.length > 0 ? ofertasProductos2 : ofertasProductos;
+    
+    if (!ofertasError && !ofertasError2 && ofertasResults && ofertasResults.length > 0) {
+        console.log('Mostrando sección de ofertas con', ofertasResults.length, 'productos');
+        
+        ofertasResults.forEach((product, index) => {
+          const productCard = createProductCard(product);
+          ofertasCarouselTrack.appendChild(productCard);
+          
+          // Create indicator
+          const indicator = document.createElement('div');
+          indicator.className = 'indicator';
+          if (index === 0) indicator.classList.add('active');
+          indicator.addEventListener('click', () => goToSlide(index));
+          ofertasIndicators.appendChild(indicator);
+        });
+        
+        // Initialize carousel functionality
+        initializeOffersCarousel();
+      } else {
+        console.log('No hay productos en oferta, mostrando mensaje');
+        // Show message when no offers
+        ofertasCarouselTrack.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--muted);">
+            <div style="font-size: 3rem; margin-bottom: 16px;">🔥</div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 8px; color: var(--text);">Próximamente Ofertas</h3>
+            <p style="margin-bottom: 20px;">Estamos preparando las mejores ofertas para vos. Volvé pronto para ver nuestras promociones exclusivas.</p>
+            <div style="background: var(--bg-soft); padding: 16px; border-radius: 12px; border: 1px solid var(--line);">
+              <strong style="color: var(--accent);">💡 Tip para administradores:</strong><br>
+              Para probar el carrusel, activá la opción "En oferta" en cualquier producto desde el panel de administración.
+            </div>
+          </div>
+        `;
+        
+        if (ofertasError) {
+          console.error('Error cargando ofertas:', ofertasError);
+        }
+      }
+    }
+    
+    // Load upcoming launches
+    const { data: lanzamientosProductos, error: lanzamientosError } = await supabaseClient
+      .from('products')
+      .select('*')
+      .eq('proximo_lanzamiento', true)
+      .order('created_at', { ascending: false })
+      .limit(6);
+    
+    if (!lanzamientosError && lanzamientosProductos && lanzamientosProductos.length > 0) {
+      const lanzamientosSection = document.getElementById('proximos-lanzamientos');
+      const lanzamientosGrid = document.getElementById('proximosLanzamientosGrid');
+      
+      lanzamientosSection.style.display = 'block';
+      lanzamientosGrid.innerHTML = '';
+      
+      lanzamientosProductos.forEach(product => {
+        const productCard = createProductCard(product);
+        lanzamientosGrid.appendChild(productCard);
+      });
+    }
+    
+  } catch (error) {
+    console.error('Error loading special sections:', error);
+  }
+}
+
+// Offers Carousel Functionality
+let ofertasCarousel = {
+  currentIndex: 0,
+  totalSlides: 0,
+  autoRotateInterval: null,
+  resumeTimeout: null,
+  isPaused: false,
+  autoRotateDelay: 4000 // 4 seconds between slides
+};
+
+function initializeOffersCarousel() {
+  const track = document.getElementById('ofertasCarouselTrack');
+  const prevBtn = document.getElementById('ofertasPrevBtn');
+  const nextBtn = document.getElementById('ofertasNextBtn');
+  
+  if (!track) return;
+  
+  ofertasCarousel.totalSlides = track.children.length;
+  
+  // Event listeners for navigation
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      pauseCarousel();
+      previousSlide();
+    });
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      pauseCarousel();
+      nextSlide();
+    });
+  }
+  
+  // Pause on carousel interaction
+  track.addEventListener('mouseenter', pauseCarousel);
+  track.addEventListener('touchstart', pauseCarousel);
+  track.addEventListener('click', pauseCarousel);
+  
+  // Resume on mouse leave (with 45 second delay)
+  track.addEventListener('mouseleave', () => {
+    if (ofertasCarousel.isPaused) {
+      scheduleCarouselResume();
+    }
+  });
+  
+  // Start auto-rotation
+  startAutoRotate();
+}
+
+function startAutoRotate() {
+  stopAutoRotate();
+  ofertasCarousel.autoRotateInterval = setInterval(() => {
+    if (!ofertasCarousel.isPaused) {
+      nextSlide();
+    }
+  }, ofertasCarousel.autoRotateDelay);
+}
+
+function stopAutoRotate() {
+  if (ofertasCarousel.autoRotateInterval) {
+    clearInterval(ofertasCarousel.autoRotateInterval);
+    ofertasCarousel.autoRotateInterval = null;
+  }
+}
+
+function pauseCarousel() {
+  ofertasCarousel.isPaused = true;
+  
+  // Clear any pending resume timeout
+  if (ofertasCarousel.resumeTimeout) {
+    clearTimeout(ofertasCarousel.resumeTimeout);
+    ofertasCarousel.resumeTimeout = null;
+  }
+}
+
+function scheduleCarouselResume() {
+  // Clear any existing timeout
+  if (ofertasCarousel.resumeTimeout) {
+    clearTimeout(ofertasCarousel.resumeTimeout);
+  }
+  
+  // Schedule resume after 45 seconds
+  ofertasCarousel.resumeTimeout = setTimeout(() => {
+    ofertasCarousel.isPaused = false;
+    startAutoRotate();
+  }, 45000); // 45 seconds
+}
+
+function goToSlide(index) {
+  pauseCarousel();
+  
+  const track = document.getElementById('ofertasCarouselTrack');
+  const indicators = document.querySelectorAll('#ofertasIndicators .indicator');
+  
+  if (!track || index < 0 || index >= ofertasCarousel.totalSlides) return;
+  
+  ofertasCarousel.currentIndex = index;
+  
+  // Move carousel
+  const slideWidth = 25; // 25% per slide
+  track.style.transform = `translateX(-${slideWidth * index}%)`;
+  
+  // Update indicators
+  indicators.forEach((indicator, i) => {
+    indicator.classList.toggle('active', i === index);
+  });
+  
+  // Schedule resume
+  scheduleCarouselResume();
+}
+
+function nextSlide() {
+  const nextIndex = (ofertasCarousel.currentIndex + 1) % ofertasCarousel.totalSlides;
+  goToSlide(nextIndex);
+}
+
+function previousSlide() {
+  const prevIndex = ofertasCarousel.currentIndex === 0 ? 
+    ofertasCarousel.totalSlides - 1 : ofertasCarousel.currentIndex - 1;
+  goToSlide(prevIndex);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('DOM Content Loaded - Initializing app...');
   await loadCategories();
   await loadProducts();
   await loadFeaturedProducts();
+  await loadSpecialSections();
   await loadCart();
   setupEventListeners();
   
-  // Start auto carousel rotation after a short delay
-  setTimeout(() => {
-    console.log('Starting auto rotation...');
-    startAutoCarouselRotation();
-  }, 150);
+  // Initialize cart
+  updateCartUI();
 });
 
 // Load products from Supabase - simple como el admin
@@ -1848,6 +2301,34 @@ function createProductCard(product) {
   const statusClass = product.status === 'Disponible' ? 'status-disponible' : 
                      product.status === 'Agotado' ? 'status-agotado' : 'status-encargue';
 
+  // Create badges HTML
+  let badgesHtml = '<div class="product-badges">';
+  if (product.badge_texto) {
+    badgesHtml += `<span class="product-badge" style="background: ${product.badge_color || 'var(--accent)'};">${product.badge_texto}</span>`;
+  } else if (product.es_nuevo) {
+    badgesHtml += '<span class="product-badge badge-nuevo">Nuevo</span>';
+  } else if (product.en_oferta) {
+    badgesHtml += '<span class="product-badge badge-oferta">Oferta</span>';
+  } else if (product.proximo_lanzamiento) {
+    badgesHtml += '<span class="product-badge badge-lanzamiento">Próximamente</span>';
+  }
+  badgesHtml += '</div>';
+
+  // Create pricing HTML
+  let pricingHtml = '';
+  if (product.en_oferta && product.precio_oferta && product.price) {
+    const discount = ((product.price - product.precio_oferta) / product.price * 100).toFixed(1);
+    pricingHtml = `
+      <div class="offer-pricing">
+        <span class="original-price">$${product.price.toFixed(2)}</span>
+        <span class="offer-price">$${product.precio_oferta.toFixed(2)}</span>
+        <span class="discount-percentage">-${discount}% OFF</span>
+      </div>
+    `;
+  } else {
+    pricingHtml = `<div class="status">$${product.price ? product.price.toFixed(2) : '0.00'}</div>`;
+  }
+
   article.innerHTML = `
     <div class="product-media">
       ${product.image_url ? 
@@ -1857,6 +2338,7 @@ function createProductCard(product) {
           <span>Sin imagen</span>
         </div>`
       }
+      ${badgesHtml}
     </div>
     <div class="product-body">
       <div class="product-top">
@@ -1864,7 +2346,7 @@ function createProductCard(product) {
         <span class="product-status ${statusClass}">${product.status || 'Por encargue'}</span>
       </div>
       <p>${product.description || 'Sin descripción disponible.'}</p>
-      <div class="status">$${product.price ? product.price.toFixed(2) : '0.00'}</div>
+      ${pricingHtml}
       <div class="product-actions">
         ${product.status === 'Disponible' ? 
           `<button class="soft-btn add-to-cart" data-product-id="${product.id}">Agregar al Carrito</button>` :
@@ -1930,6 +2412,14 @@ function updateCartUI() {
   }
 }
 
+// Get effective price (with discount if applicable)
+function getEffectivePrice(product) {
+  if (product.en_oferta && product.precio_oferta && product.price) {
+    return product.precio_oferta;
+  }
+  return product.price || 0;
+}
+
 // Render cart items
 function renderCartItems() {
   cartItems.innerHTML = '';
@@ -1941,12 +2431,30 @@ function renderCartItems() {
     const statusClass = item.products.status === 'Disponible' ? 'status-disponible' : 
                        item.products.status === 'Agotado' ? 'status-agotado' : 'status-encargue';
 
+    const effectivePrice = getEffectivePrice(item.products);
+    const hasDiscount = item.products.en_oferta && item.products.precio_oferta && item.products.price;
+    
+    // Create price display with discount info
+    let priceDisplay = '';
+    if (hasDiscount) {
+      const discount = ((item.products.price - item.products.precio_oferta) / item.products.price * 100).toFixed(1);
+      priceDisplay = `
+        <div class="cart-item-price">
+          <div style="text-decoration: line-through; color: var(--muted); font-size: 0.85rem;">${formatPrice(item.products.price)}</div>
+          <div style="color: #E63946; font-weight: 700;">${formatPrice(effectivePrice)}</div>
+          <div style="color: #E63946; font-size: 0.75rem; font-weight: 600;">-${discount}% OFF</div>
+        </div>
+      `;
+    } else {
+      priceDisplay = `<div class="cart-item-price">${formatPrice(effectivePrice)}</div>`;
+    }
+
     cartItem.innerHTML = `
       <img src="${item.products.image_url || 'https://placehold.co/60x60'}" alt="${item.products.name}" class="cart-item-img">
       <div class="cart-item-info">
         <div class="cart-item-name">${item.products.name}</div>
         <div class="cart-item-category">${item.products.category}</div>
-        <div class="cart-item-price">${formatPrice(item.products.price || 0)}</div>
+        ${priceDisplay}
         <div class="product-status ${statusClass}" style="margin-top: 4px;">${item.products.status || 'Por encargue'}</div>
       </div>
       <div class="cart-item-quantity">
@@ -1988,14 +2496,20 @@ function addToCart(productId) {
     });
   }
 
-  // Update totals
+  // Update totals with discount logic
   cartData.totalItems = cartData.items.reduce((sum, item) => sum + item.quantity, 0);
   cartData.availableTotal = cartData.items
     .filter(item => item.products.status === 'Disponible')
-    .reduce((sum, item) => sum + (item.products.price || 0) * item.quantity, 0);
+    .reduce((sum, item) => {
+      const price = getEffectivePrice(item.products);
+      return sum + price * item.quantity;
+    }, 0);
   cartData.orderTotal = cartData.items
     .filter(item => item.products.status !== 'Disponible')
-    .reduce((sum, item) => sum + (item.products.price || 0) * item.quantity, 0);
+    .reduce((sum, item) => {
+      const price = getEffectivePrice(item.products);
+      return sum + price * item.quantity;
+    }, 0);
 
   updateCartUI();
 }
@@ -2013,14 +2527,20 @@ function updateCartItemQuantity(itemId, newQuantity) {
     }
   }
 
-  // Recalculate totals
+  // Recalculate totals with discount logic
   cartData.totalItems = cartData.items.reduce((sum, item) => sum + item.quantity, 0);
   cartData.availableTotal = cartData.items
     .filter(item => item.products.status === 'Disponible')
-    .reduce((sum, item) => sum + (item.products.price || 0) * item.quantity, 0);
+    .reduce((sum, item) => {
+      const price = getEffectivePrice(item.products);
+      return sum + price * item.quantity;
+    }, 0);
   cartData.orderTotal = cartData.items
     .filter(item => item.products.status !== 'Disponible')
-    .reduce((sum, item) => sum + (item.products.price || 0) * item.quantity, 0);
+    .reduce((sum, item) => {
+      const price = getEffectivePrice(item.products);
+      return sum + price * item.quantity;
+    }, 0);
 
   updateCartUI();
 }
@@ -2037,7 +2557,16 @@ function handleCheckout() {
 
   const message = cartData.items.map(item => {
     const product = item.products;
-    return `${item.quantity}x ${product.name} - ${formatPrice(product.price || 0)} (${product.status})`;
+    const effectivePrice = getEffectivePrice(product);
+    const hasDiscount = product.en_oferta && product.precio_oferta && product.price;
+    
+    let priceText = formatPrice(effectivePrice);
+    if (hasDiscount) {
+      const discount = ((product.price - product.precio_oferta) / product.price * 100).toFixed(1);
+      priceText += ` (-${discount}% OFF)`;
+    }
+    
+    return `${item.quantity}x ${product.name} - ${priceText} (${product.status})`;
   }).join('\n');
 
   const total = cartData.availableTotal + cartData.orderTotal;
@@ -2133,6 +2662,32 @@ function setupEventListeners() {
         } catch (error) {
           console.error('Error adding featured product to cart:', error);
           alert('Error al agregar el producto destacado al carrito. Por favor, intenta nuevamente.');
+        }
+      }
+    });
+  }
+
+  // Add to cart buttons for offers carousel (event delegation)
+  const ofertasCarouselTrack = document.getElementById('ofertasCarouselTrack');
+  if (ofertasCarouselTrack) {
+    ofertasCarouselTrack.addEventListener('click', async (e) => {
+      if (e.target.classList.contains('add-to-cart')) {
+        const productId = e.target.dataset.productId;
+        try {
+          addToCart(productId);
+          
+          // Show feedback
+          const originalText = e.target.textContent;
+          e.target.textContent = '✓ Agregado';
+          e.target.disabled = true;
+          
+          setTimeout(() => {
+            e.target.textContent = originalText;
+            e.target.disabled = false;
+          }, 1500);
+        } catch (error) {
+          console.error('Error adding offer product to cart:', error);
+          alert('Error al agregar el producto en oferta al carrito. Por favor, intenta nuevamente.');
         }
       }
     });
