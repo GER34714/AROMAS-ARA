@@ -85,6 +85,319 @@
     .stat-label{color:var(--muted);font-size:.9rem;margin-bottom:8px}
     .stat-value{font-size:2rem;font-weight:800;color:var(--text)}
 
+    /* Skeleton Loading States */
+    .skeleton {
+      background: linear-gradient(90deg, var(--bg-soft) 25%, var(--card) 50%, var(--bg-soft) 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+      border-radius: 8px;
+    }
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .skeleton-text {
+      height: 1rem;
+      margin-bottom: 8px;
+    }
+    .skeleton-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+    .skeleton-card {
+      height: 120px;
+      margin-bottom: 16px;
+    }
+
+    /* Enhanced Transitions */
+    .fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-up {
+      animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .scale-in {
+      animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Enhanced Button States */
+    .btn {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    .btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    .btn.loading::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      margin: auto;
+      border: 2px solid transparent;
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* Enhanced Table Rows */
+    tbody tr {
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    tbody tr::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    tbody tr:hover::before {
+      transform: scaleX(1);
+    }
+    tbody tr.new-row {
+      animation: slideUp 0.5s ease-out;
+      background: linear-gradient(90deg, rgba(200, 168, 145, 0.1) 0%, transparent 100%);
+    }
+
+    /* Enhanced Modal */
+    .modal {
+      transition: all 0.3s ease;
+    }
+    .modal-card {
+      animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center;
+    }
+    @keyframes modalSlideIn {
+      from { 
+        opacity: 0; 
+        transform: scale(0.9) translateY(20px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: scale(1) translateY(0); 
+      }
+    }
+    .modal-backdrop {
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    /* Enhanced Form Elements */
+    .form-group {
+      position: relative;
+    }
+    .form-group.focused label {
+      color: var(--accent);
+      transform: translateY(-2px);
+      transition: all 0.2s ease;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      box-shadow: 0 0 0 3px rgba(200, 168, 145, 0.2);
+      transform: translateY(-1px);
+    }
+    .form-group.error input,
+    .form-group.error select,
+    .form-group.error textarea {
+      border-color: #ff4757;
+      background: rgba(255, 71, 87, 0.05);
+    }
+    .form-group .error-message {
+      color: #ff4757;
+      font-size: 0.85rem;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    /* Enhanced Stats Cards */
+    .stat-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(200, 168, 145, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+    .stat-card:hover::before {
+      left: 100%;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(200, 168, 145, 0.15);
+    }
+
+    /* Empty States */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+    .empty-state-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .empty-state-description {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Success States */
+    .success-message {
+      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+      color: white;
+      padding: 16px 20px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: slideUp 0.4s ease-out;
+      margin-bottom: 16px;
+    }
+    .success-icon {
+      font-size: 20px;
+    }
+
+    /* Image Management */
+    .preview-item {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .preview-item:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(200, 168, 145, 0.15);
+    }
+    .gallery-thumbnail {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .gallery-thumbnail:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(200, 168, 145, 0.2);
+    }
+
+    /* Enhanced Login Screen */
+    .login-card {
+      animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 20px 40px rgba(200, 168, 145, 0.1);
+    }
+    .login-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 48px rgba(200, 168, 145, 0.15);
+    }
+
+    /* Loading States */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(2px);
+    }
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--bg-soft);
+      border-top: 4px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    /* Keyboard Shortcuts */
+    .keyboard-hint {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+    .keyboard-hint.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .keyboard-hint kbd {
+      background: var(--bg-soft);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-weight: 600;
+      color: var(--text);
+    }
+
     /* Table */
     .table-container{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden}
     table{width:100%;border-collapse:collapse}
@@ -667,14 +980,1893 @@
       border:1px solid var(--line);
     }
     
-    /* Responsive */
+    /* Mobile Modal Fixes */
     @media (max-width:768px){
+      /* Product Edit Modal Specific Fixes */
+      .modal-card{
+        width:100%;height:100vh;max-height:100vh;
+        border-radius:0;margin:0;padding:20px;
+        overflow-y:auto;overscroll-behavior:contain;
+        display:flex;flex-direction:column;
+      }
+      .modal-header{
+        position:sticky;top:0;background:var(--card);z-index:10;
+        padding-bottom:16px;margin-bottom:20px;
+        border-bottom:1px solid var(--line);
+      }
+      .modal-header h2{font-size:1.2rem;margin-bottom:4px}
+      .close-btn{position:sticky;top:8px;z-index:11}
+      
+      /* Form Sections Mobile */
+      .form-section{
+        margin-bottom:24px;padding-bottom:20px;
+        border-bottom:1px solid var(--line);
+      }
+      .form-section:last-child{
+        border-bottom:none;margin-bottom:0;
+      }
+      .form-section-title{
+        font-size:1rem;font-weight:600;color:var(--text);
+        margin-bottom:16px;display:flex;align-items:center;gap:8px;
+      }
+      .form-section-title::before{
+        content:'';width:4px;height:16px;background:var(--accent);
+        border-radius:2px;
+      }
+      
+      /* Form Grid Mobile */
+      .form-grid{grid-template-columns:1fr;gap:16px}
+      .form-grid.full{grid-template-columns:1fr}
+      .form-group{margin-bottom:16px}
+      .form-group label{
+        display:block;margin-bottom:8px;font-weight:500;
+        color:var(--text);font-size:0.9rem;
+      }
+      .form-group input,.form-group select,.form-group textarea{
+        width:100%;padding:12px 16px;border:1px solid var(--line);
+        border-radius:12px;background:var(--bg-soft);color:var(--text);
+        font-size:16px; /* Prevents zoom on iOS */
+        transition:all 0.2s ease;
+      }
+      .form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+        outline:none;border-color:var(--accent);background:var(--card);
+        box-shadow:0 0 0 3px rgba(200,168,145,0.2);
+      }
+      
+      /* Image Upload Mobile */
+      .image-upload-section{
+        margin-bottom:24px;
+      }
+      .drop-zone{
+        border:2px dashed var(--accent);background:var(--bg-soft);
+        border-radius:12px;padding:20px;text-align:center;
+        transition:all 0.3s ease;cursor:pointer;
+        margin-bottom:16px;
+      }
+      .drop-zone:active,.drop-zone:hover{
+        background:var(--card);border-color:var(--accent);
+        transform:scale(1.02);
+      }
+      .drop-zone.drag-over{
+        background:var(--card);border-color:var(--accent);
+        transform:scale(1.02);
+      }
+      .drop-zone .drop-icon{
+        font-size:32px;margin-bottom:8px;opacity:0.6;
+      }
+      .drop-zone .drop-text{
+        font-size:0.9rem;color:var(--muted);margin-bottom:8px;
+      }
+      .drop-zone .drop-subtext{
+        font-size:0.8rem;color:var(--muted);opacity:0.7;
+      }
+      .image-preview{
+        display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));
+        gap:12px;margin-top:16px;
+      }
+      .preview-item{
+        position:relative;border:2px solid var(--line);border-radius:12px;
+        overflow:hidden;background:var(--bg-soft);aspect-ratio:1;
+        transition:all 0.3s ease;
+      }
+      .preview-item:hover{
+        transform:scale(1.05);box-shadow:0 4px 12px rgba(200,168,145,0.2);
+      }
+      .preview-item img{
+        width:100%;height:100%;object-fit:cover;
+      }
+      .preview-item .remove-btn{
+        position:absolute;top:4px;right:4px;width:24px;height:24px;
+        border-radius:50%;background:rgba(255,71,87,0.9);color:white;
+        border:none;cursor:pointer;display:flex;align-items:center;
+        justify-content:center;font-size:12px;z-index:2;
+        transition:all 0.2s ease;
+      }
+      .preview-item .remove-btn:hover{
+        background:#ff3838;transform:scale(1.1);
+      }
+      .preview-item .image-badge{
+        position:absolute;top:4px;left:4px;background:var(--accent);
+        color:white;padding:2px 6px;border-radius:6px;font-size:10px;
+        font-weight:600;z-index:2;
+      }
+      .preview-item.primary .image-badge{
+        background:#25D366;
+      }
+      
+      /* Category Dropdown Mobile */
+      .category-select-wrapper{
+        position:relative;margin-bottom:16px;
+      }
+      .category-dropdown{
+        position:relative;
+      }
+      .category-dropdown-toggle{
+        width:100%;padding:12px 16px;border:1px solid var(--line);
+        border-radius:12px;background:var(--bg-soft);color:var(--text);
+        font-size:16px;text-align:left;cursor:pointer;
+        display:flex;justify-content:space-between;align-items:center;
+        transition:all 0.2s ease;
+      }
+      .category-dropdown-toggle:hover{
+        background:var(--card);
+      }
+      .category-dropdown-toggle::after{
+        content:'▼';font-size:12px;transition:transform 0.2s ease;
+      }
+      .category-dropdown.open .category-dropdown-toggle::after{
+        transform:rotate(180deg);
+      }
+      .category-dropdown-content{
+        position:absolute;top:100%;left:0;right:0;
+        background:var(--card);border:1px solid var(--line);
+        border-radius:12px;margin-top:4px;max-height:200px;
+        overflow-y:auto;z-index:1000;box-shadow:var(--shadow);
+        display:none;
+      }
+      .category-dropdown.open .category-dropdown-content{
+        display:block;
+      }
+      .category-option{
+        padding:12px 16px;cursor:pointer;transition:background 0.2s ease;
+        border-bottom:1px solid var(--line);
+      }
+      .category-option:last-child{
+        border-bottom:none;
+      }
+      .category-option:hover{
+        background:var(--bg-soft);
+      }
+      .category-option.selected{
+        background:var(--accent);color:white;
+      }
+      
+      /* Form Actions Mobile */
+      .form-actions{
+        position:sticky;bottom:0;background:var(--card);
+        padding:16px 0;margin-top:20px;
+        border-top:1px solid var(--line);
+        display:flex;flex-direction:column;gap:12px;
+      }
+      .form-actions .btn{
+        width:100%;padding:14px 20px;font-size:16px;
+        min-height:52px;border-radius:12px;
+      }
+      .form-actions .btn-primary{
+        background:var(--accent);color:white;
+      }
+      .form-actions .btn-secondary{
+        background:var(--bg-soft);color:var(--text);
+        border:1px solid var(--line);
+      }
+      
+      /* Status and Price Fields Mobile */
+      .status-select,.price-input{
+        width:100%;padding:12px 16px;border:1px solid var(--line);
+        border-radius:12px;background:var(--bg-soft);color:var(--text);
+        font-size:16px;
+      }
+      .price-input{
+        font-family:monospace;
+      }
+      
+      /* Description Field Mobile */
+      .description-textarea{
+        width:100%;min-height:100px;padding:12px 16px;
+        border:1px solid var(--line);border-radius:12px;
+        background:var(--bg-soft);color:var(--text);
+        font-size:16px;font-family:inherit;resize:vertical;
+      }
+      
+      /* Product Name Field Mobile */
+      .product-name-input{
+        width:100%;padding:12px 16px;border:1px solid var(--line);
+        border-radius:12px;background:var(--bg-soft);color:var(--text);
+        font-size:18px;font-weight:600;
+      }
+      
+      /* Validation Messages Mobile */
+      .form-group.error input,.form-group.error select,.form-group.error textarea{
+        border-color:#ff4757;background:rgba(255,71,87,0.05);
+      }
+      .form-group .error-message{
+        color:#ff4757;font-size:0.85rem;margin-top:4px;
+        display:flex;align-items:center;gap:4px;
+        animation:fadeIn 0.3s ease-out;
+      }
+      
+      /* Loading States Mobile */
+      .btn.loading{
+        pointer-events:none;opacity:0.7;
+        position:relative;
+      }
+      .btn.loading::after{
+        content:'';position:absolute;width:16px;height:16px;
+        margin:auto;border:2px solid transparent;
+        border-top-color:currentColor;border-radius:50%;
+        animation:spin 1s linear infinite;
+        top:50%;left:50%;transform:translate(-50%, -50%);
+      }
+      
+      /* Dropdown Fixes */
+      .dropdown{position:relative}
+      .dropdown-content{
+        position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);
+        width:90vw;max-width:400px;max-height:70vh;overflow-y:auto;
+        border-radius:16px;z-index:1000;box-shadow:0 20px 40px rgba(0,0,0,0.2);
+      }
+      .dropdown:not(.open) .dropdown-content{display:none}
+      
+      /* Category Modal Mobile */
+      .category-modal{padding:8px}
+      .category-modal-card{
+        width:100%;height:100vh;border-radius:0;
+        margin:0;padding:20px;overflow-y:auto;
+      }
+      .category-header{position:sticky;top:0;background:var(--card);z-index:10}
+      
+      /* Button Fixes */
+      .btn{padding:12px 16px;font-size:16px;min-height:48px}
+      .btn-small{padding:8px 12px;font-size:14px;min-height:40px}
+      
+      /* Touch Optimizations */
+      *{-webkit-tap-highlight-color:transparent}
+      .btn, .btn-small, .close-btn{touch-action:manipulation}
+      
+      /* Prevent Double Tap Zoom */
+      .modal, .dropdown-content{touch-action:pan-y}
+      
+      /* iOS Safari Fixes */
+      @supports (-webkit-touch-callout: none) {
+        .modal-card{padding-top:env(safe-area-inset-top,20px)}
+        .mobile-nav{padding-bottom:env(safe-area-inset-bottom,16px)}
+        .form-actions{padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+      }
+      
+      /* Android Fixes */
+      @media screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:.001dpcm) {
+        .modal-card{padding-top:max(20px,env(safe-area-inset-top))}
+      }
+    }
+    
+    @media (max-width:480px){
+      /* Extra Small Fixes */
+      .modal-card{padding:12px}
+      .form-group input,.form-group select,.form-group textarea{padding:10px}
+      .btn{padding:10px 12px;font-size:14px}
+      .dropdown-content{width:95vw}
+      .image-preview{grid-template-columns:repeat(auto-fill,minmax(60px,1fr))}
+      .filter-controls{grid-template-columns:1fr}
+    }
+    
+    /* Responsive UX Enhancements */
+    @media (max-width:768px){
+      /* Swipe Indicators */
+      .swipe-indicator{
+        position:fixed;top:50%;left:10px;transform:translateY(-50%);
+        width:4px;height:40px;background:var(--accent);
+        border-radius:2px;opacity:0.3;z-index:100;
+        animation:pulse 2s infinite;
+      }
+      .swipe-indicator.right{left:auto;right:10px}
+      @keyframes pulse{0%,100%{opacity:0.3}50%{opacity:0.8}}
+      
+      /* Pull to Refresh */
+      .pull-to-refresh{
+        position:fixed;top:-60px;left:0;right:0;height:60px;
+        display:flex;align-items:center;justify-content:center;
+        background:var(--card);border-bottom:1px solid var(--line);
+        z-index:1000;transition:transform 0.3s ease;
+      }
+      .pull-to-refresh.pulling{transform:translateY(60px)}
+      .pull-to-refresh.refreshing{transform:translateY(60px)}
+      .pull-to-refresh .refresh-icon{
+        width:24px;height:24px;border:2px solid var(--accent);
+        border-top-color:transparent;border-radius:50%;
+        animation:spin 1s linear infinite;
+      }
+      
+      /* Mobile Tooltips */
+      .mobile-tooltip{
+        position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+        background:var(--card);border:1px solid var(--line);
+        border-radius:12px;padding:12px 16px;box-shadow:var(--shadow);
+        z-index:1000;opacity:0;transform:translateX(-50%) translateY(10px);
+        transition:all 0.3s ease;max-width:300px;text-align:center;
+      }
+      .mobile-tooltip.show{opacity:1;transform:translateX(-50%) translateY(0)}
+      .mobile-tooltip .tooltip-text{font-size:0.9rem;color:var(--text)}
+      .mobile-tooltip .tooltip-icon{font-size:20px;margin-bottom:4px}
+      
+      /* Touch Feedback Zones */
+      .touch-zone{
+        position:relative;overflow:hidden;
+      }
+      .touch-zone::after{
+        content:'';position:absolute;top:50%;left:50%;
+        width:0;height:0;border-radius:50%;
+        background:rgba(200,168,145,0.3);
+        transform:translate(-50%, -50%);
+        transition:width 0.6s, height 0.6s;
+        pointer-events:none;
+      }
+      .touch-zone:active::after{width:300px;height:300px}
+      
+      /* Responsive Cards */
+      .responsive-card{
+        transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+        transform-origin:center;
+      }
+      .responsive-card:hover{transform:scale(1.02)}
+      .responsive-card:active{transform:scale(0.98)}
+      
+      /* Mobile Progress Indicators */
+      .mobile-progress{
+        position:fixed;top:0;left:0;right:0;height:3px;
+        background:var(--bg-soft);z-index:10000;
+      }
+      .mobile-progress .progress-bar{
+        height:100%;background:var(--accent);
+        transition:width 0.3s ease;
+      }
+      
+      /* Haptic Feedback Simulation */
+      .haptic-feedback{
+        animation:hapticPulse 0.1s ease-out;
+      }
+      @keyframes hapticPulse{
+        0%{transform:scale(1)}50%{transform:scale(0.98)}100%{transform:scale(1)}
+      }
+      
+      /* Mobile Loading States */
+      .mobile-loading{
+        position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);
+        z-index:10000;text-align:center;
+      }
+      .mobile-loading .loading-spinner{
+        width:48px;height:48px;border:4px solid var(--bg-soft);
+        border-top:4px solid var(--accent);border-radius:50%;
+        animation:spin 1s linear infinite;margin:0 auto 16px;
+      }
+      .mobile-loading .loading-text{
+        color:var(--muted);font-size:0.9rem;
+      }
+      
+      /* Swipe Actions */
+      .swipe-actions{
+        position:absolute;top:0;right:0;height:100%;
+        display:flex;align-items:center;background:var(--accent);
+        transform:translateX(100%);transition:transform 0.3s ease;
+      }
+      .swipe-actions.show{transform:translateX(0)}
+      .swipe-actions .action-btn{
+        padding:12px 16px;color:white;border:none;background:none;
+        font-size:14px;cursor:pointer;min-height:44px;
+      }
+      
+      /* Mobile Context Menu */
+      .mobile-context-menu{
+        position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+        background:var(--card);border:1px solid var(--line);
+        border-radius:16px;padding:8px;box-shadow:0 8px 32px rgba(0,0,0,0.2);
+        z-index:1000;opacity:0;transform:translateX(-50%) translateY(20px);
+        transition:all 0.3s ease;min-width:200px;
+      }
+      .mobile-context-menu.show{opacity:1;transform:translateX(-50%) translateY(0)}
+      .mobile-context-menu .context-item{
+        padding:12px 16px;border-radius:8px;cursor:pointer;
+        transition:background 0.2s ease;display:flex;align-items:center;gap:8px;
+      }
+      .mobile-context-menu .context-item:hover{background:var(--bg-soft)}
+      .mobile-context-menu .context-item:active{background:var(--accent);color:white}
+      
+      /* Responsive Grid Animations */
+      .responsive-grid{
+        display:grid;gap:12px;
+        animation:gridReveal 0.6s ease-out;
+      }
+      @keyframes gridReveal{
+        from{opacity:0;transform:translateY(20px)}
+        to{opacity:1;transform:translateY(0)}
+      }
+      .responsive-grid > *{
+        animation:staggerIn 0.4s ease-out backwards;
+      }
+      .responsive-grid > *:nth-child(1){animation-delay:0.1s}
+      .responsive-grid > *:nth-child(2){animation-delay:0.2s}
+      .responsive-grid > *:nth-child(3){animation-delay:0.3s}
+      .responsive-grid > *:nth-child(4){animation-delay:0.4s}
+      @keyframes staggerIn{
+        from{opacity:0;transform:translateY(10px)}
+        to{opacity:1;transform:translateY(0)}
+      }
+      
+      /* Mobile Scroll Shadows */
+      .scroll-container{
+        position:relative;
+      }
+      .scroll-container::before,
+      .scroll-container::after{
+        content:'';position:absolute;left:0;right:0;height:20px;
+        pointer-events:none;z-index:1;opacity:0;transition:opacity 0.3s ease;
+      }
+      .scroll-container::before{
+        top:0;background:linear-gradient(to bottom, var(--card), transparent);
+      }
+      .scroll-container::after{
+        bottom:0;background:linear-gradient(to top, var(--card), transparent);
+      }
+      .scroll-container.scroll-top::before{opacity:1}
+      .scroll-container.scroll-bottom::after{opacity:1}
+      
+      /* Mobile Status Bars */
+      .mobile-status-bar{
+        position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0);
+        background:var(--card);z-index:10000;
+      }
+      .mobile-status-bar.has-notch{height:44px}
+      
+      /* Responsive Typography */
+      .responsive-text{
+        font-size:clamp(0.9rem, 2.5vw, 1.1rem);
+        line-height:1.5;
+      }
+      .responsive-title{
+        font-size:clamp(1.2rem, 4vw, 1.8rem);
+        font-weight:700;line-height:1.2;
+      }
+      
+      /* Mobile Skeleton Loading */
+      .skeleton-mobile{
+        background:linear-gradient(90deg, var(--bg-soft) 25%, var(--card) 50%, var(--bg-soft) 75%);
+        background-size:200% 100%;animation:loading 1.5s infinite;
+        border-radius:8px;
+      }
+      .skeleton-mobile.text{height:1rem;margin-bottom:8px}
+      .skeleton-mobile.title{height:1.5rem;margin-bottom:12px}
+      .skeleton-mobile.avatar{width:48px;height:48px;border-radius:50%}
+      
+      /* Mobile Gesture Indicators */
+      .gesture-hint{
+        position:fixed;bottom:120px;left:50%;transform:translateX(-50%);
+        background:rgba(0,0,0,0.8);color:white;padding:8px 12px;
+        border-radius:20px;font-size:0.8rem;z-index:1000;
+        opacity:0;animation:hintFade 3s ease-out;
+      }
+      @keyframes hintFade{
+        0%{opacity:0;transform:translateX(-50%) translateY(10px)}
+        20%{opacity:1;transform:translateX(-50%) translateY(0)}
+        80%{opacity:1;transform:translateX(-50%) translateY(0)}
+        100%{opacity:0;transform:translateX(-50%) translateY(-10px)}
+      }
+      
+      /* Responsive Animations */
+      .slide-up-mobile{
+        animation:slideUpMobile 0.4s cubic-bezier(0.4,0,0.2,1);
+      }
+      @keyframes slideUpMobile{
+        from{opacity:0;transform:translateY(30px)}
+        to{opacity:1;transform:translateY(0)}
+      }
+      .fade-in-mobile{
+        animation:fadeInMobile 0.3s ease-out;
+      }
+      @keyframes fadeInMobile{
+        from{opacity:0;transform:scale(0.95)}
+        to{opacity:1;transform:scale(1)}
+      }
+      
+      /* Mobile Focus States */
+      .mobile-focus:focus{
+        outline:2px solid var(--accent);outline-offset:2px;
+        box-shadow:0 0 0 4px rgba(200,168,145,0.2);
+      }
+      
+      /* Touch Optimized Buttons */
+      .touch-optimized{
+        min-height:44px;min-width:44px;padding:12px 20px;
+        position:relative;overflow:hidden;
+        transition:all 0.2s ease;
+      }
+      .touch-optimized:active{
+        transform:scale(0.96);
+      }
+      .touch-optimized::after{
+        content:'';position:absolute;top:50%;left:50%;
+        width:0;height:0;border-radius:50%;
+        background:rgba(255,255,255,0.3);
+        transform:translate(-50%, -50%);
+        transition:width 0.4s, height 0.4s;
+      }
+      .touch-optimized:active::after{
+        width:200px;height:200px;
+      }
+    }
+    
+    @media (max-width:480px){
+      /* Extra Small Enhancements */
+      .swipe-indicator{width:3px;height:30px}
+      .mobile-tooltip{max-width:250px;font-size:0.8rem}
+      .pull-to-refresh{height:50px}
+      .mobile-loading .loading-spinner{width:40px;height:40px}
+      .gesture-hint{font-size:0.75rem;bottom:100px}
+    }
+    
+    /* Landscape Mobile Enhancements */
+    @media (max-width:768px) and (orientation:landscape){
+      .swipe-indicator{top:20px;transform:none}
+      .pull-to-refresh{height:40px}
+      .mobile-tooltip{bottom:60px}
+      .gesture-hint{bottom:80px}
+    }
+    
+    /* High DPI Displays */
+    @media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+      .swipe-indicator{transform:translateY(-50%) scaleY(0.5)}
+      .mobile-progress{height:2px}
+      .mobile-progress .progress-bar{border-radius:1px}
+    }
+    
+    /* Dark Mode Support (if needed) */
+    @media (prefers-color-scheme:dark){
+      .swipe-indicator{background:var(--accent)}
+      .pull-to-refresh{background:var(--card)}
+      .mobile-tooltip{background:var(--card)}
+      .mobile-context-menu{background:var(--card)}
+    }
+    
+    /* Reduced Motion */
+    @media (prefers-reduced-motion:reduce){
+      .swipe-indicator{animation:none}
+      .pull-to-refresh{transition:none}
+      .mobile-tooltip{transition:none}
+      .responsive-card{transition:none}
+      .mobile-loading .loading-spinner{animation:none}
+      .responsive-grid{animation:none}
+      .responsive-grid > *{animation:none}
+      .gesture-hint{animation:none}
+      .slide-up-mobile{animation:none}
+      .fade-in-mobile{animation:none}
+      .touch-optimized{transition:none}
+      .touch-optimized::after{transition:none}
+    }
+    
+    /* Print Styles */
+    @media print{
+      .swipe-indicator,.pull-to-refresh,.mobile-tooltip,
+      .mobile-progress,.mobile-loading,.swipe-actions,
+      .mobile-context-menu,.gesture-hint{display:none}
+    }
+    
+    /* Additional Mobile Styles */
+    @media (max-width:768px){
+      /* Header & Navigation */
+      .container{width:calc(100% - 20px);margin:0 auto;padding:0 10px}
+      .topbar{flex-direction:column;gap:12px;padding:12px 0}
+      .brand{text-align:center}
+      .header-actions{width:100%;justify-content:center;gap:8px}
+      .admin-header{flex-direction:column;align-items:flex-start;gap:16px}
+      .admin-header h1{font-size:1.5rem}
+      .admin-actions{width:100%;justify-content:stretch}
+      .admin-actions .btn{flex:1;text-align:center}
+      
+      /* Stats Grid */
+      .stats-grid{grid-template-columns:1fr;gap:16px}
+      .stat-card{padding:20px}
+      .stat-value{font-size:1.5rem}
+      
+      /* Table */
+      .table-container{border-radius:16px;overflow-x:auto}
+      table{min-width:600px;font-size:0.9rem}
+      th,td{padding:12px 8px}
+      .product-img{width:50px;height:50px}
+      .actions-cell{flex-direction:column;gap:4px}
+      .btn-small{padding:4px 8px;font-size:0.8rem}
+      
+      /* Modal */
+      .modal{padding:12px}
+      .modal-card{width:100%;max-height:95vh;border-radius:20px;padding:20px}
+      .modal-header{flex-direction:column;align-items:flex-start;gap:12px}
+      .modal-header h2{font-size:1.2rem}
+      .close-btn{position:absolute;top:12px;right:12px}
+      .form-grid{grid-template-columns:1fr;gap:16px}
+      .form-actions{flex-direction:column;gap:8px}
+      .form-actions .btn{width:100%}
+      
+      /* Forms */
+      .form-group{margin-bottom:16px}
+      .form-group label{font-size:0.9rem;margin-bottom:6px}
+      .form-group input,.form-group select,.form-group textarea{padding:10px 12px;font-size:0.9rem}
+      
+      /* Category Management */
       .category-content{grid-template-columns:1fr}
       .category-stats{grid-template-columns:1fr}
       .image-preview-enhanced{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+      .category-modal-card{width:100%;padding:20px;border-radius:20px}
+      .category-list{grid-template-columns:1fr}
+      
+      /* Export & Actions */
+      .export-status{bottom:10px;right:10px;left:10px;max-width:none}
+      .dropdown{position:relative}
+      .dropdown-content{position:relative;top:0;width:100%;margin-top:8px}
+      
+      /* Login */
+      .login-card{margin:20px;padding:30px 20px}
+      .login-header h1{font-size:1.5rem}
+      
+      /* Enhanced Mobile Elements */
+      .mobile-table-card{
+        display:none;
+        background:var(--card);
+        border:1px solid var(--line);
+        border-radius:12px;
+        margin-bottom:12px;
+        padding:16px;
+        box-shadow:var(--shadow);
+      }
+      .mobile-table-card .product-header{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        margin-bottom:12px;
+      }
+      .mobile-table-card .product-info{
+        flex:1;
+      }
+      .mobile-table-card .product-name{
+        font-weight:600;
+        margin-bottom:4px;
+      }
+      .mobile-table-card .product-meta{
+        display:flex;
+        gap:8px;
+        flex-wrap:wrap;
+        margin-bottom:12px;
+      }
+      .mobile-table-card .product-meta span{
+        background:var(--bg-soft);
+        padding:4px 8px;
+        border-radius:6px;
+        font-size:0.8rem;
+        color:var(--muted);
+      }
+      .mobile-table-card .product-actions{
+        display:flex;
+        gap:8px;
+        margin-top:12px;
+      }
+      .mobile-table-card .product-actions .btn{
+        flex:1;
+      }
+      
+      /* Keyboard Hints */
+      .keyboard-hint{display:none}
+      
+      /* Enhanced UX for Mobile */
+      .btn{padding:12px 16px;font-size:0.9rem}
+      .btn-small{padding:8px 12px;font-size:0.85rem}
+      .stat-card:hover{transform:none}
+      .preview-item:hover{transform:none}
+      
+      /* Touch Optimizations */
+      .btn{min-height:44px;min-width:44px}
+      .btn-small{min-height:36px;min-width:36px}
+      .close-btn{min-width:44px;min-height:44px}
+      
+      /* Mobile Menu */
+      .mobile-menu-toggle{
+        display:block;
+        position:fixed;
+        bottom:20px;
+        right:20px;
+        width:56px;
+        height:56px;
+        border-radius:50%;
+        background:var(--accent);
+        color:white;
+        border:none;
+        box-shadow:var(--shadow);
+        z-index:100;
+        font-size:24px;
+        cursor:pointer;
+        transition:all 0.3s ease;
+      }
+      .mobile-menu-toggle:hover{
+        transform:scale(1.1);
+        background:#b89a83;
+      }
+      
+      /* Mobile Navigation */
+      .mobile-nav{
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        background:var(--card);
+        border-top:1px solid var(--line);
+        padding:16px;
+        transform:translateY(100%);
+        transition:transform 0.3s ease;
+        z-index:99;
+      }
+      .mobile-nav.open{
+        transform:translateY(0);
+      }
+      .mobile-nav-actions{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+      }
+      
+      /* Empty States Mobile */
+      .empty-state{padding:40px 16px}
+      .empty-state-icon{font-size:36px}
+      .empty-state-title{font-size:1.1rem}
+      .empty-state-description{font-size:0.9rem}
+      
+      /* Success States Mobile */
+      .success-message{flex-direction:column;text-align:center;padding:12px 16px}
+      .success-icon{margin-bottom:8px}
+      
+      /* Loading States Mobile */
+      .loading-overlay{padding:20px}
+      .loading-spinner{width:32px;height:32px}
+    }
+    
+    @media (max-width:480px){
+      /* Extra Small Screens */
+      .container{width:calc(100% - 16px);padding:0 8px}
+      .stats-grid{gap:12px}
+      .stat-card{padding:16px}
+      .modal-card{padding:16px;border-radius:16px}
+      .login-card{margin:10px;padding:20px 16px}
+      .admin-header h1{font-size:1.3rem}
+      
+      /* Table Extra Small */
+      table{min-width:500px;font-size:0.85rem}
+      th,td{padding:8px 6px}
+      .product-img{width:40px;height:40px}
+      
+      /* Forms Extra Small */
+      .form-group input,.form-group select,.form-group textarea{padding:8px 10px;font-size:0.85rem}
+      .btn{padding:10px 14px;font-size:0.85rem}
+      
+      /* Mobile Menu Extra Small */
+      .mobile-nav-actions{grid-template-columns:1fr}
+      .mobile-menu-toggle{width:48px;height:48px;font-size:20px}
+    }
+    
+    /* Landscape Mobile */
+    @media (max-width:768px) and (orientation:landscape){
+      .modal-card{max-height:85vh}
+      .category-modal-card{max-height:80vh}
+      .login-card{margin:10px 20px}
+    }
+    
+    /* Tablet Styles */
+    @media (min-width:769px) and (max-width:1024px){
+      .container{width:min(100%,900px)}
+      .stats-grid{grid-template-columns:repeat(2,1fr)}
+      .modal-card{width:min(100%,600px)}
+      .form-grid{grid-template-columns:1fr 1fr;gap:16px}
+    }
+    
+    /* Large Desktop */
+    @media (min-width:1200px){
+      .container{width:min(100%,1400px)}
+      .stats-grid{grid-template-columns:repeat(4,1fr)}
     }
 
-    /* Image Preview */
+    /* Product Tags System */
+    .product-tags-container{
+      margin-bottom:20px;
+    }
+    .product-tags-label{
+      display:block;margin-bottom:8px;font-weight:500;
+      color:var(--text);font-size:0.9rem;
+    }
+    .tags-input-wrapper{
+      position:relative;
+    }
+    .tags-input{
+      width:100%;padding:12px 16px;border:1px solid var(--line);
+      border-radius:12px;background:var(--bg-soft);color:var(--text);
+      font-size:16px;min-height:48px;cursor:text;
+      transition:all 0.2s ease;
+    }
+    .tags-input:focus{
+      outline:none;border-color:var(--accent);background:var(--card);
+      box-shadow:0 0 0 3px rgba(200,168,145,0.2);
+    }
+    .tags-dropdown{
+      position:absolute;top:100%;left:0;right:0;
+      background:var(--card);border:1px solid var(--line);
+      border-radius:12px;margin-top:4px;max-height:200px;
+      overflow-y:auto;z-index:1000;box-shadow:var(--shadow);
+      display:none;
+    }
+    .tags-dropdown.show{display:block}
+    .tag-option{
+      padding:12px 16px;cursor:pointer;transition:background 0.2s ease;
+      display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid var(--line);
+    }
+    .tag-option:last-child{border-bottom:none}
+    .tag-option:hover{background:var(--bg-soft)}
+    .tag-option.selected{background:var(--accent);color:white}
+    .tag-option .tag-name{font-weight:500}
+    .tag-option .tag-color{
+      width:16px;height:16px;border-radius:50%;border:1px solid var(--line);
+    }
+    
+    /* Selected Tags Display */
+    .selected-tags{
+      display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;
+    }
+    .tag-chip{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:6px 12px;border-radius:20px;font-size:0.85rem;
+      font-weight:500;cursor:pointer;transition:all 0.2s ease;
+      border:1px solid transparent;
+    }
+    .tag-chip:hover{transform:scale(1.05)}
+    .tag-chip .tag-remove{
+      width:16px;height:16px;border-radius:50%;
+      background:rgba(255,255,255,0.3);color:inherit;
+      border:none;cursor:pointer;display:flex;align-items:center;
+      justify-content:center;font-size:12px;line-height:1;
+    }
+    .tag-chip .tag-remove:hover{background:rgba(255,255,255,0.5)}
+    
+    /* Tag Colors */
+    .tag-mas-vendido{background:#ff6b6b;color:white;border-color:#ff6b6b}
+    .tag-por-encargue{background:#4ecdc4;color:white;border-color:#4ecdc4}
+    .tag-nuevo{background:#51cf66;color:white;border-color:#51cf66}
+    .tag-oferta{background:#ff922b;color:white;border-color:#ff922b}
+    .tag-exclusivo{background:#845ef7;color:white;border-color:#845ef7}
+    .tag-limitado{background:#f03e3e;color:white;border-color:#f03e3e}
+    .tag-premium{background:#ffd43b;color:#495057;border-color:#ffd43b}
+    .tag-eco{background:#51cf66;color:white;border-color:#51cf66}
+    .tag-handmade{background:#868e96;color:white;border-color:#868e96}
+    .tag-custom{background:var(--accent);color:white;border-color:var(--accent)}
+    
+    /* Table Tags Display */
+    .product-tags-cell{
+      display:flex;flex-wrap:wrap;gap:4px;max-width:200px;
+    }
+    .product-tags-cell .tag-chip{
+      font-size:0.75rem;padding:4px 8px;
+    }
+    
+    /* Mobile Tags */
+    @media (max-width:768px){
+      .product-tags-cell{max-width:120px}
+      .product-tags-cell .tag-chip{font-size:0.7rem;padding:3px 6px}
+      .selected-tags{gap:6px}
+      .tag-chip{font-size:0.8rem;padding:5px 10px}
+    }
+    
+    /* Tag Creation Modal */
+    .tag-creation-modal{
+      position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;
+      background:rgba(38,24,18,.52);backdrop-filter:blur(8px);
+    }
+    .tag-creation-modal.open{display:flex}
+    .tag-creation-card{
+      width:min(100%,400px);background:var(--card);border:1px solid var(--line);
+      border-radius:20px;box-shadow:var(--shadow);padding:24px;
+    }
+    .tag-creation-header{margin-bottom:20px}
+    .tag-creation-title{font-size:1.2rem;font-weight:700;margin-bottom:8px}
+    .tag-creation-subtitle{color:var(--muted);font-size:0.9rem}
+    .tag-form-group{margin-bottom:16px}
+    .tag-form-label{display:block;margin-bottom:6px;font-weight:500;color:var(--text)}
+    .tag-form-input{width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg-soft);color:var(--text)}
+    .tag-color-picker{
+      display:grid;grid-template-columns:repeat(6,1fr);gap:8px;
+      margin-bottom:16px;
+    }
+    .color-option{
+      width:32px;height:32px;border-radius:50%;cursor:pointer;
+      border:2px solid transparent;transition:all 0.2s ease;
+    }
+    .color-option:hover{transform:scale(1.1)}
+    .color-option.selected{border-color:var(--text);box-shadow:0 0 0 2px white}
+    .tag-form-actions{display:flex;gap:8px}
+    .tag-form-actions .btn{flex:1}
+    
+    /* Tag Management Section */
+    .tag-management-section{
+      background:var(--card);border:1px solid var(--line);
+      border-radius:16px;padding:20px;margin-bottom:24px;
+    }
+    .tag-management-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .tag-management-title{font-size:1.1rem;font-weight:600}
+    .tag-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+    .tag-item{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:12px;border:1px solid var(--line);border-radius:8px;
+      transition:all 0.2s ease;
+    }
+    .tag-item:hover{background:var(--bg-soft)}
+    .tag-item-info{display:flex;align-items:center;gap:8px}
+    .tag-item-color{width:12px;height:12px;border-radius:50%}
+    .tag-item-name{font-weight:500}
+    .tag-item-count{font-size:0.8rem;color:var(--muted)}
+    .tag-item-actions{display:flex;gap:4px}
+    .tag-item-btn{padding:4px 8px;border:none;background:var(--bg-soft);border-radius:4px;cursor:pointer;font-size:0.8rem}
+    .tag-item-btn:hover{background:var(--accent);color:white}
+    
+    /* Tag Filtering */
+    .tag-filter-container{
+      margin-bottom:16px;
+    }
+    .tag-filter-label{display:block;margin-bottom:8px;font-weight:500;color:var(--text)}
+    .tag-filter-chips{display:flex;flex-wrap:wrap;gap:8px}
+    .tag-filter-chip{
+      padding:6px 12px;border:1px solid var(--line);border-radius:16px;
+      background:var(--bg-soft);color:var(--muted);cursor:pointer;
+      transition:all 0.2s ease;font-size:0.85rem;
+    }
+    .tag-filter-chip:hover{background:var(--card);color:var(--text)}
+    .tag-filter-chip.active{background:var(--accent);color:white;border-color:var(--accent)}
+    
+    /* Tag Statistics */
+    .tag-stats-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:16px;
+    }
+    .tag-stat-card{
+      text-align:center;padding:12px;background:var(--bg-soft);border-radius:8px;
+    }
+    .tag-stat-number{font-size:1.5rem;font-weight:700;color:var(--text)}
+    .tag-stat-label{font-size:0.8rem;color:var(--muted);margin-top:4px}
+    
+    /* Empty Tag States */
+    .empty-tags-state{
+      text-align:center;padding:40px 20px;color:var(--muted);
+    }
+    .empty-tags-icon{font-size:32px;margin-bottom:12px;opacity:0.5}
+    .empty-tags-title{font-weight:600;margin-bottom:8px;color:var(--text)}
+    .empty-tags-description{font-size:0.9rem;line-height:1.5}
+    
+    /* Tag Animations */
+    @keyframes tagSlideIn{
+      from{opacity:0;transform:translateX(-10px)}
+      to{opacity:1;transform:translateX(0)}
+    }
+    .tag-chip{animation:tagSlideIn 0.3s ease-out}
+    .tag-chip:nth-child(1){animation-delay:0.1s}
+    .tag-chip:nth-child(2){animation-delay:0.2s}
+    .tag-chip:nth-child(3){animation-delay:0.3s}
+    .tag-chip:nth-child(4){animation-delay:0.4s}
+    
+    /* Tag Loading States */
+    .tag-loading{
+      display:inline-block;width:12px;height:12px;border:2px solid currentColor;
+      border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;
+    }
+    
+    /* Tag Validation */
+    .tag-input.error{border-color:#ff4757;background:rgba(255,71,87,0.05)}
+    .tag-error-message{color:#ff4757;font-size:0.8rem;margin-top:4px}
+    
+    /* Responsive Tag Grid */
+    @media (max-width:480px){
+      .tag-list{grid-template-columns:1fr}
+      .tag-color-picker{grid-template-columns:repeat(4,1fr)}
+      .tag-stats-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    
+    /* Print Styles */
+    @media print{
+      .tag-chip{background:transparent!important;color:var(--text)!important;border:1px solid var(--line)!important}
+    }
+    
+    /* Featured Products Management Section */
+    .featured-products-section{
+      background:var(--card);border:1px solid var(--line);
+      border-radius:16px;padding:24px;margin-bottom:24px;
+    }
+    .featured-products-header{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line);
+    }
+    .featured-products-title{
+      font-size:1.3rem;font-weight:700;color:var(--text);
+      display:flex;align-items:center;gap:8px;
+    }
+    .featured-products-title::before{
+      content:'⭐';font-size:1.2rem;
+    }
+    .featured-products-subtitle{
+      color:var(--muted);font-size:0.9rem;margin-top:4px;
+    }
+    .featured-products-actions{
+      display:flex;gap:8px;flex-wrap:wrap;
+    }
+    .featured-products-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+      gap:16px;margin-bottom:20px;
+    }
+    .featured-product-card{
+      position:relative;background:var(--bg-soft);border:1px solid var(--line);
+      border-radius:12px;padding:16px;transition:all 0.3s ease;
+      cursor:move;overflow:hidden;
+    }
+    .featured-product-card.dragging{
+      opacity:0.5;transform:scale(0.95);
+      box-shadow:0 8px 25px rgba(200,168,145,0.3);
+    }
+    .featured-product-card.drag-over{
+      border-color:var(--accent);background:var(--card);
+      transform:scale(1.02);
+    }
+    .featured-product-card:hover{
+      transform:translateY(-2px);box-shadow:var(--shadow);
+    }
+    .featured-product-header{
+      display:flex;align-items:center;gap:12px;margin-bottom:12px;
+    }
+    .featured-product-image{
+      width:60px;height:60px;border-radius:8px;object-fit:cover;
+      border:1px solid var(--line);
+    }
+    .featured-product-info{
+      flex:1;
+    }
+    .featured-product-name{
+      font-weight:600;color:var(--text);margin-bottom:4px;
+      font-size:0.95rem;line-height:1.3;
+    }
+    .featured-product-price{
+      color:var(--accent);font-weight:700;font-size:1.1rem;
+    }
+    .featured-product-meta{
+      display:flex;gap:8px;margin-bottom:8px;
+    }
+    .featured-product-category{
+      background:var(--card);padding:4px 8px;border-radius:6px;
+      font-size:0.8rem;color:var(--muted);
+    }
+    .featured-product-status{
+      padding:4px 8px;border-radius:6px;font-size:0.8rem;
+      font-weight:500;
+    }
+    .featured-product-status.disponible{
+      background:#51cf66;color:white;
+    }
+    .featured-product-status.por-encargue{
+      background:#4ecdc4;color:white;
+    }
+    .featured-product-status.agotado{
+      background:#ff6b6b;color:white;
+    }
+    .featured-product-actions{
+      display:flex;gap:8px;align-items:center;
+    }
+    .featured-toggle{
+      position:relative;width:48px;height:24px;background:var(--line);
+      border-radius:12px;cursor:pointer;transition:background 0.3s ease;
+    }
+    .featured-toggle.active{
+      background:var(--accent);
+    }
+    .featured-toggle::after{
+      content:'';position:absolute;top:2px;left:2px;
+      width:20px;height:20px;background:white;border-radius:50%;
+      transition:transform 0.3s ease;box-shadow:0 2px 4px rgba(0,0,0,0.2);
+    }
+    .featured-toggle.active::after{
+      transform:translateX(24px);
+    }
+    .featured-priority{
+      display:flex;align-items:center;gap:4px;
+      background:var(--card);padding:4px 8px;border-radius:6px;
+      font-size:0.8rem;color:var(--muted);font-weight:500;
+    }
+    .featured-priority-number{
+      background:var(--accent);color:white;padding:2px 6px;
+      border-radius:4px;font-weight:600;min-width:20px;text-align:center;
+    }
+    .featured-remove-btn{
+      padding:4px 8px;background:#ff6b6b;color:white;border:none;
+      border-radius:6px;cursor:pointer;font-size:0.8rem;
+      transition:all 0.2s ease;
+    }
+    .featured-remove-btn:hover{
+      background:#ff5252;transform:scale(1.05);
+    }
+    
+    /* Empty Featured State */
+    .empty-featured-state{
+      text-align:center;padding:60px 20px;color:var(--muted);
+      background:var(--bg-soft);border:2px dashed var(--line);
+      border-radius:12px;margin:20px 0;
+    }
+    .empty-featured-icon{
+      font-size:48px;margin-bottom:16px;opacity:0.5;
+    }
+    .empty-featured-title{
+      font-weight:600;margin-bottom:8px;color:var(--text);
+    }
+    .empty-featured-description{
+      font-size:0.9rem;line-height:1.5;margin-bottom:16px;
+    }
+    .empty-featured-action{
+      display:inline-block;padding:12px 24px;background:var(--accent);
+      color:white;border-radius:8px;text-decoration:none;
+      font-weight:500;transition:all 0.2s ease;
+    }
+    .empty-featured-action:hover{
+      background:#b89a83;transform:translateY(-1px);
+    }
+    
+    /* Featured Products Stats */
+    .featured-stats-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+      gap:12px;margin-bottom:20px;
+    }
+    .featured-stat-card{
+      text-align:center;padding:16px;background:var(--bg-soft);
+      border-radius:8px;border:1px solid var(--line);
+    }
+    .featured-stat-number{
+      font-size:1.8rem;font-weight:700;color:var(--accent);
+      margin-bottom:4px;
+    }
+    .featured-stat-label{
+      font-size:0.85rem;color:var(--muted);
+    }
+    
+    /* Featured Products Filter */
+    .featured-filter-container{
+      margin-bottom:20px;
+    }
+    .featured-filter-header{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:12px;
+    }
+    .featured-filter-title{
+      font-weight:600;color:var(--text);
+    }
+    .featured-filter-controls{
+      display:flex;gap:8px;align-items:center;
+    }
+    .featured-search-input{
+      padding:8px 12px;border:1px solid var(--line);border-radius:8px;
+      background:var(--bg-soft);color:var(--text);font-size:0.9rem;
+      min-width:200px;
+    }
+    .featured-search-input:focus{
+      outline:none;border-color:var(--accent);background:var(--card);
+    }
+    .featured-filter-select{
+      padding:8px 12px;border:1px solid var(--line);border-radius:8px;
+      background:var(--bg-soft);color:var(--text);font-size:0.9rem;
+    }
+    .featured-filter-select:focus{
+      outline:none;border-color:var(--accent);
+    }
+    
+    /* Drag and Drop Handle */
+    .drag-handle{
+      position:absolute;top:12px;left:12px;width:24px;height:24px;
+      cursor:move;display:flex;align-items:center;justify-content:center;
+      color:var(--muted);opacity:0.5;transition:all 0.2s ease;
+    }
+    .drag-handle:hover{
+      opacity:1;color:var(--accent);
+    }
+    .featured-product-card:hover .drag-handle{
+      opacity:1;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width:768px){
+      .featured-products-section{padding:16px;margin-bottom:16px}
+      .featured-products-header{
+        flex-direction:column;align-items:flex-start;gap:12px;
+      }
+      .featured-products-title{font-size:1.1rem}
+      .featured-products-grid{
+        grid-template-columns:1fr;gap:12px;
+      }
+      .featured-product-card{padding:12px}
+      .featured-product-image{width:50px;height:50px}
+      .featured-product-name{font-size:0.9rem}
+      .featured-product-price{font-size:1rem}
+      .featured-stats-grid{grid-template-columns:repeat(2,1fr)}
+      .featured-filter-container{
+        margin-bottom:16px;
+      }
+      .featured-filter-header{
+        flex-direction:column;align-items:flex-start;gap:8px;
+      }
+      .featured-search-input{min-width:100%;margin-bottom:8px}
+      .featured-filter-select{width:100%}
+      .empty-featured-state{padding:40px 16px}
+      .empty-featured-icon{font-size:36px}
+    }
+    
+    @media (max-width:480px){
+      .featured-product-header{flex-direction:column;gap:8px}
+      .featured-product-actions{
+        justify-content:space-between;width:100%;
+      }
+      .featured-toggle{width:40px;height:20px}
+      .featured-toggle.active::after{transform:translateX(20px)}
+      .featured-toggle::after{width:16px;height:16px}
+      .featured-stats-grid{grid-template-columns:1fr}
+    }
+    
+    /* Featured Products Animations */
+    @keyframes featuredSlideIn{
+      from{opacity:0;transform:translateY(20px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    .featured-product-card{
+      animation:featuredSlideIn 0.4s ease-out backwards;
+    }
+    .featured-product-card:nth-child(1){animation-delay:0.1s}
+    .featured-product-card:nth-child(2){animation-delay:0.2s}
+    .featured-product-card:nth-child(3){animation-delay:0.3s}
+    .featured-product-card:nth-child(4){animation-delay:0.4s}
+    .featured-product-card:nth-child(5){animation-delay:0.5s}
+    .featured-product-card:nth-child(6){animation-delay:0.6s}
+    
+    /* Featured Badge */
+    .featured-badge{
+      position:absolute;top:8px;right:8px;background:var(--accent);
+      color:white;padding:4px 8px;border-radius:6px;
+      font-size:0.7rem;font-weight:600;text-transform:uppercase;
+      letter-spacing:0.5px;z-index:2;
+    }
+    .featured-badge::before{
+      content:'⭐';margin-right:4px;
+    }
+    
+    /* Priority Indicator */
+    .priority-indicator{
+      position:absolute;top:8px;left:8px;background:var(--text);
+      color:white;width:24px;height:24px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.7rem;font-weight:700;z-index:2;
+    }
+    
+    /* Bulk Actions */
+    .featured-bulk-actions{
+      display:flex;gap:8px;margin-bottom:16px;padding:12px;
+      background:var(--bg-soft);border-radius:8px;border:1px solid var(--line);
+    }
+    .bulk-select-all{
+      padding:8px 16px;background:var(--accent);color:white;
+      border:none;border-radius:6px;cursor:pointer;font-size:0.9rem;
+      font-weight:500;transition:all 0.2s ease;
+    }
+    .bulk-select-all:hover{
+      background:#b89a83;transform:translateY(-1px);
+    }
+    .bulk-clear-all{
+      padding:8px 16px;background:var(--bg-soft);color:var(--text);
+      border:1px solid var(--line);border-radius:6px;cursor:pointer;
+      font-size:0.9rem;font-weight:500;transition:all 0.2s ease;
+    }
+    .bulk-clear-all:hover{
+      background:var(--card);border-color:var(--accent);
+    }
+    
+    /* Loading States */
+    .featured-loading{
+      text-align:center;padding:40px;color:var(--muted);
+    }
+    .featured-loading-spinner{
+      width:32px;height:32px;border:3px solid var(--bg-soft);
+      border-top:3px solid var(--accent);border-radius:50%;
+      animation:spin 1s linear infinite;margin:0 auto 16px;
+    }
+    
+    /* Success Message */
+    .featured-success-message{
+      background:linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+      color:white;padding:16px 20px;border-radius:12px;
+      display:flex;align-items:center;gap:12px;margin-bottom:16px;
+      animation:slideUpMobile 0.4s ease-out;
+    }
+    .featured-success-icon{
+      font-size:20px;
+    }
+    .featured-success-text{
+      font-weight:500;
+    }
+    
+    /* Print Styles for Featured */
+    @media print{
+      .featured-products-section{break-inside:avoid}
+      .featured-product-card{break-inside:avoid}
+      .featured-toggle{display:none}
+      .featured-remove-btn{display:none}
+      .drag-handle{display:none}
+    }
+    
+    /* Reorganized Admin Panel Layout */
+    .dashboard-overview{
+      background:linear-gradient(135deg,var(--card) 0%,var(--bg-soft) 100%);
+      border-radius:20px;padding:32px;margin-bottom:32px;
+      border:1px solid var(--line);box-shadow:0 8px 32px rgba(200,168,145,0.1);
+    }
+    .overview-header{
+      margin-bottom:24px;text-align:center;
+    }
+    .overview-header h2{
+      font-size:2rem;font-weight:700;color:var(--text);
+      margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:12px;
+    }
+    .overview-header p{
+      color:var(--muted);font-size:1.1rem;
+    }
+    
+    /* Enhanced Stats Cards */
+    .stats-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:20px;margin-top:24px;
+    }
+    .stat-card{
+      background:var(--bg-soft);border-radius:16px;padding:24px;
+      border:1px solid var(--line);transition:all 0.3s ease;
+      position:relative;overflow:hidden;
+    }
+    .stat-card::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:4px;
+      background:var(--accent);
+    }
+    .stat-card.primary::before{background:#4ecdc4}
+    .stat-card.success::before{background:#51cf66}
+    .stat-card.warning::before{background:#ff922b}
+    .stat-card.info::before{background:#845ef7}
+    .stat-card:hover{
+      transform:translateY(-4px);box-shadow:0 12px 24px rgba(200,168,145,0.2);
+    }
+    .stat-icon{
+      font-size:2.5rem;margin-bottom:12px;display:block;
+    }
+    .stat-content{
+      text-align:center;
+    }
+    .stat-value{
+      font-size:2.5rem;font-weight:800;color:var(--text);
+      margin-bottom:4px;line-height:1;
+    }
+    .stat-label{
+      color:var(--muted);font-size:0.9rem;font-weight:500;
+    }
+    
+    /* Quick Actions Section */
+    .quick-actions-section{
+      background:var(--card);border-radius:20px;padding:32px;
+      margin-bottom:32px;border:1px solid var(--line);
+    }
+    .section-header{
+      margin-bottom:24px;
+    }
+    .section-header h2{
+      font-size:1.5rem;font-weight:700;color:var(--text);
+      margin-bottom:8px;display:flex;align-items:center;gap:8px;
+    }
+    .section-header h3{
+      font-size:1.2rem;font-weight:600;color:var(--text);
+      margin-bottom:8px;display:flex;align-items:center;gap:8px;
+    }
+    .quick-actions-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:16px;
+    }
+    .quick-action-btn{
+      display:flex;flex-direction:column;align-items:center;gap:12px;
+      padding:24px 16px;border-radius:16px;border:2px solid var(--line);
+      background:var(--bg-soft);cursor:pointer;transition:all 0.3s ease;
+      text-decoration:none;color:var(--text);font-weight:500;
+    }
+    .quick-action-btn:hover{
+      transform:translateY(-4px);box-shadow:0 8px 24px rgba(200,168,145,0.2);
+      border-color:var(--accent);
+    }
+    .quick-action-btn.primary{
+      background:linear-gradient(135deg,var(--accent),#b89a83);
+      color:white;border-color:var(--accent);
+    }
+    .quick-action-btn.secondary{
+      background:linear-gradient(135deg,#4ecdc4,#3db8af);
+      color:white;border-color:#4ecdc4;
+    }
+    .quick-action-btn.accent{
+      background:linear-gradient(135deg,#845ef7,#7c3aed);
+      color:white;border-color:#845ef7;
+    }
+    .quick-action-btn.export{
+      background:linear-gradient(135deg,#51cf66,#40c057);
+      color:white;border-color:#51cf66;
+    }
+    .action-icon{
+      font-size:2rem;
+    }
+    .action-text{
+      font-size:0.9rem;font-weight:600;text-align:center;
+    }
+    
+    /* Products Management Section */
+    .products-management-section{
+      background:var(--card);border-radius:20px;padding:32px;
+      margin-bottom:32px;border:1px solid var(--line);
+    }
+    .search-filters-container{
+      background:var(--bg-soft);border-radius:16px;padding:24px;
+      margin-bottom:24px;border:1px solid var(--line);
+    }
+    .search-filters-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:16px;margin-bottom:16px;
+    }
+    .search-box{
+      display:flex;align-items:center;gap:8px;padding:12px 16px;
+      background:var(--card);border-radius:12px;border:1px solid var(--line);
+      flex:1;
+    }
+    .search-box span{
+      color:var(--muted);font-size:1.1rem;
+    }
+    .search-box input{
+      border:none;background:none;color:var(--text);
+      outline:none;flex:1;font-size:1rem;
+    }
+    .search-filters-grid select{
+      padding:12px 16px;border:1px solid var(--line);
+      border-radius:12px;background:var(--card);color:var(--text);
+      font-size:0.9rem;cursor:pointer;
+    }
+    .search-filters-grid select:focus{
+      outline:none;border-color:var(--accent);
+    }
+    .filter-actions{
+      display:flex;justify-content:space-between;align-items:center;
+      padding-top:16px;border-top:1px solid var(--line);
+    }
+    
+    /* Categories Management Section */
+    .categories-management-section{
+      background:var(--card);border-radius:20px;padding:32px;
+      margin-bottom:32px;border:1px solid var(--line);
+    }
+    .categories-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+      gap:16px;margin-top:24px;
+    }
+    
+    /* Enhanced Section Headers */
+    .featured-products-header{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line);
+    }
+    .featured-products-title{
+      font-size:1.5rem;font-weight:700;color:var(--text);
+      display:flex;align-items:center;gap:8px;
+    }
+    .featured-products-subtitle{
+      color:var(--muted);font-size:0.9rem;margin-top:4px;
+    }
+    .featured-products-actions{
+      display:flex;gap:12px;flex-wrap:wrap;
+    }
+    
+    /* Mobile Responsive for Reorganized Layout */
+    @media (max-width:768px){
+      .dashboard-overview{
+        padding:20px;margin-bottom:20px;
+      }
+      .overview-header h2{
+        font-size:1.5rem;
+      }
+      .stats-grid{
+        grid-template-columns:repeat(2,1fr);gap:12px;
+      }
+      .stat-card{
+        padding:16px;
+      }
+      .stat-icon{
+        font-size:2rem;
+      }
+      .stat-value{
+        font-size:2rem;
+      }
+      .quick-actions-section,
+      .products-management-section,
+      .categories-management-section{
+        padding:20px;margin-bottom:20px;
+      }
+      .quick-actions-grid{
+        grid-template-columns:repeat(2,1fr);gap:12px;
+      }
+      .quick-action-btn{
+        padding:16px 12px;
+      }
+      .action-icon{
+        font-size:1.5rem;
+      }
+      .action-text{
+        font-size:0.8rem;
+      }
+      .search-filters-grid{
+        grid-template-columns:1fr;gap:12px;
+      }
+      .featured-products-header{
+        flex-direction:column;align-items:flex-start;gap:12px;
+      }
+      .featured-products-actions{
+        width:100%;justify-content:stretch;
+      }
+      .featured-products-actions .btn{
+        flex:1;
+      }
+    }
+    
+    @media (max-width:480px){
+      .stats-grid{
+        grid-template-columns:1fr;
+      }
+      .quick-actions-grid{
+        grid-template-columns:1fr;
+      }
+      .categories-grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+    
+    /* Enhanced Animations */
+    .dashboard-overview{
+      animation:slideInUp 0.6s ease-out;
+    }
+    .quick-actions-section{
+      animation:slideInUp 0.6s ease-out 0.1s backwards;
+    }
+    .featured-products-section{
+      animation:slideInUp 0.6s ease-out 0.2s backwards;
+    }
+    .products-management-section{
+      animation:slideInUp 0.6s ease-out 0.3s backwards;
+    }
+    .categories-management-section{
+      animation:slideInUp 0.6s ease-out 0.4s backwards;
+    }
+    
+    @keyframes slideInUp{
+      from{
+        opacity:0;transform:translateY(30px);
+      }
+      to{
+        opacity:1;transform:translateY(0);
+      }
+    }
+    
+    /* Management Modals Styles */
+    .management-modal{
+      position:fixed;inset:0;z-index:1000;
+      display:none;align-items:center;justify-content:center;
+      padding:24px;background:rgba(38,24,18,.85);
+      backdrop-filter:blur(12px);
+    }
+    .management-modal.open{
+      display:flex;
+    }
+    .management-modal-card{
+      width:min(100%,1200px);max-height:90vh;
+      background:var(--card);border-radius:24px;
+      box-shadow:0 24px 48px rgba(0,0,0,0.3);
+      overflow:hidden;display:flex;flex-direction:column;
+    }
+    .management-modal-header{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:32px;border-bottom:1px solid var(--line);
+      background:linear-gradient(135deg,var(--bg-soft),var(--card));
+    }
+    .modal-header-content h2{
+      font-size:1.8rem;font-weight:700;color:var(--text);
+      margin-bottom:8px;display:flex;align-items:center;gap:12px;
+    }
+    .modal-header-content p{
+      color:var(--muted);font-size:1.1rem;line-height:1.5;
+    }
+    .management-modal-body{
+      padding:32px;overflow-y:auto;flex:1;
+    }
+    
+    /* Guide Section */
+    .guide-section{
+      background:linear-gradient(135deg,var(--bg-soft),var(--card));
+      border-radius:20px;padding:24px;margin-bottom:24px;
+      border:1px solid var(--line);
+    }
+    .guide-header{
+      display:flex;align-items:center;gap:12px;margin-bottom:20px;
+    }
+    .guide-icon{
+      font-size:1.5rem;color:var(--accent);
+    }
+    .guide-header h3{
+      font-size:1.3rem;font-weight:600;color:var(--text);
+    }
+    .guide-content{
+      display:grid;gap:16px;
+    }
+    .guide-step{
+      display:flex;gap:16px;align-items:flex-start;
+      padding:20px;background:var(--card);border-radius:16px;
+      border:1px solid var(--line);transition:all 0.3s ease;
+    }
+    .guide-step:hover{
+      transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,168,145,0.15);
+    }
+    .step-number{
+      width:40px;height:40px;background:var(--accent);
+      color:white;border-radius:50%;display:flex;align-items:center;
+      justify-content:center;font-weight:700;font-size:1.1rem;
+      flex-shrink:0;
+    }
+    .step-content h4{
+      font-size:1.1rem;font-weight:600;color:var(--text);
+      margin-bottom:8px;
+    }
+    .step-content p{
+      color:var(--muted);line-height:1.6;
+    }
+    
+    /* Tips Section */
+    .tips-section{
+      background:linear-gradient(135deg,var(--card),var(--bg-soft));
+      border-radius:20px;padding:24px;margin-bottom:24px;
+      border:1px solid var(--line);
+    }
+    .tips-header{
+      display:flex;align-items:center;gap:12px;margin-bottom:20px;
+    }
+    .tips-icon{
+      font-size:1.5rem;color:#51cf66;
+    }
+    .tips-header h3{
+      font-size:1.3rem;font-weight:600;color:var(--text);
+    }
+    .tips-content{
+      display:grid;gap:12px;
+    }
+    .tip-item{
+      display:flex;gap:12px;align-items:flex-start;
+      padding:16px;background:var(--bg-soft);border-radius:12px;
+      border:1px solid var(--line);
+    }
+    .tip-icon{
+      font-size:1.2rem;color:var(--accent);flex-shrink:0;
+    }
+    .tip-text{
+      line-height:1.5;color:var(--text);
+    }
+    .tip-text strong{
+      color:var(--text);font-weight:600;
+    }
+    
+    /* Modal Actions */
+    .modal-actions{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:16px;margin-bottom:32px;
+    }
+    .action-btn{
+      display:flex;align-items:center;gap:12px;padding:16px 20px;
+      border-radius:16px;border:2px solid var(--line);
+      background:var(--bg-soft);cursor:pointer;
+      transition:all 0.3s ease;text-decoration:none;
+      font-weight:600;justify-content:center;
+    }
+    .action-btn:hover{
+      transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,168,145,0.2);
+    }
+    .action-btn.primary{
+      background:linear-gradient(135deg,var(--accent),#b89a83);
+      color:white;border-color:var(--accent);
+    }
+    .action-btn.secondary{
+      background:linear-gradient(135deg,#4ecdc4,#3db8af);
+      color:white;border-color:#4ecdc4;
+    }
+    .action-btn.accent{
+      background:linear-gradient(135deg,#845ef7,#7c3aed);
+      color:white;border-color:#845ef7;
+    }
+    .btn-icon{
+      font-size:1.2rem;
+    }
+    .btn-text{
+      font-size:0.95rem;
+    }
+    
+    /* Products Table Container */
+    .products-table-container{
+      background:var(--bg-soft);border-radius:20px;padding:24px;
+      border:1px solid var(--line);
+    }
+    .table-header{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:20px;flex-wrap:wrap;gap:16px;
+    }
+    .table-header h3{
+      font-size:1.2rem;font-weight:600;color:var(--text);
+      display:flex;align-items:center;gap:8px;
+    }
+    .table-actions{
+      display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+    }
+    .table-wrapper{
+      overflow-x:auto;border-radius:12px;
+      background:var(--card);border:1px solid var(--line);
+    }
+    .table-wrapper table{
+      width:100%;border-collapse:collapse;
+    }
+    .table-wrapper th{
+      background:var(--bg-soft);padding:16px;text-align:left;
+      font-weight:600;color:var(--text);border-bottom:1px solid var(--line);
+    }
+    .table-wrapper td{
+      padding:16px;border-bottom:1px solid var(--line);
+      color:var(--text);
+    }
+    .table-wrapper tr:hover{
+      background:var(--bg-soft);
+    }
+    
+    /* Categories Grid Container */
+    .categories-grid-container{
+      background:var(--bg-soft);border-radius:20px;padding:24px;
+      border:1px solid var(--line);
+    }
+    .grid-header{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:20px;
+    }
+    .grid-header h3{
+      font-size:1.2rem;font-weight:600;color:var(--text);
+      display:flex;align-items:center;gap:8px;
+    }
+    .grid-info{
+      color:var(--muted);font-size:0.9rem;
+    }
+    .categories-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+      gap:16px;
+    }
+    
+    /* Featured Grid Container */
+    .featured-grid-container{
+      background:var(--bg-soft);border-radius:20px;padding:24px;
+      border:1px solid var(--line);
+    }
+    .featured-stats-section{
+      margin-bottom:24px;
+    }
+    .stats-header h3{
+      font-size:1.2rem;font-weight:600;color:var(--text);
+      margin-bottom:16px;display:flex;align-items:center;gap:8px;
+    }
+    .featured-stats-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+      gap:16px;
+    }
+    
+    /* Mobile Responsive for Management Modals */
+    @media (max-width:768px){
+      .management-modal{
+        padding:16px;
+      }
+      .management-modal-card{
+        max-height:95vh;border-radius:16px;
+      }
+      .management-modal-header{
+        padding:20px;flex-direction:column;gap:16px;
+        text-align:center;
+      }
+      .modal-header-content h2{
+        font-size:1.4rem;
+      }
+      .modal-header-content p{
+        font-size:1rem;
+      }
+      .management-modal-body{
+        padding:20px;
+      }
+      .guide-section,
+      .tips-section{
+        padding:16px;margin-bottom:16px;
+      }
+      .guide-step{
+        padding:16px;flex-direction:column;gap:12px;
+      }
+      .step-number{
+        width:32px;height:32px;font-size:0.9rem;
+      }
+      .modal-actions{
+        grid-template-columns:1fr;gap:12px;
+      }
+      .action-btn{
+        padding:14px 16px;
+      }
+      .table-header{
+        flex-direction:column;align-items:flex-start;
+      }
+      .table-actions{
+        width:100%;flex-direction:column;
+      }
+      .table-actions .search-box{
+        width:100%;
+      }
+      .categories-grid{
+        grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+      }
+    }
+    
+    @media (max-width:480px){
+      .guide-header h3,
+      .tips-header h3{
+        font-size:1.1rem;
+      }
+      .step-content h4{
+        font-size:1rem;
+      }
+      .step-content p{
+        font-size:0.9rem;
+      }
+      .tip-text{
+        font-size:0.9rem;
+      }
+      .table-wrapper th,
+      .table-wrapper td{
+        padding:12px 8px;font-size:0.85rem;
+      }
+      .categories-grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+    
+    /* Modal Animations */
+    .management-modal{
+      animation:modalFadeIn 0.3s ease-out;
+    }
+    .management-modal-card{
+      animation:modalSlideIn 0.4s ease-out;
+    }
+    @keyframes modalFadeIn{
+      from{opacity:0}
+      to{opacity:1}
+    }
+    @keyframes modalSlideIn{
+      from{transform:scale(0.9) translateY(20px);opacity:0}
+      to{transform:scale(1) translateY(0);opacity:1}
+    }
     .image-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px;margin-top:16px}
     .preview-item{position:relative;border-radius:8px;overflow:hidden}
     .preview-item img{width:100%;height:100px;object-fit:cover}
@@ -775,51 +2967,431 @@
         </div>
       </div>
 
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Total de Productos</div>
-          <div class="stat-value" id="totalProducts">0</div>
+      <!-- Dashboard Overview -->
+      <div class="dashboard-overview">
+        <div class="overview-header">
+          <h2>📊 Panel de Control</h2>
+          <p>Resumen general de tu catálogo de productos</p>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">Disponibles</div>
-          <div class="stat-value" id="availableProducts">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Por Encargue</div>
-          <div class="stat-value" id="orderProducts">0</div>
+        
+        <div class="stats-grid">
+          <div class="stat-card primary">
+            <div class="stat-icon">📦</div>
+            <div class="stat-content">
+              <div class="stat-value" id="totalProducts">0</div>
+              <div class="stat-label">Total de Productos</div>
+            </div>
+          </div>
+          <div class="stat-card success">
+            <div class="stat-icon">✅</div>
+            <div class="stat-content">
+              <div class="stat-value" id="availableProducts">0</div>
+              <div class="stat-label">Disponibles</div>
+            </div>
+          </div>
+          <div class="stat-card warning">
+            <div class="stat-icon">⏳</div>
+            <div class="stat-content">
+              <div class="stat-value" id="orderProducts">0</div>
+              <div class="stat-label">Por Encargue</div>
+            </div>
+          </div>
+          <div class="stat-card info">
+            <div class="stat-icon">📈</div>
+            <div class="stat-content">
+              <div class="stat-value" id="totalCategories">0</div>
+              <div class="stat-label">Categorías</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Categories Grid -->
-      <div class="categories-section" id="categoriesSection">
-        <h3>🏷️ Categorías</h3>
-        <div class="categories-grid" id="categoriesGrid">
-          <!-- Categories will be loaded here -->
+      <!-- Quick Actions -->
+      <div class="quick-actions-section">
+        <div class="section-header">
+          <h3>⚡ Acciones Rápidas</h3>
+        </div>
+        <div class="quick-actions-grid">
+          <button class="quick-action-btn primary" onclick="openProductsManagementModal()">
+            <span class="action-icon">📦</span>
+            <span class="action-text">Gestión de Productos</span>
+          </button>
+          <button class="quick-action-btn secondary" onclick="openCategoriesManagementModal()">
+            <span class="action-icon">🏷️</span>
+            <span class="action-text">Gestión de Categorías</span>
+          </button>
+          <button class="quick-action-btn accent" onclick="openFeaturedManagementModal()">
+            <span class="action-icon">⭐</span>
+            <span class="action-text">Productos Destacados</span>
+          </button>
+          <button class="quick-action-btn export" onclick="exportProducts()">
+            <span class="action-icon">📥</span>
+            <span class="action-text">Exportar Datos</span>
+          </button>
         </div>
       </div>
 
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Imagen</th>
-              <th>Producto</th>
-              <th>Categoría</th>
-              <th>Precio</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="productsTableBody">
-            <tr>
-              <td colspan="6" style="text-align: center; padding: 40px; color: var(--muted);">
-                Cargando productos...
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </main>
+  </div>
+
+  <!-- Products Management Modal -->
+  <div class="management-modal" id="productsManagementModal">
+    <div class="management-modal-card">
+      <div class="management-modal-header">
+        <div class="modal-header-content">
+          <h2>📦 Gestión de Productos</h2>
+          <p>Administrá todo tu catálogo de productos de forma sencilla y organizada</p>
+        </div>
+        <button class="close-btn" onclick="closeProductsManagementModal()">✕</button>
+      </div>
+      
+      <div class="management-modal-body">
+        <!-- Guide Section -->
+        <div class="guide-section">
+          <div class="guide-header">
+            <span class="guide-icon">📖</span>
+            <h3>Guía Rápida de Uso</h3>
+          </div>
+          <div class="guide-content">
+            <div class="guide-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Agregar Nuevo Producto</h4>
+                <p>Hacé click en el botón "➕ Nuevo Producto" para abrir el formulario de creación. Completá todos los campos: nombre, categoría, descripción, precio y estado.</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Buscar y Filtrar</h4>
+                <p>Usá la barra de búsqueda para encontrar productos específicos. Los filtros por categoría y estado te ayudan a segmentar tu catálogo.</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Editar o Eliminar</h4>
+                <p>Cada producto tiene botones de acción. Editá la información o eliminá productos que ya no necesites.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="tips-section">
+          <div class="tips-header">
+            <span class="tips-icon">💡</span>
+            <h3>Consejos Profesionales</h3>
+          </div>
+          <div class="tips-content">
+            <div class="tip-item">
+              <span class="tip-icon">✨</span>
+              <div class="tip-text">
+                <strong>Imágenes de calidad:</strong> Usá fotos claras y bien iluminadas para mostrar mejor tus productos.
+              </div>
+            </div>
+            <div class="tip-item">
+              <span class="tip-icon">🏷️</span>
+              <div class="tip-text">
+                <strong>Etiquetas personalizadas:</strong> Agregá etiquetas como "Más Vendido" o "Nuevo" para destacar productos especiales.
+              </div>
+            </div>
+            <div class="tip-item">
+              <span class="tip-icon">📊</span>
+              <div class="tip-text">
+                <strong>Estados claros:</strong> Mantené actualizado el estado de cada producto (Disponible, Por Encargue, Agotado).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="modal-actions">
+          <button class="action-btn primary" onclick="openProductForm()">
+            <span class="btn-icon">➕</span>
+            <span class="btn-text">Nuevo Producto</span>
+          </button>
+          <button class="action-btn secondary" onclick="exportProducts()">
+            <span class="btn-icon">📥</span>
+            <span class="btn-text">Exportar Catálogo</span>
+          </button>
+          <button class="action-btn accent" onclick="refreshProducts()">
+            <span class="btn-icon">🔄</span>
+            <span class="btn-text">Actualizar Lista</span>
+          </button>
+        </div>
+
+        <!-- Products Table -->
+        <div class="products-table-container">
+          <div class="table-header">
+            <h3>📋 Lista de Productos</h3>
+            <div class="table-actions">
+              <div class="search-box">
+                <span>🔍</span>
+                <input type="search" id="modalSearchInput" placeholder="Buscar productos...">
+              </div>
+              <select id="modalFilterCategory">
+                <option value="">Todas las categorías</option>
+              </select>
+              <select id="modalFilterStatus">
+                <option value="">Todos los estados</option>
+                <option value="Disponible">Disponible</option>
+                <option value="Por encargue">Por encargue</option>
+                <option value="Agotado">Agotado</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Producto</th>
+                  <th>Categoría</th>
+                  <th>Precio</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="modalProductsTableBody">
+                <tr>
+                  <td colspan="6" style="text-align: center; padding: 40px; color: var(--muted);">
+                    Cargando productos...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories Management Modal -->
+  <div class="management-modal" id="categoriesManagementModal">
+    <div class="management-modal-card">
+      <div class="management-modal-header">
+        <div class="modal-header-content">
+          <h2>🏷️ Gestión de Categorías</h2>
+          <p>Organizá tus productos por categorías para una mejor navegación</p>
+        </div>
+        <button class="close-btn" onclick="closeCategoriesManagementModal()">✕</button>
+      </div>
+      
+      <div class="management-modal-body">
+        <!-- Guide Section -->
+        <div class="guide-section">
+          <div class="guide-header">
+            <span class="guide-icon">📖</span>
+            <h3>Guía de Categorías</h3>
+          </div>
+          <div class="guide-content">
+            <div class="guide-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Crear Categorías</h4>
+                <p>Hacé click en "➕ Nueva Categoría" para agregar nuevas líneas de productos a tu catálogo.</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Reordenar</h4>
+                <p>Arrastrá y soltá las categorías para cambiar su orden de aparición en la tienda.</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Editar o Eliminar</h4>
+                <p>Modificá el nombre o eliminá categorías que ya no necesites.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="tips-section">
+          <div class="tips-header">
+            <span class="tips-icon">💡</span>
+            <h3>Mejores Prácticas</h3>
+          </div>
+          <div class="tips-content">
+            <div class="tip-item">
+              <span class="tip-icon">🎯</span>
+              <div class="tip-text">
+                <strong>Nombres claros:</strong> Usá nombres descriptivos que tus clientes entiendan fácilmente.
+              </div>
+            </div>
+            <div class="tip-item">
+              <span class="tip-icon">📸</span>
+              <div class="tip-text">
+                <strong>Imágenes representativas:</strong> Cada categoría puede tener su propia imagen para mejor visualización.
+              </div>
+            </div>
+            <div class="tip-item">
+              <span class="tip-icon">🔄</span>
+              <div class="tip-text">
+                <strong>Orden lógico:</strong> Organizá las categorías por importancia o tipo de producto.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="modal-actions">
+          <button class="action-btn primary" onclick="openCategoryForm()">
+            <span class="btn-icon">➕</span>
+            <span class="btn-text">Nueva Categoría</span>
+          </button>
+          <button class="action-btn secondary" onclick="exportCategories()">
+            <span class="btn-icon">📥</span>
+            <span class="btn-text">Exportar Categorías</span>
+          </button>
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="categories-grid-container">
+          <div class="grid-header">
+            <h3>📋 Categorías Actuales</h3>
+            <div class="grid-info">
+              <span id="categoriesCount">0 categorías</span>
+            </div>
+          </div>
+          
+          <div class="categories-grid" id="modalCategoriesGrid">
+            <!-- Categories will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Products Management Modal -->
+  <div class="management-modal" id="featuredManagementModal">
+    <div class="management-modal-card">
+      <div class="management-modal-header">
+        <div class="modal-header-content">
+          <h2>⭐ Productos Destacados</h2>
+          <p>Gestioná los productos que se mostrarán de forma especial en tu tienda</p>
+        </div>
+        <button class="close-btn" onclick="closeFeaturedManagementModal()">✕</button>
+      </div>
+      
+      <div class="management-modal-body">
+        <!-- Guide Section -->
+        <div class="guide-section">
+          <div class="guide-header">
+            <span class="guide-icon">📖</span>
+            <h3>Cómo Funcionan los Destacados</h3>
+          </div>
+          <div class="guide-content">
+            <div class="guide-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Seleccionar Productos</h4>
+                <p>Elegí hasta 6 productos para destacar. Estos aparecerán en una sección especial en la tienda.</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Establecer Prioridad</h4>
+                <p>Arrastrá los productos para ordenarlos. El primero será el más destacado.</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Activar/Desactivar</h4>
+                <p>Usá el interruptor para activar o desactivar el estado destacado de cada producto.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="tips-section">
+          <div class="tips-header">
+            <span class="tips-icon">💡</span>
+            <h3>Estrategias de Destacados</h3>
+          </div>
+          <div class="tips-content">
+            <div class="tip-item">
+              <span class="tip-icon">🔥</span>
+              <div class="tip-text">
+                <strong>Productos más vendidos:</strong> Destacá tus productos con mayor demanda para aumentar ventas.
+              </div>
+            </div>
+            <div class="tip-item">
+              <span class="tip-icon">🆕</span>
+              <div class="tip-text">
+                <strong>Lanzamientos recientes:</strong> Promocioná nuevos productos para darles visibilidad.
+              </div>
+            </div>
+            <div class="tip-item">
+              <span class="tip-icon">⭐</span>
+              <div class="tip-text">
+                <strong>Productos premium:</strong> Destacá artículos de alta gama o exclusivos.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="featured-stats-section">
+          <div class="stats-header">
+            <h3>📊 Estadísticas de Destacados</h3>
+          </div>
+          <div class="featured-stats-grid">
+            <div class="featured-stat-card">
+              <div class="featured-stat-number" id="modalTotalFeatured">0</div>
+              <div class="featured-stat-label">Destacados</div>
+            </div>
+            <div class="featured-stat-card">
+              <div class="featured-stat-number" id="modalAvailableFeatured">0</div>
+              <div class="featured-stat-label">Disponibles</div>
+            </div>
+            <div class="featured-stat-card">
+              <div class="featured-stat-number" id="modalMaxFeatured">6</div>
+              <div class="featured-stat-label">Máximo</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="modal-actions">
+          <button class="action-btn primary" onclick="selectAllFeatured()">
+            <span class="btn-icon">⭐</span>
+            <span class="btn-text">Seleccionar Todos</span>
+          </button>
+          <button class="action-btn secondary" onclick="clearAllFeatured()">
+            <span class="btn-icon">🗑️</span>
+            <span class="btn-text">Limpiar Todos</span>
+          </button>
+          <button class="action-btn accent" onclick="refreshFeatured()">
+            <span class="btn-icon">🔄</span>
+            <span class="btn-text">Actualizar</span>
+          </button>
+        </div>
+
+        <!-- Featured Products Grid -->
+        <div class="featured-grid-container">
+          <div class="grid-header">
+            <h3>⭐ Productos Seleccionados</h3>
+            <div class="grid-info">
+              <span id="featuredCount">0 de 6 productos</span>
+            </div>
+          </div>
+          
+          <div class="featured-products-grid" id="modalFeaturedGrid">
+            <!-- Featured products will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Product Modal -->
@@ -865,6 +3437,57 @@
               <option value="Disponible">Disponible</option>
               <option value="Agotado">Agotado</option>
             </select>
+          </div>
+        </div>
+        <div class="form-grid full">
+          <div class="form-group">
+            <label for="productTags">Etiquetas del Producto</label>
+            <div class="product-tags-container">
+              <div class="tags-input-wrapper">
+                <input type="text" id="productTags" class="tags-input" placeholder="Escribí para buscar o crear etiquetas...">
+                <div class="tags-dropdown" id="tagsDropdown">
+                  <div class="tag-option" data-tag="mas-vendido">
+                    <span class="tag-name">Más Vendido</span>
+                    <span class="tag-color" style="background:#ff6b6b;"></span>
+                  </div>
+                  <div class="tag-option" data-tag="por-encargue">
+                    <span class="tag-name">Por Encargue</span>
+                    <span class="tag-color" style="background:#4ecdc4;"></span>
+                  </div>
+                  <div class="tag-option" data-tag="nuevo">
+                    <span class="tag-name">Nuevo</span>
+                    <span class="tag-color" style="background:#51cf66;"></span>
+                  </div>
+                  <div class="tag-option" data-tag="oferta">
+                    <span class="tag-name">Oferta</span>
+                    <span class="tag-color" style="background:#ff922b;"></span>
+                  </div>
+                  <div class="tag-option" data-tag="exclusivo">
+                    <span class="tag-name">Exclusivo</span>
+                    <span class="tag-color" style="background:#845ef7;"></span>
+                  </div>
+                  <div class="tag-option" data-tag="limitado">
+                    <span class="tag-name">Edición Limitada</span>
+                    <span class="tag-color" style="background:#f03e3e;"></span>
+                  </div>
+                  <div class="tag-option" data-tag="premium">
+                    <span class="tag-name">Premium</span>
+                    <span class="tag-color" style="background:#ffd43b;"></span>
+                  </div>
+                  <div class="tag-option" data-tag="eco">
+                    <span class="tag-name">Eco-friendly</span>
+                    <span class="tag-color" style="background:#51cf66;"></span>
+                  </div>
+                  <div class="tag-option" data-tag="handmade">
+                    <span class="tag-name">Artesanal</span>
+                    <span class="tag-color" style="background:#868e96;"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="selected-tags" id="selectedTags">
+                <!-- Selected tags will be displayed here -->
+              </div>
+            </div>
           </div>
         </div>
         <div class="form-grid full">
@@ -980,7 +3603,7 @@
     const cancelBtn = document.getElementById('cancelBtn');
     const productForm = document.getElementById('productForm');
     const productName = document.getElementById('productName');
-    const productCategory = document.getElementById('productCategory');
+    let productCategory = document.getElementById('productCategory');
     const productDescription = document.getElementById('productDescription');
     const productPrice = document.getElementById('productPrice');
     const productStatus = document.getElementById('productStatus');
@@ -989,7 +3612,7 @@
     const compressionInfo = document.getElementById('compressionInfo');
     const compressionStatus = document.getElementById('compressionStatus');
     const compressionDetails = document.getElementById('compressionDetails');
-    const productsTable = document.getElementById('productsTableBody');
+    let productsTable = document.getElementById('productsTableBody');
     const refreshBtn = document.getElementById('refreshBtn');
     const addCategoryBtn = document.getElementById('addCategoryBtn');
     const dropZone = document.getElementById('dropZone');
@@ -1053,28 +3676,12 @@
       resultsCount = document.getElementById('resultsCount');
       
             
-      // Initialize pagination elements
-      paginationContainer = document.createElement('div');
-      paginationContainer.className = 'pagination-container';
-      paginationContainer.innerHTML = `
-        <div class='pagination-info'>
-          <span id='paginationInfo'>Mostrando 0-0 de 0 productos</span>
-        </div>
-        <div class='pagination-controls'>
-          <button class='ghost-btn' id='prevPageBtn' disabled>← Anterior</button>
-          <div class='page-numbers' id='pageNumbers'></div>
-          <button class='ghost-btn' id='nextPageBtn' disabled>Siguiente →</button>
-        </div>
-      `;
-      
-      // Insert pagination container after table
-      document.querySelector('.table-container').after(paginationContainer);
-      
-      // Get pagination element references
-      prevPageBtn = document.getElementById('prevPageBtn');
-      nextPageBtn = document.getElementById('nextPageBtn');
-      pageNumbers = document.getElementById('pageNumbers');
-      paginationInfo = document.getElementById('paginationInfo');
+      // Initialize pagination elements (will be created after products load)
+      paginationContainer = null;
+      prevPageBtn = null;
+      nextPageBtn = null;
+      pageNumbers = null;
+      paginationInfo = null;
       
       // Login
       loginForm.addEventListener('submit', async (e) => {
@@ -1176,10 +3783,16 @@
           features: []
         };
         
+        let productResult = null;
+        
         if (editingProductId) {
-          await supabaseClient.from('products').update(productData).eq('id', editingProductId);
+          const { data: updateData, error: updateError } = await supabaseClient.from('products').update(productData).eq('id', editingProductId);
+          if (updateError) throw updateError;
+          productResult = updateData;
         } else {
-          await supabaseClient.from('products').insert(productData);
+          const { data: insertData, error: insertError } = await supabaseClient.from('products').insert(productData);
+          if (insertError) throw insertError;
+          productResult = insertData;
         }
         
         // Upload images
@@ -1188,21 +3801,21 @@
           for (let i = 0; i < uploadedImages.length; i++) {
             const file = uploadedImages[i];
             const fileName = `${Date.now()}_${i}.jpg`;
-            const { data, error } = await supabaseClient.storage
+            const { data: uploadData, error: uploadError } = await supabaseClient.storage
               .from('aromas-ara-images')
               .upload(fileName, file);
             
-            if (!error) {
-              const { data: { publicUrl } } = supabaseClient.storage
+            if (!uploadError) {
+              const { data: urlData } = supabaseClient.storage
                 .from('aromas-ara-images')
-                .getPublicUrl(fileName);
+                .getPublicUrl(uploadData.path);
               
-              imageUrls.push(publicUrl);
+              imageUrls.push(urlData.publicUrl);
             }
           }
           
           // Update product with images array
-          const productId = editingProductId || data[0]?.id;
+          const productId = editingProductId || productResult[0]?.id;
           if (imageUrls.length > 0) {
             await supabaseClient.from('products').update({ 
               image_url: imageUrls[0], // First image as main
@@ -1258,26 +3871,32 @@
       });
 
       // Search and Filter Event Listeners
-      searchInput.addEventListener('input', debounce(handleSearch, 300));
-      filterCategory.addEventListener('change', handleFilters);
-      filterStatus.addEventListener('change', handleFilters);
-      sortBy.addEventListener('change', handleFilters);
-      clearFiltersBtn.addEventListener('click', clearAllFilters);
+      if (searchInput) searchInput.addEventListener('input', debounce(handleSearch, 300));
+      if (filterCategory) filterCategory.addEventListener('change', handleFilters);
+      if (filterStatus) filterStatus.addEventListener('change', handleFilters);
+      if (sortBy) sortBy.addEventListener('change', handleFilters);
+      if (clearFiltersBtn) clearFiltersBtn.addEventListener('click', clearAllFilters);
       
       // Pagination Event Listeners
-      document.getElementById('prevPageBtn').addEventListener('click', () => {
-        if (pagination.currentPage > 1) {
-          pagination.currentPage--;
-          renderFilteredProducts();
-        }
-      });
+      const prevPageBtnEl = document.getElementById('prevPageBtn');
+      if (prevPageBtnEl) {
+        prevPageBtnEl.addEventListener('click', () => {
+          if (pagination.currentPage > 1) {
+            pagination.currentPage--;
+            renderFilteredProducts();
+          }
+        });
+      }
       
-      document.getElementById('nextPageBtn').addEventListener('click', () => {
-        if (pagination.currentPage < pagination.totalPages) {
-          pagination.currentPage++;
-          renderFilteredProducts();
-        }
-      });
+      const nextPageBtnEl = document.getElementById('nextPageBtn');
+      if (nextPageBtnEl) {
+        nextPageBtnEl.addEventListener('click', () => {
+          if (pagination.currentPage < pagination.totalPages) {
+            pagination.currentPage++;
+            renderFilteredProducts();
+          }
+        });
+      }
       
       // Create export status element
       const exportStatus = document.createElement('div');
@@ -1747,6 +4366,40 @@
       return text.replace(regex, '<span class="highlight">$1</span>');
     }
 
+    function createPaginationContainer() {
+      if (paginationContainer) return; // Already created
+      
+      console.log('Creating pagination container...');
+      paginationContainer = document.createElement('div');
+      paginationContainer.className = 'pagination-container';
+      paginationContainer.innerHTML = `
+        <div class='pagination-info'>
+          <span id='paginationInfo'>Mostrando 0-0 de 0 productos</span>
+        </div>
+        <div class='pagination-controls'>
+          <button class='ghost-btn' id='prevPageBtn' disabled>← Anterior</button>
+          <div class='page-numbers' id='pageNumbers'></div>
+          <button class='ghost-btn' id='nextPageBtn' disabled>Siguiente →</button>
+        </div>
+      `;
+      
+      // Insert pagination container after table
+      const tableContainer = document.querySelector('.products-table-container');
+      console.log('Table container found:', tableContainer);
+      if (tableContainer) {
+        tableContainer.after(paginationContainer);
+        
+        // Get pagination element references
+        prevPageBtn = document.getElementById('prevPageBtn');
+        nextPageBtn = document.getElementById('nextPageBtn');
+        pageNumbers = document.getElementById('pageNumbers');
+        paginationInfo = document.getElementById('paginationInfo');
+        console.log('Pagination elements initialized:', { prevPageBtn, nextPageBtn, pageNumbers, paginationInfo });
+      } else {
+        console.error('Table container not found when creating pagination');
+      }
+    }
+
     // Product Functions
     async function loadProducts() {
       try {
@@ -1759,6 +4412,28 @@
         
         products = data || [];
         console.log('Productos cargados:', products.length, products);
+        
+        // Create pagination container after products are loaded and DOM is ready
+        createPaginationContainer();
+        
+        // Re-initialize DOM elements that might not exist during initial DOMContentLoaded
+        const productsTable = document.getElementById('productsTableBody') 
+            || document.getElementById('modalProductsTable');
+        if (!productsTable) return;
+        
+        // Update global reference if needed
+        if (!window.productsTable) {
+          window.productsTable = productsTable;
+        }
+        if (!productCategory) {
+          productCategory = document.getElementById('productCategory');
+        }
+        
+        // Initialize mobile responsiveness after products are loaded
+        setTimeout(() => {
+          initMobileResponsiveness();
+        }, 500);
+        
         applyFilters(); // Apply current filters to new data
         updateStats();
         
@@ -1773,6 +4448,12 @@
     }
 
     function renderFilteredProducts() {
+      const productsTable = document.getElementById('productsTableBody'); 
+      if (!productsTable) {
+        console.warn('productsTableBody no disponible aún');
+        return;
+      }
+      
       productsTable.innerHTML = '';
 
       if (filteredProducts.length === 0) {
@@ -1786,12 +4467,12 @@
             </td>
           </tr>
         `;
-        paginationContainer.style.display = 'none';
+        if (paginationContainer) paginationContainer.style.display = 'none';
         return;
       }
 
       // Show pagination if there are products
-      paginationContainer.style.display = 'flex';
+      if (paginationContainer) paginationContainer.style.display = 'flex';
       
       // Get only products for current page
       const paginatedProducts = getPaginatedProducts();
@@ -2352,6 +5033,7 @@
     // Update category dropdown with X buttons and edit functionality
     function updateCategoryDropdown() {
       const categoryDropdown = document.getElementById('categoryDropdown');
+      if (!categoryDropdown) return;
       
       // Get categories from the select
       const options = Array.from(productCategory.options).slice(1); // Skip "Seleccionar categoría"
@@ -2806,6 +5488,2051 @@
     function showAlert(message, type = 'info', title = '') {
       notificationManager.show(message, type, 4000, { title });
     }
+
+    // Enhanced UX Functions
+    function addLoadingStates() {
+      // Add loading states to buttons
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn')) {
+          const btn = e.target;
+          if (!btn.classList.contains('loading')) {
+            btn.classList.add('loading');
+            setTimeout(() => {
+              btn.classList.remove('loading');
+            }, 2000);
+          }
+        }
+      });
+    }
+
+    function enhanceFormInteractions() {
+      // Enhanced focus states
+      document.querySelectorAll('.form-group input, .form-group select, .form-group textarea').forEach(input => {
+        input.addEventListener('focus', () => {
+          input.closest('.form-group').classList.add('focused');
+        });
+        
+        input.addEventListener('blur', () => {
+          input.closest('.form-group').classList.remove('focused');
+        });
+        
+        // Real-time validation
+        input.addEventListener('input', () => {
+          validateField(input);
+        });
+      });
+    }
+
+    function validateField(field) {
+      const formGroup = field.closest('.form-group');
+      formGroup.classList.remove('error');
+      
+      if (field.hasAttribute('required') && !field.value.trim()) {
+        formGroup.classList.add('error');
+        const errorMsg = formGroup.querySelector('.error-message');
+        if (errorMsg) {
+          errorMsg.textContent = 'Este campo es requerido';
+        } else {
+          const message = document.createElement('div');
+          message.className = 'error-message';
+          message.innerHTML = '⚠️ Este campo es requerido';
+          formGroup.appendChild(message);
+        }
+      }
+    }
+
+    function addTableEnhancements() {
+      // Add keyboard navigation to table
+      const table = document.querySelector('table');
+      if (!table) return;
+
+      let currentRow = -1;
+      
+      document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        
+        const rows = table.querySelectorAll('tbody tr');
+        
+        switch(e.key) {
+          case 'ArrowDown':
+            e.preventDefault();
+            currentRow = Math.min(currentRow + 1, rows.length - 1);
+            highlightRow(rows[currentRow]);
+            break;
+          case 'ArrowUp':
+            e.preventDefault();
+            currentRow = Math.max(currentRow - 1, 0);
+            highlightRow(rows[currentRow]);
+            break;
+          case 'Enter':
+            if (currentRow >= 0) {
+              e.preventDefault();
+              const editBtn = rows[currentRow].querySelector('.btn-edit');
+              if (editBtn) editBtn.click();
+            }
+            break;
+        }
+      });
+    }
+
+    function highlightRow(row) {
+      document.querySelectorAll('tbody tr').forEach(tr => tr.classList.remove('highlighted'));
+      if (row) {
+        row.classList.add('highlighted');
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function addKeyboardShortcuts() {
+      const shortcuts = {
+        'Ctrl+N': () => document.getElementById('addProductBtn')?.click(),
+        'Ctrl+S': () => {
+          const saveBtn = document.querySelector('.modal.open .btn-primary');
+          if (saveBtn) saveBtn.click();
+        },
+        'Escape': () => {
+          const modal = document.querySelector('.modal.open');
+          if (modal) {
+            const closeBtn = modal.querySelector('.close-btn');
+            if (closeBtn) closeBtn.click();
+          }
+        },
+        'Ctrl+E': () => exportProducts('csv'),
+        'Ctrl+Shift+E': () => exportCategories('csv'),
+        'F5': () => loadProducts(),
+        'F1': () => showKeyboardHelp()
+      };
+
+      document.addEventListener('keydown', (e) => {
+        const key = `${e.ctrlKey ? 'Ctrl+' : ''}${e.shiftKey ? 'Shift+' : ''}${e.key}`;
+        if (shortcuts[key]) {
+          e.preventDefault();
+          shortcuts[key]();
+        }
+      });
+    }
+
+    function showKeyboardHelp() {
+      const helpModal = document.createElement('div');
+      helpModal.className = 'modal open';
+      helpModal.innerHTML = `
+        <div class="modal-card">
+          <div class="modal-header">
+            <h2>Atajos de Teclado</h2>
+            <button class="close-btn" onclick="this.closest('.modal').remove()">✕</button>
+          </div>
+          <div style="display: grid; gap: 12px;">
+            <div><kbd>Ctrl+N</kbd> - Nuevo producto</div>
+            <div><kbd>Ctrl+S</kbd> - Guardar</div>
+            <div><kbd>Ctrl+E</kbd> - Exportar productos</div>
+            <div><kbd>Ctrl+Shift+E</kbd> - Exportar categorías</div>
+            <div><kbd>F5</kbd> - Actualizar</div>
+            <div><kbd>Escape</kbd> - Cerrar modal</div>
+            <div><kbd>↑↓</kbd> - Navegar tabla</div>
+            <div><kbd>Enter</kbd> - Editar fila seleccionada</div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(helpModal);
+    }
+
+    function addMicroInteractions() {
+      // Add ripple effects to buttons
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn')) {
+          createRipple(e.target, e);
+        }
+      });
+    }
+
+    function createRipple(button, event) {
+      const ripple = document.createElement('span');
+      const rect = button.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = event.clientX - rect.left - size / 2;
+      const y = event.clientY - rect.top - size / 2;
+      
+      ripple.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: translate(-50%, -50%);
+        animation: ripple 0.6s ease-out;
+        pointer-events: none;
+      `;
+      
+      button.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    }
+
+    function enhanceEmptyStates() {
+      // Add better empty states
+      const observer = new MutationObserver(() => {
+        const table = document.querySelector('table tbody');
+        if (table && table.children.length === 0) {
+          table.innerHTML = `
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 40px;">
+                <div class="empty-state">
+                  <div class="empty-state-icon">📦</div>
+                  <div class="empty-state-title">No hay productos</div>
+                  <div class="empty-state-description">
+                    Agregá tu primer producto usando el botón "Agregar producto"
+                  </div>
+                </div>
+              </td>
+            </tr>
+          `;
+        }
+      });
+      
+      const tableToObserve = document.querySelector('table tbody');
+      if (tableToObserve) {
+        observer.observe(tableToObserve, { childList: true });
+      }
+    }
+
+    // Initialize all enhancements
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        addLoadingStates();
+        enhanceFormInteractions();
+        addTableEnhancements();
+        addKeyboardShortcuts();
+        addMicroInteractions();
+        enhanceEmptyStates();
+        // Mobile responsiveness will be initialized after products load
+        
+        // Show keyboard shortcut hint
+        setTimeout(() => {
+          const hint = document.createElement('div');
+          hint.className = 'keyboard-hint';
+          hint.innerHTML = 'Presioná <kbd>F1</kbd> para ver atajos';
+          document.body.appendChild(hint);
+          
+          setTimeout(() => hint.classList.add('show'), 1000);
+          setTimeout(() => hint.classList.remove('show'), 5000);
+        }, 2000);
+      }, 1000);
+    });
+
+    // Mobile Responsiveness Functions
+    function initMobileResponsiveness() {
+      createMobileMenu();
+      setupMobileTable();
+      handleOrientationChange();
+    }
+
+    function createMobileMenu() {
+      // Create mobile menu toggle
+      const mobileToggle = document.createElement('button');
+      mobileToggle.className = 'mobile-menu-toggle';
+      mobileToggle.innerHTML = '⚡';
+      mobileToggle.setAttribute('aria-label', 'Menú de acciones rápidas');
+      
+      // Create mobile navigation
+      const mobileNav = document.createElement('div');
+      mobileNav.className = 'mobile-nav';
+      mobileNav.innerHTML = `
+        <div class="mobile-nav-actions">
+          <button class="btn wa-btn" onclick="document.getElementById('addProductBtn')?.click()">
+            <span>➕</span> Nuevo Producto
+          </button>
+          <button class="btn soft-btn" onclick="loadProducts()">
+            <span>🔄</span> Actualizar
+          </button>
+          <button class="btn ghost-btn" onclick="exportProducts('csv')">
+            <span>📊</span> Exportar
+          </button>
+          <button class="btn ghost-btn" onclick="showKeyboardHelp()">
+            <span>⌨️</span> Atajos
+          </button>
+        </div>
+      `;
+      
+      document.body.appendChild(mobileToggle);
+      document.body.appendChild(mobileNav);
+      
+      // Toggle mobile menu
+      mobileToggle.addEventListener('click', () => {
+        mobileNav.classList.toggle('open');
+      });
+      
+      // Close mobile menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!mobileToggle.contains(e.target) && !mobileNav.contains(e.target)) {
+          mobileNav.classList.remove('open');
+        }
+      });
+    }
+
+    function setupMobileTable() {
+      const table = document.querySelector('table');
+      if (!table) return;
+      
+      const isMobile = window.innerWidth <= 768;
+      const tbody = table.querySelector('tbody');
+      
+      if (isMobile && tbody) {
+        convertToMobileCards(tbody);
+      }
+      
+      // Handle resize
+      window.addEventListener('resize', debounce(() => {
+        const newIsMobile = window.innerWidth <= 768;
+        if (newIsMobile !== isMobile) {
+          if (newIsMobile) {
+            convertToMobileCards(tbody);
+          } else {
+            restoreTable(tbody);
+          }
+        }
+      }, 250));
+    }
+
+    function convertToMobileCards(tbody) {
+      console.log('Converting to mobile cards...');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      console.log('Found rows:', rows.length);
+      
+      // Hide original table
+      const table = tbody.closest('table');
+      table.style.display = 'none';
+      
+      // Create mobile cards container
+      let mobileContainer = document.querySelector('.mobile-table-container');
+      if (!mobileContainer) {
+        mobileContainer = document.createElement('div');
+        mobileContainer.className = 'mobile-table-container';
+        table.parentNode.insertBefore(mobileContainer, table);
+      }
+      
+      mobileContainer.innerHTML = '';
+      
+      rows.forEach((row, index) => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length === 0) return;
+        
+        const img = cells[0]?.querySelector('img');
+        const productName = cells[1]?.textContent?.trim() || '';
+        const category = cells[2]?.textContent?.trim() || '';
+        const price = cells[3]?.textContent?.trim() || '';
+        const status = cells[4]?.textContent?.trim() || 'Disponible';
+        const actions = cells[5]?.innerHTML || '';
+        
+        console.log(`Row ${index}: status = "${status}" (type: ${typeof status})`);
+        
+        // Ensure status is a valid string
+        const normalizedStatus = String(status).trim() || 'Disponible';
+        
+        const card = document.createElement('div');
+        card.className = 'mobile-table-card fade-in';
+        
+        card.innerHTML = `
+          <div class="product-header">
+            ${img ? `<img src="${img.src}" alt="${productName}" class="product-img">` : '<div class="product-img-placeholder">📦</div>'}
+            <div class="product-info">
+              <div class="product-name">${productName}</div>
+            </div>
+          </div>
+          <div class="product-meta">
+            <span>${category}</span>
+            <span>$${price}</span>
+            <span class="status-${normalizedStatus.toLowerCase()}">${normalizedStatus}</span>
+          </div>
+          <div class="product-actions">
+            ${actions}
+          </div>
+        `;
+        
+        mobileContainer.appendChild(card);
+      });
+    }
+
+    function restoreTable(tbody) {
+      const table = tbody.closest('table');
+      const mobileContainer = document.querySelector('.mobile-table-container');
+      
+      if (mobileContainer) {
+        mobileContainer.remove();
+      }
+      
+      table.style.display = '';
+    }
+
+    function handleOrientationChange() {
+      window.addEventListener('orientationchange', debounce(() => {
+        // Adjust layouts for orientation change
+        const modals = document.querySelectorAll('.modal.open');
+        modals.forEach(modal => {
+          const card = modal.querySelector('.modal-card');
+          if (card) {
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              card.style.transform = '';
+            }, 100);
+          }
+        });
+      }, 250));
+    }
+
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // Enhanced mobile touch interactions
+    function addTouchOptimizations() {
+      // Add touch feedback to buttons
+      document.addEventListener('touchstart', (e) => {
+        if (e.target.classList.contains('btn')) {
+          e.target.style.transform = 'scale(0.95)';
+        }
+      });
+      
+      document.addEventListener('touchend', (e) => {
+        if (e.target.classList.contains('btn')) {
+          setTimeout(() => {
+            e.target.style.transform = '';
+          }, 150);
+        }
+      });
+    }
+
+    // Initialize touch optimizations
+    if ('ontouchstart' in window) {
+      addTouchOptimizations();
+    }
+
+    // Add mobile-specific CSS classes
+    function addMobileClasses() {
+      const isMobile = window.innerWidth <= 768;
+      const isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+      
+      document.body.classList.toggle('mobile', isMobile);
+      document.body.classList.toggle('tablet', isTablet);
+      document.body.classList.toggle('desktop', !isMobile && !isTablet);
+    }
+
+    // Initialize mobile classes
+    addMobileClasses();
+    window.addEventListener('resize', debounce(addMobileClasses, 250));
+    
+    // Mobile-specific fixes
+    function fixMobileModals() {
+      // Fix modal positioning on mobile
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.remove('open');
+          }
+        });
+      });
+      
+      // Fix iOS modal scrolling
+      if (navigator.userAgent.match(/iPhone|iPad|iPod/)) {
+        document.addEventListener('touchmove', (e) => {
+          if (document.querySelector('.modal.open')) {
+            const modalCard = document.querySelector('.modal-card');
+            if (modalCard && !modalCard.contains(e.target)) {
+              e.preventDefault();
+            }
+          }
+        }, { passive: false });
+      }
+      
+      // Fix modal close on escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.querySelector('.modal.open')) {
+          const modal = document.querySelector('.modal.open');
+          modal.classList.remove('open');
+        }
+      });
+    }
+
+    function fixMobileDropdowns() {
+      // Fix dropdown behavior on mobile
+      const dropdowns = document.querySelectorAll('.dropdown');
+      dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('button');
+        const content = dropdown.querySelector('.dropdown-content');
+        
+        if (toggle && content) {
+          toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Close other dropdowns
+            dropdowns.forEach(d => {
+              if (d !== dropdown) {
+                d.classList.remove('open');
+              }
+            });
+            
+            dropdown.classList.toggle('open');
+          });
+          
+          // Close dropdown when clicking outside
+          document.addEventListener('click', (e) => {
+            if (!dropdown.contains(e.target)) {
+              dropdown.classList.remove('open');
+            }
+          });
+        }
+      });
+    }
+
+    function fixMobileTouchInteractions() {
+      // Fix double-tap zoom issues
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', (e) => {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+          e.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, false);
+      
+      // Fix button interactions on mobile
+      const buttons = document.querySelectorAll('.btn, .btn-small, .close-btn');
+      buttons.forEach(button => {
+        button.addEventListener('touchstart', (e) => {
+          button.style.transform = 'scale(0.95)';
+        });
+        
+        button.addEventListener('touchend', (e) => {
+          setTimeout(() => {
+            button.style.transform = '';
+          }, 150);
+        });
+      });
+      
+      // Fix scroll behavior
+      if ('scrollBehavior' in document.documentElement.style) {
+        document.documentElement.style.scrollBehavior = 'smooth';
+      }
+    }
+
+    function fixMobileImageUpload() {
+      // Fix file input on mobile
+      const fileInputs = document.querySelectorAll('input[type="file"]');
+      fileInputs.forEach(input => {
+        input.addEventListener('change', (e) => {
+          const files = Array.from(e.target.files);
+          if (files.length > 0) {
+            // Handle file upload with mobile optimization
+            files.forEach(file => {
+              if (file.type.startsWith('image/')) {
+                // Compress image for mobile
+                compressImage(file, 0.8).then(compressed => {
+                  // Handle compressed image
+                  console.log('Image compressed for mobile');
+                });
+              }
+            });
+          }
+        });
+      });
+      
+      // Fix drag and drop on mobile
+      const dropZones = document.querySelectorAll('.drop-zone');
+      dropZones.forEach(zone => {
+        // Add touch events for mobile drag and drop
+        zone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          zone.classList.add('drag-over');
+        });
+        
+        zone.addEventListener('dragleave', () => {
+          zone.classList.remove('drag-over');
+        });
+        
+        zone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          zone.classList.remove('drag-over');
+          
+          const files = Array.from(e.dataTransfer.files);
+          handleMobileFileDrop(files, zone);
+        });
+        
+        // Add click to upload on mobile
+        zone.addEventListener('click', () => {
+          const fileInput = zone.querySelector('input[type="file"]');
+          if (fileInput) {
+            fileInput.click();
+          }
+        });
+      });
+    }
+
+    function handleMobileFileDrop(files, dropZone) {
+      files.forEach(file => {
+        if (file.type.startsWith('image/')) {
+          // Create preview for mobile
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            createMobileImagePreview(e.target.result, file.name);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    function createMobileImagePreview(src, name) {
+      const preview = document.querySelector('.image-preview');
+      if (!preview) return;
+      
+      const item = document.createElement('div');
+      item.className = 'preview-item fade-in';
+      item.innerHTML = `
+        <img src="${src}" alt="${name}">
+        <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
+      `;
+      
+      preview.appendChild(item);
+    }
+
+    function fixMobileSearchFilters() {
+      // Fix search input on mobile
+      const searchInputs = document.querySelectorAll('.search-input');
+      searchInputs.forEach(input => {
+        // Prevent zoom on focus
+        input.addEventListener('focus', () => {
+          input.style.fontSize = '16px';
+        });
+        
+        input.addEventListener('blur', () => {
+          input.style.fontSize = '';
+        });
+        
+        // Add search delay for mobile
+        let searchTimeout;
+        input.addEventListener('input', () => {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => {
+            // Perform search
+            performMobileSearch(input.value);
+          }, 500);
+        });
+      });
+      
+      // Fix filter selects on mobile
+      const filterSelects = document.querySelectorAll('select');
+      filterSelects.forEach(select => {
+        select.addEventListener('change', () => {
+          // Apply filters
+          applyMobileFilters();
+        });
+      });
+    }
+
+    function performMobileSearch(query) {
+      // Mobile search implementation
+      const products = document.querySelectorAll('.mobile-table-card');
+      products.forEach(product => {
+        const text = product.textContent.toLowerCase();
+        const matches = text.includes(query.toLowerCase());
+        product.style.display = matches ? 'block' : 'none';
+      });
+    }
+
+    function applyMobileFilters() {
+      // Mobile filter implementation
+      const categoryFilter = document.querySelector('#filterCategory');
+      const statusFilter = document.querySelector('#filterStatus');
+      
+      const products = document.querySelectorAll('.mobile-table-card');
+      products.forEach(product => {
+        let show = true;
+        
+        if (categoryFilter && categoryFilter.value !== '') {
+          const category = product.querySelector('.product-meta span')?.textContent;
+          show = show && category === categoryFilter.value;
+        }
+        
+        if (statusFilter && statusFilter.value !== '') {
+          const status = product.querySelector('.status-disponible, .status-por encargue, .status-agotado')?.textContent;
+          show = show && status === statusFilter.value;
+        }
+        
+        product.style.display = show ? 'block' : 'none';
+      });
+    }
+
+    function compressImage(file, quality = 0.8) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Calculate new dimensions
+            let width = img.width;
+            let height = img.height;
+            const maxWidth = 1200;
+            const maxHeight = 1200;
+            
+            if (width > maxWidth || height > maxHeight) {
+              const ratio = Math.min(maxWidth / width, maxHeight / height);
+              width *= ratio;
+              height *= ratio;
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Draw and compress
+            ctx.drawImage(img, 0, 0, width, height);
+            canvas.toBlob(resolve, 'image/jpeg', quality);
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function organizeMobileProductModal() {
+      // Reorganize product modal for mobile
+      const productModal = document.getElementById('productModal');
+      if (!productModal) return;
+      
+      const isMobile = window.innerWidth <= 768;
+      if (!isMobile) return;
+      
+      const modalCard = productModal.querySelector('.modal-card');
+      const form = productModal.querySelector('#productForm');
+      
+      if (modalCard && form) {
+        // Create organized sections
+        const sections = [
+          {
+            title: 'Información Básica',
+            fields: ['productName', 'productCategory']
+          },
+          {
+            title: 'Detalles del Producto',
+            fields: ['productDescription', 'productPrice', 'productStatus']
+          },
+          {
+            title: 'Imágenes',
+            fields: ['dropZone', 'imagePreview']
+          }
+        ];
+        
+        // Reorganize form into sections
+        sections.forEach(section => {
+          const sectionDiv = document.createElement('div');
+          sectionDiv.className = 'form-section';
+          
+          const titleDiv = document.createElement('div');
+          titleDiv.className = 'form-section-title';
+          titleDiv.textContent = section.title;
+          sectionDiv.appendChild(titleDiv);
+          
+          // Find and move fields
+          section.fields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            if (field) {
+              // Handle special cases
+              if (fieldId === 'productName') {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'form-group';
+                wrapper.appendChild(field);
+                sectionDiv.appendChild(wrapper);
+              } else if (fieldId === 'productCategory') {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'form-group';
+                wrapper.appendChild(field);
+                sectionDiv.appendChild(wrapper);
+              } else {
+                sectionDiv.appendChild(field);
+              }
+            }
+          });
+          
+          form.appendChild(sectionDiv);
+        });
+        
+        // Move form actions to bottom
+        const formActions = form.querySelector('.form-actions');
+        if (formActions) {
+          form.appendChild(formActions);
+        }
+      }
+    }
+
+    function initResponsiveUX() {
+      // Initialize responsive UX features
+      if (window.innerWidth <= 768) {
+        initSwipeGestures();
+        initPullToRefresh();
+        initMobileTooltips();
+        initTouchFeedback();
+        initResponsiveAnimations();
+        initMobileProgress();
+        initContextMenus();
+      }
+    }
+
+    function initSwipeGestures() {
+      let startX = 0;
+      let startY = 0;
+      let currentX = 0;
+      let currentY = 0;
+      
+      // Add swipe indicators
+      const leftIndicator = document.createElement('div');
+      leftIndicator.className = 'swipe-indicator';
+      const rightIndicator = document.createElement('div');
+      rightIndicator.className = 'swipe-indicator right';
+      
+      document.body.appendChild(leftIndicator);
+      document.body.appendChild(rightIndicator);
+      
+      // Handle swipe gestures
+      document.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }, { passive: true });
+      
+      document.addEventListener('touchmove', (e) => {
+        currentX = e.touches[0].clientX;
+        currentY = e.touches[0].clientY;
+        
+        const deltaX = currentX - startX;
+        const deltaY = Math.abs(currentY - startY);
+        
+        // Only handle horizontal swipes
+        if (Math.abs(deltaX) > 50 && deltaY < 100) {
+          if (deltaX > 0) {
+            // Swipe right
+            rightIndicator.style.opacity = '0.8';
+            leftIndicator.style.opacity = '0.3';
+          } else {
+            // Swipe left
+            leftIndicator.style.opacity = '0.8';
+            rightIndicator.style.opacity = '0.3';
+          }
+        }
+      }, { passive: true });
+      
+      document.addEventListener('touchend', (e) => {
+        const deltaX = currentX - startX;
+        const deltaY = Math.abs(currentY - startY);
+        
+        if (Math.abs(deltaX) > 100 && deltaY < 100) {
+          if (deltaX > 0) {
+            // Swipe right - show previous page or navigation
+            handleSwipeRight();
+          } else {
+            // Swipe left - show next page or navigation
+            handleSwipeLeft();
+          }
+        }
+        
+        // Reset indicators
+        leftIndicator.style.opacity = '0.3';
+        rightIndicator.style.opacity = '0.3';
+      }, { passive: true });
+    }
+
+    function handleSwipeRight() {
+      // Handle right swipe - could navigate back, open menu, etc.
+      showMobileTooltip('Desliza hacia la derecha para navegar', '⬅️');
+    }
+
+    function handleSwipeLeft() {
+      // Handle left swipe - could navigate forward, open actions, etc.
+      showMobileTooltip('Desliza hacia la izquierda para acciones', '➡️');
+    }
+
+    function initPullToRefresh() {
+      let pullStartY = 0;
+      let pullDistance = 0;
+      let isPulling = false;
+      
+      // Create pull to refresh element
+      const pullToRefresh = document.createElement('div');
+      pullToRefresh.className = 'pull-to-refresh';
+      pullToRefresh.innerHTML = '<div class="refresh-icon"></div>';
+      document.body.appendChild(pullToRefresh);
+      
+      document.addEventListener('touchstart', (e) => {
+        if (window.scrollY === 0) {
+          pullStartY = e.touches[0].clientY;
+          isPulling = true;
+        }
+      }, { passive: true });
+      
+      document.addEventListener('touchmove', (e) => {
+        if (!isPulling) return;
+        
+        pullDistance = e.touches[0].clientY - pullStartY;
+        
+        if (pullDistance > 0 && pullDistance < 150) {
+          pullToRefresh.classList.add('pulling');
+          pullToRefresh.style.transform = `translateY(${Math.min(pullDistance, 60)}px)`;
+        }
+      }, { passive: true });
+      
+      document.addEventListener('touchend', () => {
+        if (!isPulling) return;
+        
+        if (pullDistance > 100) {
+          // Trigger refresh
+          pullToRefresh.classList.remove('pulling');
+          pullToRefresh.classList.add('refreshing');
+          performMobileRefresh();
+        } else {
+          // Cancel refresh
+          pullToRefresh.classList.remove('pulling');
+          pullToRefresh.style.transform = '';
+        }
+        
+        isPulling = false;
+        pullDistance = 0;
+      }, { passive: true });
+    }
+
+    function performMobileRefresh() {
+      // Show loading state
+      showMobileLoading('Actualizando datos...');
+      
+      // Refresh data
+      setTimeout(() => {
+        loadProducts();
+        hideMobileLoading();
+        
+        // Reset pull to refresh
+        const pullToRefresh = document.querySelector('.pull-to-refresh');
+        if (pullToRefresh) {
+          pullToRefresh.classList.remove('refreshing');
+          pullToRefresh.style.transform = '';
+        }
+        
+        showMobileTooltip('Datos actualizados', '✅');
+      }, 2000);
+    }
+
+    function initMobileTooltips() {
+      // Add touch zones to buttons
+      const buttons = document.querySelectorAll('.btn, .btn-small');
+      buttons.forEach(button => {
+        button.classList.add('touch-zone');
+      });
+    }
+
+    function showMobileTooltip(message, icon = '💡') {
+      const existingTooltip = document.querySelector('.mobile-tooltip');
+      if (existingTooltip) {
+        existingTooltip.remove();
+      }
+      
+      const tooltip = document.createElement('div');
+      tooltip.className = 'mobile-tooltip';
+      tooltip.innerHTML = `
+        <div class="tooltip-icon">${icon}</div>
+        <div class="tooltip-text">${message}</div>
+      `;
+      
+      document.body.appendChild(tooltip);
+      
+      // Show tooltip
+      setTimeout(() => tooltip.classList.add('show'), 100);
+      
+      // Hide after 3 seconds
+      setTimeout(() => {
+        tooltip.classList.remove('show');
+        setTimeout(() => tooltip.remove(), 300);
+      }, 3000);
+    }
+
+    function initTouchFeedback() {
+      // Add haptic feedback simulation
+      const interactiveElements = document.querySelectorAll('.btn, .btn-small, .close-btn, .preview-item');
+      
+      interactiveElements.forEach(element => {
+        element.addEventListener('touchstart', () => {
+          element.classList.add('haptic-feedback');
+          
+          // Vibrate if available
+          if ('vibrate' in navigator) {
+            navigator.vibrate(10);
+          }
+        });
+        
+        element.addEventListener('touchend', () => {
+          setTimeout(() => {
+            element.classList.remove('haptic-feedback');
+          }, 100);
+        });
+      });
+    }
+
+    function initResponsiveAnimations() {
+      // Add responsive classes to elements
+      const cards = document.querySelectorAll('.stat-card, .mobile-table-card, .preview-item');
+      cards.forEach(card => {
+        card.classList.add('responsive-card');
+      });
+      
+      // Add staggered animations to grids
+      const grids = document.querySelectorAll('.stats-grid, .image-preview');
+      grids.forEach(grid => {
+        grid.classList.add('responsive-grid');
+      });
+      
+      // Add responsive typography
+      const titles = document.querySelectorAll('h1, h2, h3');
+      titles.forEach(title => {
+        title.classList.add('responsive-title');
+      });
+      
+      const texts = document.querySelectorAll('p, .stat-label');
+      texts.forEach(text => {
+        text.classList.add('responsive-text');
+      });
+    }
+
+    function initMobileProgress() {
+      // Create progress bar
+      const progressBar = document.createElement('div');
+      progressBar.className = 'mobile-progress';
+      progressBar.innerHTML = '<div class="progress-bar"></div>';
+      document.body.appendChild(progressBar);
+      
+      // Update progress on data operations
+      const originalLoadProducts = window.loadProducts;
+      if (originalLoadProducts) {
+        window.loadProducts = function() {
+          updateMobileProgress(0);
+          const result = originalLoadProducts.apply(this, arguments);
+          updateMobileProgress(100);
+          return result;
+        };
+      }
+    }
+
+    function updateMobileProgress(percentage) {
+      const progressBar = document.querySelector('.mobile-progress .progress-bar');
+      if (progressBar) {
+        progressBar.style.width = `${percentage}%`;
+        
+        if (percentage === 100) {
+          setTimeout(() => {
+            progressBar.style.width = '0%';
+          }, 1000);
+        }
+      }
+    }
+
+    function showMobileLoading(message = 'Cargando...') {
+      const existingLoading = document.querySelector('.mobile-loading');
+      if (existingLoading) {
+        existingLoading.remove();
+      }
+      
+      const loading = document.createElement('div');
+      loading.className = 'mobile-loading';
+      loading.innerHTML = `
+        <div class="loading-spinner"></div>
+        <div class="loading-text">${message}</div>
+      `;
+      
+      document.body.appendChild(loading);
+    }
+
+    function hideMobileLoading() {
+      const loading = document.querySelector('.mobile-loading');
+      if (loading) {
+        loading.remove();
+      }
+    }
+
+    function initContextMenus() {
+      // Add context menus to mobile cards
+      const cards = document.querySelectorAll('.mobile-table-card');
+      cards.forEach(card => {
+        card.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          showMobileContextMenu(e, card);
+        });
+        
+        // Long press for context menu
+        let pressTimer;
+        card.addEventListener('touchstart', () => {
+          pressTimer = setTimeout(() => {
+            showMobileContextMenu({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 }, card);
+          }, 500);
+        });
+        
+        card.addEventListener('touchend', () => {
+          clearTimeout(pressTimer);
+        });
+      });
+    }
+
+    function showMobileContextMenu(event, element) {
+      // Remove existing context menu
+      const existingMenu = document.querySelector('.mobile-context-menu');
+      if (existingMenu) {
+        existingMenu.remove();
+      }
+      
+      const menu = document.createElement('div');
+      menu.className = 'mobile-context-menu';
+      menu.innerHTML = `
+        <div class="context-item" data-action="edit">
+          <span>✏️</span> Editar
+        </div>
+        <div class="context-item" data-action="duplicate">
+          <span>📋</span> Duplicar
+        </div>
+        <div class="context-item" data-action="delete">
+          <span>🗑️</span> Eliminar
+        </div>
+      `;
+      
+      document.body.appendChild(menu);
+      
+      // Position menu
+      const rect = element.getBoundingClientRect();
+      menu.style.left = '50%';
+      menu.style.bottom = '20px';
+      
+      // Show menu
+      setTimeout(() => menu.classList.add('show'), 100);
+      
+      // Handle menu actions
+      menu.addEventListener('click', (e) => {
+        const action = e.target.closest('.context-item')?.dataset.action;
+        if (action) {
+          handleContextAction(action, element);
+          menu.remove();
+        }
+      });
+      
+      // Close menu when clicking outside
+      setTimeout(() => {
+        document.addEventListener('click', () => menu.remove(), { once: true });
+      }, 100);
+    }
+
+    function handleContextAction(action, element) {
+      switch (action) {
+        case 'edit':
+          const editBtn = element.querySelector('.btn-edit');
+          if (editBtn) editBtn.click();
+          break;
+        case 'duplicate':
+          showMobileTooltip('Duplicar producto', '📋');
+          break;
+        case 'delete':
+          const deleteBtn = element.querySelector('.btn-delete');
+          if (deleteBtn) deleteBtn.click();
+          break;
+      }
+    }
+
+    // Initialize scroll shadows
+    function initScrollShadows() {
+      const containers = document.querySelectorAll('.modal-card, .category-modal-card');
+      containers.forEach(container => {
+        container.classList.add('scroll-container');
+        
+        container.addEventListener('scroll', () => {
+          const scrollTop = container.scrollTop;
+          const scrollHeight = container.scrollHeight;
+          const clientHeight = container.clientHeight;
+          
+          container.classList.toggle('scroll-top', scrollTop > 0);
+          container.classList.toggle('scroll-bottom', scrollTop < scrollHeight - clientHeight - 10);
+        });
+      });
+    }
+
+    // Initialize gesture hints
+    function showGestureHints() {
+      setTimeout(() => {
+        showMobileTooltip('Desliza hacia abajo para actualizar', '👇');
+      }, 3000);
+    }
+
+    // Initialize all responsive UX features
+    if (window.innerWidth <= 768) {
+      initScrollShadows();
+      showGestureHints();
+    }
+
+    // Initialize Tags System
+    initTagsSystem();
+    
+    // Initialize Featured Products System
+    initFeaturedProducts();
+    
+    // Management Modal Functions
+    function openProductsManagementModal() {
+      const modal = document.getElementById('productsManagementModal');
+      modal.classList.add('open');
+      loadModalProducts();
+    }
+    
+    function closeProductsManagementModal() {
+      const modal = document.getElementById('productsManagementModal');
+      modal.classList.remove('open');
+    }
+    
+    function openCategoriesManagementModal() {
+      const modal = document.getElementById('categoriesManagementModal');
+      modal.classList.add('open');
+      loadModalCategories();
+    }
+    
+    function closeCategoriesManagementModal() {
+      const modal = document.getElementById('categoriesManagementModal');
+      modal.classList.remove('open');
+    }
+    
+    function openFeaturedManagementModal() {
+      const modal = document.getElementById('featuredManagementModal');
+      modal.classList.add('open');
+      loadModalFeaturedProducts();
+    }
+    
+    function closeFeaturedManagementModal() {
+      const modal = document.getElementById('featuredManagementModal');
+      modal.classList.remove('open');
+    }
+    
+    // Load data into modals
+    function loadModalProducts() {
+      const tableBody = document.getElementById('modalProductsTableBody');
+      const searchInput = document.getElementById('modalSearchInput');
+      const categoryFilter = document.getElementById('modalFilterCategory');
+      
+      if (tableBody) {
+        tableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px;">Cargando productos...</td></tr>';
+        setTimeout(() => {
+          loadProducts();
+          const mainTableBody = document.getElementById('productsTableBody');
+          if (mainTableBody && tableBody) {
+            tableBody.innerHTML = mainTableBody.innerHTML;
+          }
+        }, 500);
+      }
+      
+      if (searchInput) {
+        searchInput.addEventListener('input', debounce(() => {
+          filterModalProducts();
+        }, 300));
+      }
+      
+      if (categoryFilter) {
+        loadCategoriesIntoFilter(categoryFilter);
+      }
+    }
+    
+    function loadModalCategories() {
+      const grid = document.getElementById('modalCategoriesGrid');
+      const count = document.getElementById('categoriesCount');
+      
+      if (grid) {
+        grid.innerHTML = '<div style="text-align: center; padding: 40px;">Cargando categorías...</div>';
+        setTimeout(() => {
+          const mainGrid = document.getElementById('categoriesGrid');
+          if (mainGrid && grid) {
+            grid.innerHTML = mainGrid.innerHTML;
+          }
+          if (count) {
+            const categories = grid.querySelectorAll('.category-card').length;
+            count.textContent = `${categories} categorías`;
+          }
+        }, 500);
+      }
+    }
+    
+    function loadModalFeaturedProducts() {
+      const grid = document.getElementById('modalFeaturedGrid');
+      const totalFeatured = document.getElementById('modalTotalFeatured');
+      const availableFeatured = document.getElementById('modalAvailableFeatured');
+      const featuredCount = document.getElementById('featuredCount');
+      
+      if (grid) {
+        grid.innerHTML = '<div style="text-align: center; padding: 40px;">Cargando productos destacados...</div>';
+        setTimeout(() => {
+          const mainGrid = document.getElementById('featuredProductsGrid');
+          if (mainGrid && grid) {
+            grid.innerHTML = mainGrid.innerHTML;
+          }
+          
+          const featuredCards = grid.querySelectorAll('.featured-product-card');
+          const available = Array.from(featuredCards).filter(card => 
+            card.querySelector('.featured-product-status')?.textContent === 'Disponible'
+          ).length;
+          
+          if (totalFeatured) totalFeatured.textContent = featuredCards.length;
+          if (availableFeatured) availableFeatured.textContent = available;
+          if (featuredCount) featuredCount.textContent = `${featuredCards.length} de 6 productos`;
+        }, 500);
+      }
+    }
+    
+    function filterModalProducts() {
+      const searchInput = document.getElementById('modalSearchInput');
+      const categoryFilter = document.getElementById('modalFilterCategory');
+      const statusFilter = document.getElementById('modalFilterStatus');
+      const tableBody = document.getElementById('modalProductsTableBody');
+      
+      if (!tableBody) return;
+      
+      const searchTerm = searchInput?.value.toLowerCase() || '';
+      const selectedCategory = categoryFilter?.value || '';
+      const selectedStatus = statusFilter?.value || '';
+      
+      const rows = tableBody.querySelectorAll('tr');
+      
+      rows.forEach(row => {
+        const productName = row.cells[1]?.textContent.toLowerCase() || '';
+        const productCategory = row.cells[2]?.textContent || '';
+        const productStatus = row.cells[4]?.textContent || '';
+        
+        const matchesSearch = !searchTerm || productName.includes(searchTerm);
+        const matchesCategory = !selectedCategory || productCategory === selectedCategory;
+        const matchesStatus = !selectedStatus || productStatus === selectedStatus;
+        
+        if (matchesSearch && matchesCategory && matchesStatus) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+    
+    function loadCategoriesIntoFilter(selectElement) {
+      if (!selectElement) return;
+      
+      const mainFilter = document.getElementById('filterCategory');
+      if (mainFilter) {
+        selectElement.innerHTML = mainFilter.innerHTML;
+      }
+    }
+    
+    function openProductForm() {
+      closeProductsManagementModal();
+      const productModal = document.getElementById('productModal');
+      if (productModal) {
+        productModal.classList.add('open');
+        document.getElementById('modalTitle').textContent = 'Agregar Producto';
+        document.getElementById('productForm').reset();
+      }
+    }
+    
+    function openCategoryForm() {
+      closeCategoriesManagementModal();
+      const categoryModal = document.getElementById('categoryModal');
+      if (categoryModal) {
+        categoryModal.classList.add('open');
+      }
+    }
+    
+    function refreshProducts() {
+      loadModalProducts();
+      if (window.notificationManager) {
+        window.notificationManager.success('Lista de productos actualizada');
+      }
+    }
+    
+    function refreshFeatured() {
+      loadModalFeaturedProducts();
+      if (window.notificationManager) {
+        window.notificationManager.success('Productos destacados actualizados');
+      }
+    }
+    
+    function selectAllFeatured() {
+      if (window.notificationManager) {
+        window.notificationManager.info('Función de seleccionar todos los destacados');
+      }
+    }
+    
+    function clearAllFeatured() {
+      if (window.notificationManager) {
+        window.notificationManager.warning('Función de limpiar todos los destacados');
+      }
+    }
+    
+    function exportCategories() {
+      if (window.notificationManager) {
+        window.notificationManager.info('Exportando categorías...');
+      }
+    }
+    
+    // Close modals on backdrop click
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('management-modal')) {
+        e.target.classList.remove('open');
+      }
+    });
+    
+    // Close modals on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const openModals = document.querySelectorAll('.management-modal.open');
+        openModals.forEach(modal => modal.classList.remove('open'));
+      }
+    });
+    
+    // Make functions global
+    window.openProductsManagementModal = openProductsManagementModal;
+    window.closeProductsManagementModal = closeProductsManagementModal;
+    window.openCategoriesManagementModal = openCategoriesManagementModal;
+    window.closeCategoriesManagementModal = closeCategoriesManagementModal;
+    window.openFeaturedManagementModal = openFeaturedManagementModal;
+    window.closeFeaturedManagementModal = closeFeaturedManagementModal;
+    window.openProductForm = openProductForm;
+    window.openCategoryForm = openCategoryForm;
+    window.refreshProducts = refreshProducts;
+    window.refreshFeatured = refreshFeatured;
+    window.selectAllFeatured = selectAllFeatured;
+    window.clearAllFeatured = clearAllFeatured;
+    window.exportCategories = exportCategories;
+
+  function initFeaturedProducts() {
+    // State
+    let featuredProducts = [];
+    let allProducts = [];
+    let filteredProducts = [];
+    let draggedElement = null;
+    
+    // DOM Elements
+    const featuredGrid = document.getElementById('featuredProductsGrid');
+    const searchInput = document.getElementById('featuredSearchInput');
+    const categoryFilter = document.getElementById('featuredCategoryFilter');
+    const statusFilter = document.getElementById('featuredStatusFilter');
+    const emptyState = document.getElementById('emptyFeaturedState');
+    const loadingState = document.getElementById('featuredLoading');
+    
+    // Initialize
+    loadFeaturedProducts();
+    setupEventListeners();
+    
+    function setupEventListeners() {
+      // Search functionality
+      if (searchInput) {
+        searchInput.addEventListener('input', debounce(filterProducts, 300));
+      }
+      
+      // Filter functionality
+      if (categoryFilter) {
+        categoryFilter.addEventListener('change', filterProducts);
+      }
+      
+      if (statusFilter) {
+        statusFilter.addEventListener('change', filterProducts);
+      }
+    }
+    
+    async function loadFeaturedProducts() {
+      showLoading(true);
+      
+      try {
+        // Load all products
+        const { data: products, error } = await supabaseClient
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        
+        allProducts = products || [];
+        
+        // Load featured products settings (you might need to create a separate table for this)
+        const { data: featuredSettings } = await supabaseClient
+          .from('featured_products')
+          .select('*')
+          .order('priority', { ascending: true });
+        
+        // Map featured products
+        featuredProducts = (featuredSettings || []).map(setting => {
+          const product = allProducts.find(p => p.id === setting.product_id);
+          return product ? { ...product, priority: setting.priority, featured: true } : null;
+        }).filter(Boolean);
+        
+        // Update category filter options
+        updateCategoryFilter();
+        
+        // Render featured products
+        renderFeaturedProducts();
+        updateStats();
+        
+      } catch (error) {
+        console.error('Error loading featured products:', error);
+        showNotification('Error al cargar productos destacados', 'error');
+      } finally {
+        showLoading(false);
+      }
+    }
+    
+    function updateCategoryFilter() {
+      if (!categoryFilter) return;
+      
+      const categories = [...new Set(allProducts.map(p => p.category))];
+      categoryFilter.innerHTML = '<option value="">Todas las categorías</option>';
+      
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+      });
+    }
+    
+    function filterProducts() {
+      const searchTerm = searchInput?.value.toLowerCase() || '';
+      const selectedCategory = categoryFilter?.value || '';
+      const selectedStatus = statusFilter?.value || '';
+      
+      filteredProducts = allProducts.filter(product => {
+        const matchesSearch = !searchTerm || 
+          product.name.toLowerCase().includes(searchTerm) ||
+          product.category.toLowerCase().includes(searchTerm) ||
+          (product.description && product.description.toLowerCase().includes(searchTerm));
+        
+        const matchesCategory = !selectedCategory || product.category === selectedCategory;
+        const matchesStatus = !selectedStatus || product.status === selectedStatus;
+        
+        return matchesSearch && matchesCategory && matchesStatus;
+      });
+      
+      renderFeaturedProducts();
+    }
+    
+    function renderFeaturedProducts() {
+      if (!featuredGrid) return;
+      
+      const productsToShow = filteredProducts.length > 0 ? filteredProducts : allProducts;
+      
+      if (productsToShow.length === 0) {
+        featuredGrid.innerHTML = '';
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+      }
+      
+      if (emptyState) emptyState.style.display = 'none';
+      
+      featuredGrid.innerHTML = '';
+      
+      productsToShow.slice(0, 6).forEach((product, index) => {
+        const isFeatured = featuredProducts.some(fp => fp.id === product.id);
+        const card = createFeaturedProductCard(product, isFeatured, index + 1);
+        featuredGrid.appendChild(card);
+      });
+      
+      // Setup drag and drop
+      setupDragAndDrop();
+    }
+    
+    function createFeaturedProductCard(product, isFeatured, priority) {
+      const card = document.createElement('div');
+      card.className = 'featured-product-card';
+      card.dataset.productId = product.id;
+      card.draggable = true;
+      
+      const statusClass = product.status.toLowerCase().replace(' ', '-');
+      const imageUrl = product.image || 'https://via.placeholder.com/60x60?text=No+Image';
+      
+      card.innerHTML = `
+        <div class="drag-handle">⋮⋮</div>
+        ${isFeatured ? `<div class="featured-badge">Destacado</div>` : ''}
+        ${isFeatured ? `<div class="priority-indicator">${priority}</div>` : ''}
+        
+        <div class="featured-product-header">
+          <img src="${imageUrl}" alt="${product.name}" class="featured-product-image">
+          <div class="featured-product-info">
+            <div class="featured-product-name">${product.name}</div>
+            <div class="featured-product-price">$${product.price}</div>
+          </div>
+        </div>
+        
+        <div class="featured-product-meta">
+          <span class="featured-product-category">${product.category}</span>
+          <span class="featured-product-status ${statusClass}">${product.status}</span>
+        </div>
+        
+        <div class="featured-product-actions">
+          <div class="featured-toggle ${isFeatured ? 'active' : ''}" 
+               onclick="toggleFeaturedProduct('${product.id}')"></div>
+          ${isFeatured ? `
+            <div class="featured-priority">
+              <span>Prioridad:</span>
+              <span class="featured-priority-number">${priority}</span>
+            </div>
+          ` : ''}
+          <button class="featured-remove-btn" onclick="removeFeaturedProduct('${product.id}')">
+            Quitar
+          </button>
+        </div>
+      `;
+      
+      return card;
+    }
+    
+    function setupDragAndDrop() {
+      const cards = featuredGrid.querySelectorAll('.featured-product-card');
+      
+      cards.forEach(card => {
+        card.addEventListener('dragstart', handleDragStart);
+        card.addEventListener('dragend', handleDragEnd);
+        card.addEventListener('dragover', handleDragOver);
+        card.addEventListener('drop', handleDrop);
+        card.addEventListener('dragenter', handleDragEnter);
+        card.addEventListener('dragleave', handleDragLeave);
+      });
+    }
+    
+    function handleDragStart(e) {
+      draggedElement = this;
+      this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+    
+    function handleDragEnd(e) {
+      this.classList.remove('dragging');
+      
+      // Remove all drag-over classes
+      const cards = featuredGrid.querySelectorAll('.featured-product-card');
+      cards.forEach(card => card.classList.remove('drag-over'));
+    }
+    
+    function handleDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+    
+    function handleDragEnter(e) {
+      if (this !== draggedElement) {
+        this.classList.add('drag-over');
+      }
+    }
+    
+    function handleDragLeave(e) {
+      this.classList.remove('drag-over');
+    }
+    
+    function handleDrop(e) {
+      if (e.stopPropagation) {
+        e.stopPropagation();
+      }
+      
+      if (draggedElement !== this) {
+        // Swap the elements
+        const draggedId = draggedElement.dataset.productId;
+        const targetId = this.dataset.productId;
+        
+        // Update priorities in the featured products array
+        const draggedIndex = featuredProducts.findIndex(p => p.id === draggedId);
+        const targetIndex = featuredProducts.findIndex(p => p.id === targetId);
+        
+        if (draggedIndex !== -1 && targetIndex !== -1) {
+          // Swap priorities
+          const temp = featuredProducts[draggedIndex].priority;
+          featuredProducts[draggedIndex].priority = featuredProducts[targetIndex].priority;
+          featuredProducts[targetIndex].priority = temp;
+          
+          // Re-sort and re-render
+          featuredProducts.sort((a, b) => a.priority - b.priority);
+          renderFeaturedProducts();
+          
+          // Save to database
+          saveFeaturedPriorities();
+        }
+      }
+      
+      return false;
+    }
+    
+    async function toggleFeaturedProduct(productId) {
+      const product = allProducts.find(p => p.id === productId);
+      if (!product) return;
+      
+      const isCurrentlyFeatured = featuredProducts.some(fp => fp.id === productId);
+      
+      if (isCurrentlyFeatured) {
+        // Remove from featured
+        featuredProducts = featuredProducts.filter(fp => fp.id !== productId);
+        await removeFeaturedFromDatabase(productId);
+      } else {
+        // Add to featured (check limit)
+        if (featuredProducts.length >= 6) {
+          showNotification('Máximo 6 productos destacados permitidos', 'warning');
+          return;
+        }
+        
+        const nextPriority = Math.max(...featuredProducts.map(fp => fp.priority), 0) + 1;
+        featuredProducts.push({ ...product, priority: nextPriority });
+        await addFeaturedToDatabase(productId, nextPriority);
+      }
+      
+      renderFeaturedProducts();
+      updateStats();
+    }
+    
+    async function removeFeaturedProduct(productId) {
+      featuredProducts = featuredProducts.filter(fp => fp.id !== productId);
+      await removeFeaturedFromDatabase(productId);
+      renderFeaturedProducts();
+      updateStats();
+    }
+    
+    async function addFeaturedToDatabase(productId, priority) {
+      try {
+        const { error } = await supabaseClient
+          .from('featured_products')
+          .insert({ product_id: productId, priority });
+        
+        if (error) throw error;
+        
+        showNotification('Producto agregado a destacados', 'success');
+      } catch (error) {
+        console.error('Error adding featured product:', error);
+        showNotification('Error al agregar producto destacado', 'error');
+      }
+    }
+    
+    async function removeFeaturedFromDatabase(productId) {
+      try {
+        const { error } = await supabaseClient
+          .from('featured_products')
+          .delete()
+          .eq('product_id', productId);
+        
+        if (error) throw error;
+        
+        showNotification('Producto eliminado de destacados', 'success');
+      } catch (error) {
+        console.error('Error removing featured product:', error);
+        showNotification('Error al eliminar producto destacado', 'error');
+      }
+    }
+    
+    async function saveFeaturedPriorities() {
+      try {
+        const updates = featuredProducts.map(product => ({
+          product_id: product.id,
+          priority: product.priority
+        }));
+        
+        const { error } = await supabaseClient
+          .from('featured_products')
+          .upsert(updates, { onConflict: 'product_id' });
+        
+        if (error) throw error;
+        
+        showNotification('Prioridades actualizadas', 'success');
+      } catch (error) {
+        console.error('Error saving priorities:', error);
+        showNotification('Error al guardar prioridades', 'error');
+      }
+    }
+    
+    function updateStats() {
+      const totalFeatured = document.getElementById('totalFeaturedProducts');
+      const availableFeatured = document.getElementById('availableFeaturedProducts');
+      
+      if (totalFeatured) {
+        totalFeatured.textContent = featuredProducts.length;
+      }
+      
+      if (availableFeatured) {
+        const available = featuredProducts.filter(p => p.status === 'Disponible').length;
+        availableFeatured.textContent = available;
+      }
+    }
+    
+    function showLoading(show) {
+      if (loadingState) {
+        loadingState.style.display = show ? 'block' : 'none';
+      }
+      if (featuredGrid) {
+        featuredGrid.style.display = show ? 'none' : 'grid';
+      }
+    }
+    
+    function showNotification(message, type = 'info') {
+      // Use the existing notification system
+      if (window.notificationManager) {
+        window.notificationManager[type](message);
+      }
+    }
+    
+    // Global functions for button onclick handlers
+    window.openFeaturedProductsModal = function() {
+      // This would open a modal to select products to feature
+      showNotification('Función de selección de productos destacados', 'info');
+    };
+    
+    window.refreshFeaturedProducts = function() {
+      loadFeaturedProducts();
+    };
+    
+    window.selectAllFeaturedProducts = function() {
+      // Select first 6 products as featured
+      const productsToAdd = allProducts.slice(0, 6).filter(product => 
+        !featuredProducts.some(fp => fp.id === product.id)
+      );
+      
+      productsToAdd.forEach((product, index) => {
+        const nextPriority = Math.max(...featuredProducts.map(fp => fp.priority), 0) + index + 1;
+        featuredProducts.push({ ...product, priority: nextPriority });
+      });
+      
+      renderFeaturedProducts();
+      updateStats();
+      saveFeaturedPriorities();
+    };
+    
+    window.clearAllFeaturedProducts = function() {
+      featuredProducts = [];
+      renderFeaturedProducts();
+      updateStats();
+      
+      // Clear from database
+      supabaseClient
+        .from('featured_products')
+        .delete()
+        .neq('product_id', '')
+        .then(() => {
+          showNotification('Todos los productos destacados eliminados', 'success');
+        })
+        .catch(error => {
+          console.error('Error clearing featured products:', error);
+          showNotification('Error al eliminar productos destacados', 'error');
+        });
+    };
+    
+    window.toggleFeaturedProduct = toggleFeaturedProduct;
+    window.removeFeaturedProduct = removeFeaturedProduct;
+    
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+  }
+
+  function initTagsSystem() {
+    const tagsInput = document.getElementById('productTags');
+    const tagsDropdown = document.getElementById('tagsDropdown');
+    const selectedTagsContainer = document.getElementById('selectedTags');
+    
+    if (!tagsInput || !tagsDropdown || !selectedTagsContainer) return;
+    
+    let selectedTags = [];
+    let currentProductTags = [];
+    
+    // Available tags with their properties
+    const availableTags = {
+      'mas-vendido': { name: 'Más Vendido', color: '#ff6b6b', class: 'tag-mas-vendido' },
+      'por-encargue': { name: 'Por Encargue', color: '#4ecdc4', class: 'tag-por-encargue' },
+      'nuevo': { name: 'Nuevo', color: '#51cf66', class: 'tag-nuevo' },
+      'oferta': { name: 'Oferta', color: '#ff922b', class: 'tag-oferta' },
+      'exclusivo': { name: 'Exclusivo', color: '#845ef7', class: 'tag-exclusivo' },
+      'limitado': { name: 'Edición Limitada', color: '#f03e3e', class: 'tag-limitado' },
+      'premium': { name: 'Premium', color: '#ffd43b', class: 'tag-premium' },
+      'eco': { name: 'Eco-friendly', color: '#51cf66', class: 'tag-eco' },
+      'handmade': { name: 'Artesanal', color: '#868e96', class: 'tag-handmade' }
+    };
+    
+    // Show dropdown on focus
+    tagsInput.addEventListener('focus', () => {
+      showTagsDropdown();
+    });
+    
+    // Handle input changes
+    tagsInput.addEventListener('input', (e) => {
+      const value = e.target.value.toLowerCase();
+      filterTagsOptions(value);
+      showTagsDropdown();
+    });
+    
+    // Handle tag selection from dropdown
+    tagsDropdown.addEventListener('click', (e) => {
+      const tagOption = e.target.closest('.tag-option');
+      if (tagOption) {
+        const tagKey = tagOption.dataset.tag;
+        addTag(tagKey);
+        tagsInput.value = '';
+        hideTagsDropdown();
+      }
+    });
+    
+    // Handle Enter key to add custom tag
+    tagsInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const value = tagsInput.value.trim();
+        if (value) {
+          addCustomTag(value);
+          tagsInput.value = '';
+          hideTagsDropdown();
+        }
+      }
+    });
+    
+    // Hide dropdown on click outside
+    document.addEventListener('click', (e) => {
+      if (!tagsInput.contains(e.target) && !tagsDropdown.contains(e.target)) {
+        hideTagsDropdown();
+      }
+    });
+    
+    function showTagsDropdown() {
+      tagsDropdown.classList.add('show');
+      filterTagsOptions(tagsInput.value.toLowerCase());
+    }
+    
+    function hideTagsDropdown() {
+      tagsDropdown.classList.remove('show');
+    }
+    
+    function filterTagsOptions(searchTerm) {
+      const options = tagsDropdown.querySelectorAll('.tag-option');
+      options.forEach(option => {
+        const tagKey = option.dataset.tag;
+        const tag = availableTags[tagKey];
+        if (tag) {
+          const matches = tag.name.toLowerCase().includes(searchTerm) || 
+                           tagKey.toLowerCase().includes(searchTerm);
+          option.style.display = matches ? 'flex' : 'none';
+        }
+      });
+    }
+    
+    function addTag(tagKey) {
+      if (!selectedTags.includes(tagKey)) {
+        selectedTags.push(tagKey);
+        renderSelectedTags();
+      }
+    }
+    
+    function addCustomTag(tagName) {
+      const tagKey = tagName.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      if (!selectedTags.includes(tagKey)) {
+        selectedTags.push(tagKey);
+        availableTags[tagKey] = {
+          name: tagName,
+          color: 'var(--accent)',
+          class: 'tag-custom'
+        };
+        renderSelectedTags();
+      }
+    }
+    
+    function removeTag(tagKey) {
+      selectedTags = selectedTags.filter(tag => tag !== tagKey);
+      renderSelectedTags();
+    }
+    
+    function renderSelectedTags() {
+      selectedTagsContainer.innerHTML = '';
+      
+      selectedTags.forEach(tagKey => {
+        const tag = availableTags[tagKey] || {
+          name: tagKey,
+          color: 'var(--accent)',
+          class: 'tag-custom'
+        };
+        
+        const tagChip = document.createElement('div');
+        tagChip.className = `tag-chip ${tag.class}`;
+        tagChip.innerHTML = `
+          ${tag.name}
+          <button class="tag-remove" onclick="removeTag('${tagKey}')">×</button>
+        `;
+        
+        selectedTagsContainer.appendChild(tagChip);
+      });
+    }
+    
+    // Make removeTag function globally available
+    window.removeTag = removeTag;
+    
+    // Function to get selected tags
+    window.getProductTags = function() {
+      return selectedTags.map(tagKey => ({
+        key: tagKey,
+        name: availableTags[tagKey]?.name || tagKey,
+        class: availableTags[tagKey]?.class || 'tag-custom'
+      }));
+    };
+    
+    // Function to set product tags (for editing)
+    window.setProductTags = function(tags) {
+      selectedTags = Array.isArray(tags) ? tags : [];
+      renderSelectedTags();
+    };
+    
+    // Function to clear tags
+    window.clearProductTags = function() {
+      selectedTags = [];
+      renderSelectedTags();
+    };
+    
+    // Add tags to table display
+    function addTagsToTable() {
+      const tableRows = document.querySelectorAll('#productsTableBody tr');
+      tableRows.forEach(row => {
+        const actionsCell = row.querySelector('.actions-cell');
+        if (actionsCell) {
+          const tagsCell = document.createElement('td');
+          tagsCell.className = 'product-tags-cell';
+          tagsCell.innerHTML = '<div class="product-tags-placeholder">Sin etiquetas</div>';
+          
+          // Insert tags cell before actions cell
+          actionsCell.parentNode.insertBefore(tagsCell, actionsCell);
+        }
+      });
+    }
+    
+    // Initialize table tags
+    addTagsToTable();
+    
+    // Update product form to include tags
+    const originalSaveProduct = window.saveProduct;
+    if (originalSaveProduct) {
+      window.saveProduct = function() {
+        const tags = getProductTags();
+        // Add tags to product data before saving
+        const productData = {
+          tags: tags,
+          // ... other product data
+        };
+        return originalSaveProduct.call(this, productData);
+      };
+    }
+  }
   </script>
 </body>
 </html>

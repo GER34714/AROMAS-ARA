@@ -448,6 +448,259 @@
       from{opacity:0}
       to{opacity:1}
     }
+    
+    /* Featured Products Section Styles */
+    #productos-destacados{
+      padding:80px 0;background:linear-gradient(135deg,var(--bg-soft) 0%,var(--card) 100%);
+      position:relative;overflow:hidden;
+    }
+    #productos-destacados::before{
+      content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+      background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="100" fill="rgba(200,168,145,0.03)">⭐</text></svg>');
+      background-size:60px 60px;animation:floatStars 20s linear infinite;
+    }
+    @keyframes floatStars{
+      from{transform:translateY(0)}
+      to{transform:translateY(-100px)}
+    }
+    
+    .featured-products-carousel{
+      position:relative;margin:40px 0;
+      background:var(--card);border-radius:24px;
+      padding:32px;border:1px solid var(--line);
+      box-shadow:0 8px 32px rgba(200,168,145,0.1);
+    }
+    
+    .featured-products-track{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:24px;align-items:start;
+    }
+    
+    .featured-product-card{
+      background:var(--bg-soft);border-radius:20px;
+      border:2px solid var(--accent);padding:20px;
+      position:relative;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+      cursor:pointer;overflow:hidden;
+    }
+    .featured-product-card::before{
+      content:'⭐';position:absolute;top:12px;right:12px;
+      font-size:24px;color:var(--accent);z-index:2;
+      animation:starPulse 2s ease-in-out infinite;
+    }
+    @keyframes starPulse{
+      0%,100%{transform:scale(1);opacity:1}
+      50%{transform:scale(1.2);opacity:0.8}
+    }
+    
+    .featured-product-card:hover{
+      transform:translateY(-8px) scale(1.02);
+      box-shadow:0 16px 40px rgba(200,168,145,0.3);
+      border-color:var(--accent);
+    }
+    
+    .featured-product-image{
+      width:100%;height:200px;border-radius:16px;
+      object-fit:cover;margin-bottom:16px;
+      transition:transform 0.3s ease;
+    }
+    .featured-product-card:hover .featured-product-image{
+      transform:scale(1.05);
+    }
+    
+    .featured-product-info{
+      text-align:center;
+    }
+    
+    .featured-product-name{
+      font-size:1.1rem;font-weight:700;color:var(--text);
+      margin-bottom:8px;line-height:1.3;
+    }
+    
+    .featured-product-price{
+      font-size:1.4rem;font-weight:800;color:var(--accent);
+      margin-bottom:12px;
+    }
+    
+    .featured-product-meta{
+      display:flex;justify-content:center;gap:8px;
+      margin-bottom:16px;flex-wrap:wrap;
+    }
+    
+    .featured-product-category{
+      background:var(--card);color:var(--muted);
+      padding:4px 12px;border-radius:12px;
+      font-size:0.8rem;font-weight:500;
+      border:1px solid var(--line);
+    }
+    
+    .featured-product-status{
+      padding:4px 12px;border-radius:12px;
+      font-size:0.8rem;font-weight:600;
+    }
+    .featured-product-status.disponible{
+      background:linear-gradient(135deg,#51cf66,#40c057);color:white;
+    }
+    .featured-product-status.por-encargue{
+      background:linear-gradient(135deg,#4ecdc4,#3db8af);color:white;
+    }
+    .featured-product-status.agotado{
+      background:linear-gradient(135deg,#ff6b6b,#ff5252);color:white;
+    }
+    
+    .featured-product-action{
+      width:100%;padding:12px 20px;
+      background:linear-gradient(135deg,var(--accent),#b89a83);
+      color:white;border:none;border-radius:16px;
+      font-weight:600;cursor:pointer;
+      transition:all 0.3s ease;
+      position:relative;overflow:hidden;
+    }
+    .featured-product-action::before{
+      content:'';position:absolute;top:0;left:-100%;
+      width:100%;height:100%;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);
+      transition:left 0.5s;
+    }
+    .featured-product-action:hover::before{left:100%}
+    .featured-product-action:hover{
+      transform:translateY(-2px);
+      box-shadow:0 8px 25px rgba(200,168,145,0.4);
+    }
+    
+    /* Featured Empty State */
+    .featured-empty-state{
+      text-align:center;padding:80px 20px;color:var(--muted);
+      background:var(--bg-soft);border-radius:24px;
+      border:2px dashed var(--line);margin:40px 0;
+    }
+    .featured-empty-icon{
+      font-size:64px;margin-bottom:20px;opacity:0.5;
+      animation:starFloat 3s ease-in-out infinite;
+    }
+    @keyframes starFloat{
+      0%,100%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-10px) rotate(10deg)}
+    }
+    .featured-empty-state h3{
+      font-size:1.3rem;font-weight:700;color:var(--text);
+      margin-bottom:12px;
+    }
+    .featured-empty-state p{
+      font-size:1rem;line-height:1.6;max-width:400px;margin:0 auto;
+    }
+    
+    /* Featured Loading State */
+    .featured-loading-state{
+      text-align:center;padding:60px 20px;color:var(--muted);
+    }
+    .featured-loading-spinner{
+      width:48px;height:48px;border:4px solid var(--bg-soft);
+      border-top:4px solid var(--accent);border-radius:50%;
+      animation:spin 1s linear infinite;margin:0 auto 20px;
+    }
+    
+    /* Mobile Responsive for Featured Products */
+    @media (max-width:768px){
+      #productos-destacados{padding:60px 0}
+      .featured-products-carousel{
+        margin:24px 0;padding:20px;border-radius:16px;
+      }
+      .featured-products-track{
+        grid-template-columns:1fr;gap:16px;
+      }
+      .featured-product-card{
+        padding:16px;border-radius:16px;
+      }
+      .featured-product-image{
+        height:160px;margin-bottom:12px;
+      }
+      .featured-product-name{
+        font-size:1rem;
+      }
+      .featured-product-price{
+        font-size:1.2rem;
+      }
+      .featured-empty-state{
+        padding:40px 16px;margin:24px 0;
+      }
+      .featured-empty-icon{
+        font-size:48px;margin-bottom:16px;
+      }
+    }
+    
+    @media (max-width:480px){
+      #productos-destacados{padding:40px 0}
+      .featured-products-carousel{
+        margin:16px 0;padding:16px;
+      }
+      .featured-product-card{
+        padding:12px;
+      }
+      .featured-product-image{
+        height:140px;
+      }
+      .featured-product-name{
+        font-size:0.95rem;
+      }
+      .featured-product-price{
+        font-size:1.1rem;
+      }
+      .featured-product-meta{
+        gap:6px;
+      }
+      .featured-product-category,
+      .featured-product-status{
+        font-size:0.75rem;padding:3px 8px;
+      }
+    }
+    
+    /* Featured Products Animation */
+    .featured-product-card{
+      animation:featuredSlideUp 0.6s ease-out backwards;
+    }
+    .featured-product-card:nth-child(1){animation-delay:0.1s}
+    .featured-product-card:nth-child(2){animation-delay:0.2s}
+    .featured-product-card:nth-child(3){animation-delay:0.3s}
+    .featured-product-card:nth-child(4){animation-delay:0.4s}
+    .featured-product-card:nth-child(5){animation-delay:0.5s}
+    .featured-product-card:nth-child(6){animation-delay:0.6s}
+    
+    @keyframes featuredSlideUp{
+      from{
+        opacity:0;transform:translateY(30px);
+      }
+      to{
+        opacity:1;transform:translateY(0);
+      }
+    }
+    
+    /* Featured Badge Animation */
+    .featured-badge{
+      position:absolute;top:8px;left:8px;
+      background:linear-gradient(135deg,var(--accent),#b89a83);
+      color:white;padding:6px 12px;border-radius:12px;
+      font-size:0.7rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:0.5px;z-index:3;
+      animation:badgeGlow 2s ease-in-out infinite;
+    }
+    @keyframes badgeGlow{
+      0%,100%{box-shadow:0 2px 8px rgba(200,168,145,0.4)}
+      50%{box-shadow:0 4px 16px rgba(200,168,145,0.6)}
+    }
+    
+    /* Priority Indicator */
+    .featured-priority-indicator{
+      position:absolute;top:8px;right:8px;
+      background:linear-gradient(135deg,var(--text),#495057);
+      color:white;width:28px;height:28px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.8rem;font-weight:800;z-index:3;
+      animation:priorityPulse 2s ease-in-out infinite;
+    }
+    @keyframes priorityPulse{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.1)}
+    }
     @keyframes modalSlideIn{
       from{transform:scale(0.9) translateY(20px);opacity:0}
       to{transform:scale(1) translateY(0);opacity:1}
@@ -627,7 +880,6 @@
         <span class="cart-text">Carrito</span>
         <span id="cartCount" class="cart-badge" style="display: none;">0</span>
       </button>
-      <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20los%20productos%20de%20Aromas%20Ara.">WhatsApp</a>
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
     </div>
   </div>
@@ -650,7 +902,6 @@
         <span class="cart-text">Carrito</span>
         <span id="cartCountMobile" class="cart-badge" style="display: none;">0</span>
       </button>
-      <a class="wa-btn" style="text-align:center;margin-top:6px;display:block" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20consultar%20por%20los%20productos%20de%20Aromas%20Ara.">Ir a WhatsApp</a>
     </div>
   </div>
 </div>
@@ -685,6 +936,37 @@
 
       <div class="categories-badges" id="categoriesBadges" style="display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0;">
         <!-- Las categorías se cargarán dinámicamente desde la base de datos -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section id="productos-destacados">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>⭐ Productos Destacados</h2>
+          <p>Nuestra selección especial de productos más populares y recomendados</p>
+        </div>
+      </div>
+      
+      <div class="featured-products-carousel" id="featuredProductsCarousel">
+        <div class="featured-products-track" id="featuredProductsTrack">
+          <!-- Featured products will be loaded dynamically -->
+        </div>
+      </div>
+      
+      <!-- Empty state for featured products -->
+      <div class="featured-empty-state" id="featuredEmptyState" style="display: none;">
+        <div class="featured-empty-icon">⭐</div>
+        <h3>Próximamente productos destacados</h3>
+        <p>Estamos seleccionando los mejores productos para mostrarte</p>
+      </div>
+      
+      <!-- Loading state for featured products -->
+      <div class="featured-loading-state" id="featuredLoadingState" style="display: none;">
+        <div class="featured-loading-spinner"></div>
+        <p>Cargando productos destacados...</p>
       </div>
     </div>
   </section>
