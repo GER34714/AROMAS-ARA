@@ -639,14 +639,14 @@
       box-shadow:0 8px 32px rgba(200,168,145,0.1);
     }
     
-    .featured-products-track{
-      display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;
-    }
-    
-    .featured-products-track .product-card{
+    #featuredProductsTrack{
       position:relative;
     }
-    .featured-products-track .product-card::after{
+    
+    #featuredProductsTrack .product-card{
+      position:relative;
+    }
+    #featuredProductsTrack .product-card::after{
       content:'⭐';position:absolute;top:8px;right:8px;
       font-size:16px;color:var(--accent);z-index:2;
       background:rgba(255,255,255,0.9);padding:4px 6px;border-radius:8px;
@@ -719,10 +719,7 @@
     /* Mobile Responsive for Featured Products */
     @media (max-width:768px){
       #productos-destacados{padding:60px 0}
-      .featured-products-carousel{
-        margin:24px 0;padding:20px;border-radius:16px;
-      }
-      .featured-products-track{
+      #featuredProductsTrack{
         grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;
       }
       .featured-empty-state{
@@ -735,10 +732,7 @@
     
     @media (max-width:480px){
       #productos-destacados{padding:40px 0}
-      .featured-products-carousel{
-        margin:16px 0;padding:16px;
-      }
-      .featured-products-track{
+      #featuredProductsTrack{
         grid-template-columns:1fr;gap:12px;
       }
       .featured-product-meta{
@@ -1053,10 +1047,8 @@
         </div>
       </div>
       
-      <div class="featured-products-carousel" id="featuredProductsCarousel">
-        <div class="featured-products-track" id="featuredProductsTrack">
-          <!-- Featured products will be loaded dynamically -->
-        </div>
+      <div class="products-grid" id="featuredProductsTrack" style="margin: 40px 0;">
+        <!-- Featured products will be loaded dynamically -->
       </div>
       
       <!-- Empty state for featured products -->
