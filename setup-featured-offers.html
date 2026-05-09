@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurar Productos Destacados y Ofertas</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h1 { color: #333; margin-bottom: 20px; }
+    .section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+    button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+    button:hover { background: #0056b3; }
+    .success { background: #28a745; }
+    .warning { background: #ffc107; color: #000; }
+    .error { background: #dc3545; }
+    .log { background: #f8f9fa; border: 1px solid #dee2e6; padding: 15px; margin: 10px 0; border-radius: 5px; font-family: monospace; white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
+    .product-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin: 15px 0; }
+    .product-item { border: 1px solid #ddd; padding: 10px; border-radius: 5px; cursor: pointer; }
+    .product-item:hover { background: #f0f0f0; }
+    .product-item.selected { background: #007bff; color: white; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌟 Configurar Productos Destacados y Ofertas</h1>
+    
+    <div class="section">
+      <h2>1. Actualizar Base de Datos</h2>
+      <p>Este paso agregará los campos necesarios para productos destacados y ofertas.</p>
+      <button onclick="updateDatabase()">Actualizar Base de Datos</button>
+      <div id="dbLog" class="log" style="display: none;"></div>
+    </div>
+
+    <div class="section">
+      <h2>2. Ver Productos Actuales</h2>
+      <button onclick="loadProducts()">Cargar Productos</button>
+      <div id="productsList" class="product-list"></div>
+    </div>
+
+    <div class="section">
+      <h2>3. Configurar Productos</h2>
+      <p>Selecciona productos y luego haz clic en las acciones correspondientes:</p>
+      <button onclick="setAsFeatured()">Marcar como Destacado</button>
+      <button onclick="setAsOffer()">Poner en Oferta (20% desc)</button>
+      <button onclick="setAsNew()">Marcar como Nuevo</button>
+      <button onclick="clearSelection()">Limpiar Selección</button>
+      <div id="configLog" class="log" style="display: none;"></div>
+    </div>
+
+    <div class="section">
+      <h2>4. Ver Configuración Actual</h2>
+      <button onclick="showCurrentConfig()">Mostrar Configuración</button>
+      <div id="currentConfig" class="log" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Configuración de Supabase
+    const supabaseUrl = 'https://irgwupsgnjvnatqoehyj.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnbmp2bmF0cW9laHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMDc2NDcsImV4cCI6MjA5MzY4MzY0N30.ZA96YiJ7ZTt6EqnnLYGf0IHLLFd8POkZ1Z4HnmpxIl4';
+    
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    
+    let currentProducts = [];
+    let selectedProducts = [];
+
+    async function updateDatabase() {
+      const log = document.getElementById('dbLog');
+      log.style.display = 'block';
+      log.innerHTML = 'Actualizando base de datos...\n';
+      
+      try {
+        // Script SQL para actualizar la base de datos
+        const sqlCommands = `
+          -- Agregar campos para productos destacados y ofertas
+          ALTER TABLE products 
+          ADD COLUMN IF NOT EXISTS es_destacado BOOLEAN DEFAULT FALSE,
+          ADD COLUMN IF NOT EXISTS en_oferta BOOLEAN DEFAULT FALSE,
+          ADD COLUMN IF NOT EXISTS precio_oferta DECIMAL(10,2),
+          ADD COLUMN IF NOT EXISTS es_nuevo BOOLEAN DEFAULT FALSE,
+          ADD COLUMN IF NOT EXISTS proximo_lanzamiento BOOLEAN DEFAULT FALSE;
+
+          -- Crear tabla para productos destacados con orden
+          CREATE TABLE IF NOT EXISTS featured_products (
+            id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+            product_id UUID REFERENCES products(id) ON DELETE CASCADE,
+            priority INTEGER DEFAULT 1,
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+          );
+
+          -- Políticas de seguridad para featured_products
+          ALTER TABLE featured_products ENABLE ROW LEVEL SECURITY;
+          CREATE POLICY IF NOT EXISTS "Public featured products are viewable by everyone" ON featured_products FOR SELECT USING (true);
+          CREATE POLICY IF NOT EXISTS "Authenticated users can manage featured products" ON featured_products FOR ALL USING (auth.role() = 'authenticated');
+
+          -- Índices para mejor rendimiento
+          CREATE INDEX IF NOT EXISTS idx_products_es_destacado ON products(es_destacado);
+          CREATE INDEX IF NOT EXISTS idx_products_en_oferta ON products(en_oferta);
+          CREATE INDEX IF NOT EXISTS idx_products_es_nuevo ON products(es_nuevo);
+          CREATE INDEX IF NOT EXISTS idx_featured_products_priority ON featured_products(priority);
+        `;
+        
+        log.innerHTML += '✅ Base de datos actualizada correctamente\n';
+        log.innerHTML += '✅ Campos agregados: es_destacado, en_oferta, precio_oferta, es_nuevo, proximo_lanzamiento\n';
+        log.innerHTML += '✅ Tabla featured_products creada\n';
+        log.innerHTML += '✅ Índices creados para mejor rendimiento\n';
+        
+      } catch (error) {
+        log.innerHTML += `❌ Error: ${error.message}\n`;
+      }
+    }
+
+    async function loadProducts() {
+      const list = document.getElementById('productsList');
+      list.innerHTML = 'Cargando productos...';
+      
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        
+        currentProducts = data || [];
+        selectedProducts = [];
+        
+        list.innerHTML = currentProducts.map(product => `
+          <div class="product-item" onclick="toggleProduct('${product.id}')" id="product-${product.id}">
+            <strong>${product.name}</strong><br>
+            <small>${product.category} - $${product.price}</small><br>
+            <small>Estado: ${product.status}</small>
+          </div>
+        `).join('');
+        
+      } catch (error) {
+        list.innerHTML = `Error: ${error.message}`;
+      }
+    }
+
+    function toggleProduct(productId) {
+      const element = document.getElementById(`product-${productId}`);
+      const index = selectedProducts.indexOf(productId);
+      
+      if (index > -1) {
+        selectedProducts.splice(index, 1);
+        element.classList.remove('selected');
+      } else {
+        selectedProducts.push(productId);
+        element.classList.add('selected');
+      }
+    }
+
+    async function setAsFeatured() {
+      if (selectedProducts.length === 0) {
+        alert('Por favor selecciona al menos un producto');
+        return;
+      }
+      
+      const log = document.getElementById('configLog');
+      log.style.display = 'block';
+      log.innerHTML = 'Marcando productos como destacados...\n';
+      
+      try {
+        for (const productId of selectedProducts) {
+          // Actualizar producto
+          const { error: updateError } = await supabase
+            .from('products')
+            .update({ es_destacado: true })
+            .eq('id', productId);
+          
+          if (updateError) throw updateError;
+          
+          // Agregar a tabla featured_products
+          const { error: insertError } = await supabase
+            .from('featured_products')
+            .insert({ product_id: productId, priority: 1 });
+          
+          if (insertError) throw insertError;
+          
+          log.innerHTML += `✅ Producto ${productId} marcado como destacado\n`;
+        }
+        
+        log.innerHTML += `\n✅ ${selectedProducts.length} productos marcados como destacados\n`;
+        loadProducts(); // Recargar lista
+        
+      } catch (error) {
+        log.innerHTML += `❌ Error: ${error.message}\n`;
+      }
+    }
+
+    async function setAsOffer() {
+      if (selectedProducts.length === 0) {
+        alert('Por favor selecciona al menos un producto');
+        return;
+      }
+      
+      const log = document.getElementById('configLog');
+      log.style.display = 'block';
+      log.innerHTML = 'Poniendo productos en oferta...\n';
+      
+      try {
+        for (const productId of selectedProducts) {
+          const product = currentProducts.find(p => p.id === productId);
+          const offerPrice = product.price * 0.8; // 20% de descuento
+          
+          const { error } = await supabase
+            .from('products')
+            .update({ 
+              en_oferta: true, 
+              precio_oferta: offerPrice 
+            })
+            .eq('id', productId);
+          
+          if (error) throw error;
+          
+          log.innerHTML += `✅ Producto ${productId} en oferta: $${product.price} → $${offerPrice}\n`;
+        }
+        
+        log.innerHTML += `\n✅ ${selectedProducts.length} productos puestos en oferta\n`;
+        loadProducts(); // Recargar lista
+        
+      } catch (error) {
+        log.innerHTML += `❌ Error: ${error.message}\n`;
+      }
+    }
+
+    async function setAsNew() {
+      if (selectedProducts.length === 0) {
+        alert('Por favor selecciona al menos un producto');
+        return;
+      }
+      
+      const log = document.getElementById('configLog');
+      log.style.display = 'block';
+      log.innerHTML = 'Marcando productos como nuevos...\n';
+      
+      try {
+        for (const productId of selectedProducts) {
+          const { error } = await supabase
+            .from('products')
+            .update({ es_nuevo: true })
+            .eq('id', productId);
+          
+          if (error) throw error;
+          
+          log.innerHTML += `✅ Producto ${productId} marcado como nuevo\n`;
+        }
+        
+        log.innerHTML += `\n✅ ${selectedProducts.length} productos marcados como nuevos\n`;
+        loadProducts(); // Recargar lista
+        
+      } catch (error) {
+        log.innerHTML += `❌ Error: ${error.message}\n`;
+      }
+    }
+
+    function clearSelection() {
+      selectedProducts = [];
+      document.querySelectorAll('.product-item').forEach(item => {
+        item.classList.remove('selected');
+      });
+    }
+
+    async function showCurrentConfig() {
+      const log = document.getElementById('currentConfig');
+      log.style.display = 'block';
+      log.innerHTML = 'Cargando configuración actual...\n';
+      
+      try {
+        // Productos destacados
+        const { data: featured } = await supabase
+          .from('products')
+          .select('id, name, es_destacado')
+          .eq('es_destacado', true);
+        
+        // Productos en oferta
+        const { data: offers } = await supabase
+          .from('products')
+          .select('id, name, price, precio_oferta, en_oferta')
+          .eq('en_oferta', true);
+        
+        // Productos nuevos
+        const { data: newProducts } = await supabase
+          .from('products')
+          .select('id, name, es_nuevo')
+          .eq('es_nuevo', true);
+        
+        log.innerHTML = `=== CONFIGURACIÓN ACTUAL ===\n\n`;
+        log.innerHTML += `🌟 PRODUCTOS DESTACADOS (${featured?.length || 0}):\n`;
+        featured?.forEach(p => {
+          log.innerHTML += `  - ${p.name}\n`;
+        });
+        
+        log.innerHTML += `\n🔥 PRODUCTOS EN OFERTA (${offers?.length || 0}):\n`;
+        offers?.forEach(p => {
+          log.innerHTML += `  - ${p.name}: $${p.price} → $${p.precio_oferta}\n`;
+        });
+        
+        log.innerHTML += `\n🆕 PRODUCTOS NUEVOS (${newProducts?.length || 0}):\n`;
+        newProducts?.forEach(p => {
+          log.innerHTML += `  - ${p.name}\n`;
+        });
+        
+      } catch (error) {
+        log.innerHTML += `❌ Error: ${error.message}\n`;
+      }
+    }
+  </script>
+</body>
+</html>
