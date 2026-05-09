@@ -1319,11 +1319,17 @@
 
     /* Mobile cart redesign - full screen */
     @media (max-width:480px){
-      /* Eliminar comportamiento modal en mobile */
+      /* Contenedor principal 100% responsivo */
       #cartModal{
-        position:fixed;top:0;left:0;width:100%;height:100%;
-        background:#ffffff;z-index:1000;overflow-y:auto;
-        padding:20px 16px;box-sizing:border-box;
+        position:fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow-y: auto;
+        box-sizing: border-box;
+        padding: 60px 16px 24px 16px;
+        background:#ffffff;
+        z-index:1000;
       }
       #cartModal .modal{
         background:none;backdrop-filter:none;
@@ -1331,6 +1337,19 @@
       #cartModal .modal-card{
         box-shadow:none;border-radius:0;max-height:none;
         background:none;padding:0;margin:0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      
+      /* Todos los elementos internos 100% */
+      #cartModal .modal-header,
+      #cartModal .modal-body,
+      #cartModal .cart-content,
+      #cartModal .cart-summary,
+      #cartModal .cart-actions{
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100%;
       }
       
       /* Botón cerrar en mobile */
@@ -1350,16 +1369,72 @@
       /* Ocultar imágenes en mobile */
       .cart-item-img{display:none !important;}
       
-      /* Lista de productos individuales */
+      /* Lista de productos individuales 100% responsiva */
       .cart-items-list{
-        max-height:250px;overflow-y:auto;
+        width: 100%;
+        max-height:250px;
+        overflow-y:auto;
         margin:16px 0;
+        box-sizing: border-box;
       }
       
-      /* Estilos para la nueva lista mobile */
+      /* Lista mobile 100% responsiva */
       #cart-items-list-mobile{
-        max-height:250px;overflow-y:auto;
+        width: 100%;
+        max-height:250px;
+        overflow-y:auto;
         margin:16px 0;
+        box-sizing: border-box;
+      }
+      
+      /* Cada fila 100% responsiva */
+      .cart-item-row{
+        width: 100%;
+        display: flex;
+        box-sizing: border-box;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+      }
+      
+      /* Textos largos con ellipsis */
+      .cart-item-name{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: calc(100% - 120px); /* espacio para precio y X */
+        flex: 1;
+      }
+      
+      /* Botones de acción 100% responsivos */
+      .cart-actions{
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .cart-actions button,
+      .cart-actions .wa-btn,
+      .cart-actions .ghost-btn{
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100%;
+      }
+      
+      /* Resumen del carrito 100% responsivo */
+      .cart-summary{
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100%;
+      }
+      
+      .cart-summary-item{
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
       
       .cart-item-row{
@@ -1418,10 +1493,6 @@
       .cart-summary{
         background:#FFF0F5;border-radius:12px;padding:16px;margin:16px 0;
         border:none !important;
-      }
-      .cart-summary::before{
-        content:"📋 Resumen del pedido";display:block;
-        font-size:14px;font-weight:700;margin-bottom:12px;
       }
       
       /* Items de resumen */
@@ -2978,12 +3049,14 @@ async function loadCart() {
 
 // Update cart UI
 function updateCartUI() {
-  const count = cartData.totalItems;
+  // PASO 1: Usar UNA SOLA fuente de verdad - cartData.items
+  const itemCount = cartData.items.length;
+  const totalItems = cartData.totalItems;
   
-  // Update cart count badges - verificar que existan
+  // PASO 2: Actualizar contadores y badges
   if (cartCount) {
-    if (count > 0) {
-      cartCount.textContent = count;
+    if (itemCount > 0) {
+      cartCount.textContent = totalItems;
       cartCount.style.display = 'flex';
     } else {
       cartCount.style.display = 'none';
@@ -2991,8 +3064,8 @@ function updateCartUI() {
   }
   
   if (cartCountMobile) {
-    if (count > 0) {
-      cartCountMobile.textContent = count;
+    if (itemCount > 0) {
+      cartCountMobile.textContent = totalItems;
       cartCountMobile.style.display = 'flex';
     } else {
       cartCountMobile.style.display = 'none';
@@ -3001,30 +3074,31 @@ function updateCartUI() {
 
   // Add cart animations
   if (cartBtn) {
-    if (count > 0) {
+    if (itemCount > 0) {
       cartBtn.classList.add('has-items');
     } else {
       cartBtn.classList.remove('has-items');
     }
   }
 
-  // Update cart modal header with exact product count
-  const cartModalHeader = document.querySelector('#cartModal .modal-header');
-  if (cartModalHeader) {
-    cartModalHeader.setAttribute('data-products', count);
-  }
-  
   if (cartBtnMobile) {
-    if (count > 0) {
+    if (itemCount > 0) {
       cartBtnMobile.classList.add('has-items');
     } else {
       cartBtnMobile.classList.remove('has-items');
     }
   }
 
-  // Update cart modal - verificar que existan
+  // PASO 3: Actualizar header del modal con contador exacto
+  const cartModalHeader = document.querySelector('#cartModal .modal-header');
+  if (cartModalHeader) {
+    cartModalHeader.setAttribute('data-products', totalItems);
+  }
+  
+  // PASO 4: Re-renderizar TODO el carrito con condición unificada
   if (cartItems && cartSummary && cartActions) {
-    if (cartData.items.length === 0) {
+    if (itemCount === 0) {
+      // Mostrar mensaje vacío y ocultar todo lo demás
       cartItems.innerHTML = `
         <div class="empty-cart">
           <div class="empty-cart-icon">🛒</div>
@@ -3033,10 +3107,24 @@ function updateCartUI() {
       `;
       cartSummary.style.display = 'none';
       cartActions.style.display = 'none';
+      
+      // Limpiar lista mobile también
+      const mobileList = document.getElementById('cart-items-list-mobile');
+      if (mobileList) {
+        mobileList.innerHTML = '';
+        mobileList.style.display = 'none';
+      }
     } else {
+      // Ocultar mensaje vacío y mostrar todo lo demás
       renderCartItems();
       cartSummary.style.display = 'block';
       cartActions.style.display = 'flex';
+      
+      // Asegurar que lista mobile sea visible
+      const mobileList = document.getElementById('cart-items-list-mobile');
+      if (mobileList) {
+        mobileList.style.display = 'block';
+      }
     }
   }
 }
