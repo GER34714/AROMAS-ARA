@@ -1819,12 +1819,32 @@
           <h4 id="modalTitle"></h4>
           <button class="close-btn" id="closeModal" aria-label="Cerrar">✕</button>
         </div>
+        <div class="delivery-info" style="display: flex; align-items: center; gap: 8px; margin: 0 0 16px 0; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.06);">
+          <span style="color: #667eea; font-size: 14px; font-weight: 600;">📦 Entregas a convenir</span>
+          <div class="delivery-info-icon" style="position: relative; display: inline-block;">
+            <button onclick="toggleModalDeliveryInfo()" style="width: 18px; height: 18px; border-radius: 50%; background: #667eea; color: white; border: none; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center;">i</button>
+            <div id="modalDeliveryInfoTooltip" style="display: none; position: absolute; top: 25px; left: 0; width: 280px; background: white; border: 1px solid #e8ecff; border-radius: 8px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000;">
+              <h5 style="margin: 0 0 8px 0; color: #667eea; font-size: 13px; font-weight: 600;">📦 Entregas a convenir</h5>
+              <p style="margin: 0; color: #666; font-size: 12px; line-height: 1.4;">
+                Las entregas se coordinan personalmente según tu ubicación. Podemos agrupar pedidos de la zona o acordar un punto de encuentro. Al confirmar tu pedido te contactamos por WhatsApp para coordinar juntos.
+              </p>
+            </div>
+          </div>
+        </div>
         <p id="modalDescription"></p>
         <div class="features" id="modalFeatures"></div>
         <div class="product-actions">
-          <button class="add-to-cart" id="modalAddToCart" data-product-id="">
-          Agregar al Carrito
-        </button>
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <button class="add-to-cart" id="modalAddToCart" data-product-id="">
+            Agregar al Carrito
+            </button>
+            <div id="modalQuantityControls" style="display: none; align-items: center; gap: 8px;">
+              <button onclick="updateModalQuantity(-1)" style="width: 32px; height: 32px; border-radius: 6px; background: #F0F0F0; color: #666; border: none; font-size: 14px; cursor: pointer;">-</button>
+              <span id="modalQuantity" style="min-width: 20px; text-align: center; font-weight: 600;">1</span>
+              <button onclick="updateModalQuantity(1)" style="width: 32px; height: 32px; border-radius: 6px; background: #E8F5E8; color: #2D6A4F; border: none; font-size: 14px; cursor: pointer;">+</button>
+              <button onclick="updateModalQuantity(0)" style="width: 32px; height: 32px; border-radius: 6px; background: #FFE0E0; color: #E03030; border: none; font-size: 12px; cursor: pointer;">✕</button>
+            </div>
+          </div>
           <button class="ghost-btn" id="closeModalSecondary" type="button">Cerrar</button>
         </div>
       </div>
@@ -1848,6 +1868,18 @@
           <!-- Los items del carrito se cargarán dinámicamente -->
         </div>
         <div id="cartSummary" class="cart-summary" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h4 style="margin: 0; font-size: 14px; font-weight: 700;">📋 Resumen del pedido</h4>
+            <div class="delivery-info-icon" style="position: relative; display: inline-block;">
+              <button onclick="toggleDeliveryInfo()" style="width: 20px; height: 20px; border-radius: 50%; background: #667eea; color: white; border: none; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center;">i</button>
+              <div id="deliveryInfoTooltip" style="display: none; position: absolute; top: 25px; right: 0; width: 280px; background: white; border: 1px solid #e8ecff; border-radius: 8px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000;">
+                <h5 style="margin: 0 0 8px 0; color: #667eea; font-size: 13px; font-weight: 600;">📦 Entregas a convenir</h5>
+                <p style="margin: 0; color: #666; font-size: 12px; line-height: 1.4;">
+                  Las entregas se coordinan personalmente según tu ubicación. Podemos agrupar pedidos de la zona o acordar un punto de encuentro.
+                </p>
+              </div>
+            </div>
+          </div>
           <div class="cart-summary-item">
             <span>Disponibles:</span>
             <span id="availableTotal">$0.00</span>
@@ -3210,6 +3242,101 @@ function clearCart() {
   updateCartUI();
 }
 
+// Toggle delivery info tooltip (carrito)
+function toggleDeliveryInfo() {
+  const tooltip = document.getElementById('deliveryInfoTooltip');
+  if (tooltip.style.display === 'none') {
+    tooltip.style.display = 'block';
+  } else {
+    tooltip.style.display = 'none';
+  }
+}
+
+// Toggle modal delivery info tooltip
+function toggleModalDeliveryInfo() {
+  const tooltip = document.getElementById('modalDeliveryInfoTooltip');
+  if (tooltip.style.display === 'none') {
+    tooltip.style.display = 'block';
+  } else {
+    tooltip.style.display = 'none';
+  }
+}
+
+// Modal quantity controls
+let modalQuantity = 1;
+let currentModalProductId = null;
+
+// Update modal quantity
+function updateModalQuantity(change) {
+  if (change === 0) {
+    // Remove from cart
+    if (currentModalProductId) {
+      updateCartItemQuantity(currentModalProductId, 0);
+      // Reset modal to show "Agregar al Carrito" button
+      document.getElementById('modalQuantityControls').style.display = 'none';
+      document.getElementById('modalAddToCart').style.display = 'inline-flex';
+      modalAddToCart.dataset.productId = currentModalProductId;
+      modalAddToCart.textContent = 'Agregar al Carrito';
+      modalAddToCart.style.background = '#E8654A';
+      modalAddToCart.style.color = 'white';
+      currentModalProductId = null;
+      modalQuantity = 1;
+      document.getElementById('modalQuantity').textContent = modalQuantity;
+    }
+    return;
+  }
+  
+  modalQuantity = Math.max(1, modalQuantity + change);
+  document.getElementById('modalQuantity').textContent = modalQuantity;
+  
+  // Update cart if product is already in cart
+  if (currentModalProductId) {
+    const cartItem = cartData.items.find(item => item.products.id === currentModalProductId);
+    if (cartItem) {
+      updateCartItemQuantity(currentModalProductId, modalQuantity);
+    } else {
+      // Product was removed from cart, reset modal
+      document.getElementById('modalQuantityControls').style.display = 'none';
+      document.getElementById('modalAddToCart').style.display = 'inline-flex';
+      modalAddToCart.dataset.productId = currentModalProductId;
+      modalAddToCart.textContent = 'Agregar al Carrito';
+      modalAddToCart.style.background = '#E8654A';
+      modalAddToCart.style.color = 'white';
+      currentModalProductId = null;
+      modalQuantity = 1;
+      document.getElementById('modalQuantity').textContent = modalQuantity;
+    }
+  }
+}
+
+// Reset modal quantity
+function resetModalQuantity() {
+  modalQuantity = 1;
+  document.getElementById('modalQuantity').textContent = modalQuantity;
+  document.getElementById('modalQuantityControls').style.display = 'none';
+  document.getElementById('modalAddToCart').style.display = 'inline-flex';
+  currentModalProductId = null;
+}
+
+// Close tooltips when clicking outside
+document.addEventListener('click', function(event) {
+  // Cerrar tooltip del carrito
+  const cartTooltip = document.getElementById('deliveryInfoTooltip');
+  const cartIcon = document.querySelector('.delivery-info-icon');
+  
+  if (cartTooltip && cartIcon && !cartIcon.contains(event.target)) {
+    cartTooltip.style.display = 'none';
+  }
+  
+  // Cerrar tooltip del modal
+  const modalTooltip = document.getElementById('modalDeliveryInfoTooltip');
+  const modalIcon = document.querySelector('#productModal .delivery-info-icon');
+  
+  if (modalTooltip && modalIcon && !modalIcon.contains(event.target)) {
+    modalTooltip.style.display = 'none';
+  }
+});
+
 // Handle checkout
 function handleCheckout() {
   if (cartData.items.length === 0) return;
@@ -3619,11 +3746,28 @@ function openModal(card) {
   });
 
     
-  // Set up the "Agregar al Carrito" button
-  modalAddToCart.dataset.productId = productId;
-  modalAddToCart.textContent = 'Agregar al Carrito';
-  modalAddToCart.style.background = '#E8654A';
-  modalAddToCart.style.color = 'white';
+  // Check if product is already in cart
+  const cartItem = cartData.items.find(item => item.products.id === productId);
+  
+  if (cartItem) {
+    // Product is in cart, show quantity controls
+    currentModalProductId = productId;
+    modalQuantity = cartItem.quantity;
+    document.getElementById('modalQuantity').textContent = modalQuantity;
+    document.getElementById('modalQuantityControls').style.display = 'flex';
+    modalAddToCart.style.display = 'none';
+  } else {
+    // Product not in cart, show add to cart button
+    currentModalProductId = null;
+    modalQuantity = 1;
+    document.getElementById('modalQuantity').textContent = modalQuantity;
+    document.getElementById('modalQuantityControls').style.display = 'none';
+    modalAddToCart.style.display = 'inline-flex';
+    modalAddToCart.dataset.productId = productId;
+    modalAddToCart.textContent = 'Agregar al Carrito';
+    modalAddToCart.style.background = '#E8654A';
+    modalAddToCart.style.color = 'white';
+  }
   
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
@@ -3632,6 +3776,7 @@ function openModal(card) {
 function hideModal() {
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden', 'true');
+  resetModalQuantity();
 }
 
 // Show cart error message
