@@ -2171,13 +2171,21 @@
                   <input type="number" id="productPrice" step="0.01" placeholder="0.00">
                 </div>
                 <div class="form-group">
-                  <label for="productStatus">Estado</label>
-                  <select id="productStatus">
-                    <option value="Por encargue">Por encargue</option>
-                    <option value="Disponible">Disponible</option>
-                    <option value="Agotado">Agotado</option>
+                  <label for="productModalidad">Modalidad</label>
+                  <select id="productModalidad">
+                    <option value="stock">Disponible en stock</option>
+                    <option value="encargue">Por encargue</option>
                   </select>
                 </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="productStatus">Estado</label>
+                <select id="productStatus">
+                  <option value="Por encargue">Por encargue</option>
+                  <option value="Disponible">Disponible</option>
+                  <option value="Agotado">Agotado</option>
+                </select>
               </div>
               
               <div class="form-group" id="precioOfertaGroup" style="display: none;">
@@ -2469,6 +2477,7 @@
     const productCategory = document.getElementById('productCategory');
     const productDescription = document.getElementById('productDescription');
     const productPrice = document.getElementById('productPrice');
+    const productModalidad = document.getElementById('productModalidad');
     const productStatus = document.getElementById('productStatus');
     const productImages = document.getElementById('productImages');
     const imagePreview = document.getElementById('imagePreview');
@@ -2806,6 +2815,7 @@
           category: productCategory.value,
           description: productDescription.value,
           price: parseFloat(productPrice.value) || 0,
+          modalidad: productModalidad.value,
           status: productStatus.value,
           features: [],
           // New fields
@@ -3641,6 +3651,7 @@
         document.getElementById('productName').value = product.name;
         document.getElementById('productDescription').value = product.description || '';
         document.getElementById('productPrice').value = product.price || '';
+        document.getElementById('productModalidad').value = product.modalidad || 'stock';
         document.getElementById('productStatus').value = product.status || 'Por encargue';
         
         // Populate new fields

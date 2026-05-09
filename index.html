@@ -242,8 +242,9 @@
     .banner-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
     .banner-actions .ghost-btn{
       color:#fff;
-      border-color:rgba(255,255,255,.34);
-      background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.5);
+      background:linear-gradient(135deg,rgba(102,126,234,0.8),rgba(118,75,162,0.8));
+      backdrop-filter:blur(10px);
     }
 
     section{padding:24px 0}
@@ -562,6 +563,8 @@
     .badge-nuevo { background: #2D6A4F; }
     .badge-oferta { background: #E63946; }
     .badge-lanzamiento { background: #6c757d; }
+    .badge-stock { background: #2D6A4F; }
+    .badge-encargue { background: #F4A261; }
     
     /* Offer Pricing */
     .offer-pricing {
@@ -867,6 +870,56 @@
     .footer-wrap p{color:var(--muted);line-height:1.7;max-width:60ch}
     .footer-credit a{color:#aa7f69;font-weight:800}
 
+    /* FAQ Section */
+    .faq-section{
+      padding:60px 0;background:linear-gradient(180deg,#ffffff 0%,#f8f9ff 100%);
+    }
+    .faq-accordion{
+      max-width:800px;margin:0 auto;
+    }
+    .faq-item{
+      background:var(--card);border:1px solid var(--line);
+      border-radius:16px;margin-bottom:12px;overflow:hidden;
+      transition:all 0.3s ease;
+    }
+    .faq-item:hover{
+      box-shadow:0 4px 12px rgba(102,126,234,0.1);
+      transform:translateY(-2px);
+    }
+    .faq-question{
+      width:100%;padding:20px 24px;
+      background:none;border:none;text-align:left;
+      display:flex;align-items:center;justify-content:space-between;
+      cursor:pointer;font-size:1rem;font-weight:600;color:var(--text);
+      transition:all 0.3s ease;
+    }
+    .faq-question:hover{
+      background:var(--bg-soft);
+    }
+    .faq-question span:first-child{
+      display:flex;align-items:center;gap:8px;
+    }
+    .faq-icon{
+      font-size:1.2rem;font-weight:700;color:var(--accent);
+      transition:transform 0.3s ease;
+      display:flex;align-items:center;justify-content:center;
+      width:24px;height:24px;border-radius:50%;background:var(--bg-soft);
+    }
+    .faq-item.active .faq-icon{
+      transform:rotate(45deg);background:var(--accent);color:white;
+    }
+    .faq-answer{
+      max-height:0;overflow:hidden;
+      transition:max-height 0.3s ease;
+    }
+    .faq-answer p{
+      padding:0 24px 20px;color:var(--muted);
+      line-height:1.6;margin:0;
+    }
+    .faq-item.active .faq-answer{
+      max-height:200px;
+    }
+
     .floating-wa{position:fixed;right:20px;bottom:20px;z-index:44;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;transition:all 0.3s ease;background:#25D366;box-shadow:0 4px 12px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.1),0 1px 0 rgba(0,0,0,0.05)}
     .floating-wa.hidden{opacity:0;transform:translateY(30px) scale(0.8);pointer-events:none}
     .floating-wa:hover{transform:scale(1.1);box-shadow:0 6px 16px rgba(0,0,0,0.4),0 0 0 1px rgba(0,0,0,0.1),0 1px 0 rgba(0,0,0,0.05)}
@@ -916,10 +969,16 @@
       font-size:14px;letter-spacing:0.02em;
     }
     .cart-badge{
-      position:absolute;top:-8px;right:-8px;min-width:20px;height:20px;
-      border-radius:50%;background:#FF3B30;border:2px solid white;z-index:10;
-      display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
-      color:white;
+      position:absolute;top:-8px;right:-8px;background:#E63946;color:white;
+      border-radius:999px;width:20px;height:20px;font-size:11px;font-weight:700;
+      display:flex;align-items:center;justify-content:center;line-height:1;
+      box-shadow:0 2px 8px rgba(230,57,70,0.5);
+    }
+    .mobile-cart-btn .cart-badge{
+      position:absolute;top:-8px;right:-8px;background:#E63946;color:white;
+      border-radius:999px;width:20px;height:20px;font-size:11px;font-weight:700;
+      display:flex;align-items:center;justify-content:center;line-height:1;
+      box-shadow:0 2px 8px rgba(230,57,70,0.5);
     }
     @keyframes badgePulse{
       0%,100%{transform:scale(1)}
@@ -1145,29 +1204,31 @@
       font-size:3rem;margin-bottom:16px;opacity:0.5;
     }
     .cart-item{
-      display:flex;align-items:center;gap:16px;padding:16px;border-radius:16px;background:var(--bg-soft);
+      display:flex;flex-direction:row;align-items:center;gap:12px;width:100%;
+      padding:16px;border-radius:16px;background:var(--bg-soft);
       border:1px solid var(--line);margin-bottom:12px;transition:all 0.3s ease;
     }
     .cart-item:hover{
       transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1);
     }
     .cart-item-img{
-      width:60px;height:60px;border-radius:12px;object-fit:cover;
+      width:60px;height:60px;flex-shrink:0;object-fit:cover;border-radius:8px;
     }
     .cart-item-info{
-      flex:1;min-width:0;
+      flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;
     }
     .cart-item-name{
-      font-weight:600;color:var(--text);margin-bottom:4px;
+      font-weight:600;color:var(--text);font-size:13px;
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
     }
     .cart-item-category{
-      font-size:0.85rem;color:var(--muted);margin-bottom:4px;
+      font-size:0.85rem;color:var(--muted);
     }
     .cart-item-price{
       font-weight:700;color:var(--accent);font-size:1.1rem;
     }
     .cart-item-quantity{
-      display:flex;align-items:center;gap:8px;
+      flex-shrink:0;display:flex;align-items:center;gap:6px;
     }
     .quantity-btn{
       width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--card);
@@ -1198,20 +1259,199 @@
       font-size:1.2rem;font-weight:700;color:var(--text);padding-top:12px;border-top:1px solid var(--line);
     }
     .cart-actions{
-      display:flex;gap:12px;margin-top:20px;
+      display:flex;flex-direction:column;gap:12px;
+      width:100%;padding:0 16px 16px 16px;
+      box-sizing:border-box;flex-shrink:0;
+      margin-top:0;
     }
     .cart-actions .wa-btn{
-      flex:1;padding:14px 20px;font-size:1rem;
+      width:100%;box-sizing:border-box;flex-shrink:0;
+      padding:14px 20px;font-size:1rem;
     }
     .cart-actions .ghost-btn{
+      width:100%;box-sizing:border-box;
       padding:14px 20px;font-size:0.9rem;
     }
+    
+    /* Cart content scrollable area */
+    .cart-content{
+      max-height:60vh;overflow-y:auto;
+      padding:0 20px;
+    }
+    
+    /* Cart Sections */
+    .cart-section{
+      margin-bottom:24px;
+    }
+    .cart-section-title{
+      font-size:1.1rem;font-weight:700;color:var(--text);
+      margin-bottom:12px;display:flex;align-items:center;gap:8px;
+    }
+    .cart-section-description{
+      color:var(--muted);font-size:0.9rem;
+      margin-bottom:16px;padding:12px;background:var(--bg-soft);
+      border-radius:8px;border-left:4px solid #F4A261;
+    }
+    .cart-items-list{
+      display:flex;flex-direction:column;gap:8px;
+    }
     .mobile-cart-btn{
-      background:var(--card);border:2px solid var(--line);color:var(--text);
-      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+      display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:999px;
+      border:2px solid #E2725B;background:linear-gradient(135deg,#FF6B6B,#E2725B);
+      color:white;font-weight:600;cursor:pointer;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+      box-shadow:0 4px 12px rgba(226,114,91,0.4);position:relative;overflow:visible;
+      width:100%;justify-content:center;text-align:center;
+      margin-top:6px;
     }
     .mobile-cart-btn:hover{
-      background:var(--bg-soft);border-color:var(--accent);transform:translateY(-1px);
+      transform:translateY(-3px) scale(1.05);box-shadow:0 8px 25px rgba(226,114,91,0.5);
+      background:linear-gradient(135deg,#E2725B,#D35F47);
+    }
+    .mobile-cart-btn:active{
+      transform:translateY(0) scale(1.02);box-shadow:0 4px 12px rgba(226,114,91,0.4);
+    }
+    .mobile-cart-btn.has-items{
+      animation:cartPulse 4s ease-in-out infinite;
+    }
+    .mobile-cart-btn.bounce{
+      animation:cartBounce 400ms ease-in-out;
+    }
+
+    /* Mobile cart redesign - full screen */
+    @media (max-width:480px){
+      /* Eliminar comportamiento modal en mobile */
+      #cartModal{
+        position:fixed;top:0;left:0;width:100%;height:100%;
+        background:#ffffff;z-index:1000;overflow-y:auto;
+        padding:20px 16px;box-sizing:border-box;
+      }
+      #cartModal .modal{
+        background:none;backdrop-filter:none;
+      }
+      #cartModal .modal-card{
+        box-shadow:none;border-radius:0;max-height:none;
+        background:none;padding:0;margin:0;
+      }
+      
+      /* Botón cerrar en mobile */
+      #cartModal .close-btn{
+        position:fixed;top:16px;right:16px;z-index:1001;
+      }
+      
+      /* Encabezado del carrito */
+      #cartModal .modal-header h3{
+        font-size:20px;font-weight:700;
+      }
+      #cartModal .modal-header::after{
+        content:attr(data-products) " productos seleccionados";
+        display:block;font-size:13px;color:#999;margin-top:4px;
+      }
+      
+      /* Ocultar imágenes en mobile */
+      .cart-item-img{display:none !important;}
+      
+      /* Lista de productos individuales */
+      .cart-items-list{
+        max-height:250px;overflow-y:auto;
+        margin:16px 0;
+      }
+      
+      /* Estilos para la nueva lista mobile */
+      #cart-items-list-mobile{
+        max-height:250px;overflow-y:auto;
+        margin:16px 0;
+      }
+      
+      .cart-item-row{
+        display:flex;align-items:center;justify-content:space-between;
+        padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06);
+      }
+      
+      .cart-item-name{
+        flex:1;font-size:14px;
+      }
+      
+      .cart-item-price{
+        font-size:14px;font-weight:600;margin-right:8px;
+      }
+      
+      .cart-item-remove{
+        width:26px;height:26px;border-radius:6px;
+        background:#FFE0E0;color:#E03030;border:none;
+      }
+      
+      /* Rediseñar items como lista limpia */
+      .cart-item{
+        display:flex;flex-direction:row;align-items:center;
+        justify-content:space-between;padding:10px 0;
+        border-bottom:1px solid rgba(0,0,0,0.06);
+        background:none !important;border:none !important;
+        margin:0 !important;padding:10px 0 !important;
+      }
+      .cart-item-top{display:none;}
+      .cart-item-quantity{display:none;}
+      
+      .cart-item-info{
+        flex:1;min-width:0;padding:0 !important;
+      }
+      .cart-item-name{
+        font-size:14px;color:#333;margin:0;
+        white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      }
+      .cart-item-category{display:none;}
+      .cart-item-price{
+        font-size:14px;font-weight:600;margin-right:10px;
+        flex-shrink:0;
+      }
+      .cart-item-info .product-status{display:none;}
+      
+      /* Botón X eliminar integrado */
+      .cart-item .delete-btn{
+        width:26px;height:26px;border-radius:6px;
+        background:#FFE0E0;color:#E03030;border:none;
+        font-size:13px;flex-shrink:0;cursor:pointer;
+        display:flex;align-items:center;justify-content:center;
+        position:static;
+      }
+      
+      /* Sección de resumen */
+      .cart-summary{
+        background:#FFF0F5;border-radius:12px;padding:16px;margin:16px 0;
+        border:none !important;
+      }
+      .cart-summary::before{
+        content:"📋 Resumen del pedido";display:block;
+        font-size:14px;font-weight:700;margin-bottom:12px;
+      }
+      
+      /* Items de resumen */
+      .cart-summary-item{
+        display:flex;flex-direction:row;justify-content:space-between;
+        align-items:center;padding:8px 0;font-size:14px;
+        border-bottom:1px solid rgba(0,0,0,0.06);margin:0;
+      }
+      .cart-summary-item:last-child{border-bottom:none;}
+      .cart-summary-item.total{
+        font-weight:700;margin-top:12px;font-size:15px;
+        border-top:1px solid rgba(0,0,0,0.1);padding-top:12px;
+      }
+      
+      /* Botones inferiores */
+      .cart-actions{
+        display:flex;flex-direction:column;gap:12px;
+        width:100%;padding:0 16px 16px 16px;box-sizing:border-box;
+        flex-shrink:0;margin-top:0;
+      }
+      .cart-actions .wa-btn{
+        width:100%;box-sizing:border-box;flex-shrink:0;
+        background:#25D366;color:white;text-align:center;
+        justify-content:center;align-items:center;display:flex;
+        padding:14px 20px;font-size:1rem;
+      }
+      .cart-actions .ghost-btn{
+        width:100%;box-sizing:border-box;background:transparent;
+        border:1px solid var(--line);padding:14px 20px;font-size:0.9rem;
+      }
     }
 
     @media (max-width:1040px){
@@ -1229,6 +1469,10 @@
       .desktop-nav,.header-actions .wa-btn,.header-actions .ghost-btn{display:none}
       .header-actions .soft-btn{display:none}
       .header-actions #cartBtn{display:inline-flex}
+      /* Permitir botones dentro de modales en móvil */
+      #cartModal .wa-btn,#cartModal .ghost-btn,
+      #deliveryModal .wa-btn,#deliveryModal .ghost-btn{display:inline-flex !important}
+      .modal-actions .wa-btn,.modal-actions .ghost-btn{display:inline-flex !important}
       .menu-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:#fff}
       .carousel-wrap{padding:0 6px}
       .carousel-btn{display:none}
@@ -1321,7 +1565,7 @@
       <a href="#catalogo">Catálogo</a>
       <a href="#novedades">Novedades</a>
       <a href="#contacto">Contacto</a>
-      <button class="cart-btn mobile-cart-btn" id="cartBtnMobile" style="text-align:center;margin-top:6px;display:block;position:relative;">
+      <button class="cart-btn mobile-cart-btn" id="cartBtnMobile">
         <span class="cart-icon">🛒</span>
         <span class="cart-text">Carrito</span>
         <span id="cartCountMobile" class="cart-badge" style="display: none;">0</span>
@@ -1469,6 +1713,78 @@
   </section>
 </main>
 
+<!-- FAQ Section -->
+<section id="faqs" class="faq-section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Preguntas frecuentes</h2>
+      <p>Resolvemos tus dudas sobre nuestros productos y servicio</p>
+    </div>
+    
+    <div class="faq-accordion">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          <span>❓ ¿Hacen envíos?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Sí. Las entregas se coordinan personalmente según tu zona. Agrupamos pedidos cercanos y acordamos el mejor modo de acercarte tu compra. Al confirmar el pedido te contactamos por WhatsApp.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          <span>❓ ¿Cuánto cuesta el envío?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>El costo se acuerda caso a caso según tu ubicación. En muchos casos de la zona no tiene costo adicional.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          <span>❓ ¿Qué es un producto por encargue?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Son productos que se fabrican o consiguen a pedido. Podés agregarlos al carrito igual que cualquier otro. Antes de cobrarlos te confirmamos disponibilidad y tiempo de entrega, que generalmente es de 7 a 10 días.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          <span>❓ ¿Puedo comprar productos de stock y por encargue juntos?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Sí, podés mezclarlos en el mismo pedido. Al confirmar te avisamos por separado el estado de cada item.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          <span>❓ ¿Qué pasa si un producto por encargue no está disponible?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Te avisamos antes de realizar cualquier cobro. Podés cancelar ese item o esperar a que esté disponible.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          <span>❓ ¿Cómo puedo hacer una consulta?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Podés consultarnos por WhatsApp en cualquier momento o usar el botón de consulta en cada producto.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="container footer-wrap">
     <div>
@@ -1524,21 +1840,26 @@
       <button class="close-btn" id="closeCartModal" aria-label="Cerrar">✕</button>
     </div>
     <div class="modal-body">
-      <div id="cartItems">
-        <!-- Los items del carrito se cargarán dinámicamente -->
-      </div>
-      <div id="cartSummary" class="cart-summary" style="display: none;">
-        <div class="cart-summary-item">
-          <span>Disponibles:</span>
-          <span id="availableTotal">$0.00</span>
+      <div class="cart-content">
+        <div id="cart-items-list-mobile">
+          <!-- Los items del carrito se renderizarán dinámicamente -->
         </div>
-        <div class="cart-summary-item">
-          <span>Por encargue:</span>
-          <span id="orderTotal">$0.00</span>
+        <div id="cartItems">
+          <!-- Los items del carrito se cargarán dinámicamente -->
         </div>
-        <div class="cart-summary-item total">
-          <span>Total:</span>
-          <span id="grandTotal">$0.00</span>
+        <div id="cartSummary" class="cart-summary" style="display: none;">
+          <div class="cart-summary-item">
+            <span>Disponibles:</span>
+            <span id="availableTotal">$0.00</span>
+          </div>
+          <div class="cart-summary-item">
+            <span>Por encargue:</span>
+            <span id="orderTotal">$0.00</span>
+          </div>
+          <div class="cart-summary-item total">
+            <span>Total:</span>
+            <span id="grandTotal">$0.00</span>
+          </div>
         </div>
       </div>
       <div id="cartActions" class="cart-actions" style="display: none;">
@@ -2153,13 +2474,15 @@ async function loadSpecialSections() {
       const lanzamientosSection = document.getElementById('proximos-lanzamientos');
       const lanzamientosGrid = document.getElementById('proximosLanzamientosGrid');
       
-      lanzamientosSection.style.display = 'block';
-      lanzamientosGrid.innerHTML = '';
-      
-      lanzamientosProductos.forEach(product => {
-        const productCard = createProductCard(product);
-        lanzamientosGrid.appendChild(productCard);
-      });
+      if (lanzamientosSection && lanzamientosGrid) {
+        lanzamientosSection.style.display = 'block';
+        lanzamientosGrid.innerHTML = '';
+        
+        lanzamientosProductos.forEach(product => {
+          const productCard = createProductCard(product);
+          lanzamientosGrid.appendChild(productCard);
+        });
+      }
     }
     
   } catch (error) {
@@ -2523,12 +2846,25 @@ function createProductCard(product) {
   article.dataset.features = JSON.stringify(product.features || []);
   article.dataset.productId = product.id;
   article.dataset.status = product.status || 'Por encargue';
+  article.dataset.modalidad = product.modalidad || 'stock';
 
   const statusClass = product.status === 'Disponible' ? 'status-disponible' : 
                      product.status === 'Agotado' ? 'status-agotado' : 'status-encargue';
+  
+  const modalidad = product.modalidad || 'stock';
+  const isStock = modalidad === 'stock';
 
   // Create badges HTML
   let badgesHtml = '<div class="product-badges">';
+  
+  // Badge de modalidad (prioritario)
+  if (isStock) {
+    badgesHtml += '<span class="product-badge badge-stock">Disponible</span>';
+  } else {
+    badgesHtml += '<span class="product-badge badge-encargue">Por encargue</span>';
+  }
+  
+  // Badges adicionales
   if (product.badge_texto) {
     badgesHtml += `<span class="product-badge" style="background: ${product.badge_color || 'var(--accent)'};">${product.badge_texto}</span>`;
   } else if (product.es_nuevo) {
@@ -2580,11 +2916,13 @@ function createProductCard(product) {
         }
       </div>
       <div class="product-actions">
-        ${product.status === 'Disponible' ? 
+        ${isStock ? 
           `<button class="add-to-cart" data-product-id="${product.id}">
           🛒 Agregar al Carrito
         </button>` :
-          `<a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=${encodeURIComponent('Hola, quiero consultar por ' + product.name + ' de Perfumes de la Tempestad.')}">Consultar</a>`
+          `<button class="add-to-cart" data-product-id="${product.id}">
+          ➕ Agregar y consultar
+        </button>`
         }
         <button class="ghost-btn open-modal" data-product-id="${product.id}">
           Ver más
@@ -2637,6 +2975,12 @@ function updateCartUI() {
       cartBtn.classList.remove('has-items');
     }
   }
+
+  // Update cart modal header with exact product count
+  const cartModalHeader = document.querySelector('#cartModal .modal-header');
+  if (cartModalHeader) {
+    cartModalHeader.setAttribute('data-products', count);
+  }
   
   if (cartBtnMobile) {
     if (count > 0) {
@@ -2677,56 +3021,118 @@ function getEffectivePrice(product) {
 function renderCartItems() {
   cartItems.innerHTML = '';
   
-  cartData.items.forEach(item => {
-    const cartItem = document.createElement('div');
-    cartItem.className = 'cart-item';
-    
-    const statusClass = item.products.status === 'Disponible' ? 'status-disponible' : 
-                       item.products.status === 'Agotado' ? 'status-agotado' : 'status-encargue';
-
-    const effectivePrice = getEffectivePrice(item.products);
-    const hasDiscount = item.products.en_oferta && item.products.precio_oferta && item.products.price;
-    
-    // Create price display with discount info
-    let priceDisplay = '';
-    if (hasDiscount) {
-      const discount = ((item.products.price - item.products.precio_oferta) / item.products.price * 100).toFixed(1);
-      priceDisplay = `
-        <div class="cart-item-price">
-          <div style="text-decoration: line-through; color: var(--muted); font-size: 0.85rem;">${formatPrice(item.products.price)}</div>
-          <div style="color: #E63946; font-weight: 700;">${formatPrice(effectivePrice)}</div>
-          <div style="color: #E63946; font-size: 0.75rem; font-weight: 600;">-${discount}% OFF</div>
-        </div>
-      `;
-    } else {
-      priceDisplay = `<div class="cart-item-price">${formatPrice(effectivePrice)}</div>`;
-    }
-
-    cartItem.innerHTML = `
-      <img src="${item.products.image_url || 'https://placehold.co/60x60'}" alt="${item.products.name}" class="cart-item-img">
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.products.name}</div>
-        <div class="cart-item-category">${item.products.category}</div>
-        ${priceDisplay}
-        <div class="product-status ${statusClass}" style="margin-top: 4px;">${item.products.status || 'Por encargue'}</div>
-      </div>
-      <div class="cart-item-quantity">
-        <button class="quantity-btn" onclick="updateCartItemQuantity('${item.id}', ${item.quantity - 1})">-</button>
-        <span>${item.quantity}</span>
-        <button class="quantity-btn" onclick="updateCartItemQuantity('${item.id}', ${item.quantity + 1})">+</button>
-        <button class="quantity-btn delete-btn" onclick="updateCartItemQuantity('${item.id}', 0)" title="Eliminar producto">
-          ✕
-        </button>
-      </div>
+  // Separar items por modalidad
+  const stockItems = cartData.items.filter(item => (item.products.modalidad || 'stock') === 'stock');
+  const encargueItems = cartData.items.filter(item => (item.products.modalidad || 'stock') === 'encargue');
+  
+  // Render sección de stock
+  if (stockItems.length > 0) {
+    const stockSection = document.createElement('div');
+    stockSection.className = 'cart-section';
+    stockSection.innerHTML = `
+      <div class="cart-items-list"></div>
     `;
     
-    cartItems.appendChild(cartItem);
-  });
-
+    cartItems.appendChild(stockSection);
+    
+    // Renderizar lista mobile DEBAJO del título "Tu pedido"
+    const mobileList = document.getElementById('cart-items-list-mobile');
+    mobileList.innerHTML = '';
+    mobileList.style.display = 'block';
+    
+    stockItems.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'cart-item-row';
+      row.style.cssText = 'display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.06);';
+      row.innerHTML = `
+        <span>${item.quantity}x ${item.products.name}</span>
+        <span>${formatPrice(getEffectivePrice(item.products))}</span>
+        <div style="display: flex; align-items: center; gap: 4px;">
+          <button onclick="updateCartItemQuantity('${item.id}', ${item.quantity - 1})" style="width: 26px; height: 26px; border-radius: 6px; background: #F0F0F0; color: #666; border: none; flex-shrink: 0; font-size: 14px;">-</button>
+          <button onclick="updateCartItemQuantity('${item.id}', 0)" style="width: 26px; height: 26px; border-radius: 6px; background: #FFE0E0; color: #E03030; border: none; flex-shrink: 0;">✕</button>
+          <button onclick="updateCartItemQuantity('${item.id}', ${item.quantity + 1})" style="width: 26px; height: 26px; border-radius: 6px; background: #E8F5E8; color: #2D6A4F; border: none; flex-shrink: 0; font-size: 14px;">+</button>
+        </div>
+      `;
+      mobileList.appendChild(row);
+    });
+  } else {
+    // Si no hay items, ocultar la lista mobile
+    const mobileList = document.getElementById('cart-items-list-mobile');
+    mobileList.innerHTML = '';
+    mobileList.style.display = 'none';
+  }
+  
+  // Render sección de encargue
+  if (encargueItems.length > 0) {
+    const encargueSection = document.createElement('div');
+    encargueSection.className = 'cart-section';
+    encargueSection.innerHTML = `
+      <h4 class="cart-section-title">⏳ Items a confirmar</h4>
+      <p class="cart-section-description">
+        Estos productos se confirman en 24hs. No se cobran hasta que los aprobemos.
+      </p>
+      <div class="cart-items-list"></div>
+    `;
+    
+    const encargueList = encargueSection.querySelector('.cart-items-list');
+    encargueItems.forEach(item => createCartItemElement(item, encargueList));
+    cartItems.appendChild(encargueSection);
+  }
+  
   // Update summary
   document.getElementById('availableTotal').textContent = formatPrice(cartData.availableTotal);
   document.getElementById('orderTotal').textContent = formatPrice(cartData.orderTotal);
   document.getElementById('grandTotal').textContent = formatPrice(cartData.availableTotal + cartData.orderTotal);
+}
+
+// Helper function to create individual cart item element
+function createCartItemElement(item, container) {
+  const cartItem = document.createElement('div');
+  cartItem.className = 'cart-item';
+  
+  const modalidad = item.products.modalidad || 'stock';
+  const statusClass = item.products.status === 'Disponible' ? 'status-disponible' : 
+                     item.products.status === 'Agotado' ? 'status-agotado' : 'status-encargue';
+
+  const effectivePrice = getEffectivePrice(item.products);
+  const hasDiscount = item.products.en_oferta && item.products.precio_oferta && item.products.price;
+  
+  // Create price display with discount info
+  let priceDisplay = '';
+  if (hasDiscount) {
+    const discount = ((item.products.price - item.products.precio_oferta) / item.products.price * 100).toFixed(1);
+    priceDisplay = `
+      <div class="cart-item-price">
+        <div style="text-decoration: line-through; color: var(--muted); font-size: 0.85rem;">${formatPrice(item.products.price)}</div>
+        <div style="color: #E63946; font-weight: 700;">${formatPrice(effectivePrice)}</div>
+        <div style="color: #E63946; font-size: 0.75rem; font-weight: 600;">-${discount}% OFF</div>
+      </div>
+    `;
+  } else {
+    priceDisplay = `<div class="cart-item-price">${formatPrice(effectivePrice)}</div>`;
+  }
+
+  cartItem.innerHTML = `
+    <div class="cart-item-top">
+      <img src="${item.products.image_url || 'https://placehold.co/60x60'}" alt="${item.products.name}" class="cart-item-img">
+      <div class="cart-item-info">
+        <p class="cart-item-name">${item.products.name}</p>
+        <p class="cart-item-category">${item.products.category}</p>
+        ${priceDisplay.replace(/div/g, 'p')}
+        <p class="product-status ${statusClass}">${item.products.status || 'Por encargue'}</p>
+      </div>
+    </div>
+    <div class="cart-item-quantity">
+      <button class="quantity-btn" onclick="updateCartItemQuantity('${item.id}', ${item.quantity - 1})">-</button>
+      <span>${item.quantity}</span>
+      <button class="quantity-btn" onclick="updateCartItemQuantity('${item.id}', ${item.quantity + 1})">+</button>
+      <button class="quantity-btn delete-btn" onclick="updateCartItemQuantity('${item.id}', 0)" title="Eliminar producto">
+        ✕
+      </button>
+    </div>
+  `;
+  
+  container.appendChild(cartItem);
 }
 
 // Add to cart function
@@ -2752,13 +3158,13 @@ function addToCart(productId) {
   // Update totals with discount logic
   cartData.totalItems = cartData.items.reduce((sum, item) => sum + item.quantity, 0);
   cartData.availableTotal = cartData.items
-    .filter(item => item.products.status === 'Disponible')
+    .filter(item => (item.products.modalidad || 'stock') === 'stock')
     .reduce((sum, item) => {
       const price = getEffectivePrice(item.products);
       return sum + price * item.quantity;
     }, 0);
   cartData.orderTotal = cartData.items
-    .filter(item => item.products.status !== 'Disponible')
+    .filter(item => (item.products.modalidad || 'stock') === 'encargue')
     .reduce((sum, item) => {
       const price = getEffectivePrice(item.products);
       return sum + price * item.quantity;
@@ -2783,13 +3189,13 @@ function updateCartItemQuantity(itemId, newQuantity) {
   // Recalculate totals with discount logic
   cartData.totalItems = cartData.items.reduce((sum, item) => sum + item.quantity, 0);
   cartData.availableTotal = cartData.items
-    .filter(item => item.products.status === 'Disponible')
+    .filter(item => (item.products.modalidad || 'stock') === 'stock')
     .reduce((sum, item) => {
       const price = getEffectivePrice(item.products);
       return sum + price * item.quantity;
     }, 0);
   cartData.orderTotal = cartData.items
-    .filter(item => item.products.status !== 'Disponible')
+    .filter(item => (item.products.modalidad || 'stock') === 'encargue')
     .reduce((sum, item) => {
       const price = getEffectivePrice(item.products);
       return sum + price * item.quantity;
@@ -2808,7 +3214,94 @@ function clearCart() {
 function handleCheckout() {
   if (cartData.items.length === 0) return;
 
-  const message = cartData.items.map(item => {
+  // Separar items por modalidad
+  const stockItems = cartData.items.filter(item => (item.products.modalidad || 'stock') === 'stock');
+  const encargueItems = cartData.items.filter(item => (item.products.modalidad || 'stock') === 'encargue');
+
+  // Si hay items de stock, mostrar sección de entrega primero
+  if (stockItems.length > 0) {
+    showDeliverySection();
+  } else if (encargueItems.length > 0) {
+    // Si solo hay items por encargue, enviar mensaje directo
+    sendEncargueWhatsApp(encargueItems);
+  }
+}
+
+// Mostrar sección de entrega
+function showDeliverySection() {
+  const deliveryModal = document.getElementById('deliveryModal');
+  if (deliveryModal) {
+    deliveryModal.classList.add('open');
+  } else {
+    // Si no existe el modal, crearlo dinámicamente
+    createDeliveryModal();
+  }
+}
+
+// Crear modal de entrega dinámicamente
+function createDeliveryModal() {
+  const modalHTML = `
+    <div id="deliveryModal" class="modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>📦 ¿Cómo coordinamos la entrega?</h3>
+          <button class="close-btn" onclick="closeDeliveryModal()" aria-label="Cerrar">✕</button>
+        </div>
+        <div class="modal-body">
+          <p>Las entregas se coordinan personalmente según tu ubicación. Podemos agrupar pedidos de la zona o acordar un punto de encuentro. Al confirmar tu pedido te contactamos por WhatsApp para coordinar juntos.</p>
+          
+          <div class="form-group">
+            <label for="deliveryNotes">¿Querés aclararnos algo sobre tu ubicación o disponibilidad horaria? (opcional)</label>
+            <textarea id="deliveryNotes" rows="3" placeholder="Ej: Vivo en Palermo, estoy disponible de 18 a 20hs, prefiero punto de encuentro en el centro..."></textarea>
+          </div>
+          
+          <div class="modal-actions">
+            <button class="ghost-btn" onclick="closeDeliveryModal()">Cancelar</button>
+            <button class="wa-btn" onclick="confirmDelivery()">Confirmar pedido y coordinar entrega</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+  document.getElementById('deliveryModal').classList.add('open');
+}
+
+// Cerrar modal de entrega
+function closeDeliveryModal() {
+  const modal = document.getElementById('deliveryModal');
+  if (modal) {
+    modal.classList.remove('open');
+  }
+}
+
+// Confirmar entrega y enviar mensajes
+function confirmDelivery() {
+  const deliveryNotes = document.getElementById('deliveryNotes').value;
+  
+  // Separar items por modalidad
+  const stockItems = cartData.items.filter(item => (item.products.modalidad || 'stock') === 'stock');
+  const encargueItems = cartData.items.filter(item => (item.products.modalidad || 'stock') === 'encargue');
+  
+  // Enviar mensaje de stock con notas de entrega
+  if (stockItems.length > 0) {
+    sendStockWhatsApp(stockItems, deliveryNotes);
+  }
+  
+  // Enviar mensaje de encargue
+  if (encargueItems.length > 0) {
+    setTimeout(() => sendEncargueWhatsApp(encargueItems), 1000);
+  }
+  
+  // Cerrar modal y limpiar carrito
+  closeDeliveryModal();
+  clearCart();
+}
+
+// Enviar WhatsApp para items de stock
+function sendStockWhatsApp(stockItems, deliveryNotes = '') {
+  const message = stockItems.map(item => {
     const product = item.products;
     const effectivePrice = getEffectivePrice(product);
     const hasDiscount = product.en_oferta && product.precio_oferta && product.price;
@@ -2819,11 +3312,29 @@ function handleCheckout() {
       priceText += ` (-${discount}% OFF)`;
     }
     
-    return `${item.quantity}x ${product.name} - ${priceText} (${product.status})`;
+    return `${item.quantity}x ${product.name} - ${priceText}`;
   }).join('\n');
 
-  const total = cartData.availableTotal + cartData.orderTotal;
-  const fullMessage = `Hola, quiero realizar un pedido:\n\n${message}\n\nTotal: ${formatPrice(total)}`;
+  const stockTotal = stockItems.reduce((sum, item) => {
+    return sum + getEffectivePrice(item.products) * item.quantity;
+  }, 0);
+
+  let fullMessage = `Hola! Quiero confirmar mi pedido:\n\n${message}\n\nTotal: ${formatPrice(stockTotal)}`;
+  
+  if (deliveryNotes.trim()) {
+    fullMessage += `\n\n📍 Notas de entrega:\n${deliveryNotes}`;
+  }
+  
+  window.open(`https://wa.me/5491153899579?text=${encodeURIComponent(fullMessage)}`, '_blank');
+}
+
+// Enviar WhatsApp para items por encargue
+function sendEncargueWhatsApp(encargueItems) {
+  const message = encargueItems.map(item => {
+    return `- ${item.products.name} x${item.quantity}`;
+  }).join('\n');
+
+  const fullMessage = `Hola! Terminé mi pedido. Tengo estos productos por encargue que necesito confirmar:\n${message}\n\n¿Me podés confirmar disponibilidad y tiempo de entrega? Gracias!`;
   
   window.open(`https://wa.me/5491153899579?text=${encodeURIComponent(fullMessage)}`, '_blank');
 }
@@ -3001,17 +3512,8 @@ function setupEventListeners() {
         e.target.textContent = 'Agregado ✓';
         e.target.style.background = '#48bb78';
         
-        // Add to cart logic (reuse existing function)
-        const response = await fetch('/api/cart/add', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ product_id: productId, quantity: 1 })
-        });
-        
-        if (!response.ok) throw new Error('Error adding to cart');
-        
-        await loadCart();
-        updateCartCount();
+        // Add to cart using existing local function
+        addToCart(productId);
         
         // Trigger bounce animation
         if (cartBtn) {
@@ -3032,6 +3534,11 @@ function setupEventListeners() {
       } catch (error) {
         console.error('Error adding to cart from modal:', error);
         e.target.textContent = 'Error';
+        e.target.style.background = '#e53e3e';
+        
+        // Show visible error message to user
+        showCartError('No se pudo agregar al carrito, intentá de nuevo');
+        
         setTimeout(() => {
           e.target.textContent = 'Agregar al Carrito';
           e.target.style.background = '#E8654A';
@@ -3125,6 +3632,71 @@ function openModal(card) {
 function hideModal() {
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden', 'true');
+}
+
+// Show cart error message
+function showCartError(message) {
+  // Create error toast element
+  const errorToast = document.createElement('div');
+  errorToast.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #e53e3e;
+    color: white;
+    padding: 16px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+    font-weight: 500;
+    max-width: 300px;
+    animation: slideInRight 0.3s ease;
+  `;
+  errorToast.textContent = message;
+  
+  // Add animation keyframes if not already present
+  if (!document.querySelector('#errorToastStyles')) {
+    const style = document.createElement('style');
+    style.id = 'errorToastStyles';
+    style.textContent = `
+      @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
+  // Add to page and remove after 3 seconds
+  document.body.appendChild(errorToast);
+  setTimeout(() => {
+    errorToast.style.animation = 'slideOutRight 0.3s ease';
+    setTimeout(() => {
+      if (errorToast.parentNode) {
+        errorToast.parentNode.removeChild(errorToast);
+      }
+    }, 300);
+  }, 3000);
+}
+
+// FAQ Toggle Function
+function toggleFAQ(button) {
+  const faqItem = button.parentElement;
+  const isActive = faqItem.classList.contains('active');
+  
+  // Close all FAQ items
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  
+  // Open clicked item if it wasn't active
+  if (!isActive) {
+    faqItem.classList.add('active');
+  }
 }
 </script>
 </body>
