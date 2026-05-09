@@ -1,4 +1,4 @@
-# Aromas Ara - Tienda Online
+# Perfumes de la Tempestad - Tienda Online
 
 Tienda online para productos aromáticos con panel de administración auto-gestionable.
 
@@ -14,7 +14,7 @@ Tienda online para productos aromáticos con panel de administración auto-gesti
 ## Estructura del Proyecto
 
 ```
-AROMAS-ARA/
+PERFUMES-DE-LA-TEMPESTAD/
 ├── index.html              # Página principal de la tienda
 ├── admin.html              # Panel de administración
 ├── supabase.sql            # Esquema de la base de datos

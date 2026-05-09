@@ -1,5 +1,5 @@
 -- ========================================
--- Aromas Ara - Base de Datos Producción
+-- Perfumes de la Tempestad - Base de Datos Producción
 -- ========================================
 
 -- Tabla de productos
@@ -100,8 +100,8 @@ CREATE POLICY "Anyone can manage their cart items" ON cart_items FOR ALL USING (
 -- Crear bucket para imágenes
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES (
-  'aromas-ara-images', 
-  'aromas-ara-images', 
+  'perfumes-de-la-tempestad-images', 
+  'perfumes-de-la-tempestad-images', 
   true, 
   5242880, -- 5MB
   ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif']
@@ -109,25 +109,25 @@ VALUES (
 
 -- Políticas para el bucket de imágenes
 DROP POLICY IF EXISTS "Anyone can view images" ON storage.objects;
-CREATE POLICY "Anyone can view images" ON storage.objects FOR SELECT USING (bucket_id = 'aromas-ara-images');
+CREATE POLICY "Anyone can view images" ON storage.objects FOR SELECT USING (bucket_id = 'perfumes-de-la-tempestad-images');
 
 DROP POLICY IF EXISTS "Anyone can upload images" ON storage.objects;
 CREATE POLICY "Anyone can upload images" ON storage.objects FOR INSERT WITH CHECK (
-  bucket_id = 'aromas-ara-images' AND 
+  bucket_id = 'perfumes-de-la-tempestad-images' AND 
   (storage.foldername(name))[1] IN ('products', 'categories')
 );
 
 DROP POLICY IF EXISTS "Anyone can update images" ON storage.objects;
-CREATE POLICY "Anyone can update images" ON storage.objects FOR UPDATE USING (bucket_id = 'aromas-ara-images');
+CREATE POLICY "Anyone can update images" ON storage.objects FOR UPDATE USING (bucket_id = 'perfumes-de-la-tempestad-images');
 
 DROP POLICY IF EXISTS "Anyone can delete images" ON storage.objects;
-CREATE POLICY "Anyone can delete images" ON storage.objects FOR DELETE USING (bucket_id = 'aromas-ara-images');
+CREATE POLICY "Anyone can delete images" ON storage.objects FOR DELETE USING (bucket_id = 'perfumes-de-la-tempestad-images');
 
 -- Confirmación
 DO $$
 BEGIN
-  RAISE NOTICE '=== Aromas Ara - Base de Datos Configurada ===';
+  RAISE NOTICE '=== Perfumes de la Tempestad - Base de Datos Configurada ===';
   RAISE NOTICE 'Tablas: products, categories, cart_items';
-  RAISE NOTICE 'Storage: aromas-ara-images';
+  RAISE NOTICE 'Storage: perfumes-de-la-tempestad-images';
   RAISE NOTICE 'RLS: Habilitado con políticas públicas y admin';
 END $$;

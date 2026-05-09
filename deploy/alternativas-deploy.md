@@ -1,4 +1,4 @@
-# 🚀 Alternativas de Deploy - Aromas Ara
+# 🚀 Alternativas de Deploy - Perfumes de la Tempestad
 
 ## ✅ Opción 1: Vercel (La más fácil)
 

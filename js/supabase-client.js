@@ -154,13 +154,13 @@ const storageAPI = {
 
       // Para producción, subir a Supabase Storage
       const { data, error } = await supabaseClient.storage
-        .from('aromas-ara-images')
+        .from('perfumes-de-la-tempestad-images')
         .upload(filePath, file);
 
       if (error) throw error;
 
       const { data: publicUrl } = supabaseClient.storage
-        .from('aromas-ara-images')
+        .from('perfumes-de-la-tempestad-images')
         .getPublicUrl(filePath);
 
       return {

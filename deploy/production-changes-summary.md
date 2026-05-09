@@ -1,4 +1,4 @@
-# 📋 Resumen de Cambios para Producción - Panel Admin Aromas Ara
+# 📋 Resumen de Cambios para Producción - Panel Admin Perfumes de la Tempestad
 
 ## 🎯 **Objetivo**
 Actualizar el panel de administración con mejoras profesionales, sistema de imágenes avanzado y gestión de categorías completa.

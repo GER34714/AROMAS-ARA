@@ -1,4 +1,4 @@
-# 🚀 Guía de Deploy a Producción - Panel Admin Aromas Ara
+# 🚀 Guía de Deploy a Producción - Panel Admin Perfumes de la Tempestad
 
 ## 📋 **CHECKLIST PRE-DEPLOY**
 

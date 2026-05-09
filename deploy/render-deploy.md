@@ -1,4 +1,4 @@
-# 🚀 Deploy en Render - Aromas Ara
+# 🚀 Deploy en Render - Perfumes de la Tempestad
 
 ## 📋 Pasos para Deploy en Render
 
@@ -23,7 +23,7 @@
 4. Configura:
 
 ```
-Name: aromas-ara
+Name: perfumes-de-la-tempestad
 Branch: main
 Root Directory: (dejar en blanco)
 Runtime: Static Site
@@ -43,7 +43,7 @@ VITE_ADMIN_PASSWORD=admin123
 ### 6. Deploy
 1. Click **"Create Web Service"**
 2. Espera a que termine el build
-3. Render te dará una URL como: `https://aromas-ara.onrender.com`
+3. Render te dará una URL como: `https://perfumes-de-la-tempestad.onrender.com`
 
 ## 🔧 Configuración Adicional
 
