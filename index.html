@@ -53,7 +53,7 @@
 
     header{
       position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);
-      background:rgba(255,255,255,.95);
+      background:rgba(255,253,250,.98);
       border-bottom:1px solid var(--line);
       box-shadow:0 2px 20px rgba(102,126,234,.1);
       transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
@@ -187,37 +187,41 @@
     .mobile-panel .nav{display:flex;flex-direction:column;gap:8px;margin-top:16px}
     .mobile-panel .nav a{padding:14px 16px;border-radius:18px;background:var(--bg-soft);border:none;text-align:left;color:var(--text)}
 
-    .banner-section{padding:20px 0 10px}
+    .banner-section{padding:0;margin:0}
     .banner-card{
       position:relative;
-      min-height:370px;
-      border-radius:var(--radius-xl);
+      width:100%;
+      margin:0;
+      padding:0;
       overflow:hidden;
-      border:1px solid var(--line);
-      box-shadow:var(--shadow-lg);
-      background:var(--gradient-5);
+      border-radius:0 !important;
+      min-height:500px;
+      border:none;
+      box-shadow:none;
     }
     .banner-card img{
       width:100%;
-      height:100%;
-      object-fit:cover;
-      object-position:center;
-      position:absolute;
-      inset:0;
+      height:auto;
+      object-fit:contain;
+      display:block;
+      border-radius:0 !important;
+      position:relative;
+      background:none;
     }
     .banner-overlay{
-      position:absolute;
-      inset:0;
-      background:linear-gradient(90deg, rgba(62,44,37,.50) 0%, rgba(62,44,37,.18) 42%, rgba(62,44,37,.05) 100%);
+      display:none;
     }
     .banner-content{
-      position:relative;
+      position:absolute;
+      inset:0;
       z-index:2;
-      padding:clamp(24px,4vw,42px);
+      padding:0;
       display:flex;
       flex-direction:column;
-      justify-content:end;
-      min-height:370px;
+      justify-content:flex-end;
+      align-items:flex-start;
+      text-align:left;
+      min-height:500px;
       max-width:560px;
     }
     .banner-kicker{
@@ -249,7 +253,15 @@
       font-size:1rem;
       max-width:46ch;
     }
-    .banner-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .banner-actions{
+      position:absolute;
+      bottom:75px;
+      left:40px;
+      display:flex;
+      flex-direction:row;
+      gap:12px;
+      z-index:10;
+    }
     .banner-actions .ghost-btn{
       color:#fff;
       border-color:rgba(255,255,255,.5);
@@ -1025,6 +1037,120 @@
       font-size: 0.8rem !important;
     }
 
+    .banner-intermedio {
+      width: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      line-height: 0;
+    }
+
+    .banner-intermedio-img {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    @media (max-width: 480px) {
+      .banner-intermedio-img {
+        max-height: 150px;
+      }
+    }
+
+    .logo-img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    @media (max-width: 480px) {
+      .logo-img {
+        height: 36px;
+      }
+      
+      footer, [class*="footer"] {
+        padding: 12px 24px !important;
+      }
+      
+      footer *, [class*="footer"] * {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      
+      footer img, [class*="footer"] img {
+        height: 32px !important;
+        margin-bottom: 4px !important;
+      }
+      
+      footer p, footer strong, [class*="footer"] p, [class*="footer"] strong {
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+      }
+      
+      .hero-buttons, 
+      .hero-cta,
+      [class*="hero"] button,
+      [class*="hero"] a.btn {
+        display: none !important;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .wa-btn {
+        display: none !important;
+      }
+      
+      .ghost-btn {
+        display: none !important;
+      }
+      
+      .hero-buttons,
+      .hero-cta,
+      .hero-actions,
+      [class*="hero"] .buttons,
+      [class*="hero"] .cta {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      
+      .banner-actions {
+        display: none !important;
+      }
+      
+      .hero, [id="inicio"], .hero-section {
+        min-height: unset !important;
+        height: auto !important;
+        padding-bottom: 0 !important;
+      }
+      
+      .banner-content {
+        min-height: unset !important;
+        height: auto !important;
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+      }
+      
+      .banner-card {
+        min-height: unset !important;
+        height: auto !important;
+      }
+      
+      .banner-card img {
+        height: auto !important;
+        width: 100% !important;
+      }
+
+      .banner-content {
+        display: none !important;
+      }
+    }
+
     .bands{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
     .band-card{min-height:200px;padding:26px;border-radius:24px;position:relative;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:end}
     .band-card:nth-child(1){background:linear-gradient(180deg,#f8f1eb,#efe2d6)}
@@ -1037,10 +1163,11 @@
     .cta-box h3{font-size:clamp(1.5rem,2.4vw,2.2rem);line-height:1.1;max-width:14ch}
     .cta-box p{color:var(--muted);line-height:1.65;max-width:50ch}
 
-    footer{padding:36px 0 80px;margin-top:20px;border-top:1px solid rgba(234,223,214,.8)}
+    footer{padding:12px 24px;margin-top:20px;border-top:1px solid rgba(234,223,214,.8)}
     .footer-wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     .footer-wrap p{color:var(--muted);line-height:1.7;max-width:60ch}
     .footer-credit a{color:#aa7f69;font-weight:800}
+    .footer-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
 
     /* FAQ Section */
     .faq-section{
@@ -1817,8 +1944,17 @@
       }
       
       .brand span{font-size:.74rem}
-      .banner-card{min-height:290px}
-      .banner-content{min-height:290px;padding:22px}
+      .banner-card img{
+        height:250px;
+      }
+      .banner-content{
+        min-height:250px;
+      }
+      .banner-actions{
+        bottom:40px;
+        left:16px;
+        gap:8px;
+      }
       .banner-content h1{font-size:1.9rem;max-width:11ch}
       .banner-content p{font-size:.92rem}
       .carousel-track{grid-auto-columns:40%}
@@ -1854,8 +1990,12 @@
 <header>
   <div class="container topbar">
     <a class="brand" href="#inicio">
+      <img 
+        src="https://irgwupsgnjvnatqoehyj.supabase.co/storage/v1/object/public/aromas-ara-images/a8888c9f-11a4-4091-9fbb-68b8e429d042.png"
+        alt="Perfumes de la Tempestad"
+        class="logo-img"
+      />
       <strong>Perfumes de la Tempestad</strong>
-      <span>fragancias para cada rincón</span>
     </a>
     <nav class="desktop-nav">
       <a href="#categorias">Categorías</a>
@@ -1897,12 +2037,9 @@
   <section class="banner-section" id="inicio">
     <div class="container">
       <div class="banner-card">
-        <img src="https://iili.io/BlwPdiJ.png" alt="Banner Perfumes de la Tempestad" />
+        <img src="https://irgwupsgnjvnatqoehyj.supabase.co/storage/v1/object/public/aromas-ara-images/f5925d05-3849-43ca-a49d-7fb9d64217b7.png" alt="Banner Perfumes de la Tempestad" />
         <div class="banner-overlay"></div>
         <div class="banner-content">
-          <span class="banner-kicker">Perfumes de la Tempestad</span>
-          <h1>Fragancias que cuentan historias</h1>
-          <p>Explorá textiles, difusores, aerosoles, home spray, sahumerios y líneas especiales en una propuesta delicada, simple y cálida.</p>
           <div class="banner-actions">
             <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=Hola%2C%20quiero%20ver%20el%20cat%C3%A1logo%20de%20Perfumes%20de%20la%20Tempestad.">Consultar por WhatsApp</a>
             <a class="ghost-btn" href="#catalogo">Ver catálogo</a>
@@ -1927,7 +2064,6 @@
     </div>
   </section>
 
-  <!-- Featured Products Section -->
   <section id="productos-destacados">
     <div class="container">
       <div class="section-head">
@@ -2179,16 +2315,19 @@
 <footer>
   <div class="container footer-wrap">
     <div>
-      <strong style="font-size:1.18rem;display:block;margin-bottom:8px;">Perfumes de la Tempestad</strong>
+      <img 
+        src="https://irgwupsgnjvnatqoehyj.supabase.co/storage/v1/object/public/aromas-ara-images/a8888c9f-11a4-4091-9fbb-68b8e429d042.png"
+        alt="Perfumes de la Tempestad"
+        style="height: 32px; margin-bottom: 4px; display: block;"
+      />
+      <strong style="font-size:1.18rem;display:block;margin-bottom:4px;">Perfumes de la Tempestad</strong>
       <p>Fragancias que cuentan historias. Encontrá la tuya.</p>
-      <div style="margin-top: 16px;">
-        <a href="admin.html" class="admin-footer-btn" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(93, 75, 67, 0.1); border: 1px solid var(--line); border-radius: 12px; color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
-          🔐 Panel de Administración
-        </a>
-      </div>
     </div>
-    <div class="footer-credit">
+    <div class="footer-right">
       <p>Creado y diseñado por <a href="https://ciborg347oficial.onrender.com" target="_blank" rel="noopener">Ciborg 347</a></p>
+      <a href="admin.html" class="admin-footer-btn" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(93, 75, 67, 0.1); border: 1px solid var(--line); border-radius: 12px; color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+        🔐 Panel de Administración
+      </a>
     </div>
   </div>
 </footer>
@@ -2847,7 +2986,26 @@ async function loadSpecialSections() {
     // Use the query that returns results
     const ofertasResults = ofertasProductos2?.length > 0 ? ofertasProductos2 : ofertasProductos;
     
-    if (!ofertasError && !ofertasError2 && ofertasResults && ofertasResults.length > 0) {
+    // If no offers found, load regular products as offers
+    if ((ofertasError || !ofertasResults || ofertasResults.length === 0) && !allProductsError && allProducts && allProducts.length > 0) {
+      console.log('No offers found, loading regular products as offers...');
+      const { data: regularProductsForOffers, error: regularOffersError } = await supabaseClient
+        .from('products')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(8);
+      
+      if (!regularOffersError && regularProductsForOffers && regularProductsForOffers.length > 0) {
+        const ofertasSection = document.getElementById('ofertas');
+        const ofertasCarouselTrack = document.getElementById('ofertasCarouselTrack');
+        
+        if (ofertasSection && ofertasCarouselTrack) {
+          ofertasSection.style.display = 'block';
+          allOffersProducts = regularProductsForOffers;
+          renderOffersProducts();
+        }
+      }
+    } else if (!ofertasError && !ofertasError2 && ofertasResults && ofertasResults.length > 0) {
       console.log('Mostrando sección de ofertas con', ofertasResults.length, 'productos');
       
       // Store all offers for pagination
@@ -3045,17 +3203,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadCategories();
   await loadProducts();
   
-  // Only load featured products and special sections on homepage
-  if (isHomePage) {
-    await loadFeaturedProducts();
-    await loadSpecialSections();
-  } else {
-    // Hide featured and offers sections on other pages
-    const featuredSection = document.getElementById('productos-destacados');
-    const offersSection = document.getElementById('ofertas');
-    if (featuredSection) featuredSection.style.display = 'none';
-    if (offersSection) offersSection.style.display = 'none';
-  }
+  // Always load featured products and special sections
+  await loadFeaturedProducts();
+  await loadSpecialSections();
   
   // Load cart AFTER products are loaded (to reconnect product data)
   await loadCart();
@@ -3113,6 +3263,36 @@ async function loadFeaturedProducts() {
       `)
       .eq('active', true)
       .order('priority', { ascending: true });
+    
+    // If no featured products, load regular products as featured
+    if (error || !data || data.length === 0) {
+      console.log('No featured products found, loading regular products as featured...');
+      const { data: regularProducts, error: regularError } = await supabaseClient
+        .from('products')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(6);
+      
+      if (!regularError && regularProducts && regularProducts.length > 0) {
+        // Convert regular products to featured format
+        const featuredData = regularProducts.map((product, index) => ({
+          id: product.id,
+          product_id: product.id,
+          priority: index + 1,
+          active: true,
+          products: product
+        }));
+        
+        // Hide loading state and show products
+        if (featuredLoadingState) featuredLoadingState.style.display = 'none';
+        if (featuredEmptyState) featuredEmptyState.style.display = 'none';
+        if (featuredTrack) featuredTrack.style.display = 'grid';
+        
+        allFeaturedProducts = featuredData;
+        renderFeaturedProducts();
+        return;
+      }
+    }
     
     // Hide loading state
     if (featuredLoadingState) featuredLoadingState.style.display = 'none';
