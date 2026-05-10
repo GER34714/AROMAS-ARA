@@ -6,10 +6,16 @@
   <title>Perfumes de la Tempestad</title>
   <meta name="description" content="Fragancias para cada rincón de tu hogar. Encontrá textiles, difusores, aerosoles, home spray, sahumerios y más." />
   <meta property="og:title" content="Perfumes de la Tempestad" />
-  <meta property="og:description" content="Fragancias para cada rincón de tu hogar." />
+  <meta property="og:description" content="Fragancias que despiertan emociones. Descubrí nuestra selección de perfumes únicos." />
+  <meta property="og:image" content="https://irgwupsgnjvnatqoehyj.supabase.co/storage/v1/object/public/aromas-ara-images/f5925d05-3849-43ca-a49d-7fb9d64217b7_reducirpdf.jpg" />
+  <meta property="og:url" content="https://perfumesdelatempestad.onrender.com" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://iili.io/BlwPdiJ.png" />
-  <meta name="theme-color" content="#efe7df" />
+  <meta property="og:site_name" content="Perfumes de la Tempestad" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/assets/manifest-yExmUn3S.json">
+<meta name="theme-color" content="#4A3F35">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="La Tempestad">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
     
@@ -1239,6 +1245,37 @@
         font-size: 0.75rem !important;
         padding: 8px 4px !important;
       }
+
+      /* LOGO DEL FOOTER CENTRADO */
+      footer > div.container.footer-wrap > div:first-child {
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+      }
+      footer > div.container.footer-wrap > div:first-child img {
+        margin: 0 auto !important;
+        display: block !important;
+      }
+
+      /* TEXTO CTA MEJOR DISTRIBUIDO */
+      section#contacto.cta-section .container .cta-box {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 16px !important;
+        padding: 24px 16px !important;
+      }
+      section#contacto.cta-section .container .cta-box > div:first-child h3 {
+        font-size: 1.2rem !important;
+        text-align: center !important;
+      }
+      section#contacto.cta-section .container .cta-box > div:first-child p {
+        text-align: center !important;
+      }
+      section#contacto.cta-section .container .cta-box .wa-btn {
+        width: 100% !important;
+        text-align: center !important;
+      }
     }
     
     @media (max-width: 480px) {
@@ -1617,7 +1654,10 @@
     
     @media (max-width: 768px) {
       .cta-box{flex-direction:column;gap:20px;text-align:center}
-      .cta-box h3{text-align:center}
+      section#contacto .cta-box h3 {
+        text-align: center !important;
+        width: 100% !important;
+      }
       .cta-box p{text-align:center}
       .cta-box .wa-btn{margin:0 auto}
     }
@@ -5608,6 +5648,11 @@ function toggleFAQ(button) {
     faqItem.classList.add('active');
     icon.textContent = '-';
   }
+}
+</script>
+<script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
 }
 </script>
 </body>
