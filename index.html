@@ -156,7 +156,7 @@
     }
     .topbar{min-height:var(--header-h);display:flex;align-items:center;justify-content:space-between;gap:14px}
     .brand{display:flex;flex-direction:column;line-height:1}
-    .brand strong{font-size:1.28rem;letter-spacing:.08em;font-weight:800;text-transform:uppercase}
+    .brand strong{font-size:1.28rem;letter-spacing:.08em;font-weight:800}
     .brand span{color:var(--muted);font-size:.83rem;margin-top:7px;letter-spacing:.04em}
     .desktop-nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     .categories-badges{display:flex;gap:10px;flex-wrap:wrap}
@@ -2538,7 +2538,7 @@
         alt="Perfumes de la Tempestad"
         style="height: 32px; margin-bottom: 4px; display: block;"
       />
-      <strong style="font-size:1.18rem;display:block;margin-bottom:4px;">Perfumes de la Tempestad</strong>
+      <strong style="font-family: 'DearHeart', serif; font-size:1.3rem;display:block;margin-bottom:4px;color: #FFFFFF; font-weight: normal;">Perfumes de la Tempestad</strong>
       <p>Fragancias que cuentan historias. Encontrá la tuya.</p>
     </div>
     <div class="footer-right">
@@ -4632,7 +4632,6 @@ function createDeliveryModal() {
           
                     
           <div class="modal-actions">
-            <button class="ghost-btn" onclick="closeDeliveryModal()">Cancelar</button>
             <button class="wa-btn" onclick="confirmDelivery()">Confirmar pedido y coordinar entrega</button>
           </div>
         </div>

@@ -1980,6 +1980,9 @@
         </div>
         <button type="submit" id="loginBtn" style="width:100%; outline: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: filter 0.2s;">Ingresar</button>
       </form>
+      <div style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="display: inline-block; padding: 10px 20px; background: transparent; border: 1px solid var(--color-lavanda); border-radius: 8px; color: var(--color-sombra); text-decoration: none; font-size: 0.9rem; transition: all 0.3s ease;">🏪 Volver a la tienda</a>
+      </div>
     </div>
   </div>
 
@@ -2828,9 +2831,13 @@
         };
         
         if (editingProductId) {
-          await supabaseClient.from('products').update(productData).eq('id', editingProductId);
+          const { error } = await supabaseClient.from('products').update(productData).eq('id', editingProductId);
+          if (error) throw error;
         } else {
-          await supabaseClient.from('products').insert(productData);
+          const { data, error } = await supabaseClient.from('products').insert(productData);
+          if (error) throw error;
+          // Store the inserted data for later use
+          window.insertedProductData = data;
         }
         
         // Upload images
@@ -2853,18 +2860,22 @@
           }
           
           // Update product with images array
-          const productId = editingProductId || data[0]?.id;
-          if (imageUrls.length > 0) {
-            await supabaseClient.from('products').update({ 
+          const productId = editingProductId || window.insertedProductData?.[0]?.id;
+          if (imageUrls.length > 0 && productId) {
+            const { error } = await supabaseClient.from('products').update({ 
               image_url: imageUrls[0], // First image as main
               images: imageUrls // All images
             }).eq('id', productId);
+            if (error) throw error;
           }
         }
         
         await loadProducts();
         productModal.classList.remove('open');
         notificationManager.success(editingProductId ? 'Producto actualizado' : 'Producto agregado');
+        
+        // Clean up temporary data
+        window.insertedProductData = null;
       });
 
       // Image Upload - Enhanced
@@ -3479,8 +3490,10 @@
           let imageHtml = '';
           if (product.images && product.images.length > 0) {
             imageHtml = `<img src="${product.images[0]}" alt="${product.name}" class="product-card-image">`;
+          } else if (product.image_url) {
+            imageHtml = `<img src="${product.image_url}" alt="${product.name}" class="product-card-image">`;
           } else {
-            imageHtml = `<img src="${product.image_url || 'https://placehold.co/120x120'}" alt="${product.name}" class="product-card-image">`;
+            imageHtml = `<img src="https://placehold.co/120x120" alt="${product.name}" class="product-card-image">`;
           }
           
           // Create badges HTML
@@ -3493,7 +3506,7 @@
           
           card.innerHTML = `
             <div style="display:flex;flex-direction:row;padding:10px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:8px;align-items:center">
-              <img src="${product.images && product.images.length > 0 ? product.images[0] : (product.image_url || 'https://placehold.co/64x64')}" 
+              <img src="${product.images?.[0] || product.image_url || 'https://placehold.co/64x64'}" 
                    alt="${product.name}"
                    style="width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;margin-right:12px"
                    onerror="this.src='https://placehold.co/64'">
@@ -3546,8 +3559,10 @@
               imageGalleryHtml += `<div class="gallery-more">+${product.images.length - 3}</div>`;
             }
             imageGalleryHtml += '</div>';
+          } else if (product.image_url) {
+            imageGalleryHtml = `<img src="${product.image_url}" alt="${product.name}" class="product-img">`;
           } else {
-            imageGalleryHtml = `<img src="${product.image_url || 'https://placehold.co/60x60'}" alt="${product.name}" class="product-img">`;
+            imageGalleryHtml = `<img src="https://placehold.co/60x60" alt="${product.name}" class="product-img">`;
           }
           
           // Highlight search terms in product name
@@ -3600,7 +3615,7 @@
         
         return `
         <div style="display:flex;flex-direction:row;padding:10px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:8px;align-items:center">
-            <img src="${product.image_url || product.images?.[0] || ''}" 
+            <img src="${product.images?.[0] || product.image_url || 'https://via.placeholder.com/64'}" 
                  style="width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;margin-right:12px"
                  onerror="this.src='https://via.placeholder.com/64'">
             <div style="flex:1;min-width:0">
@@ -3684,11 +3699,15 @@
           document.getElementById('productCategory').value = product.category;
         }, 100);
         
-        resetImageUpload();
+        // Reset images but keep preview visible for editing
+        uploadedImages = [];
         currentProductImages = product.images || [product.image_url].filter(Boolean);
         
         if (currentProductImages.length > 0) {
           previewCurrentImages();
+        } else {
+          imagePreview.innerHTML = '';
+          imagePreview.style.display = 'none';
         }
         
         productModal.classList.add('open');
@@ -3708,7 +3727,8 @@
       if (!confirm(`¿Estás seguro de que quieres eliminar "${productName}"? Esta acción no se puede deshacer.`)) return;
       
       try {
-        await supabaseClient.from('products').delete().eq('id', id);
+        const { error } = await supabaseClient.from('products').delete().eq('id', id);
+        if (error) throw error;
         await loadProducts();
         notificationManager.success(`"${productName}" eliminado exitosamente`);
       } catch (error) {
