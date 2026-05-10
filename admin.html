@@ -1971,6 +1971,10 @@
         <p>Acceso restringido</p>
       </div>
       <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required placeholder="Ingresa tu email">
+        </div>
         <div class="form-group" style="position: relative;">
           <label for="password">Contraseña</label>
           <div style="position: relative;">
@@ -2470,6 +2474,7 @@
     const loginContainer = document.getElementById('loginContainer');
     const adminContainer = document.getElementById('adminContainer');
     const loginForm = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
     const logoutBtn = document.getElementById('logoutBtn');
     const productModal = document.getElementById('productModal');
     const addProductBtn = document.getElementById('addProductBtn');
@@ -2571,7 +2576,16 @@
     document.addEventListener('DOMContentLoaded', async () => {
       notificationManager = new NotificationManager();
       
-      // Initialize DOM elements that need the DOM to be ready
+      // Check for existing session
+      const { data: { session }, error } = await supabaseClient.auth.getSession();
+      if (session && session.user && session.user.id === '11a77220-a7c8-4cb1-87a3-fda6e5b6a24b') {
+        loginContainer.style.display = 'none';
+        adminContainer.classList.add('active');
+        await loadProducts();
+        await loadCategories();
+      }
+      
+      // Initialize DOM elements that need DOM to be ready
       searchInput = document.getElementById('searchInput');
       filterCategory = document.getElementById('filterCategory');
       filterStatus = document.getElementById('filterStatus');
@@ -2617,32 +2631,47 @@
       // Login
       loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const email = emailInput.value;
         const password = passwordInput.value;
         
         // Clear previous error
         const existingError = document.querySelector('.login-error');
         if (existingError) existingError.remove();
         
-        if (password === 'admin123') {
-          loginBtn.disabled = true;
-          loginBtn.textContent = 'Ingresando...';
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Ingresando...';
+        
+        try {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
           
-          loginContainer.style.display = 'none';
-          adminContainer.classList.add('active');
-          await loadProducts();
-          await loadCategories();
+          if (error) {
+            throw error;
+          }
           
-          // Reset button state
-          loginBtn.disabled = false;
-          loginBtn.textContent = 'Ingresar';
-        } else {
+          // Check if user matches the specific admin user ID
+          if (data.user && data.user.id === '11a77220-a7c8-4cb1-87a3-fda6e5b6a24b') {
+            loginContainer.style.display = 'none';
+            adminContainer.classList.add('active');
+            await loadProducts();
+            await loadCategories();
+          } else {
+            throw new Error('No tienes permisos de administrador');
+          }
+        } catch (error) {
           const errorDiv = document.createElement('div');
           errorDiv.className = 'login-error';
           errorDiv.style.cssText = 'color: var(--error-text); font-size: 0.9rem; margin-top: 8px; text-align: center;';
-          errorDiv.textContent = 'Contraseña incorrecta';
+          errorDiv.textContent = 'Credenciales incorrectas';
           
           loginForm.appendChild(errorDiv);
-          passwordInput.focus();
+          emailInput.focus();
+        } finally {
+          // Reset button state
+          loginBtn.disabled = false;
+          loginBtn.textContent = 'Ingresar';
         }
       });
       
@@ -2676,7 +2705,8 @@
       });
 
       // Logout
-      logoutBtn.addEventListener('click', () => {
+      logoutBtn.addEventListener('click', async () => {
+        await supabaseClient.auth.signOut();
         loginContainer.style.display = 'flex';
         adminContainer.classList.remove('active');
       });
