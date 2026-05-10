@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panel de Administración - Perfumes de la Tempestad</title>
   <meta name="description" content="Panel de administración para gestionar productos de Perfumes de la Tempestad" />
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
   <style>
     :root{
       --bg:#fbf8f5;
@@ -873,6 +874,136 @@
       font-size:48px;margin-bottom:12px;opacity:0.5;
     }
     
+    /* Bulk Import Styles */
+    .bulk-import-section{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);
+      padding:32px;margin-bottom:32px;box-shadow:var(--shadow);
+    }
+    .bulk-import-header{
+      display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;
+    }
+    .bulk-import-header h2{
+      font-size:1.5rem;font-weight:700;color:var(--text);
+    }
+    .bulk-import-content{
+      max-width:100%;
+    }
+    .bulk-import-steps{
+      display:grid;grid-template-columns:1fr;gap:32px;
+    }
+    .import-step{
+      background:var(--bg-soft);border:1px solid var(--line);border-radius:16px;
+      padding:24px;position:relative;
+    }
+    .import-step h3{
+      font-size:1.2rem;font-weight:600;color:var(--text);margin-bottom:12px;
+    }
+    .import-step p{
+      color:var(--muted);margin-bottom:20px;line-height:1.5;
+    }
+    .file-upload-area{
+      border:3px dashed var(--accent);background:var(--card);
+      border-radius:12px;padding:40px;text-align:center;
+      transition:all 0.3s ease;cursor:pointer;margin-bottom:20px;
+    }
+    .file-upload-area:hover{
+      background:var(--bg-soft);transform:scale(1.02);
+    }
+    .file-upload-area.drag-over{
+      background:var(--bg-soft);border-color:var(--accent);
+      transform:scale(1.02);
+    }
+    .file-upload-content .upload-icon{
+      font-size:48px;margin-bottom:16px;opacity:0.7;
+    }
+    .file-upload-content p{
+      margin-bottom:20px;color:var(--text);
+    }
+    .template-download{
+      text-align:center;
+    }
+    .preview-info{
+      background:var(--card);border:1px solid var(--line);border-radius:8px;
+      padding:16px;margin-bottom:20px;text-align:center;
+    }
+    .preview-info span{
+      font-weight:700;color:var(--accent);font-size:1.2rem;
+    }
+    .preview-table-container{
+      background:var(--card);border:1px solid var(--line);border-radius:12px;
+      overflow:hidden;margin-bottom:20px;max-height:400px;overflow-y:auto;
+    }
+    .preview-table{
+      width:100%;border-collapse:collapse;
+    }
+    .preview-table th,.preview-table td{
+      padding:12px;text-align:left;border-bottom:1px solid var(--line);
+      font-size:0.9rem;
+    }
+    .preview-table th{
+      background:var(--bg-soft);font-weight:600;color:var(--text);
+      position:sticky;top:0;z-index:10;
+    }
+    .preview-table tr:hover{
+      background:var(--bg-soft);
+    }
+    .preview-actions,.results-actions{
+      display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+    }
+    .import-summary{
+      background:var(--card);border:1px solid var(--line);border-radius:12px;
+      padding:24px;margin-bottom:20px;
+    }
+    .summary-stats{
+      display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;
+    }
+    .summary-stat{
+      text-align:center;padding:20px;border-radius:12px;
+    }
+    .summary-stat.success{
+      background:var(--success-bg);border:1px solid var(--success-text);
+    }
+    .summary-stat.error{
+      background:var(--error-bg);border:1px solid var(--error-text);
+    }
+    .summary-stat .stat-value{
+      font-size:2rem;font-weight:800;margin-bottom:8px;
+    }
+    .summary-stat.success .stat-value{
+      color:var(--success-text);
+    }
+    .summary-stat.error .stat-value{
+      color:var(--error-text);
+    }
+    .summary-stat .stat-label{
+      font-size:0.9rem;color:var(--muted);
+    }
+    .summary-details{
+      background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;
+      padding:16px;max-height:200px;overflow-y:auto;
+    }
+    .summary-details h4{
+      font-size:1rem;font-weight:600;color:var(--text);margin-bottom:12px;
+    }
+    .error-item{
+      padding:8px;margin-bottom:8px;background:var(--card);
+      border-left:4px solid var(--delete-bg);border-radius:4px;
+      font-size:0.85rem;
+    }
+    .error-item .error-row{
+      font-weight:600;color:var(--error-text);
+    }
+    .error-item .error-message{
+      color:var(--muted);margin-top:4px;
+    }
+
+    /* Badge for "Sin categoría" */
+    .badge-sin-categoria{
+      display:inline-block;background:#ff9800;color:white;
+      padding:2px 8px;border-radius:4px;font-size:0.75rem;
+      font-weight:600;margin-left:8px;
+    }
+
     /* Enhanced Image Management */
     .image-upload-enhanced{
       border:2px dashed var(--accent);background:var(--bg-soft);
@@ -2013,6 +2144,7 @@
         <h1>🛍️ Gestión de Productos</h1>
         <div class="admin-actions">
           <button class="wa-btn" id="addProductBtn">➕ Agregar Producto</button>
+          <button class="soft-btn" id="bulkImportBtn">📊 Carga Masiva</button>
           <button class="soft-btn" id="manageCategoriesBtn">🏷️ Gestionar Categorías</button>
           <button class="soft-btn" id="manageFeaturedBtn">⭐ Productos Destacados</button>
           <button class="soft-btn" id="refreshBtn">🔄 Actualizar</button>
@@ -2090,6 +2222,92 @@
         <div class="stat-card">
           <div class="stat-label">Por Encargue</div>
           <div class="stat-value" id="orderProducts">0</div>
+        </div>
+      </div>
+
+      <!-- Bulk Import Section -->
+      <div class="bulk-import-section" id="bulkImportSection" style="display: none;">
+        <div class="bulk-import-header">
+          <h2>📊 Carga Masiva desde Excel</h2>
+          <button class="close-btn" id="closeBulkImport">✕</button>
+        </div>
+        
+        <div class="bulk-import-content">
+          <div class="bulk-import-steps">
+            <!-- Step 1: Upload File -->
+            <div class="import-step" id="uploadStep">
+              <h3>📁 Paso 1: Subir Archivo</h3>
+              <p>Sube un archivo Excel (.xlsx) o CSV con las columnas: nombre (obligatorio), precio, descripcion, imagen</p>
+              
+              <div class="file-upload-area" id="fileUploadArea">
+                <input type="file" id="bulkFileInput" accept=".xlsx,.csv" style="display: none;">
+                <div class="file-upload-content">
+                  <div class="upload-icon">📊</div>
+                  <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
+                  <button class="soft-btn" onclick="document.getElementById('bulkFileInput').click()">Seleccionar Archivo</button>
+                </div>
+              </div>
+              
+              <div class="template-download">
+                <button class="ghost-btn" id="downloadTemplateBtn">📥 Descargar Template de Ejemplo</button>
+              </div>
+            </div>
+
+            <!-- Step 2: Preview -->
+            <div class="import-step" id="previewStep" style="display: none;">
+              <h3>👀 Paso 2: Previsualizar Productos</h3>
+              <div class="preview-info">
+                <p>Se encontraron <span id="previewCount">0</span> productos en el archivo</p>
+              </div>
+              
+              <div class="preview-table-container">
+                <table class="preview-table">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Precio</th>
+                      <th>Descripción</th>
+                      <th>Imagen</th>
+                    </tr>
+                  </thead>
+                  <tbody id="previewTableBody">
+                    <!-- Products will be loaded here -->
+                  </tbody>
+                </table>
+              </div>
+              
+              <div class="preview-actions">
+                <button class="ghost-btn" id="backToUploadBtn">← Volver</button>
+                <button class="wa-btn" id="confirmImportBtn">✅ Confirmar Carga</button>
+              </div>
+            </div>
+
+            <!-- Step 3: Results -->
+            <div class="import-step" id="resultsStep" style="display: none;">
+              <h3>📈 Paso 3: Resultados</h3>
+              <div class="import-summary">
+                <div class="summary-stats">
+                  <div class="summary-stat success">
+                    <div class="stat-value" id="successCount">0</div>
+                    <div class="stat-label">Cargados correctamente</div>
+                  </div>
+                  <div class="summary-stat error">
+                    <div class="stat-value" id="errorCount">0</div>
+                    <div class="stat-label">Con errores</div>
+                  </div>
+                </div>
+                
+                <div class="summary-details" id="summaryDetails">
+                  <!-- Error details will be shown here -->
+                </div>
+              </div>
+              
+              <div class="results-actions">
+                <button class="wa-btn" id="newImportBtn">📊 Nueva Carga</button>
+                <button class="soft-btn" id="viewProductsBtn">🛍️ Ver Productos</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -2446,7 +2664,14 @@
   
   const supabaseClient = supabase.createClient(
     'https://irgwupsgnjvnatqoehyj.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnbmp2bmF0cW9laHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMDc2NDcsImV4cCI6MjA5MzY4MzY0N30.ZA96YiJ7ZTt6EqnnLYGf0IHLLFd8POkZ1Z4HnmpxIl4'
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnbmp2bmF0cW9laHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMDc2NDcsImV4cCI6MjA5MzY4MzY0N30.ZA96YiJ7ZTt6EqnnLYGf0IHLLFd8POkZ1Z4HnmpxIl4',
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    }
   );
 
     // Global functions
@@ -2486,9 +2711,24 @@
     const productDescription = document.getElementById('productDescription');
     const productPrice = document.getElementById('productPrice');
     const productModalidad = document.getElementById('productModalidad');
+    const filterCategory = document.getElementById('filterCategory');
     const productStatus = document.getElementById('productStatus');
     const productImages = document.getElementById('productImages');
     const imagePreview = document.getElementById('imagePreview');
+    
+    // Create pagination container dynamically
+    const paginationContainer = document.createElement('div');
+    paginationContainer.className = 'pagination-container';
+    paginationContainer.innerHTML = `
+      <div class='pagination-info'>
+        <span id='paginationInfo'>Mostrando 0-0 de 0 productos</span>
+      </div>
+      <div class='pagination-controls'>
+        <button id='prevPageBtn' class='btn-small'>← Anterior</button>
+        <div id='pageNumbers' class='page-numbers'></div>
+        <button id='nextPageBtn' class='btn-small'>Siguiente →</button>
+      </div>
+    `;
     const compressionInfo = document.getElementById('compressionInfo');
     const compressionStatus = document.getElementById('compressionStatus');
     const compressionDetails = document.getElementById('compressionDetails');
@@ -2543,8 +2783,8 @@
     const featuredNoResults = document.getElementById('featuredNoResults');
     
     // These will be initialized inside DOMContentLoaded
-    let searchInput, filterCategory, filterStatus, sortBy, clearFiltersBtn, resultsCount;
-    let prevPageBtn, nextPageBtn, pageNumbers, paginationInfo, paginationContainer;
+    let searchInput, filterStatus, sortBy, clearFiltersBtn, resultsCount;
+    let prevPageBtn, nextPageBtn, pageNumbers, paginationInfo;
 
     // State
     let products = [];
@@ -2576,6 +2816,16 @@
     document.addEventListener('DOMContentLoaded', async () => {
       notificationManager = new NotificationManager();
       
+      // Initialize DOM elements that need DOM to be ready BEFORE loading products
+      searchInput = document.getElementById('searchInput');
+      filterStatus = document.getElementById('filterStatus');
+      sortBy = document.getElementById('sortBy');
+      clearFiltersBtn = document.getElementById('clearFiltersBtn');
+      resultsCount = document.getElementById('resultsCount');
+      
+      // Insert pagination container after table
+      document.querySelector('.table-container').after(paginationContainer);
+      
       // Check for existing session
       const { data: { session }, error } = await supabaseClient.auth.getSession();
       if (session && session.user && session.user.id === '11a77220-a7c8-4cb1-87a3-fda6e5b6a24b') {
@@ -2584,32 +2834,6 @@
         await loadProducts();
         await loadCategories();
       }
-      
-      // Initialize DOM elements that need DOM to be ready
-      searchInput = document.getElementById('searchInput');
-      filterCategory = document.getElementById('filterCategory');
-      filterStatus = document.getElementById('filterStatus');
-      sortBy = document.getElementById('sortBy');
-      clearFiltersBtn = document.getElementById('clearFiltersBtn');
-      resultsCount = document.getElementById('resultsCount');
-      
-            
-      // Initialize pagination elements
-      paginationContainer = document.createElement('div');
-      paginationContainer.className = 'pagination-container';
-      paginationContainer.innerHTML = `
-        <div class='pagination-info'>
-          <span id='paginationInfo'>Mostrando 0-0 de 0 productos</span>
-        </div>
-        <div class='pagination-controls'>
-          <button class='ghost-btn' id='prevPageBtn' disabled>← Anterior</button>
-          <div class='page-numbers' id='pageNumbers'></div>
-          <button class='ghost-btn' id='nextPageBtn' disabled>Siguiente →</button>
-        </div>
-      `;
-      
-      // Insert pagination container after table
-      document.querySelector('.table-container').after(paginationContainer);
       
       // Get pagination element references
       prevPageBtn = document.getElementById('prevPageBtn');
@@ -2865,20 +3089,47 @@
         if (uploadedImages.length > 0) {
           for (let i = 0; i < uploadedImages.length; i++) {
             const file = uploadedImages[i];
-            const fileName = `${Date.now()}_${i}.jpg`;
-            const { data, error } = await supabaseClient.storage
-              .from('aromas-ara-images')
-              .upload(fileName, file);
             
-            if (!error) {
-              const { data: { publicUrl } } = supabaseClient.storage
+            // Verify session before upload
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            console.log('Sesión al hacer upload:', session);
+
+            if (!session) {
+              console.error('No hay sesión activa - no se puede subir imagen');
+              return;
+            }
+
+            // Set auth context for storage operations
+            const authSupabase = supabaseClient;
+            await authSupabase.auth.setSession(session);
+
+            const cleanFileName = Date.now() + '.jpg';
+            const { data: uploadData, error: uploadError } = await authSupabase
+              .storage
+              .from('aromas-ara-images')
+              .upload(cleanFileName, file, { 
+                upsert: true
+              });
+            
+            console.log('Upload error detalle:', JSON.stringify(uploadError))
+            console.log('Upload data:', uploadData)
+            
+            if (!uploadError) {
+              const { data: urlData } = await authSupabase
+                .storage
                 .from('aromas-ara-images')
-                .getPublicUrl(fileName);
+                .getPublicUrl(cleanFileName);
+
+              const imageUrl = urlData.publicUrl;
+              console.log('URL pública:', imageUrl);
               
-              imageUrls.push(publicUrl);
+              imageUrls.push(imageUrl);
             }
           }
         }
+        
+        console.log('Image URLs generadas:', imageUrls);
+        console.log('Editing product ID:', editingProductId);
         
         if (editingProductId) {
           // Update existing product
@@ -2887,20 +3138,26 @@
           
           // Update existing product with new images if any
           if (imageUrls.length > 0) {
+            console.log('Actualizando producto con imágenes:', imageUrls);
             const { error } = await supabaseClient.from('products').update({ 
               image_url: imageUrls[0], // First new image as main
               images: imageUrls // All new images
             }).eq('id', editingProductId);
             if (error) throw error;
+            console.log('Producto actualizado con nuevas imágenes');
+          } else {
+            console.log('No hay imágenes nuevas para actualizar');
           }
         } else {
           // Add image URLs to product data for new products
           if (imageUrls.length > 0) {
             productData.image_url = imageUrls[0]; // First image as main
-            productData.images = imageUrls; // All images
+            productData.images = imageUrls; // All new images
+            console.log('INSERT - productData con image_url:', productData);
           }
           
           // Insert new product with image URLs included
+          console.log('INSERT - Guardando producto:', productData);
           const { data, error } = await supabaseClient.from('products').insert(productData);
           if (error) throw error;
           // Store the inserted data for later use
@@ -3460,6 +3717,7 @@
         
         products = data || [];
         console.log('Productos cargados:', products.length, products);
+        console.log('Muestra de producto con imágenes:', products.find(p => p.image_url || p.images));
         applyFilters(); // Apply current filters to new data
         updateStats();
         
@@ -3541,6 +3799,12 @@
             badgesHtml += `<span class="product-card-status" style="background: ${product.badge_color || 'var(--accent)'}; color: white;">${product.badge_texto}</span>`;
           }
           
+          // Add "Sin categoría" badge if applicable
+          let categoryHtml = highlightText(product.category, searchQuery);
+          if (product.category === 'Sin categoría') {
+            categoryHtml += ' <span style="background:#ff9800;color:white;padding:2px 6px;border-radius:4px;font-size:0.7rem;font-weight:600;">Sin categoría</span>';
+          }
+          
           card.innerHTML = `
             <div style="display:flex;flex-direction:row;padding:10px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:8px;align-items:center">
               <img src="${product.images?.[0] || product.image_url || 'https://placehold.co/64x64'}" 
@@ -3555,7 +3819,7 @@
                   ${badgesHtml}
                 </div>
                 <div style="font-size:11px;color:#666;margin-bottom:4px">
-                  ${highlightText(product.category, searchQuery)}
+                  ${categoryHtml}
                 </div>
                 <div style="font-size:13px;font-weight:bold;color:#2D6A4F">
                   $${product.price ? product.price.toFixed(2) : '0.00'}
@@ -3616,6 +3880,12 @@
           }
           badgesHtml += '</div>';
           
+          // Add "Sin categoría" badge if applicable
+          let categoryHtml = highlightedCategory;
+          if (product.category === 'Sin categoría') {
+            categoryHtml = highlightedCategory + ' <span class="badge-sin-categoria">Sin categoría</span>';
+          }
+          
           tr.innerHTML = `
             <td data-label="Imagen">${imageGalleryHtml}</td>
             <td data-label="Nombre">
@@ -3624,7 +3894,7 @@
                 ${badgesHtml}
               </div>
             </td>
-            <td data-label="Categoría">${highlightedCategory}</td>
+            <td data-label="Categoría">${categoryHtml}</td>
             <td data-label="Precio">$${product.price ? product.price.toFixed(2) : '0.00'}</td>
             <td data-label="Estado">${product.status || 'Por encargue'}</td>
             <td data-label="Acciones">
@@ -4126,38 +4396,45 @@
           .from('categories')
           .select('*')
           .order('sort_order', { ascending: true });
-        
+
         if (error) throw error;
-        
-        const categoriesData = data || [];
-        const uniqueCategories = [...new Map(categoriesData.map(cat => [cat.name, cat])).values()];
-        
-        // Update product form category select
+
+        const uniqueCategories = [...new Map(data.map(cat => [cat.name, cat])).values()];
+
+        // Update product form category select (include all categories)
         productCategory.innerHTML = '<option value="">Seleccionar categoría</option>';
         
-        // Update filter category select
+        // Update filter category select (exclude "Sin categoría" but add it as special option)
         filterCategory.innerHTML = '<option value="">Todas las categorías</option>';
         
         uniqueCategories.forEach(category => {
-          // Add to product form
+          // Add to product form (include all)
           const option = document.createElement('option');
           option.value = category.name;
           option.textContent = category.name;
-          option.dataset.categoryId = category.id;
           productCategory.appendChild(option);
           
-          // Add to filter
-          const filterOption = document.createElement('option');
-          filterOption.value = category.name;
-          filterOption.textContent = category.name;
-          filterCategory.appendChild(filterOption);
+          // Add to filter (exclude "Sin categoría" from normal list)
+          if (category.name !== 'Sin categoría') {
+            const filterOption = document.createElement('option');
+            filterOption.value = category.name;
+            filterOption.textContent = category.name;
+            filterCategory.appendChild(filterOption);
+          }
         });
+        
+        // Add "Sin categoría" as special option at the end of filter
+        const sinCategoriaOption = document.createElement('option');
+        sinCategoriaOption.value = 'Sin categoría';
+        sinCategoriaOption.textContent = 'Sin categoría';
+        sinCategoriaOption.style.color = '#ff9800';
+        filterCategory.appendChild(sinCategoriaOption);
         
         // Update dropdown after loading categories
         updateCategoryDropdown();
-        
       } catch (error) {
         console.error('Error loading categories:', error);
+        notificationManager.error('Error al cargar categorías');
       }
     }
 
@@ -5043,6 +5320,345 @@
     function showAlert(message, type = 'info', title = '') {
       notificationManager.show(message, type, 4000, { title });
     }
+
+    // Bulk Import Functionality
+    class BulkImportManager {
+      constructor() {
+        this.currentProducts = [];
+        this.init();
+      }
+
+      init() {
+        // DOM Elements
+        this.bulkImportBtn = document.getElementById('bulkImportBtn');
+        this.bulkImportSection = document.getElementById('bulkImportSection');
+        this.closeBulkImport = document.getElementById('closeBulkImport');
+        this.bulkFileInput = document.getElementById('bulkFileInput');
+        this.fileUploadArea = document.getElementById('fileUploadArea');
+        this.downloadTemplateBtn = document.getElementById('downloadTemplateBtn');
+        this.backToUploadBtn = document.getElementById('backToUploadBtn');
+        this.confirmImportBtn = document.getElementById('confirmImportBtn');
+        this.newImportBtn = document.getElementById('newImportBtn');
+        this.viewProductsBtn = document.getElementById('viewProductsBtn');
+
+        // Steps
+        this.uploadStep = document.getElementById('uploadStep');
+        this.previewStep = document.getElementById('previewStep');
+        this.resultsStep = document.getElementById('resultsStep');
+
+        // Event Listeners
+        this.bulkImportBtn.addEventListener('click', () => this.showBulkImport());
+        this.closeBulkImport.addEventListener('click', () => this.hideBulkImport());
+        this.bulkFileInput.addEventListener('change', (e) => this.handleFileSelect(e));
+        this.downloadTemplateBtn.addEventListener('click', () => this.downloadTemplate());
+        this.backToUploadBtn.addEventListener('click', () => this.showStep('upload'));
+        this.confirmImportBtn.addEventListener('click', () => this.confirmImport());
+        this.newImportBtn.addEventListener('click', () => this.resetImport());
+        this.viewProductsBtn.addEventListener('click', () => this.viewProducts());
+
+        // Drag and Drop
+        this.setupDragAndDrop();
+      }
+
+      setupDragAndDrop() {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+          this.fileUploadArea.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          });
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+          this.fileUploadArea.addEventListener(eventName, () => {
+            this.fileUploadArea.classList.add('drag-over');
+          });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          this.fileUploadArea.addEventListener(eventName, () => {
+            this.fileUploadArea.classList.remove('drag-over');
+          });
+        });
+
+        this.fileUploadArea.addEventListener('drop', (e) => {
+          const files = e.dataTransfer.files;
+          if (files.length > 0) {
+            this.bulkFileInput.files = files;
+            this.handleFileSelect({ target: { files } });
+          }
+        });
+      }
+
+      showBulkImport() {
+        this.bulkImportSection.style.display = 'block';
+        this.showStep('upload');
+      }
+
+      hideBulkImport() {
+        this.bulkImportSection.style.display = 'none';
+        this.resetImport();
+      }
+
+      showStep(step) {
+        // Hide all steps
+        this.uploadStep.style.display = 'none';
+        this.previewStep.style.display = 'none';
+        this.resultsStep.style.display = 'none';
+
+        // Show selected step
+        switch(step) {
+          case 'upload':
+            this.uploadStep.style.display = 'block';
+            break;
+          case 'preview':
+            this.previewStep.style.display = 'block';
+            break;
+          case 'results':
+            this.resultsStep.style.display = 'block';
+            break;
+        }
+      }
+
+      async handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const validTypes = ['.xlsx', '.csv'];
+        const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+        
+        if (!validTypes.includes(fileExtension)) {
+          notificationManager.error('Por favor selecciona un archivo Excel (.xlsx) o CSV');
+          return;
+        }
+
+        try {
+          const data = await this.readFile(file);
+          this.currentProducts = this.parseData(data);
+          this.showPreview();
+        } catch (error) {
+          console.error('Error reading file:', error);
+          notificationManager.error('Error al leer el archivo. Por favor verifica el formato.');
+        }
+      }
+
+      readFile(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target.result);
+          reader.onerror = reject;
+          reader.readAsArrayBuffer(file);
+        });
+      }
+
+      parseData(data) {
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+        
+        // Skip header row and convert to products
+        const products = [];
+        const headers = jsonData[0] || [];
+        
+        for (let i = 1; i < jsonData.length; i++) {
+          const row = jsonData[i];
+          if (!row || row.length === 0) continue;
+          
+          const product = {
+            nombre: this.getValue(row, headers, 'nombre') || '',
+            precio: parseFloat(this.getValue(row, headers, 'precio')) || 0,
+            descripcion: this.getValue(row, headers, 'descripcion') || '',
+            imagen: this.getValue(row, headers, 'imagen') || '',
+            categoria: 'Sin categoría',
+            estado: 'Disponible',
+            row: i + 1 // For error tracking
+          };
+          
+          // Validate required fields
+          if (!product.nombre.trim()) {
+            product.error = 'El nombre es obligatorio';
+          }
+          
+          products.push(product);
+        }
+        
+        return products;
+      }
+
+      getValue(row, headers, columnName) {
+        const index = headers.findIndex(h => 
+          h && h.toString().toLowerCase().trim() === columnName.toLowerCase()
+        );
+        return index !== -1 && index < row.length ? row[index] : '';
+      }
+
+      showPreview() {
+        document.getElementById('previewCount').textContent = this.currentProducts.length;
+        
+        const tbody = document.getElementById('previewTableBody');
+        tbody.innerHTML = '';
+        
+        this.currentProducts.forEach(product => {
+          const tr = document.createElement('tr');
+          tr.className = product.error ? 'error-row' : '';
+          
+          tr.innerHTML = `
+            <td>${product.nombre}</td>
+            <td>$${product.precio.toFixed(2)}</td>
+            <td>${product.descripcion}</td>
+            <td>${product.imagen ? '<span class="has-image">📷</span>' : '<span class="no-image">Sin imagen</span>'}</td>
+          `;
+          
+          tbody.appendChild(tr);
+        });
+        
+        this.showStep('preview');
+      }
+
+      async confirmImport() {
+        this.confirmImportBtn.disabled = true;
+        this.confirmImportBtn.textContent = '⏳ Cargando...';
+        
+        try {
+          // Ensure "Sin categoría" exists
+          await this.ensureSinCategoriaExists();
+          
+          const results = {
+            success: 0,
+            errors: 0,
+            errorDetails: []
+          };
+          
+          for (const product of this.currentProducts) {
+            try {
+              if (product.error) {
+                results.errors++;
+                results.errorDetails.push({
+                  row: product.row,
+                  error: product.error
+                });
+                continue;
+              }
+              
+              const productData = {
+                name: product.nombre,
+                price: product.precio,
+                description: product.descripcion,
+                category: product.categoria,
+                status: product.estado,
+                image_url: product.imagen,
+                created_at: new Date().toISOString()
+              };
+              
+              const { error } = await supabaseClient
+                .from('products')
+                .insert([productData]);
+              
+              if (error) throw error;
+              
+              results.success++;
+            } catch (error) {
+              results.errors++;
+              results.errorDetails.push({
+                row: product.row,
+                error: error.message
+              });
+            }
+          }
+          
+          this.showResults(results);
+          await loadProducts(); // Refresh product list
+          
+        } catch (error) {
+          console.error('Import error:', error);
+          notificationManager.error('Error durante la importación: ' + error.message);
+        } finally {
+          this.confirmImportBtn.disabled = false;
+          this.confirmImportBtn.textContent = '✅ Confirmar Carga';
+        }
+      }
+
+      async ensureSinCategoriaExists() {
+        try {
+          const { data: categories } = await supabaseClient
+            .from('categories')
+            .select('name')
+            .eq('name', 'Sin categoría');
+          
+          if (!categories || categories.length === 0) {
+            await supabaseClient
+              .from('categories')
+              .insert([{
+                name: 'Sin categoría',
+                created_at: new Date().toISOString()
+              }]);
+          }
+        } catch (error) {
+          console.error('Error ensuring Sin categoría exists:', error);
+        }
+      }
+
+      showResults(results) {
+        document.getElementById('successCount').textContent = results.success;
+        document.getElementById('errorCount').textContent = results.errors;
+        
+        const detailsDiv = document.getElementById('summaryDetails');
+        if (results.errorDetails.length > 0) {
+          detailsDiv.innerHTML = `
+            <h4>Errores encontrados:</h4>
+            ${results.errorDetails.map(detail => `
+              <div class="error-item">
+                <div class="error-row">Fila ${detail.row}</div>
+                <div class="error-message">${detail.error}</div>
+              </div>
+            `).join('')}
+          `;
+        } else {
+          detailsDiv.innerHTML = '<p style="color: var(--success-text);">✅ Todos los productos se cargaron correctamente</p>';
+        }
+        
+        this.showStep('results');
+        
+        if (results.success > 0) {
+          notificationManager.success(`Se cargaron ${results.success} productos correctamente`);
+        }
+        if (results.errors > 0) {
+          notificationManager.warning(`${results.errors} productos tuvieron errores`);
+        }
+      }
+
+      resetImport() {
+        this.currentProducts = [];
+        this.bulkFileInput.value = '';
+        this.showStep('upload');
+      }
+
+      viewProducts() {
+        this.hideBulkImport();
+        // Scroll to products table
+        document.querySelector('.table-container').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      downloadTemplate() {
+        // Create template data
+        const templateData = [
+          ['nombre', 'precio', 'descripcion', 'imagen'],
+          ['Aroma Floral', '1500', 'Un aroma suave y delicado', 'https://ejemplo.com/imagen1.jpg'],
+          ['Difusor Citrico', '2000', 'Refrescante aroma cítrico', 'https://ejemplo.com/imagen2.jpg'],
+          ['Spray Lavanda', '1800', 'Relajante aroma de lavanda', '']
+        ];
+        
+        // Create workbook
+        const ws = XLSX.utils.aoa_to_sheet(templateData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Productos');
+        
+        // Download file
+        XLSX.writeFile(wb, 'template_productos_aromas.xlsx');
+      }
+    }
+
+    // Initialize bulk import manager
+    const bulkImportManager = new BulkImportManager();
   </script>
 </body>
 </html>
