@@ -60,6 +60,14 @@
       --font-heading:'Cormorant Garamond', serif;
       --font-body:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     }
+    
+    @font-face {
+      font-family: 'DearHeart';
+      src: url('./fonts/dearheart.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{
@@ -2201,7 +2209,7 @@
         alt="Perfumes de la Tempestad"
         class="logo-img"
       />
-      <strong>Perfumes de la Tempestad</strong>
+      <strong style="font-family: 'DearHeart', serif;">Perfumes de la Tempestad</strong>
     </a>
     <nav class="desktop-nav">
       <a href="#categorias">Categorías</a>
@@ -2222,7 +2230,7 @@
 <div class="mobile-sheet" id="mobileSheet">
   <div class="mobile-panel">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
-      <strong style="font-size:1.12rem;">Perfumes de la Tempestad</strong>
+      <strong style="font-family: 'DearHeart', serif; font-size:1.12rem;">Perfumes de la Tempestad</strong>
       <button class="menu-toggle" id="closeMenu" aria-label="Cerrar menú">✕</button>
     </div>
     <div class="nav">
