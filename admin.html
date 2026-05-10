@@ -4034,8 +4034,14 @@
       if (!confirm(`¿Estás seguro de que quieres eliminar "${productName}"? Esta acción no se puede deshacer.`)) return;
       
       try {
+        // Eliminar registros relacionados en orden correcto
+        await supabaseClient.from('cart_items').delete().eq('product_id', id);
+        await supabaseClient.from('featured_products').delete().eq('product_id', id);
+        
+        // Finalmente eliminar el producto
         const { error } = await supabaseClient.from('products').delete().eq('id', id);
         if (error) throw error;
+        
         await loadProducts();
         notificationManager.success(`"${productName}" eliminado exitosamente`);
       } catch (error) {
