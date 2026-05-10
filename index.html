@@ -621,23 +621,24 @@
     .chip{border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:999px;cursor:pointer;color:var(--muted)}
     .chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
 
-    .products-grid{display:grid;grid-template-columns:repeat(6,minmax(0,220px));gap:16px;align-items:start;justify-content:start}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;align-items:stretch;justify-content:start}
     .product-card{
       background:var(--color-beige);border:1px solid var(--color-nude);border-radius:8px;
       transition:all 0.3s cubic-bezier(0.4,0,0.2,1);cursor:pointer;position:relative;
       max-width:220px;width:100%;box-shadow:0 4px 15px rgba(201,184,212,0.1);
-      display:flex;flex-direction:column;margin:0 auto; /* Centrar la tarjeta */
+      height:100%;display:flex;flex-direction:column;margin:0 auto; /* Centrar la tarjeta */
     }
     .product-card:hover{
       transform:translateY(-4px);border-color:var(--color-lavanda);box-shadow:0 8px 25px rgba(201,184,212,0.2);
     }
     .product-media{
-      height:180px;width:100%;background:linear-gradient(135deg,var(--color-crema),var(--color-beige));
+      height:200px;width:100%;background:linear-gradient(135deg,var(--color-crema),var(--color-beige));
       position:relative;overflow:hidden;
     }
     .product-media img{
-      width:100%;height:100%;object-fit:cover;object-position:center;
-      border-radius:8px 8px 0 0;transition:transform 0.5s ease;
+      width:100%;height:100%;object-fit:contain;
+      object-position:center;
+      border-radius:8px 8px 0 0;transition:transform 0.5s ease;background-color:#F5EDE0;
     }
     .product-card:hover .product-media img{transform:scale(1.03)}
     .product-no-image{
@@ -705,8 +706,7 @@
       background:#E8654A;color:white;border:none;border-radius:12px;
       padding:10px;height:44px;font-size:.82rem;font-weight:600;
       cursor:pointer;overflow:hidden;white-space:nowrap;
-      display:flex;align-items:center;justify-content:center;gap:6px;
-      min-width: fit-content;
+      min-width: fit-content;margin-top:auto;
       transition:all 0.3s ease;outline:none;
     }
     .add-to-cart:hover{
@@ -829,6 +829,32 @@
       min-width: 0;
       max-width: 260px;
       scroll-snap-align: start;
+    }
+    
+    /* Ofertas Especiales - Cards con altura fija y consistente */
+    #ofertas .carousel-track {
+      align-items: stretch;
+    }
+    
+    #ofertas .carousel-track .product-card {
+      height: 420px; /* Altura fija para todas las cards */
+      flex: 0 0 260px;
+      min-width: 0;
+      max-width: 260px;
+      scroll-snap-align: start;
+    }
+    
+    #ofertas .carousel-track .product-media {
+      height: 200px;
+      overflow: hidden;
+    }
+    
+    #ofertas .carousel-track .product-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      background-color: #F5EDE0;
     }
     
     .carousel-btn {
@@ -996,6 +1022,21 @@
         flex: 0 0 calc(50% - 8px);
       }
       
+      .product-card img,
+      .card img {
+        object-fit: contain !important;
+        height: 160px;
+        width: 100%;
+        background-color: #F5EDE0;
+      }
+      
+      .product-media {
+        min-height: 160px;
+      }
+      .product-media img {
+        max-height: 160px;
+      }
+      
       .carousel-btn {
         width: 40px;
         height: 40px;
@@ -1007,6 +1048,16 @@
       
       .carousel-btn.next {
         right: 8px;
+      }
+      
+      .products-grid,
+      .catalog-grid,
+      [class*="product-grid"],
+      [class*="products-container"] {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+        padding: 0 10px !important;
       }
     }
     
@@ -1431,6 +1482,21 @@
     }
     .faq-item.active .faq-answer{
       max-height:200px;
+    }
+
+    /* FAQ Section Toggle */
+    #faqAccordion {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+    }
+
+    #faqAccordion.open {
+      max-height: 2000px; /* Sufficient height to show all FAQ items */
+    }
+
+    .faq-section-arrow.rotated {
+      transform: rotate(180deg);
     }
 
     .floating-wa{position:fixed;right:20px;bottom:20px;z-index:44;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;transition:all 0.3s ease;background:#25D366;box-shadow:0 4px 12px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.1),0 1px 0 rgba(0,0,0,0.05)}
@@ -2072,7 +2138,7 @@
       .categories-carousel{padding:10px 20px}
       .categories-carousel .category-body h3{font-size:0.7rem}
       .categories-carousel .category-img-wrap{width:75%;height:75%;border-radius:5px}
-      .categories-carousel .categories-carousel-track{animation: scrollCategoriesMobile 40s linear infinite}
+      .categories-carousel .categories-carousel-track{animation: scrollCategoriesMobile 25s linear infinite}
       .products-grid{grid-template-columns:repeat(4,minmax(0,160px));gap:10px}
       .product-card{max-width:160px}
       .product-media{height:140px}
@@ -2181,7 +2247,7 @@
       .categories-carousel .category-body h3{font-size:0.65rem}
       .categories-carousel .category-img-wrap{width:70%;height:70%;border-radius:4px}
       .categories-carousel .category-body{padding:6px}
-      .categories-carousel .categories-carousel-track{animation: scrollCategoriesSmall 50s linear infinite}
+      .categories-carousel .categories-carousel-track{animation: scrollCategoriesSmall 30s linear infinite}
       .cat-card .body{padding:11px}
       .cat-card h3{font-size:.9rem}
       .cat-card p{display:none}
@@ -2461,12 +2527,17 @@
 <!-- FAQ Section -->
 <section id="faqs" class="faq-section">
   <div class="container">
-    <div class="section-head">
-      <h2>Preguntas frecuentes</h2>
-      <p>Resolvemos tus dudas sobre nuestros productos y servicio</p>
+    <div class="section-head" onclick="toggleFAQSection()" style="cursor: pointer;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <h2>Preguntas frecuentes</h2>
+          <p>Resolvemos tus dudas sobre nuestros productos y servicio</p>
+        </div>
+        <span class="faq-section-arrow" style="font-size: 2rem; color: #4A3F35; font-weight: bold; margin-left: 12px; vertical-align: middle; transition: transform 0.3s ease;">⌄</span>
+      </div>
     </div>
     
-    <div class="faq-accordion">
+    <div class="faq-accordion" id="faqAccordion">
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFAQ(this)">
           <span>❓ ¿Hacen envíos?</span>
@@ -5187,19 +5258,40 @@ function showCartError(message) {
   }, 3000);
 }
 
+// FAQ Section Toggle Function
+function toggleFAQSection() {
+  const accordion = document.getElementById('faqAccordion');
+  const arrow = document.querySelector('.faq-section-arrow');
+  const isOpen = accordion.classList.contains('open');
+  
+  if (isOpen) {
+    accordion.classList.remove('open');
+    arrow.classList.remove('rotated');
+  } else {
+    accordion.classList.add('open');
+    arrow.classList.add('rotated');
+  }
+}
+
 // FAQ Toggle Function
 function toggleFAQ(button) {
   const faqItem = button.parentElement;
   const isActive = faqItem.classList.contains('active');
+  const icon = button.querySelector('.faq-icon');
   
-  // Close all FAQ items
+  // Close all FAQ items and reset icons to +
   document.querySelectorAll('.faq-item').forEach(item => {
     item.classList.remove('active');
+    const itemIcon = item.querySelector('.faq-icon');
+    if (itemIcon) {
+      itemIcon.textContent = '+';
+    }
   });
   
-  // Open clicked item if it wasn't active
+  // Open clicked item if it wasn't active and change icon to -
   if (!isActive) {
     faqItem.classList.add('active');
+    icon.textContent = '-';
   }
 }
 </script>
