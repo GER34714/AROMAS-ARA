@@ -2830,19 +2830,9 @@
           badge_color: badgeTexto.value.trim() ? badgeColor.value : null
         };
         
-        if (editingProductId) {
-          const { error } = await supabaseClient.from('products').update(productData).eq('id', editingProductId);
-          if (error) throw error;
-        } else {
-          const { data, error } = await supabaseClient.from('products').insert(productData);
-          if (error) throw error;
-          // Store the inserted data for later use
-          window.insertedProductData = data;
-        }
-        
-        // Upload images
+        // Upload images first for new products, or handle updates for existing products
+        let imageUrls = [];
         if (uploadedImages.length > 0) {
-          const imageUrls = [];
           for (let i = 0; i < uploadedImages.length; i++) {
             const file = uploadedImages[i];
             const fileName = `${Date.now()}_${i}.jpg`;
@@ -2858,16 +2848,33 @@
               imageUrls.push(publicUrl);
             }
           }
+        }
+        
+        if (editingProductId) {
+          // Update existing product
+          const { error } = await supabaseClient.from('products').update(productData).eq('id', editingProductId);
+          if (error) throw error;
           
-          // Update product with images array
-          const productId = editingProductId || window.insertedProductData?.[0]?.id;
-          if (imageUrls.length > 0 && productId) {
+          // Update existing product with new images if any
+          if (imageUrls.length > 0) {
             const { error } = await supabaseClient.from('products').update({ 
-              image_url: imageUrls[0], // First image as main
-              images: imageUrls // All images
-            }).eq('id', productId);
+              image_url: imageUrls[0], // First new image as main
+              images: imageUrls // All new images
+            }).eq('id', editingProductId);
             if (error) throw error;
           }
+        } else {
+          // Add image URLs to product data for new products
+          if (imageUrls.length > 0) {
+            productData.image_url = imageUrls[0]; // First image as main
+            productData.images = imageUrls; // All images
+          }
+          
+          // Insert new product with image URLs included
+          const { data, error } = await supabaseClient.from('products').insert(productData);
+          if (error) throw error;
+          // Store the inserted data for later use
+          window.insertedProductData = data;
         }
         
         await loadProducts();
