@@ -1050,14 +1050,35 @@
         right: 8px;
       }
       
+      /* Contenedor del grid */
       .products-grid,
       .catalog-grid,
       [class*="product-grid"],
       [class*="products-container"] {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
-        padding: 0 10px !important;
+        gap: 8px !important;
+        padding: 0 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+      }
+
+      /* Cada card */
+      .product-card,
+      [class*="product-card"] {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+      }
+
+      /* Botón no se corte */
+      .product-card button,
+      .product-card .btn {
+        width: 100% !important;
+        font-size: 0.75rem !important;
+        padding: 8px 4px !important;
       }
     }
     
