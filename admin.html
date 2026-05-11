@@ -151,16 +151,465 @@
         transition-duration:0.01ms !important;
       }
     }
-    .btn{padding:12px 24px;border-radius:12px;font-weight:600;cursor:pointer;
-      transition:all .2s ease;border:none;font-size:1rem;position:relative;overflow:hidden;}
-    .btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left 0.5s;}
-    .btn:hover::before{left:100%;}
-    .wa-btn{background:var(--accent);color:white;box-shadow:0 4px 12px rgba(200,168,145,0.3);}
-    .wa-btn:hover{background:var(--btn-hover);transform:translateY(-2px) scale(1.02);box-shadow:0 8px 20px rgba(200,168,145,0.4);}
-    .wa-btn:active{transform:translateY(0) scale(0.98);}
-    .soft-btn{background:var(--bg-soft);color:var(--text);border:1px solid var(--line);}
-    .soft-btn:hover{background:var(--card);transform:translateY(-2px) scale(1.02);box-shadow:0 4px 12px rgba(0,0,0,0.1);border-color:var(--accent);}
-    .soft-btn:active{transform:translateY(0) scale(0.98);}
+    /* RADICALLY MODERN BUTTONS - NO SQUARES ALLOWED! */
+    .btn{
+      padding:16px 32px;
+      border-radius:100px;
+      font-weight:700;
+      cursor:pointer;
+      transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border:none;
+      font-size:1rem;
+      position:relative;
+      overflow:hidden;
+      user-select:none;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      font-family:'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color:white;
+      box-shadow:
+        0 10px 40px rgba(102, 126, 234, 0.4),
+        0 20px 60px rgba(118, 75, 162, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+      transform:perspective(1000px) rotateX(0deg);
+      min-width:120px;
+    }
+    
+    /* Organic shape morphing */
+    .btn::before{
+      content:'';
+      position:absolute;
+      top:-2px;
+      left:-2px;
+      right:-2px;
+      bottom:-2px;
+      background:linear-gradient(45deg, #f093fb, #f5576c, #4facfe, #00f2fe, #f093fb);
+      background-size:400% 400%;
+      border-radius:100px;
+      z-index:-1;
+      animation:gradientShift 3s ease infinite;
+      filter:blur(8px);
+      opacity:0.7;
+    }
+    
+    /* Liquid ripple effect */
+    .btn::after{
+      content:'';
+      position:absolute;
+      top:50%;
+      left:50%;
+      width:0;
+      height:0;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,255,255,0.9), rgba(255,255,255,0.4), transparent);
+      transform:translate(-50%, -50%);
+      transition:all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      pointer-events:none;
+    }
+    
+    .btn:active::after{
+      width:500px;
+      height:500px;
+    }
+    
+    /* Admin Action Buttons */
+    .wa-btn{
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      background: #4A3F35;
+      color: #F5EDE0;
+    }
+    
+    .wa-btn:hover{
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+    
+    /* Secondary Button */
+    .soft-btn{
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .soft-btn:hover{
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+    
+    /* Specific button colors */
+    #addProductBtn.wa-btn {
+      background: #4A3F35;
+      color: #F5EDE0;
+    }
+    
+    #bulkImportBtn.soft-btn {
+      background: #8C7B6B;
+      color: #F5EDE0;
+    }
+    
+    #manageCategoriesBtn.soft-btn {
+      background: #C9B8D4;
+      color: #4A3F35;
+    }
+    
+    #manageFeaturedBtn.soft-btn {
+      background: #D4B896;
+      color: #4A3F35;
+    }
+    
+    #refreshBtn.soft-btn {
+      background: #E8D5B7;
+      color: #4A3F35;
+    }
+    
+    #exportBtn.soft-btn {
+      background: #F5EDE0;
+      color: #4A3F35;
+      border: 1px solid #D4B896;
+    }
+    
+    /* Ghost Button - Ethereal */
+    .ghost-btn{
+      background:linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      color:white;
+      border:2px solid rgba(255,255,255,0.3);
+      backdrop-filter:blur(20px);
+      box-shadow:
+        0 8px 32px rgba(255,255,255,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+    
+    .ghost-btn::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      background:linear-gradient(135deg, #667eea, #764ba2);
+      opacity:0;
+      transition:opacity 0.5s ease;
+      border-radius:100px;
+    }
+    
+    .ghost-btn:hover{
+      border-color:rgba(255,255,255,0.6);
+      transform:perspective(1000px) rotateX(-3deg) translateY(-4px) scale(1.02);
+      box-shadow:
+        0 12px 40px rgba(102, 126, 234, 0.3),
+        inset 0 2px 0 rgba(255,255,255,0.3);
+    }
+    
+    .ghost-btn:hover::before{opacity:0.8;}
+    
+    /* Small Buttons - Compact Pills */
+    .btn-small{
+      padding:12px 24px;
+      border-radius:60px;
+      font-size:0.8rem;
+      font-weight:700;
+      letter-spacing:0.5px;
+      background:linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      color:white;
+      box-shadow:
+        0 8px 25px rgba(250, 112, 154, 0.4),
+        0 15px 40px rgba(254, 225, 64, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+      min-width:100px;
+    }
+    
+    .btn-small:hover{
+      transform:perspective(1000px) rotateX(-4deg) translateY(-5px) scale(1.05);
+      box-shadow:
+        0 12px 35px rgba(250, 112, 154, 0.5),
+        0 20px 50px rgba(254, 225, 64, 0.4),
+        inset 0 3px 0 rgba(255, 255, 255, 0.4);
+    }
+    
+    /* Edit Button - Electric Blue */
+    .btn-edit{
+      background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color:white;
+      box-shadow:
+        0 10px 30px rgba(102, 126, 234, 0.4),
+        0 15px 45px rgba(118, 75, 162, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+    }
+    
+    .btn-edit:hover{
+      background:linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      transform:perspective(1000px) rotateX(-5deg) translateY(-6px) scale(1.08);
+      box-shadow:
+        0 15px 40px rgba(102, 126, 234, 0.5),
+        0 20px 55px rgba(118, 75, 162, 0.4),
+        inset 0 3px 0 rgba(255, 255, 255, 0.4);
+    }
+    
+    /* Delete Button - Fire Red */
+    .btn-delete{
+      background:linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+      color:white;
+      box-shadow:
+        0 10px 30px rgba(245, 87, 108, 0.4),
+        0 15px 45px rgba(240, 147, 251, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+    }
+    
+    .btn-delete:hover{
+      background:linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      transform:perspective(1000px) rotateX(-5deg) translateY(-6px) scale(1.08);
+      box-shadow:
+        0 15px 40px rgba(245, 87, 108, 0.5),
+        0 20px 55px rgba(240, 147, 251, 0.4),
+        inset 0 3px 0 rgba(255, 255, 255, 0.4);
+    }
+    
+    /* Keyframe Animations for Liquid Effects */
+    @keyframes gradientShift{
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
+    }
+    
+    @keyframes liquidPulse{
+      0%,100%{transform:perspective(1000px) rotateX(0deg) scale(1);}
+      50%{transform:perspective(1000px) rotateX(-2deg) scale(1.05);}
+    }
+    
+    @keyframes liquidShake{
+      0%,100%{transform:perspective(1000px) rotateX(0deg) translateX(0);}
+      10%{transform:perspective(1000px) rotateX(-1deg) translateX(-10px);}
+      20%{transform:perspective(1000px) rotateX(1deg) translateX(10px);}
+      30%{transform:perspective(1000px) rotateX(-0.5deg) translateX(-8px);}
+      40%{transform:perspective(1000px) rotateX(0.5deg) translateX(8px);}
+      50%{transform:perspective(1000px) rotateX(-0.3deg) translateX(-6px);}
+      60%{transform:perspective(1000px) rotateX(0.3deg) translateX(6px);}
+      70%{transform:perspective(1000px) rotateX(-0.1deg) translateX(-4px);}
+      80%{transform:perspective(1000px) rotateX(0.1deg) translateX(4px);}
+      90%{transform:perspective(1000px) rotateX(0deg) translateX(-2px);}
+    }
+    
+    @keyframes liquidSpin{
+      to{transform:perspective(1000px) rotateX(0deg) rotate(360deg);}
+    }
+    
+    /* Enhanced States with Liquid Design */
+    .btn.loading{
+      pointer-events:none;
+      opacity:0.85;
+      transform:perspective(1000px) rotateX(0deg) scale(0.95);
+      animation:liquidPulse 2s ease-in-out infinite;
+    }
+    
+    .btn.loading::before{
+      content:'';
+      position:absolute;
+      top:50%;
+      left:50%;
+      width:24px;
+      height:24px;
+      margin:-12px 0 0 -12px;
+      border:3px solid rgba(255,255,255,0.2);
+      border-top-color:white;
+      border-radius:50%;
+      animation:liquidSpin 1s linear infinite;
+      z-index:10;
+    }
+    
+    /* Success State - Liquid Green */
+    .btn.success{
+      background:linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%);
+      color:white;
+      box-shadow:
+        0 15px 40px rgba(0, 210, 255, 0.5),
+        0 25px 60px rgba(58, 71, 213, 0.3),
+        inset 0 3px 0 rgba(255, 255, 255, 0.4);
+      animation:liquidPulse 1s ease;
+    }
+    
+    /* Error State - Liquid Fire */
+    .btn.error{
+      background:linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+      color:white;
+      box-shadow:
+        0 15px 40px rgba(255, 107, 107, 0.5),
+        0 25px 60px rgba(238, 90, 36, 0.3),
+        inset 0 3px 0 rgba(255, 255, 255, 0.3);
+      animation:liquidShake 0.8s ease;
+    }
+    
+    /* Disabled State - Frozen Liquid */
+    .btn:disabled,
+    .btn.disabled{
+      opacity:0.3;
+      cursor:not-allowed;
+      pointer-events:none;
+      transform:perspective(1000px) rotateX(0deg) scale(0.95) !important;
+      background:linear-gradient(135deg, 
+        rgba(150, 150, 150, 0.3), 
+        rgba(100, 100, 100, 0.2)
+      ) !important;
+      box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.1) !important;
+      filter:grayscale(0.8) blur(1px) !important;
+    }
+    
+    /* Focus States - Liquid Glow */
+    .btn:focus-visible{
+      outline:none;
+      box-shadow:
+        0 0 0 4px rgba(102, 126, 234, 0.4),
+        0 15px 40px rgba(102, 126, 234, 0.3),
+        0 25px 60px rgba(118, 75, 162, 0.2),
+        inset 0 3px 0 rgba(255, 255, 255, 0.4);
+      transform:perspective(1000px) rotateX(-2deg) translateY(-3px) scale(1.02);
+    }
+    
+    .btn-small:focus-visible{
+      outline:none;
+      box-shadow:
+        0 0 0 3px rgba(250, 112, 154, 0.4),
+        0 10px 30px rgba(250, 112, 154, 0.3),
+        0 15px 40px rgba(254, 225, 64, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+      transform:perspective(1000px) rotateX(-2deg) translateY(-2px) scale(1.03);
+    }
+    
+    /* Modern Animations */
+    @keyframes modernSpin{
+      to{transform:rotate(360deg);}
+    }
+    
+    @keyframes modernSuccessPulse{
+      0%,100%{transform:scale(1); box-shadow:0 8px 30px rgba(0, 184, 148, 0.4);}
+      50%{transform:scale(1.05); box-shadow:0 12px 40px rgba(0, 184, 148, 0.6);}
+    }
+    
+    @keyframes modernShake{
+      0%,100%{transform:translateX(0) rotate(0deg);}
+      10%{transform:translateX(-8px) rotate(-1deg);}
+      20%{transform:translateX(8px) rotate(1deg);}
+      30%{transform:translateX(-6px) rotate(-0.5deg);}
+      40%{transform:translateX(6px) rotate(0.5deg);}
+      50%{transform:translateX(-4px) rotate(-0.3deg);}
+      60%{transform:translateX(4px) rotate(0.3deg);}
+      70%{transform:translateX(-2px) rotate(-0.1deg);}
+      80%{transform:translateX(2px) rotate(0.1deg);}
+      90%{transform:translateX(-1px) rotate(0deg);}
+    }
+    
+    /* Button Groups - Modern Layout */
+    .btn-group{
+      display:flex;gap:12px;flex-wrap:wrap;
+      padding:4px;
+      background:linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1), 
+        rgba(255, 255, 255, 0.05)
+      );
+      border-radius:30px;
+      backdrop-filter:blur(10px);
+    }
+    
+    .btn-group .btn{
+      flex:1;min-width:140px;border-radius:26px;
+      box-shadow:0 4px 15px rgba(31, 38, 135, 0.1);
+    }
+    
+    /* Icon Buttons - Circular Modern */
+    .icon-btn{
+      width:44px;height:44px;padding:0;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.3rem;
+      background:linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.2), 
+        rgba(255, 255, 255, 0.1)
+      );
+      backdrop-filter:blur(10px);
+      box-shadow:
+        0 6px 20px rgba(31, 38, 135, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+    
+    .icon-btn:hover{
+      transform:rotate(15deg) scale(1.1);
+      box-shadow:
+        0 8px 25px rgba(31, 38, 135, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+    
+    /* Floating Action Button - Modern Glass */
+    .fab{
+      position:fixed;bottom:28px;right:28px;width:64px;height:64px;
+      border-radius:50%;
+      background:linear-gradient(135deg, 
+        rgba(200, 168, 145, 0.95), 
+        rgba(180, 148, 125, 0.9)
+      );
+      color:white;
+      border:1px solid rgba(255, 255, 255, 0.2);
+      cursor:pointer;
+      backdrop-filter:blur(20px);
+      box-shadow:
+        0 12px 40px rgba(200, 168, 145, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.6rem;
+      transition:all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+      z-index:1000;
+    }
+    
+    .fab:hover{
+      transform:scale(1.1) rotate(90deg);
+      box-shadow:
+        0 16px 50px rgba(200, 168, 145, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+    
+    .fab:active{
+      transform:scale(1.05) rotate(45deg);
+      transition:all 0.15s ease;
+    }
+    
+    /* Special Button Variants */
+    .btn-glow{
+      box-shadow:
+        0 0 20px rgba(200, 168, 145, 0.3),
+        0 8px 32px rgba(200, 168, 145, 0.2);
+    }
+    
+    .btn-glow:hover{
+      box-shadow:
+        0 0 30px rgba(200, 168, 145, 0.5),
+        0 12px 40px rgba(200, 168, 145, 0.3);
+    }
+    
+    .btn-outline{
+      background:transparent;
+      border:2px solid rgba(200, 168, 145, 0.5);
+      color:var(--accent);
+      backdrop-filter:blur(5px);
+    }
+    
+    .btn-outline:hover{
+      background:rgba(200, 168, 145, 0.1);
+      border-color:rgba(200, 168, 145, 0.8);
+      box-shadow:
+        0 8px 25px rgba(200, 168, 145, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
     .ghost-btn{background:transparent;color:var(--muted);border:1px solid var(--line);}
     .ghost-btn:hover{background:var(--bg-soft);color:var(--text);transform:translateY(-2px) scale(1.02);border-color:var(--accent);box-shadow:0 4px 12px rgba(0,0,0,0.08);}
     .ghost-btn:active{transform:translateY(0) scale(0.98);}
@@ -1002,6 +1451,212 @@
       display:inline-block;background:#ff9800;color:white;
       padding:2px 8px;border-radius:4px;font-size:0.75rem;
       font-weight:600;margin-left:8px;
+    }
+    
+    /* Publication Status Badges */
+    .badge-publicado {
+      background: #4caf50;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-right: 4px;
+      display: inline-block;
+    }
+    
+    .badge-no-publicado {
+      background: #f44336;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-right: 4px;
+      display: inline-block;
+    }
+
+    /* Products Sections Styles */
+    .products-section {
+      margin-bottom: 40px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-header h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pending-header {
+      background: linear-gradient(135deg, #fff3cd, #fee);
+      border-bottom: 2px solid #f39c12;
+    }
+
+    .pending-header h2 {
+      color: #856404;
+    }
+
+    .section-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .section-count {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .pending-header .section-count {
+      color: #f39c12;
+    }
+
+    .section-description {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .published-products {
+      border-left: 4px solid #4caf50;
+    }
+
+    .pending-products {
+      border-left: 4px solid #f39c12;
+      background: linear-gradient(135deg, #fff9e6, #fffdf7);
+    }
+
+    .published-products table {
+      background: white;
+    }
+
+    .pending-products table {
+      background: #fffdf7;
+    }
+
+    /* Section Pagination Styles */
+    .section-pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: var(--bg-soft);
+      border-top: 1px solid var(--line);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-pagination .pagination-info {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .section-pagination .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-pagination .page-numbers {
+      display: flex;
+      gap: 4px;
+    }
+
+    .section-pagination .page-numbers button {
+      min-width: 32px;
+      height: 32px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .section-pagination .page-numbers button.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Mobile Pagination Styles */
+    .mobile-pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: var(--bg-soft);
+      border-top: 1px solid var(--line);
+      margin-top: 8px;
+    }
+
+    .mobile-pagination-info {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .mobile-pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mobile-pagination-controls span {
+      font-size: 0.85rem;
+      color: var(--text);
+      min-width: 80px;
+      text-align: center;
+    }
+
+    /* Mobile responsive for sections */
+    @media (max-width: 768px) {
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px 20px;
+      }
+
+      .section-info {
+        align-items: flex-start;
+        gap: 2px;
+      }
+
+      .section-description {
+        text-align: left;
+      }
+
+      .section-header h2 {
+        font-size: 1.2rem;
+      }
+
+      .section-pagination {
+        padding: 12px 20px;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .section-pagination .pagination-controls {
+        justify-content: center;
+      }
     }
 
     /* Enhanced Image Management */
@@ -2321,26 +2976,128 @@
         </div>
       </div>
 
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Imagen</th>
-              <th>Producto</th>
-              <th>Categoría</th>
-              <th>Precio</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="productsTableBody">
-            <tr>
-              <td colspan="6" style="text-align: center; padding: 40px; color: var(--muted);">
-                Cargando productos...
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Productos Publicados Section -->
+      <div class="products-section">
+        <div class="section-header">
+          <h2>📦 Productos Publicados</h2>
+          <div class="section-info">
+            <span class="section-count" id="publishedCount">0 productos</span>
+            <span class="section-description">Productos visibles en la tienda</span>
+          </div>
+        </div>
+        
+        <div class="table-container published-products">
+          <table>
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="publishedProductsTableBody">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 40px; color: var(--muted);">
+                  Cargando productos publicados...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Published Products Pagination -->
+        <div class="section-pagination" id="publishedPagination">
+          <div class="pagination-info">
+            <span id="publishedPaginationInfo">Mostrando 0-0 de 0 productos</span>
+          </div>
+          <div class="pagination-controls">
+            <button class="btn-small" id="publishedPrevBtn" disabled>← Anterior</button>
+            <div class="page-numbers" id="publishedPageNumbers"></div>
+            <button class="btn-small" id="publishedNextBtn" disabled>Siguiente →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Productos Pendientes Section -->
+      <div class="products-section">
+        <div class="section-header pending-header">
+          <h2>⚠️ Productos Pendientes de Categoría</h2>
+          <div class="section-info">
+            <span class="section-count" id="pendingCount">0 productos</span>
+            <span class="section-description">Productos que necesitan asignarse a una categoría para ser publicados</span>
+          </div>
+        </div>
+        
+        <div class="table-container pending-products">
+          <table>
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="pendingProductsTableBody">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 40px; color: var(--muted);">
+                  Cargando productos pendientes...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Pending Products Pagination -->
+        <div class="section-pagination" id="pendingPagination">
+          <div class="pagination-info">
+            <span id="pendingPaginationInfo">Mostrando 0-0 de 0 productos</span>
+          </div>
+          <div class="pagination-controls">
+            <button class="btn-small" id="pendingPrevBtn" disabled>← Anterior</button>
+            <div class="page-numbers" id="pendingPageNumbers"></div>
+            <button class="btn-small" id="pendingNextBtn" disabled>Siguiente →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Grid for Published Products -->
+      <div class="products-grid" id="publishedMobileGrid" style="display: none;">
+        <!-- Published products will be loaded here -->
+      </div>
+      
+      <!-- Mobile Pagination for Published Products -->
+      <div class="mobile-pagination" id="publishedMobilePagination" style="display: none;">
+        <div class="mobile-pagination-info">
+          <span id="publishedMobilePaginationInfo">Mostrando 0-0 de 0 productos</span>
+        </div>
+        <div class="mobile-pagination-controls">
+          <button class="btn-small" id="publishedMobilePrevBtn" disabled>←</button>
+          <span id="publishedMobilePageInfo">Página 1 de 1</span>
+          <button class="btn-small" id="publishedMobileNextBtn" disabled>→</button>
+        </div>
+      </div>
+
+      <!-- Mobile Grid for Pending Products -->
+      <div class="products-grid" id="pendingMobileGrid" style="display: none;">
+        <!-- Pending products will be loaded here -->
+      </div>
+      
+      <!-- Mobile Pagination for Pending Products -->
+      <div class="mobile-pagination" id="pendingMobilePagination" style="display: none;">
+        <div class="mobile-pagination-info">
+          <span id="pendingMobilePaginationInfo">Mostrando 0-0 de 0 productos</span>
+        </div>
+        <div class="mobile-pagination-controls">
+          <button class="btn-small" id="pendingMobilePrevBtn" disabled>←</button>
+          <span id="pendingMobilePageInfo">Página 1 de 1</span>
+          <button class="btn-small" id="pendingMobileNextBtn" disabled>→</button>
+        </div>
       </div>
       
       <!-- Mobile Products Grid -->
@@ -2488,6 +3245,44 @@
             </div>
           </div>
 
+          <!-- Sección: Variantes de Color -->
+          <div class="form-section">
+            <h3 class="section-title">🎨 Variantes de Color</h3>
+            <div class="form-section-content">
+              <div class="toggle-item">
+                <label class="toggle-label">
+                  <span>¿Tiene variantes de color?</span>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="hasColors">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </label>
+              </div>
+              
+              <div id="colorVariantsSection" style="display: none; margin-top: 20px;">
+                <div class="form-group">
+                  <label>Agregar Color</label>
+                  <div style="display: flex; gap: 12px; align-items: flex-end; margin-bottom: 16px;">
+                    <div style="flex: 0 0 auto;">
+                      <input type="color" id="colorInput" value="#000000" style="width: 60px; height: 40px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer;">
+                    </div>
+                    <div style="flex: 1;">
+                      <input type="text" id="colorName" placeholder="Nombre del color (ej: Rosa, Azul)" style="width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <button type="button" id="addColorBtn" class="soft-btn" style="flex: 0 0 auto; padding: 8px 16px;">Agregar</button>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label>Colores Agregados</label>
+                  <div id="colorsList" style="display: flex; flex-wrap: wrap; gap: 12px; min-height: 50px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg-soft);">
+                    <!-- Los colores se agregarán aquí dinámicamente -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Sección: Imágenes -->
           <div class="form-section">
             <h3 class="section-title">📸 Imágenes del Producto</h3>
@@ -2600,7 +3395,7 @@
         <div class="featured-current">
           <h3>📌 Productos Destacados Actuales</h3>
           <div class="featured-count">
-            <span id="featuredCount">0</span> de 6 máximo
+            <span id="featuredCount">0</span> de 12 máximo
           </div>
           <div class="featured-grid" id="featuredGrid">
             <!-- Featured products will be loaded here -->
@@ -2717,6 +3512,14 @@
     const productStatus = document.getElementById('productStatus');
     const productImages = document.getElementById('productImages');
     const imagePreview = document.getElementById('imagePreview');
+    
+    // Color variants elements
+    const hasColors = document.getElementById('hasColors');
+    const colorVariantsSection = document.getElementById('colorVariantsSection');
+    const colorInput = document.getElementById('colorInput');
+    const colorName = document.getElementById('colorName');
+    const addColorBtn = document.getElementById('addColorBtn');
+    const colorsList = document.getElementById('colorsList');
     
     // Create pagination container dynamically
     const paginationContainer = document.createElement('div');
@@ -2989,6 +3792,84 @@
         searchProductsForFeatured();
       });
 
+      // Section Pagination Event Listeners
+      // Published Products Pagination
+      document.getElementById('publishedPrevBtn')?.addEventListener('click', () => {
+        if (sectionPagination.published.currentPage > 1) {
+          sectionPagination.published.currentPage--;
+          renderFilteredProducts();
+        }
+      });
+
+      document.getElementById('publishedNextBtn')?.addEventListener('click', () => {
+        const publishedProducts = filteredProducts.filter(product => 
+          product.category && product.category !== 'Sin categoría'
+        );
+        const totalPages = Math.ceil(publishedProducts.length / sectionPagination.published.itemsPerPage);
+        if (sectionPagination.published.currentPage < totalPages) {
+          sectionPagination.published.currentPage++;
+          renderFilteredProducts();
+        }
+      });
+
+      // Pending Products Pagination
+      document.getElementById('pendingPrevBtn')?.addEventListener('click', () => {
+        if (sectionPagination.pending.currentPage > 1) {
+          sectionPagination.pending.currentPage--;
+          renderFilteredProducts();
+        }
+      });
+
+      document.getElementById('pendingNextBtn')?.addEventListener('click', () => {
+        const pendingProducts = filteredProducts.filter(product => 
+          !product.category || product.category === 'Sin categoría'
+        );
+        const totalPages = Math.ceil(pendingProducts.length / sectionPagination.pending.itemsPerPage);
+        if (sectionPagination.pending.currentPage < totalPages) {
+          sectionPagination.pending.currentPage++;
+          renderFilteredProducts();
+        }
+      });
+
+      // Mobile Pagination Event Listeners
+      // Published Products Mobile Pagination
+      document.getElementById('publishedMobilePrevBtn')?.addEventListener('click', () => {
+        if (sectionPagination.published.currentPage > 1) {
+          sectionPagination.published.currentPage--;
+          renderFilteredProducts();
+        }
+      });
+
+      document.getElementById('publishedMobileNextBtn')?.addEventListener('click', () => {
+        const publishedProducts = filteredProducts.filter(product => 
+          product.category && product.category !== 'Sin categoría'
+        );
+        const totalPages = Math.ceil(publishedProducts.length / 6); // 6 items per page on mobile
+        if (sectionPagination.published.currentPage < totalPages) {
+          sectionPagination.published.currentPage++;
+          renderFilteredProducts();
+        }
+      });
+
+      // Pending Products Mobile Pagination
+      document.getElementById('pendingMobilePrevBtn')?.addEventListener('click', () => {
+        if (sectionPagination.pending.currentPage > 1) {
+          sectionPagination.pending.currentPage--;
+          renderFilteredProducts();
+        }
+      });
+
+      document.getElementById('pendingMobileNextBtn')?.addEventListener('click', () => {
+        const pendingProducts = filteredProducts.filter(product => 
+          !product.category || product.category === 'Sin categoría'
+        );
+        const totalPages = Math.ceil(pendingProducts.length / 6); // 6 items per page on mobile
+        if (sectionPagination.pending.currentPage < totalPages) {
+          sectionPagination.pending.currentPage++;
+          renderFilteredProducts();
+        }
+      });
+
       // Category Image Upload
       categoryImageInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
@@ -3007,14 +3888,9 @@
 
       // Toggle Switches Event Listeners
       enOferta.addEventListener('change', (e) => {
-        if (e.target.checked) {
-          precioOfertaGroup.style.display = 'block';
-          updatePrecioComparacion();
-        } else {
-          precioOfertaGroup.style.display = 'none';
-          precioOferta.value = '';
-          precioComparacion.textContent = '';
-        }
+        const precioOfertaGroup = document.getElementById('precioOfertaGroup');
+        precioOfertaGroup.style.display = enOferta.checked ? 'block' : 'none';
+        updatePrecioComparacion();
       });
 
       productPrice.addEventListener('input', updatePrecioComparacion);
@@ -3032,6 +3908,16 @@
       badgeColor.addEventListener('change', (e) => {
         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
       });
+
+      // Color variants event listeners
+      hasColors.addEventListener('change', () => {
+        colorVariantsSection.style.display = hasColors.checked ? 'block' : 'none';
+        if (!hasColors.checked) {
+          colorsList.innerHTML = '';
+        }
+      });
+
+      addColorBtn.addEventListener('click', addColor);
 
       // Modal
       addProductBtn.addEventListener('click', () => {
@@ -3080,10 +3966,11 @@
           // New fields
           es_nuevo: esNuevo.checked,
           en_oferta: enOferta.checked,
+          precio_oferta: parseFloat(precioOferta.value) || null,
           proximo_lanzamiento: proximoLanzamiento.checked,
-          precio_oferta: enOferta.checked ? (parseFloat(precioOferta.value) || 0) : null,
-          badge_texto: badgeTexto.value.trim() || null,
-          badge_color: badgeTexto.value.trim() ? badgeColor.value : null
+          badge_texto: badgeTexto.value || null,
+          badge_color: badgeColor.value || null,
+          colors: hasColors.checked ? productColors : null
         };
         
         // Upload images first for new products, or handle updates for existing products
@@ -3367,6 +4254,68 @@
       }
       
       return false;
+    }
+
+    // Color variants functions
+    let productColors = [];
+
+    function addColor() {
+      const color = colorInput.value.trim();
+      const name = colorName.value.trim();
+      
+      if (!color || !name) {
+        notificationManager.warning('Por favor, complete ambos campos: color y nombre');
+        return;
+      }
+      
+      // Check for duplicate colors
+      if (productColors.some(c => c.color === color)) {
+        notificationManager.warning('Este color ya fue agregado');
+        return;
+      }
+      
+      const colorVariant = {
+        color: color,
+        name: name,
+        id: Date.now().toString()
+      };
+      
+      productColors.push(colorVariant);
+      renderColorsList();
+      
+      // Clear inputs
+      colorInput.value = '#000000';
+      colorName.value = '';
+      
+      notificationManager.success(`Color "${name}" agregado`);
+    }
+
+    function removeColor(colorId) {
+      productColors = productColors.filter(c => c.id !== colorId);
+      renderColorsList();
+      notificationManager.success('Color eliminado');
+    }
+
+    function renderColorsList() {
+      if (productColors.length === 0) {
+        colorsList.innerHTML = '<span style="color: var(--muted); font-size: 14px;">No hay colores agregados</span>';
+        return;
+      }
+      
+      colorsList.innerHTML = productColors.map(colorVariant => `
+        <div style="display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: white; border: 1px solid var(--line); border-radius: 20px;">
+          <div style="width: 24px; height: 24px; background: ${colorVariant.color}; border-radius: 50%; border: 2px solid var(--line);"></div>
+          <span style="font-size: 14px; color: var(--text);">${colorVariant.name}</span>
+          <button type="button" onclick="removeColor('${colorVariant.id}')" style="background: none; border: none; color: var(--error-text); cursor: pointer; font-size: 16px; line-height: 1; padding: 2px;">×</button>
+        </div>
+      `).join('');
+    }
+
+    function resetColors() {
+      productColors = [];
+      colorsList.innerHTML = '';
+      hasColors.checked = false;
+      colorVariantsSection.style.display = 'none';
     }
 
     // Image Functions
@@ -3735,237 +4684,571 @@
 
     function renderFilteredProducts() {
       const isMobile = window.innerWidth <= 768;
-      const paginatedProducts = getPaginatedProducts();
       
-      // Clear both containers
-      productsTable.innerHTML = '';
-      const mobileGrid = document.getElementById('mobileProductsGrid');
-      if (mobileGrid) mobileGrid.innerHTML = '';
+      // Separate products into published and pending
+      const publishedProducts = filteredProducts.filter(product => 
+        product.category && product.category !== 'Sin categoría'
+      );
+      const pendingProducts = filteredProducts.filter(product => 
+        !product.category || product.category === 'Sin categoría'
+      );
+      
+      // Update section counts
+      document.getElementById('publishedCount').textContent = `${publishedProducts.length} productos`;
+      document.getElementById('pendingCount').textContent = `${pendingProducts.length} productos`;
+      
+      // Clear all containers
+      document.getElementById('publishedProductsTableBody').innerHTML = '';
+      document.getElementById('pendingProductsTableBody').innerHTML = '';
+      document.getElementById('publishedMobileGrid').innerHTML = '';
+      document.getElementById('pendingMobileGrid').innerHTML = '';
+      
+      // Hide main pagination container (we'll handle each section separately)
+      paginationContainer.style.display = 'none';
 
-      if (filteredProducts.length === 0) {
-        if (isMobile && mobileGrid) {
-          mobileGrid.innerHTML = `
-            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted);">
-              <h3>🔍 No se encontraron productos</h3>
-              <p>Intenta ajustar los filtros de búsqueda o verifica que los productos existan.</p>
-            </div>
-          `;
-        } else {
-          productsTable.innerHTML = `
-            <tr>
-              <td colspan="6">
-                <div class="no-results">
-                  <h3>🔍 No se encontraron productos</h3>
-                  <p>Intenta ajustar los filtros de búsqueda o verifica que los productos existan.</p>
-                </div>
-              </td>
-            </tr>
-          `;
-        }
-        paginationContainer.style.display = 'none';
+      if (isMobile) {
+        // Mobile view - show grids, hide tables
+        document.querySelectorAll('.table-container').forEach(table => {
+          table.style.display = 'none';
+        });
+        document.getElementById('publishedMobileGrid').style.display = 'grid';
+        document.getElementById('pendingMobileGrid').style.display = 'grid';
+        document.getElementById('publishedMobilePagination').style.display = 'flex';
+        document.getElementById('pendingMobilePagination').style.display = 'flex';
+        document.getElementById('mobileProductsGrid').style.display = 'none';
+        
+        renderMobileProductsGrid('publishedMobileGrid', publishedProducts, 'published');
+        renderMobileProductsGrid('pendingMobileGrid', pendingProducts, 'pending');
+        updateMobilePagination('published', publishedProducts);
+        updateMobilePagination('pending', pendingProducts);
+      } else {
+        // Desktop view - show tables, hide grids
+        document.querySelectorAll('.table-container').forEach(table => {
+          table.style.display = 'block';
+        });
+        document.getElementById('publishedMobileGrid').style.display = 'none';
+        document.getElementById('pendingMobileGrid').style.display = 'none';
+        document.getElementById('publishedMobilePagination').style.display = 'none';
+        document.getElementById('pendingMobilePagination').style.display = 'none';
+        
+        renderDesktopProductsTable('publishedProductsTableBody', publishedProducts, 'published');
+        renderDesktopProductsTable('pendingProductsTableBody', pendingProducts, 'pending');
+        updateDesktopPagination('published', publishedProducts);
+        updateDesktopPagination('pending', pendingProducts);
+      }
+    }
+
+    function renderMobileProductsGrid(gridId, allProducts, type) {
+      const grid = document.getElementById(gridId);
+      if (!grid) return;
+      
+      // Get paginated products
+      const products = getPaginatedSectionProducts(type, allProducts);
+      
+      if (products.length === 0 && allProducts.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted);">
+            <h3>${type === 'published' ? '📦' : '⚠️'} No hay productos ${type === 'published' ? 'publicados' : 'pendientes'}</h3>
+            <p>${type === 'published' ? 'Todos los productos necesitan una categoría para ser publicados.' : '¡Buen trabajo! No hay productos pendientes de categoría.'}</p>
+          </div>
+        `;
         return;
       }
-
-      // Show pagination if there are products
-      paginationContainer.style.display = 'flex';
-
-      if (isMobile && mobileGrid) {
-        // Show grid, hide table
-        document.querySelector('.table-container').style.display = 'none';
-        mobileGrid.style.display = 'grid';
-        mobileGrid.className = 'products-grid';
+      
+      if (products.length === 0 && allProducts.length > 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted);">
+            <h3>No hay productos en esta página</h3>
+            <p>Intenta navegar a otra página.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      products.forEach(product => {
+        const statusClass = product.status === 'Disponible' ? 'available' : 
+                          product.status === 'Agotado' ? 'out-of-stock' : 'by-order';
         
-        // Render mobile cards with paginated products
-        paginatedProducts.forEach(product => {
-          const statusClass = product.status === 'Disponible' ? 'available' : 
-                            product.status === 'Agotado' ? 'out-of-stock' : 'by-order';
-          
-          const card = document.createElement('div');
-          card.className = 'product-card';
-          
-          // Create image HTML
-          let imageHtml = '';
-          if (product.images && product.images.length > 0) {
-            imageHtml = `<img src="${product.images[0]}" alt="${product.name}" class="product-card-image">`;
-          } else if (product.image_url) {
-            imageHtml = `<img src="${product.image_url}" alt="${product.name}" class="product-card-image">`;
-          } else {
-            imageHtml = `<img src="https://placehold.co/120x120" alt="${product.name}" class="product-card-image">`;
-          }
-          
-          // Create badges HTML
-          let badgesHtml = '';
-          if (product.es_nuevo) badgesHtml += '<span class="product-card-status available">🆕 Nuevo</span>';
-          if (product.en_oferta) badgesHtml += '<span class="product-card-status out-of-stock">🔥 Oferta</span>';
-          if (product.badge_texto) {
-            badgesHtml += `<span class="product-card-status" style="background: ${product.badge_color || 'var(--accent)'}; color: white;">${product.badge_texto}</span>`;
-          }
-          
-          // Add "Sin categoría" badge if applicable
-          let categoryHtml = highlightText(product.category, searchQuery);
-          if (product.category === 'Sin categoría') {
-            categoryHtml += ' <span style="background:#ff9800;color:white;padding:2px 6px;border-radius:4px;font-size:0.7rem;font-weight:600;">Sin categoría</span>';
-          }
-          
-          card.innerHTML = `
-            <div style="display:flex;flex-direction:row;padding:10px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:8px;align-items:center">
-              <img src="${product.images?.[0] || product.image_url || 'https://placehold.co/64x64'}" 
-                   alt="${product.name}"
-                   style="width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;margin-right:12px"
-                   onerror="this.src='https://placehold.co/64'">
-              <div style="flex:1;min-width:0">
-                <div style="font-size:13px;font-weight:bold;line-height:1.2;margin-bottom:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">
-                  ${highlightText(product.name, searchQuery)}
-                </div>
-                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px">
-                  ${badgesHtml}
-                </div>
-                <div style="font-size:11px;color:#666;margin-bottom:4px">
-                  ${categoryHtml}
-                </div>
-                <div style="font-size:13px;font-weight:bold;color:#2D6A4F">
-                  $${product.price ? product.price.toFixed(2) : '0.00'}
-                </div>
-              </div>
-              <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
-                <button onclick="editProduct('${product.id}')" 
-                        style="width:32px;height:32px;background:#f8f9fa;border:1px solid #ddd;border-radius:8px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">
-                  ✏️
-                </button>
-                <button onclick="deleteProduct('${product.id}')" 
-                        style="width:32px;height:32px;background:#fee;border:1px solid #fcc;color:#c00;border-radius:8px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">
-                  🗑️
-                </button>
-              </div>
-            </div>
-          `;
-          
-          mobileGrid.appendChild(card);
-        });
-      } else {
-        // Show table, hide grid
-        document.querySelector('.table-container').style.display = 'block';
-        if (mobileGrid) mobileGrid.style.display = 'none';
+        const card = document.createElement('div');
+        card.className = 'product-card';
         
-        // Render desktop table
-        paginatedProducts.forEach(product => {
-          const tr = document.createElement('tr');
-          
-          // Create image gallery HTML
-          let imageGalleryHtml = '';
-          if (product.images && product.images.length > 0) {
-            imageGalleryHtml = '<div class="image-gallery">';
-            product.images.slice(0, 3).forEach((img, index) => {
-              imageGalleryHtml += `<img src="${img}" alt="${product.name} ${index + 1}" class="gallery-thumbnail">`;
-            });
-            if (product.images.length > 3) {
-              imageGalleryHtml += `<div class="gallery-more">+${product.images.length - 3}</div>`;
-            }
-            imageGalleryHtml += '</div>';
-          } else if (product.image_url) {
-            imageGalleryHtml = `<img src="${product.image_url}" alt="${product.name}" class="product-img">`;
-          } else {
-            imageGalleryHtml = `<img src="https://placehold.co/60x60" alt="${product.name}" class="product-img">`;
-          }
-          
-          // Highlight search terms in product name
-          const highlightedName = highlightText(product.name, searchQuery);
-          const highlightedCategory = highlightText(product.category, searchQuery);
-          
-          // Create badges HTML
-          let badgesHtml = '<div class="product-badges">';
-          if (product.es_nuevo) badgesHtml += '<span class="product-badge badge-nuevo">🆕</span>';
-          if (product.en_oferta) badgesHtml += '<span class="product-badge badge-oferta">🔥</span>';
-          if (product.proximo_lanzamiento) badgesHtml += '<span class="product-badge badge-lanzamiento">⏳</span>';
-          if (product.badge_texto) {
-            badgesHtml += `<span class="product-badge" style="background: ${product.badge_color || 'var(--accent)'};">${product.badge_texto}</span>`;
-          }
-          badgesHtml += '</div>';
-          
-          // Add "Sin categoría" badge if applicable
-          let categoryHtml = highlightedCategory;
-          if (product.category === 'Sin categoría') {
-            categoryHtml = highlightedCategory + ' <span class="badge-sin-categoria">Sin categoría</span>';
-          }
-          
-          tr.innerHTML = `
-            <td data-label="Imagen">${imageGalleryHtml}</td>
-            <td data-label="Nombre">
-              <div>
-                ${highlightedName}
+        // Create image HTML
+        let imageHtml = '';
+        if (product.images && product.images.length > 0) {
+          imageHtml = `<img src="${product.images[0]}" alt="${product.name}" class="product-card-image">`;
+        } else if (product.image_url) {
+          imageHtml = `<img src="${product.image_url}" alt="${product.name}" class="product-card-image">`;
+        } else {
+          imageHtml = `<img src="https://placehold.co/120x120" alt="${product.name}" class="product-card-image">`;
+        }
+        
+        // Create badges HTML
+        let badgesHtml = '';
+        if (product.es_nuevo) badgesHtml += '<span class="product-card-status available">🆕 Nuevo</span>';
+        if (product.en_oferta) badgesHtml += '<span class="product-card-status out-of-stock">🔥 Oferta</span>';
+        if (product.badge_texto) {
+          badgesHtml += `<span class="product-card-status" style="background: ${product.badge_color || 'var(--accent)'}; color: white;">${product.badge_texto}</span>`;
+        }
+        
+        // Category display
+        const categoryDisplay = type === 'published' 
+          ? highlightText(product.category, searchQuery)
+          : '<span style="color:#f44336;font-weight:600;">Sin categoría</span>';
+        
+        card.innerHTML = `
+          <div style="display:flex;flex-direction:row;padding:10px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:8px;align-items:center">
+            <img src="${product.images?.[0] || product.image_url || 'https://placehold.co/64x64'}" 
+                 alt="${product.name}"
+                 style="width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;margin-right:12px"
+                 onerror="this.src='https://placehold.co/64'">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:bold;line-height:1.2;margin-bottom:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">
+                ${highlightText(product.name, searchQuery)}
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px">
                 ${badgesHtml}
               </div>
-            </td>
-            <td data-label="Categoría">${categoryHtml}</td>
-            <td data-label="Precio">$${product.price ? product.price.toFixed(2) : '0.00'}</td>
-            <td data-label="Estado">${product.status || 'Por encargue'}</td>
-            <td data-label="Acciones">
-              <div class="actions-cell">
-                <button class="btn-small btn-edit" onclick="editProduct('${product.id}')">Editar</button>
-                <button class="btn-small btn-delete" onclick="deleteProduct('${product.id}')">Eliminar</button>
+              <div style="font-size:11px;color:#666;margin-bottom:4px">
+                ${categoryDisplay}
+              </div>
+              <div style="font-size:13px;font-weight:bold;color:#2D6A4F">
+                $${product.price ? product.price.toFixed(2) : '0.00'}
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
+              <button onclick="editProduct('${product.id}')" 
+                      style="width:32px;height:32px;background:#f8f9fa;border:1px solid #ddd;border-radius:8px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">
+                ✏️
+              </button>
+              <button onclick="deleteProduct('${product.id}')" 
+                      style="width:32px;height:32px;background:#fee;border:1px solid #fcc;color:#c00;border-radius:8px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">
+                🗑️
+              </button>
+            </div>
+          </div>
+        `;
+        
+        grid.appendChild(card);
+      });
+    }
+
+    function renderDesktopProductsTable(tableBodyId, allProducts, type) {
+      const tableBody = document.getElementById(tableBodyId);
+      if (!tableBody) return;
+      
+      // Get paginated products
+      const products = getPaginatedSectionProducts(type, allProducts);
+      
+      if (products.length === 0 && allProducts.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 40px; color: var(--muted);">
+              <div class="no-results">
+                <h3>${type === 'published' ? '📦' : '⚠️'} No hay productos ${type === 'published' ? 'publicados' : 'pendientes'}</h3>
+                <p>${type === 'published' ? 'Todos los productos necesitan una categoría para ser publicados.' : '¡Buen trabajo! No hay productos pendientes de categoría.'}</p>
               </div>
             </td>
-          `;
-          productsTable.appendChild(tr);
-        });
+          </tr>
+        `;
+        return;
+      }
+      
+      if (products.length === 0 && allProducts.length > 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 40px; color: var(--muted);">
+              <div class="no-results">
+                <h3>No hay productos en esta página</h3>
+                <p>Intenta navegar a otra página.</p>
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
+      products.forEach(product => {
+        const tr = document.createElement('tr');
+        
+        // Create image gallery HTML
+        let imageGalleryHtml = '';
+        if (product.images && product.images.length > 0) {
+          imageGalleryHtml = '<div class="image-gallery">';
+          product.images.slice(0, 3).forEach((img, index) => {
+            imageGalleryHtml += `<img src="${img}" alt="${product.name} ${index + 1}" class="gallery-thumbnail">`;
+          });
+          if (product.images.length > 3) {
+            imageGalleryHtml += `<div class="gallery-more">+${product.images.length - 3}</div>`;
+          }
+          imageGalleryHtml += '</div>';
+        } else if (product.image_url) {
+          imageGalleryHtml = `<img src="${product.image_url}" alt="${product.name}" class="product-img">`;
+        } else {
+          imageGalleryHtml = `<img src="https://placehold.co/60x60" alt="${product.name}" class="product-img">`;
+        }
+        
+        // Highlight search terms
+        const highlightedName = highlightText(product.name, searchQuery);
+        const highlightedCategory = highlightText(product.category, searchQuery);
+        
+        // Create badges HTML
+        let badgesHtml = '<div class="product-badges">';
+        if (product.es_nuevo) badgesHtml += '<span class="product-badge badge-nuevo">🆕</span>';
+        if (product.en_oferta) badgesHtml += '<span class="product-badge badge-oferta">🔥</span>';
+        if (product.proximo_lanzamiento) badgesHtml += '<span class="product-badge badge-lanzamiento">⏳</span>';
+        if (product.badge_texto) {
+          badgesHtml += `<span class="product-badge" style="background: ${product.badge_color || 'var(--accent)'};">${product.badge_texto}</span>`;
+        }
+        badgesHtml += '</div>';
+        
+        // Category display
+        const categoryDisplay = type === 'published' 
+          ? highlightedCategory
+          : '<span style="color:#f44336;font-weight:600;">Sin categoría</span>';
+        
+        tr.innerHTML = `
+          <td data-label="Imagen">${imageGalleryHtml}</td>
+          <td data-label="Nombre">
+            <div>
+              ${highlightedName}
+              ${badgesHtml}
+            </div>
+          </td>
+          <td data-label="Categoría">${categoryDisplay}</td>
+          <td data-label="Precio">$${product.price ? product.price.toFixed(2) : '0.00'}</td>
+          <td data-label="Estado">${product.status || 'Por encargue'}</td>
+          <td data-label="Acciones">
+            <div class="actions-cell">
+              <button class="btn-small btn-edit" onclick="editProduct('${product.id}')">Editar</button>
+              <button class="btn-small btn-delete" onclick="deleteProduct('${product.id}')">Eliminar</button>
+            </div>
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    // Pagination state for each section
+    const sectionPagination = {
+      published: { currentPage: 1, itemsPerPage: 10 },
+      pending: { currentPage: 1, itemsPerPage: 10 }
+    };
+
+    // Function to update stats
+    function updateStats() {
+      const publishedProducts = products.filter(product => 
+        product.category && product.category !== 'Sin categoría'
+      );
+      const pendingProducts = products.filter(product => 
+        !product.category || product.category === 'Sin categoría'
+      );
+      
+      // Update main stats
+      document.getElementById('totalProducts').textContent = products.length;
+      document.getElementById('availableProducts').textContent = products.filter(p => p.status === 'Disponible').length;
+      document.getElementById('orderProducts').textContent = products.filter(p => p.status === 'Por encargue').length;
+      
+      // Update section counts
+      document.getElementById('publishedCount').textContent = `${publishedProducts.length} productos`;
+      document.getElementById('pendingCount').textContent = `${pendingProducts.length} productos`;
+    }
+
+    // Desktop pagination functions
+    function updateDesktopPagination(section, allProducts) {
+      const pagination = sectionPagination[section];
+      const totalPages = Math.ceil(allProducts.length / pagination.itemsPerPage);
+      const startIndex = (pagination.currentPage - 1) * pagination.itemsPerPage + 1;
+      const endIndex = Math.min(pagination.currentPage * pagination.itemsPerPage, allProducts.length);
+
+      // Update info
+      const infoElement = document.getElementById(`${section}PaginationInfo`);
+      if (infoElement) {
+        infoElement.textContent = allProducts.length > 0 
+          ? `Mostrando ${startIndex}-${endIndex} de ${allProducts.length} productos`
+          : 'Mostrando 0-0 de 0 productos';
+      }
+
+      // Update buttons
+      const prevBtn = document.getElementById(`${section}PrevBtn`);
+      const nextBtn = document.getElementById(`${section}NextBtn`);
+      
+      if (prevBtn) prevBtn.disabled = pagination.currentPage === 1;
+      if (nextBtn) nextBtn.disabled = pagination.currentPage >= totalPages;
+
+      // Generate page numbers
+      generatePageNumbers(section, totalPages);
+    }
+
+    function generatePageNumbers(section, totalPages) {
+      const pagination = sectionPagination[section];
+      const pageNumbersContainer = document.getElementById(`${section}PageNumbers`);
+      if (!pageNumbersContainer) return;
+
+      pageNumbersContainer.innerHTML = '';
+
+      if (totalPages <= 1) return;
+
+      const maxVisiblePages = 5;
+      let startPage = Math.max(1, pagination.currentPage - Math.floor(maxVisiblePages / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+      
+      if (endPage - startPage < maxVisiblePages - 1) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = 'btn-small';
+        if (i === pagination.currentPage) {
+          pageBtn.classList.add('active');
+        }
+        pageBtn.textContent = i;
+        pageBtn.onclick = () => {
+          pagination.currentPage = i;
+          renderFilteredProducts();
+        };
+        pageNumbersContainer.appendChild(pageBtn);
       }
     }
 
-    function renderMobileCards(products) {
-      const grid = document.getElementById('mobileProductsGrid');
-      if (!grid) return;
-      if (window.innerWidth > 768) return;
+    // Mobile pagination functions
+    function updateMobilePagination(section, allProducts) {
+      const pagination = sectionPagination[section];
+      const totalPages = Math.ceil(allProducts.length / 6); // 6 items per page on mobile
+      const startIndex = (pagination.currentPage - 1) * 6 + 1;
+      const endIndex = Math.min(pagination.currentPage * 6, allProducts.length);
+
+      // Update info
+      const infoElement = document.getElementById(`${section}MobilePaginationInfo`);
+      if (infoElement) {
+        infoElement.textContent = allProducts.length > 0 
+          ? `Mostrando ${startIndex}-${endIndex} de ${allProducts.length} productos`
+          : 'Mostrando 0-0 de 0 productos';
+      }
+
+      // Update page info
+      const pageInfoElement = document.getElementById(`${section}MobilePageInfo`);
+      if (pageInfoElement) {
+        pageInfoElement.textContent = totalPages > 0 
+          ? `Página ${pagination.currentPage} de ${totalPages}`
+          : 'Página 1 de 1';
+      }
+
+      // Update buttons
+      const prevBtn = document.getElementById(`${section}MobilePrevBtn`);
+      const nextBtn = document.getElementById(`${section}MobileNextBtn`);
       
-      grid.innerHTML = products.map(product => {
-        const badges = [];
-        if (product.es_nuevo) badges.push('<span style="background:#2D6A4F;color:white;padding:2px 8px;border-radius:10px;font-size:10px">🆕 Nuevo</span>');
-        if (product.en_oferta) badges.push('<span style="background:#E63946;color:white;padding:2px 8px;border-radius:10px;font-size:10px">🔥 Oferta</span>');
-        if (product.badge_texto) badges.push(`<span style="background:${product.badge_color||'#333'};color:white;padding:2px 8px;border-radius:10px;font-size:10px">${product.badge_texto}</span>`);
-        
-        return `
-        <div style="display:flex;flex-direction:row;padding:10px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:8px;align-items:center">
-            <img src="${product.images?.[0] || product.image_url || 'https://via.placeholder.com/64'}" 
-                 style="width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;margin-right:12px"
-                 onerror="this.src='https://via.placeholder.com/64'">
-            <div style="flex:1;min-width:0">
-                <div style="font-size:13px;font-weight:bold;line-height:1.2;margin-bottom:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">
-                    ${product.name}
-                </div>
-                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px">
-                    ${badges.join('')}
-                </div>
-                <div style="font-size:11px;color:#666;margin-bottom:4px">
-                    ${product.category}
-                </div>
-                <div style="font-size:13px;font-weight:bold;color:#2D6A4F">
-                    $${product.price ? product.price.toFixed(2) : '0.00'}
-                </div>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
-                <button onclick="editProduct('${product.id}')" 
-                        style="width:32px;height:32px;background:#f8f9fa;border:1px solid #ddd;border-radius:8px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">
-                    ✏️
-                </button>
-                <button onclick="deleteProduct('${product.id}')" 
-                        style="width:32px;height:32px;background:#fee;border:1px solid #fcc;color:#c00;border-radius:8px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">
-                    🗑️
-                </button>
-            </div>
-        </div>`;
-      }).join('');
+      if (prevBtn) prevBtn.disabled = pagination.currentPage === 1;
+      if (nextBtn) nextBtn.disabled = pagination.currentPage >= totalPages;
     }
 
-    function updateStats() {
-      totalProducts.textContent = products.length;
-      availableProducts.textContent = products.filter(p => p.status === 'Disponible').length;
-      orderProducts.textContent = products.filter(p => p.status === 'Por encargue').length;
+    // Get paginated products for a section
+    function getPaginatedSectionProducts(section, allProducts) {
+      const pagination = sectionPagination[section];
+      const isMobile = window.innerWidth <= 768;
+      const itemsPerPage = isMobile ? 6 : pagination.itemsPerPage;
+      const startIndex = (pagination.currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      return allProducts.slice(startIndex, endIndex);
+    }
+
+    // Enhanced Button UX Functions
+    function setButtonState(button, state, duration = 2000) {
+      if (!button) return;
+      
+      // Remove all state classes
+      button.classList.remove('loading', 'success', 'error', 'disabled');
+      
+      switch(state) {
+        case 'loading':
+          button.classList.add('loading');
+          button.disabled = true;
+          const originalText = button.textContent;
+          button.dataset.originalText = originalText;
+          break;
+          
+        case 'success':
+          button.classList.add('success');
+          button.disabled = false;
+          if (button.dataset.originalText) {
+            setTimeout(() => {
+              button.textContent = button.dataset.originalText;
+              delete button.dataset.originalText;
+              button.classList.remove('success');
+            }, duration);
+          }
+          break;
+          
+        case 'error':
+          button.classList.add('error');
+          button.disabled = false;
+          if (button.dataset.originalText) {
+            setTimeout(() => {
+              button.textContent = button.dataset.originalText;
+              delete button.dataset.originalText;
+              button.classList.remove('error');
+            }, duration);
+          }
+          break;
+          
+        case 'disabled':
+          button.classList.add('disabled');
+          button.disabled = true;
+          break;
+          
+        case 'reset':
+          button.disabled = false;
+          button.classList.remove('loading', 'success', 'error', 'disabled');
+          if (button.dataset.originalText) {
+            button.textContent = button.dataset.originalText;
+            delete button.dataset.originalText;
+          }
+          break;
+      }
+    }
+
+    // Ripple Effect Function
+    function createRipple(event, button) {
+      const ripple = document.createElement('span');
+      const rect = button.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = event.clientX - rect.left - size / 2;
+      const y = event.clientY - rect.top - size / 2;
+      
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      ripple.classList.add('ripple');
+      
+      // Add ripple styles if not already present
+      if (!document.querySelector('#ripple-styles')) {
+        const style = document.createElement('style');
+        style.id = 'ripple-styles';
+        style.textContent = `
+          .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s ease-out;
+            pointer-events: none;
+          }
+          @keyframes ripple-animation {
+            to {
+              transform: scale(4);
+              opacity: 0;
+            }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      
+      button.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    }
+
+    // Enhanced Button Interactions
+    function initializeButtonInteractions() {
+      // Add ripple effects to all buttons
+      document.querySelectorAll('.btn, .btn-small').forEach(button => {
+        if (!button.classList.contains('no-ripple')) {
+          button.addEventListener('click', (e) => {
+            createRipple(e, button);
+          });
+        }
+        
+        // Add hover sound effect (visual feedback)
+        button.addEventListener('mouseenter', () => {
+          button.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+        
+        // Add keyboard navigation enhancement
+        button.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            createRipple({ clientX: button.getBoundingClientRect().left + button.offsetWidth / 2, 
+                          clientY: button.getBoundingClientRect().top + button.offsetHeight / 2 }, button);
+            setTimeout(() => button.click(), 100);
+          }
+        });
+      });
+      
+      // Add loading states to async operations
+      document.querySelectorAll('[data-loading-text]').forEach(button => {
+        const originalText = button.textContent;
+        const loadingText = button.dataset.loadingText;
+        
+        button.addEventListener('click', function() {
+          if (this.onclick && !this.disabled) {
+            setButtonState(this, 'loading');
+            this.textContent = loadingText;
+          }
+        });
+      });
+    }
+
+    // Button Group Interactions
+    function initializeButtonGroups() {
+      document.querySelectorAll('.btn-group').forEach(group => {
+        const buttons = group.querySelectorAll('.btn');
+        
+        buttons.forEach((button, index) => {
+          // Add staggered hover effects
+          button.addEventListener('mouseenter', () => {
+            buttons.forEach((otherBtn, otherIndex) => {
+              if (otherIndex !== index) {
+                otherBtn.style.transform = 'scale(0.95)';
+                otherBtn.style.opacity = '0.7';
+              }
+            });
+          });
+          
+          button.addEventListener('mouseleave', () => {
+            buttons.forEach(otherBtn => {
+              otherBtn.style.transform = '';
+              otherBtn.style.opacity = '';
+            });
+          });
+        });
+      });
+    }
+
+    // Floating Action Button Enhancement
+    function initializeFAB() {
+      const fab = document.querySelector('.fab');
+      if (!fab) return;
+      
+      // Add pulse animation on load
+      setTimeout(() => {
+        fab.style.animation = 'pulse 2s infinite';
+      }, 1000);
+      
+      // Add tooltip
+      fab.setAttribute('title', 'Agregar nuevo producto');
+      
+      // Add keyboard shortcut
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key === 'n') {
+          e.preventDefault();
+          fab.click();
+        }
+      });
     }
 
     // Global Functions
     window.editProduct = async function(id) {
+      const editButton = document.querySelector(`[onclick*="editProduct('${id}')"]`);
+      if (editButton) {
+        setButtonState(editButton, 'loading');
+        editButton.textContent = 'Cargando...';
+      }
+      
       try {
         const product = products.find(p => p.id === id);
-        if (!product) return;
+        if (!product) {
+          if (editButton) setButtonState(editButton, 'error');
+          return;
+        }
 
         // Asegurarse de que las categorías estén cargadas
         await loadCategories();
@@ -3977,6 +5260,8 @@
         document.getElementById('productPrice').value = product.price || '';
         document.getElementById('productModalidad').value = product.modalidad || 'stock';
         document.getElementById('productStatus').value = product.status || 'Por encargue';
+        
+        if (editButton) setButtonState(editButton, 'reset');
         
         // Populate new fields
         esNuevo.checked = product.es_nuevo || false;
@@ -3992,6 +5277,19 @@
           precioOfertaGroup.style.display = 'none';
           precioOferta.value = '';
           precioComparacion.textContent = '';
+        }
+
+        // Handle color variants
+        if (product.colors && product.colors.length > 0) {
+          hasColors.checked = true;
+          colorVariantsSection.style.display = 'block';
+          productColors = product.colors;
+          renderColorsList();
+        } else {
+          hasColors.checked = false;
+          colorVariantsSection.style.display = 'none';
+          productColors = [];
+          renderColorsList();
         }
         
         // Populate badge fields
@@ -4030,32 +5328,165 @@
     };
 
     window.deleteProduct = async function(id) {
-      const product = products.find(p => p.id === id);
-      const productName = product ? product.name : 'este producto';
-      
-      if (!confirm(`¿Estás seguro de que quieres eliminar "${productName}"? Esta acción no se puede deshacer.`)) return;
+      const deleteButton = document.querySelector(`[onclick*="deleteProduct('${id}')"]`);
+      if (deleteButton) {
+        setButtonState(deleteButton, 'loading');
+        deleteButton.textContent = 'Eliminando...';
+      }
       
       try {
+        const product = products.find(p => p.id === id);
+        if (!product) {
+          if (deleteButton) setButtonState(deleteButton, 'error');
+          return;
+        }
+
+        // Enhanced confirmation dialog
+        const confirmed = await new Promise((resolve) => {
+          const modal = document.createElement('div');
+          modal.className = 'confirm-modal';
+          modal.innerHTML = `
+            <div class="confirm-modal-content">
+              <h3>⚠️ Confirmar Eliminación</h3>
+              <p>¿Estás seguro de que quieres eliminar <strong>"${product.name}"</strong>?</p>
+              <p style="color: var(--muted); font-size: 0.9rem;">Esta acción no se puede deshacer y eliminará todas las imágenes asociadas.</p>
+              <div class="confirm-modal-actions">
+                <button class="soft-btn" id="cancelDelete">Cancelar</button>
+                <button class="btn-delete" id="confirmDelete">Eliminar</button>
+              </div>
+            </div>
+          `;
+          
+          // Add styles if not present
+          if (!document.querySelector('#confirm-modal-styles')) {
+            const style = document.createElement('style');
+            style.id = 'confirm-modal-styles';
+            style.textContent = `
+              .confirm-modal {
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+                display: flex; align-items: center; justify-content: center;
+                z-index: 10000; animation: fadeIn 0.3s ease;
+              }
+              .confirm-modal-content {
+                background: var(--card); border-radius: 16px; padding: 24px;
+                max-width: 400px; margin: 20px; box-shadow: var(--shadow);
+                animation: slideUp 0.3s ease;
+              }
+              .confirm-modal h3 { margin: 0 0 16px 0; color: var(--text); }
+              .confirm-modal p { margin: 8px 0; line-height: 1.5; }
+              .confirm-modal-actions {
+                display: flex; gap: 12px; justify-content: flex-end;
+                margin-top: 24px;
+              }
+              @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+              @keyframes slideUp { 
+                from { transform: translateY(20px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+              }
+            `;
+            document.head.appendChild(style);
+          }
+          
+          document.body.appendChild(modal);
+          
+          const cancelBtn = modal.querySelector('#cancelDelete');
+          const confirmBtn = modal.querySelector('#confirmDelete');
+          
+          cancelBtn.addEventListener('click', () => {
+            modal.remove();
+            resolve(false);
+          });
+          
+          confirmBtn.addEventListener('click', () => {
+            modal.remove();
+            resolve(true);
+          });
+          
+          // Close on backdrop click
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+              modal.remove();
+              resolve(false);
+            }
+          });
+        });
+        
+        if (!confirmed) {
+          if (deleteButton) setButtonState(deleteButton, 'reset');
+          return;
+        }
+
         // Primero borrar el registro en featured_products
         await supabaseClient
           .from('featured_products')
           .delete()
           .eq('product_id', id);
-        
-        // Luego borrar el producto
+
+        // Borrar imágenes de Supabase Storage si existen
+        if (product.image_url) {
+          try {
+            const imagePath = product.image_url.split('/').pop();
+            await supabaseClient.storage
+              .from('aromas-ara-images')
+              .remove([imagePath]);
+          } catch (error) {
+            console.warn('Error al eliminar imagen:', error);
+          }
+        }
+
+        // Borrar imágenes adicionales si existen
+        if (product.images && product.images.length > 0) {
+          try {
+            const imagePaths = product.images.map(img => img.split('/').pop());
+            await supabaseClient.storage
+              .from('aromas-ara-images')
+              .remove(imagePaths);
+          } catch (error) {
+            console.warn('Error al eliminar imágenes adicionales:', error);
+          }
+        }
+
+        // Borrar el producto
         const { error } = await supabaseClient
           .from('products')
           .delete()
           .eq('id', id);
+
         if (error) throw error;
+
+        notificationManager.success(`Producto "${product.name}" eliminado correctamente`);
         
-        await loadProducts();
-        notificationManager.success(`"${productName}" eliminado exitosamente`);
+        // Show success state on button
+        if (deleteButton) {
+          setButtonState(deleteButton, 'success');
+          deleteButton.textContent = '✅ Eliminado';
+        }
+        
+        // Add visual feedback - fade out the product row
+        const productRow = deleteButton.closest('tr') || deleteButton.closest('.product-card');
+        if (productRow) {
+          productRow.style.transition = 'all 0.5s ease';
+          productRow.style.transform = 'translateX(-100%)';
+          productRow.style.opacity = '0';
+        }
+        
+        // Reload products after animation
+        setTimeout(async () => {
+          await loadProducts();
+        }, 500);
+
       } catch (error) {
         console.error('Error deleting product:', error);
-        notificationManager.error(`Error al eliminar "${productName}". Por favor, intenta nuevamente.`);
+        notificationManager.error('Error al eliminar el producto: ' + error.message);
+        
+        if (deleteButton) {
+          setButtonState(deleteButton, 'error');
+          deleteButton.textContent = '❌ Error';
+          setTimeout(() => setButtonState(deleteButton, 'reset'), 2000);
+        }
       }
-    };
+    }
 
     function previewCurrentImages() {
       imagePreview.innerHTML = '';
@@ -4931,8 +6362,8 @@
         }
         
         // Check maximum limit
-        if (featuredProducts.length >= 6) {
-          notificationManager.warning('Máximo 6 productos destacados permitidos');
+        if (featuredProducts.length >= 12) {
+          notificationManager.warning('Máximo 12 productos destacados permitidos');
           return;
         }
         
@@ -5028,7 +6459,7 @@
       
       results.innerHTML = searchResults.map(product => {
         const imageUrl = product.image_url || 'https://via.placeholder.com/50x50?text=Sin+Imagen';
-        const isMaxReached = featuredProducts.length >= 6;
+        const isMaxReached = featuredProducts.length >= 12;
         
         return `
           <div class="featured-result-item">
@@ -5273,11 +6704,19 @@
       });
     }
     
-    // Initialize tooltips when DOM is ready
+    // Initialize all UX enhancements when DOM is ready
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initializeTooltips);
+      document.addEventListener('DOMContentLoaded', () => {
+        initializeTooltips();
+        initializeButtonInteractions();
+        initializeButtonGroups();
+        initializeFAB();
+      });
     } else {
       initializeTooltips();
+      initializeButtonInteractions();
+      initializeButtonGroups();
+      initializeFAB();
     }
     
     // Re-initialize tooltips after dynamic content changes
