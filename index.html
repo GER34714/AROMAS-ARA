@@ -80,7 +80,41 @@
       font-family:var(--font-body);
       background:linear-gradient(180deg,var(--color-crema) 0%,var(--color-beige) 50%,var(--color-nude) 100%);
       color:var(--text);
+      position:relative;
       overflow-x:hidden;
+    }
+    
+    /* Background rotativo */
+    .rotating-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: opacity 2s ease-in-out;
+      opacity: 0;
+    }
+    
+    .rotating-background.active {
+      opacity: 1;
+    }
+    
+    .rotating-background::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, 
+        rgba(255, 248, 240, 0.85) 0%, 
+        rgba(250, 240, 230, 0.85) 50%, 
+        rgba(245, 235, 225, 0.85) 100%);
+      z-index: 1;
     }
     
     /* Títulos con tipografía premium */
@@ -2449,6 +2483,11 @@
   </style>
 </head>
 <body>
+<!-- Backgrounds rotativos -->
+<div class="rotating-background" id="bg1"></div>
+<div class="rotating-background" id="bg2"></div>
+<div class="rotating-background" id="bg3"></div>
+
 <header>
   <div class="container topbar">
     <a class="brand" href="#inicio">
@@ -2830,13 +2869,10 @@
         <div id="modalColorSelector" style="display: none; margin: 20px 0; padding: 16px; background: linear-gradient(135deg, var(--color-beige), var(--color-crema)); border-radius: 20px; border: 2px solid var(--color-nude);">
           <div style="font-size: 16px; font-weight: 600; color: var(--color-natural); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
             <span style="font-size: 20px;">🎨</span>
-            Seleccioná un color
+            Colores disponibles
           </div>
-          <div id="modalColorOptions" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;"></div>
-          <div id="colorSelectionMessage" style="display: none; margin-top: 12px; padding: 8px 12px; background: rgba(74, 124, 89, 0.1); border-radius: 12px; color: var(--success); font-size: 14px; font-weight: 500;">
-            ✅ Color seleccionado correctamente
-          </div>
-        </div>
+          <div id="modalColorOptions" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start;"></div>
+                  </div>
         <div class="features" id="modalFeatures"></div>
         <div class="product-actions">
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
@@ -2852,7 +2888,7 @@
           
           <!-- Botón principal de agregar al carrito -->
           <button id="modalAddToCartBtn" class="add-to-cart" style="width: 100%; padding: 16px; font-size: 16px; font-weight: 600; border-radius: 16px; background: linear-gradient(135deg, var(--color-lavanda), var(--color-nude)); color: var(--color-natural); border: none; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;">
-            <span id="modalAddToCartText">Seleccioná un color para continuar</span>
+            <span id="modalAddToCartText">🛒 Agregar al Carrito</span>
           </button>
           
           <div style="display: flex; gap: 12px; margin-top: 12px;">
@@ -2921,6 +2957,87 @@ const supabaseClient = supabase.createClient(
   'https://irgwupsgnjvnatqoehyj.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnbmp2bmF0cW9laHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMDc2NDcsImV4cCI6MjA5MzY4MzY0N30.ZA96YiJ7ZTt6EqnnLYGf0IHLLFd8POkZ1Z4HnmpxIl4'
 );
+
+// Sistema de Background Rotativo
+const backgroundImages = [
+  'https://irgwupsgnjvnatqoehyj.supabase.co/storage/v1/object/public/aromas-ara-images/96e1052436fe2e88de2dee124357bcf2.jpg',
+  'https://irgwupsgnjvnatqoehyj.supabase.co/storage/v1/object/public/aromas-ara-images/8b33d92798d29785b397056769fd1f8f%20(1).jpg',
+  'https://irgwupsgnjvnatqoehyj.supabase.co/storage/v1/object/public/aromas-ara-images/7f84fc9b39bb63cb878b5c6dbc5ed630%20(1).jpg'
+];
+
+let currentBackgroundIndex = 0;
+let backgroundInterval;
+
+function initRotatingBackgrounds() {
+  // Configurar backgrounds iniciales
+  const bgElements = [
+    document.getElementById('bg1'),
+    document.getElementById('bg2'),
+    document.getElementById('bg3')
+  ];
+  
+  // Asignar imágenes a cada elemento
+  bgElements.forEach((element, index) => {
+    if (element) {
+      element.style.backgroundImage = `url('${backgroundImages[index]}')`;
+    }
+  });
+  
+  // Mostrar el primer background
+  if (bgElements[0]) {
+    bgElements[0].classList.add('active');
+  }
+  
+  // Iniciar rotación cada 10 minutos (600000 ms)
+  startBackgroundRotation();
+}
+
+function rotateBackground() {
+  const bgElements = [
+    document.getElementById('bg1'),
+    document.getElementById('bg2'),
+    document.getElementById('bg3')
+  ];
+  
+  // Ocultar el background actual
+  bgElements.forEach(element => {
+    if (element) {
+      element.classList.remove('active');
+    }
+  });
+  
+  // Cambiar al siguiente background
+  currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundImages.length;
+  
+  // Mostrar el nuevo background con un pequeño retraso para la transición
+  setTimeout(() => {
+    if (bgElements[currentBackgroundIndex]) {
+      bgElements[currentBackgroundIndex].classList.add('active');
+    }
+  }, 100);
+}
+
+function startBackgroundRotation() {
+  // Limpiar intervalo existente si hay uno
+  if (backgroundInterval) {
+    clearInterval(backgroundInterval);
+  }
+  
+  // Configurar nuevo intervalo cada 10 minutos
+  backgroundInterval = setInterval(rotateBackground, 600000); // 10 minutos = 600000 ms
+}
+
+function stopBackgroundRotation() {
+  if (backgroundInterval) {
+    clearInterval(backgroundInterval);
+    backgroundInterval = null;
+  }
+}
+
+// Inicializar backgrounds cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+  initRotatingBackgrounds();
+});
 
 // DOM Elements
 const searchInput = document.getElementById('searchInput');
@@ -4067,8 +4184,31 @@ function createFeaturedProductCard(product, priority, index) {
       <h3 class="product-title">${product.name}</h3>
       ${product.colors && product.colors.length > 0 ? `
         <div style="font-size: 12px; color: var(--muted); margin: 8px 0;">
-          💡 Varios colores disponibles - Consultar por WhatsApp
-        </div>
+          <div style="font-weight: 600; margin-bottom: 4px;">🎨 Colores disponibles:</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            ${product.colors.map((color, index) => `
+              <div style="
+                display: flex; 
+                align-items: center; 
+                gap: 4px; 
+                padding: 2px 6px; 
+                background: rgba(201,184,212,0.1); 
+                border-radius: 12px; 
+                font-size: 11px;
+                border: 1px solid rgba(201,184,212,0.2);
+              ">
+                <div style="
+                  width: 12px; 
+                  height: 12px; 
+                  background: ${color.color}; 
+                  border-radius: 50%; 
+                  border: 1px solid rgba(0,0,0,0.1);
+                "></div>
+                <span>${color.name}</span>
+              </div>
+            `).join('')}
+          </div>
+                  </div>
       ` : ''}
       ${product.description ? `<p class="product-description">${product.description}</p>` : ''}
       <div class="product-status">${product.status || 'Por encargue'}</div>
@@ -4105,12 +4245,6 @@ function openFeaturedProductModal(productId) {
   tempCard.dataset.status = product.status || 'Por encargue';
   
   openModal(tempCard);
-  
-  // Hide color selector - colors handled via WhatsApp
-  const modalColorSelector = document.getElementById('modalColorSelector');
-  if (modalColorSelector) {
-    modalColorSelector.style.display = 'none';
-  }
 }
 
 // Render products
@@ -4336,8 +4470,31 @@ function createProductCard(product) {
       <h3 class="product-title">${product.name}</h3>
       ${product.colors && product.colors.length > 0 ? `
         <div style="font-size: 12px; color: var(--muted); margin: 8px 0;">
-          💡 Varios colores disponibles - Consultar por WhatsApp
-        </div>
+          <div style="font-weight: 600; margin-bottom: 4px;">🎨 Colores disponibles:</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            ${product.colors.map((color, index) => `
+              <div style="
+                display: flex; 
+                align-items: center; 
+                gap: 4px; 
+                padding: 2px 6px; 
+                background: rgba(201,184,212,0.1); 
+                border-radius: 12px; 
+                font-size: 11px;
+                border: 1px solid rgba(201,184,212,0.2);
+              ">
+                <div style="
+                  width: 12px; 
+                  height: 12px; 
+                  background: ${color.color}; 
+                  border-radius: 50%; 
+                  border: 1px solid rgba(0,0,0,0.1);
+                "></div>
+                <span>${color.name}</span>
+              </div>
+            `).join('')}
+          </div>
+                  </div>
       ` : ''}
       ${product.description ? `<p class="product-description">${product.description}</p>` : ''}
       <div class="product-status">${product.status || 'Por encargue'}</div>
@@ -5262,12 +5419,27 @@ function setupEventListeners() {
         if (e.target.closest('.product-actions') || 
             e.target.closest('.add-to-cart') || 
             e.target.closest('.ghost-btn') ||
-            e.target.closest('.soft-btn') ||
-            e.target.closest('.color-circle')) {
+            e.target.closest('.soft-btn')) {
           return;
         }
         // Open modal for the card
         openModal(productCard);
+      });
+    }
+  }
+
+  // Setup event delegation for add-to-cart buttons
+  function setupAddToCartButtons(container) {
+    if (container) {
+      container.addEventListener('click', (e) => {
+        if (e.target.classList.contains('add-to-cart')) {
+          e.preventDefault();
+          
+          const productId = e.target.dataset.productId;
+          if (productId) {
+            addToCart(productId, 1);
+          }
+        }
       });
     }
   }
@@ -5279,23 +5451,29 @@ function setupEventListeners() {
   setupProductCardClick(document.getElementById('nuevosGrid'));
   setupProductCardClick(document.getElementById('lanzamientosGrid'));
   
-  // Also setup on document body as fallback for any dynamically added cards
+  // Global event listener for all product interactions
   document.body.addEventListener('click', (e) => {
+    // Handle add-to-cart button clicks
+    if (e.target.classList.contains('add-to-cart')) {
+      e.preventDefault();
+      const productId = e.target.dataset.productId;
+      if (productId) {
+        addToCart(productId, 1);
+      }
+      return;
+    }
+    
+    // Handle product card clicks (open modal)
     const productCard = e.target.closest('.product-card');
     if (!productCard) return;
     
-    // Check if this card is already handled by a parent container
-    const parentContainer = productCard.closest('#productsGrid, #featuredProductsTrack, #ofertasCarouselTrack, #nuevosGrid, #lanzamientosGrid');
-    if (parentContainer) return; // Let the parent container handle it
-    
     // Don't open modal if clicking on action buttons or their children
     if (e.target.closest('.product-actions') || 
-        e.target.closest('.add-to-cart') || 
         e.target.closest('.ghost-btn') ||
-        e.target.closest('.soft-btn') ||
-        e.target.closest('.color-circle')) {
+        e.target.closest('.soft-btn')) {
       return;
     }
+    
     // Open modal for the card
     openModal(productCard);
   });
@@ -5445,47 +5623,47 @@ function openModal(card) {
     modalFeatures.appendChild(div);
   });
 
-  // Load colors in modal if product has variants
+  // Show color information if product has colors
+  const modalColorSelector = document.getElementById('modalColorSelector');
+  const modalColorOptions = document.getElementById('modalColorOptions');
+  
+  // Get product data from productId
   const product = products.find(p => p.id === productId);
+  
   if (product && product.colors && product.colors.length > 0) {
-    const modalColorSelector = document.getElementById('modalColorSelector');
-    const modalColorOptions = document.getElementById('modalColorOptions');
-    
     modalColorSelector.style.display = 'block';
     modalColorOptions.innerHTML = product.colors.map((color, index) => `
-      <div class="color-circle-enhanced ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'selected' : ''}" 
-           data-color='${JSON.stringify(color)}'
-           data-product-id="${productId}"
-           onclick="selectModalColor(this, '${productId}', ${JSON.stringify(color).replace(/'/g, "&apos;")})"
-           style="
-             width: 50px;
-             height: 50px;
-             border-radius: 50%;
-             background: ${color.color};
-             border: 3px solid ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'var(--color-natural)' : 'rgba(0,0,0,0.1)'};
-             cursor: pointer;
-             transition: all 0.3s ease;
-             position: relative;
-             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-             transform: ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'scale(1.1)' : 'scale(1)'};
-           "
-           title="${color.name}">
-        ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">✓</span>' : ''}
+      <div style="
+        display: flex; 
+        align-items: center; 
+        gap: 6px; 
+        padding: 6px 10px; 
+        background: rgba(255,255,255,0.7); 
+        border-radius: 16px; 
+        font-size: 13px;
+        border: 1px solid rgba(201,184,212,0.3);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      ">
+        <div style="
+          width: 16px; 
+          height: 16px; 
+          background: ${color.color}; 
+          border-radius: 50%; 
+          border: 1px solid rgba(0,0,0,0.1);
+          flex-shrink: 0;
+        "></div>
+        <span style="color: var(--color-natural); font-weight: 500;">${color.name}</span>
       </div>
     `).join('');
-    
-    // Update button state based on color selection
-    updateModalAddToCartButton(productId);
   } else {
-    const modalColorSelector = document.getElementById('modalColorSelector');
     modalColorSelector.style.display = 'none';
-    
-    // If no colors, enable the button directly
-    modalAddToCartBtn.disabled = false;
-    modalAddToCartBtn.style.opacity = '1';
-    modalAddToCartBtn.style.cursor = 'pointer';
-    modalAddToCartText.textContent = '🛒 Agregar al Carrito';
   }
+  
+  // Always enable the button - no color selection needed
+  modalAddToCartBtn.disabled = false;
+  modalAddToCartBtn.style.opacity = '1';
+  modalAddToCartBtn.style.cursor = 'pointer';
+  modalAddToCartText.textContent = '🛒 Agregar al Carrito';
 
   // Always show quantity controls and sync with cart
   currentModalProductId = productId;
