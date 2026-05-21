@@ -2847,48 +2847,110 @@
         
         async function loadProducts() {
             try {
+                console.log('Iniciando carga de productos desde Supabase...');
                 notificationManager.loading('Cargando productos...');
                 
+                // Query básica sin filtros para carga inicial
                 let query = supabaseClient.from('products').select('*');
                 
-                // Apply filters
-                if (selectedCategory !== 'all') {
+                // Aplicar filtros solo si no es carga inicial
+                if (selectedCategory !== 'all' && selectedCategory) {
                     query = query.eq('category', selectedCategory);
+                    console.log('Aplicando filtro de categoría:', selectedCategory);
                 }
                 
-                if (selectedStatus !== 'all') {
+                if (selectedStatus !== 'all' && selectedStatus) {
                     query = query.eq('status', selectedStatus);
+                    console.log('Aplicando filtro de estado:', selectedStatus);
                 }
                 
                 if (searchQuery) {
                     query = query.or(`name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
+                    console.log('Aplicando búsqueda:', searchQuery);
                 }
                 
-                const { data, error } = await query.order('created_at', { ascending: false });
+                // Ejecutar consulta
+                const { data, error, count } = await query.order('created_at', { ascending: false });
                 
-                if (error) throw error;
+                if (error) {
+                    console.error('Error en consulta de productos:', error);
+                    throw error;
+                }
                 
                 products = data || [];
-                renderProductsTable();
+                console.log('Productos cargados exitosamente:', products.length);
                 
-                notificationManager.success(`Se cargaron ${products.length} productos`);
+                // Renderizar tabla solo si existe el elemento
+                const tbody = document.getElementById('productsTableBody');
+                if (tbody) {
+                    renderProductsTable();
+                } else {
+                    console.log('Tabla de productos no encontrada, omitiendo renderizado');
+                }
+                
+                // Actualizar contadores
+                updateProductCounters();
+                
+                notificationManager.success(`Se cargaron ${products.length} productos correctamente`);
+                
             } catch (error) {
-                console.error('Error loading products:', error);
-                notificationManager.error('Error al cargar productos');
+                console.error('Error completo al cargar productos:', error);
+                notificationManager.error(`Error al cargar productos: ${error.message}`);
+                
+                // Establecer array vacío para evitar errores
+                products = [];
             }
+        }
+        
+        function updateProductCounters() {
+            // Actualizar contador en el dashboard
+            const totalProductsElement = document.getElementById('totalProducts');
+            if (totalProductsElement) {
+                totalProductsElement.textContent = products.length;
+            }
+            
+            // Actualizar contadores de estado
+            const availableCount = products.filter(p => p.status === 'Disponible').length;
+            const orderCount = products.filter(p => p.status === 'Por encargue').length;
+            
+            const availableElement = document.getElementById('availableProducts');
+            const orderElement = document.getElementById('orderProducts');
+            
+            if (availableElement) availableElement.textContent = availableCount;
+            if (orderElement) orderElement.textContent = orderCount;
         }
         
         async function loadCategories() {
             try {
+                console.log('Iniciando carga de categorías desde Supabase...');
+                
                 const { data, error } = await supabaseClient.from('categories').select('*').order('name');
                 
-                if (error) throw error;
+                if (error) {
+                    console.error('Error en consulta de categorías:', error);
+                    throw error;
+                }
                 
                 categories = data || [];
+                console.log('Categorías cargadas exitosamente:', categories.length);
+                
+                // Actualizar selects solo si existen
                 updateCategorySelects();
+                
+                // Actualizar contador de categorías en dashboard
+                const categoriesElement = document.getElementById('totalCategories');
+                if (categoriesElement) {
+                    categoriesElement.textContent = categories.length;
+                }
+                
+                notificationManager.success(`Se cargaron ${categories.length} categorías`);
+                
             } catch (error) {
-                console.error('Error loading categories:', error);
-                notificationManager.error('Error al cargar categorías');
+                console.error('Error completo al cargar categorías:', error);
+                notificationManager.error(`Error al cargar categorías: ${error.message}`);
+                
+                // Establecer array vacío para evitar errores
+                categories = [];
             }
         }
         
@@ -3882,18 +3944,35 @@
         
         async function testConnection() {
             try {
+                console.log('Iniciando prueba de conexión a Supabase...');
                 notificationManager.loading('Probando conexión a Supabase...');
                 
-                const { data, error } = await supabaseClient.from('products').select('count').limit(1);
+                // Probar conexión con productos
+                const { data: productData, error: productError, count: productCount } = await supabaseClient.from('products').select('*', { count: 'exact' }).limit(1);
                 
-                if (error) {
-                    throw error;
+                if (productError) {
+                    console.error('Error en conexión de productos:', productError);
+                    throw productError;
                 }
                 
-                notificationManager.success('Conexión a Supabase exitosa');
+                // Probar conexión con categorías
+                const { data: categoryData, error: categoryError, count: categoryCount } = await supabaseClient.from('categories').select('*', { count: 'exact' }).limit(1);
+                
+                if (categoryError) {
+                    console.error('Error en conexión de categorías:', categoryError);
+                    throw categoryError;
+                }
+                
+                console.log('Conexión exitosa - Productos:', productCount, 'Categorías:', categoryCount);
+                
+                notificationManager.success(`Conexión exitosa: ${productCount} productos, ${categoryCount} categorías disponibles`);
+                
+                // Recargar datos después de prueba exitosa
+                await loadInitialData();
+                
             } catch (error) {
-                console.error('Connection test failed:', error);
-                notificationManager.error('Error de conexión a Supabase');
+                console.error('Error completo en prueba de conexión:', error);
+                notificationManager.error(`Error de conexión: ${error.message}`);
             }
         }
         
@@ -4165,11 +4244,38 @@
             // Setup logout
             setupLogout();
             
-            // Load initial dashboard stats
-            updateDashboardStats();
+            // Load initial data from Supabase
+            loadInitialData();
             
             console.log('Panel Admin - Aromas Ara inicializado');
         });
+        
+        // ===== FUNCIÓN DE CARGA INICIAL =====
+        async function loadInitialData() {
+            try {
+                notificationManager.loading('Sincronizando con Supabase...');
+                
+                // Cargar categorías primero (necesarias para productos)
+                await loadCategories();
+                console.log('Categorías cargadas:', categories.length);
+                
+                // Luego cargar productos
+                await loadProducts();
+                console.log('Productos cargados:', products.length);
+                
+                // Actualizar estadísticas del dashboard
+                await updateDashboardStats();
+                
+                // Cargar productos destacados
+                await loadFeaturedProducts();
+                
+                notificationManager.success(`Datos sincronizados: ${categories.length} categorías, ${products.length} productos`);
+                
+            } catch (error) {
+                console.error('Error loading initial data:', error);
+                notificationManager.error('Error al sincronizar datos con Supabase');
+            }
+        }
         
         // ===== FUNCIONES ADICIONALES =====
         function setupGlobalSearch() {
