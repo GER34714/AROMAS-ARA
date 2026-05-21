@@ -82,7 +82,42 @@
       font-family:var(--font-body);
       background:linear-gradient(180deg,var(--color-crema) 0%,var(--color-beige) 50%,var(--color-nude) 100%);
       color:var(--text);
+      position:relative;
       overflow-x:hidden;
+    }
+    
+    /* Background rotativo */
+    
+    .rotating-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: opacity 2s ease-in-out;
+      opacity: 0;
+    }
+    
+    .rotating-background.active {
+      opacity: 1;
+    }
+    
+    .rotating-background::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, 
+        rgba(255, 248, 240, 0.85) 0%, 
+        rgba(250, 240, 230, 0.85) 50%, 
+        rgba(245, 235, 225, 0.85) 100%);
+      z-index: 1;
     }
     
     /* Títulos con tipografía premium */
@@ -1125,6 +1160,66 @@
         box-shadow: 0 4px 12px rgba(201,184,212,0.4) !important;
       }
       
+      /* Enhanced color circles for modal */
+      .color-circle-enhanced {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        cursor: pointer !important;
+        position: relative !important;
+      }
+      
+      .color-circle-enhanced:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
+      }
+      
+      .color-circle-enhanced.selected {
+        border-color: var(--color-natural) !important;
+        transform: scale(1.1) !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
+      }
+      
+      /* Modal color selector enhanced */
+      #modalColorSelector {
+        background: linear-gradient(135deg, var(--color-beige), var(--color-crema)) !important;
+        border: 2px solid var(--color-nude) !important;
+        border-radius: 20px !important;
+        padding: 16px !important;
+        margin: 20px 0 !important;
+        box-shadow: 0 4px 16px rgba(201,184,212,0.15) !important;
+      }
+      
+      #modalColorOptions {
+        display: flex !important;
+        gap: 12px !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+      }
+      
+      /* Color selection message */
+      #colorSelectionMessage {
+        background: rgba(74, 124, 89, 0.1) !important;
+        border: 1px solid rgba(74, 124, 89, 0.2) !important;
+        border-radius: 12px !important;
+        color: var(--success) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        padding: 8px 12px !important;
+        margin-top: 12px !important;
+        animation: fadeInUp 0.3s ease !important;
+      }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
       /* Botón Ver más */
       .ghost-btn {
         background: transparent !important;
@@ -1804,27 +1899,17 @@
     }
     
     .cart-btn:hover{
-      transform:translateY(-3px) scale(1.05);box-shadow:0 8px 25px rgba(226,114,91,0.5);
+      box-shadow:0 8px 25px rgba(226,114,91,0.5);
       background:linear-gradient(135deg,#E2725B,#D35F47);
     }
     
     .cart-btn:active{
-      transform:translateY(0) scale(1.02);box-shadow:0 4px 12px rgba(226,114,91,0.4);
+      box-shadow:0 4px 12px rgba(226,114,91,0.4);
     }
-    
-    .cart-btn::before{
-      content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-      background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);
-      transition:left 0.5s;
-    }
-    
-    .cart-btn:hover::before{left:100%}
     
     .cart-icon{
-      font-size:18px;transition:transform 0.3s ease;
+      font-size:18px;
     }
-    
-    .cart-btn:hover .cart-icon{transform:scale(1.1)}
     
     .cart-text{
       font-size:14px;letter-spacing:0.02em;
@@ -1847,26 +1932,6 @@
     @keyframes badgePulse{
       0%,100%{transform:scale(1)}
       50%{transform:scale(1.05)}
-    }
-    
-    @keyframes cartPulse{
-      0%,100%{transform:scale(1)}
-      50%{transform:scale(1.06)}
-    }
-    
-    @keyframes cartBounce{
-      0%{transform:scale(1)}
-      30%{transform:scale(1.15)}
-      60%{transform:scale(0.95)}
-      100%{transform:scale(1)}
-    }
-    
-    .cart-btn.has-items{
-      animation:cartPulse 4s ease-in-out infinite;
-    }
-    
-    .cart-btn.bounce{
-      animation:cartBounce 400ms ease-in-out;
     }
     
     @keyframes modalFadeIn{
@@ -1988,6 +2053,82 @@
       animation:spin 1s linear infinite;margin:0 auto 20px;
     }
     
+    /* Load More Controls Styles */
+    
+    .load-more-controls{
+      text-align:center;
+      margin:40px 0;
+      padding:20px;
+      background:var(--card);
+      border-radius:16px;
+      border:1px solid var(--line);
+      box-shadow:0 4px 20px rgba(201,184,212,0.1);
+    }
+    
+    .load-more-info{
+      margin-bottom:16px;
+    }
+    
+    .load-more-info span{
+      color:var(--muted);
+      font-size:14px;
+      font-weight:500;
+    }
+    
+    #featuredLoadMoreBtn{
+      background:var(--gradient-1);
+      color:var(--color-natural);
+      border:none;
+      border-radius:25px;
+      padding:14px 24px;
+      font-weight:600;
+      font-size:14px;
+      letter-spacing:0.02em;
+      transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+      box-shadow:0 6px 20px rgba(201,184,212,0.3);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      min-width:180px;
+      position:relative;
+      overflow:hidden;
+    }
+    
+    #featuredLoadMoreBtn::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:-100%;
+      width:100%;
+      height:100%;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);
+      transition:left 0.6s ease;
+    }
+    
+    #featuredLoadMoreBtn:hover{
+      transform:translateY(-3px) scale(1.05);
+      box-shadow:0 8px 30px rgba(201,184,212,0.5);
+      background:var(--gradient-4);
+    }
+    
+    #featuredLoadMoreBtn:hover::before{
+      left:100%;
+    }
+    
+    #featuredLoadMoreBtn:active{
+      transform:translateY(-1px) scale(1.02);
+      box-shadow:0 4px 15px rgba(201,184,212,0.4);
+    }
+    
+    #featuredLoadMoreBtn svg{
+      transition:transform 0.3s ease;
+    }
+    
+    #featuredLoadMoreBtn:hover svg{
+      transform:translateY(2px);
+    }
+    
     /* Mobile Responsive for Featured Products */
     
     @media (max-width:768px){
@@ -2000,6 +2141,15 @@
       }
       .featured-empty-icon{
         font-size:48px;margin-bottom:16px;
+      }
+      .load-more-controls{
+        margin:24px 0;
+        padding:16px;
+      }
+      #featuredLoadMoreBtn{
+        padding:12px 20px;
+        font-size:13px;
+        min-width:160px;
       }
     }
     
@@ -2622,6 +2772,11 @@
   </style>
 </head>
 <body>
+<!-- Backgrounds rotativos -->
+<div class="rotating-background" id="bg1"></div>
+<div class="rotating-background" id="bg2"></div>
+<div class="rotating-background" id="bg3"></div>
+
 <header>
   <div class="container topbar">
     <a class="brand" href="#inicio">
@@ -2642,6 +2797,9 @@
         <span class="cart-icon">🛒</span>
         <span class="cart-text">Carrito</span>
         <span id="cartCount" class="cart-badge" style="display: none;">0</span>
+      </button>
+      <button id="install-btn" style="display:none;background:#4A3F35;color:#F5EDE0;border:none;border-radius:20px;padding:8px 16px;cursor:pointer;font-size:0.85rem;">
+        📲 Instalar
       </button>
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
     </div>
@@ -2714,28 +2872,19 @@
         <!-- Featured products will be loaded dynamically -->
       </div>
       
-      <!-- Featured Products Pagination Controls -->
-      <div class="pagination-controls" id="featuredPaginationControls" style="display: none;">
-        <div class="pagination-info">
-          <span id="featuredPaginationInfo">Mostrando 1-6 de 0 productos destacados</span>
+      <!-- Featured Products Load More Controls -->
+      <div class="load-more-controls" id="featuredLoadMoreControls" style="display: none; text-align: center; margin-top: 40px;">
+        <div class="load-more-info">
+          <span id="featuredLoadMoreInfo" style="display: block; margin-bottom: 16px; color: var(--muted); font-size: 14px;">
+            Mostrando 6 de 0 productos destacados
+          </span>
         </div>
-        <div class="pagination-buttons">
-          <button class="pagination-btn" id="featuredPrevPageBtn" disabled>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-            Anterior
-          </button>
-          <div class="pagination-numbers" id="featuredPaginationNumbers">
-            <!-- Page numbers will be generated dynamically -->
-          </div>
-          <button class="pagination-btn" id="featuredNextPageBtn" disabled>
-            Siguiente
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
-        </div>
+        <button class="btn-primary" id="featuredLoadMoreBtn" style="min-width: 180px;">
+          <span id="featuredLoadMoreText">Ver más productos</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
       </div>
       
       <!-- Empty state for featured products -->
@@ -3006,9 +3155,16 @@
           </div>
         </div>
         <p id="modalDescription"></p>
+        <div id="modalColorSelector" style="display: none; margin: 20px 0; padding: 16px; background: linear-gradient(135deg, var(--color-beige), var(--color-crema)); border-radius: 20px; border: 2px solid var(--color-nude);">
+          <div style="font-size: 16px; font-weight: 600; color: var(--color-natural); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 20px;">🎨</span>
+            Colores disponibles
+          </div>
+          <div id="modalColorOptions" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start;"></div>
+                  </div>
         <div class="features" id="modalFeatures"></div>
         <div class="product-actions">
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
             <div id="modalQuantityControls" style="display: flex; align-items: center; gap: 12px; width: 100%;">
               <button onclick="updateModalQuantity(-1)" style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid #ccc; font-size: 18px; background: white; cursor: pointer;">-</button>
               <span id="modalQuantity" style="font-size: 18px; font-weight: 700; min-width: 30px; text-align: center;">1</span>
@@ -3018,7 +3174,15 @@
               </div>
             </div>
           </div>
-          <button class="ghost-btn" id="closeModalSecondary" type="button">Cerrar</button>
+          
+          <!-- Botón principal de agregar al carrito -->
+          <button id="modalAddToCartBtn" class="add-to-cart" style="width: 100%; padding: 16px; font-size: 16px; font-weight: 600; border-radius: 16px; background: linear-gradient(135deg, var(--color-lavanda), var(--color-nude)); color: var(--color-natural); border: none; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;">
+            <span id="modalAddToCartText">🛒 Agregar al Carrito</span>
+          </button>
+          
+          <div style="display: flex; gap: 12px; margin-top: 12px;">
+            <button class="ghost-btn" id="closeModalSecondary" type="button" style="flex: 1;">Cerrar</button>
+          </div>
         </div>
       </div>
     </div>
@@ -3083,6 +3247,87 @@ const supabaseClient = supabase.createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyZ3d1cHNnbmp2bmF0cW9laHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMDc2NDcsImV4cCI6MjA5MzY4MzY0N30.ZA96YiJ7ZTt6EqnnLYGf0IHLLFd8POkZ1Z4HnmpxIl4'
 );
 
+// Sistema de Background Rotativo
+const backgroundImages = [
+  'https://irgwupsgnjvnatqoehyj.supabase.co/storage/v1/object/public/aromas-ara-images/96e1052436fe2e88de2dee124357bcf2.jpg',
+  'https://irgwupsgnjvnatqoehyj.supabase.co/storage/v1/object/public/aromas-ara-images/8b33d92798d29785b397056769fd1f8f%20(1).jpg',
+  'https://irgwupsgnjvnatqoehyj.supabase.co/storage/v1/object/public/aromas-ara-images/7f84fc9b39bb63cb878b5c6dbc5ed630%20(1).jpg'
+];
+
+let currentBackgroundIndex = 0;
+let backgroundInterval;
+
+function initRotatingBackgrounds() {
+  // Configurar backgrounds iniciales
+  const bgElements = [
+    document.getElementById('bg1'),
+    document.getElementById('bg2'),
+    document.getElementById('bg3')
+  ];
+  
+  // Asignar imágenes a cada elemento
+  bgElements.forEach((element, index) => {
+    if (element) {
+      element.style.backgroundImage = `url('${backgroundImages[index]}')`;
+    }
+  });
+  
+  // Mostrar el primer background
+  if (bgElements[0]) {
+    bgElements[0].classList.add('active');
+  }
+  
+  // Iniciar rotación cada 10 minutos (600000 ms)
+  startBackgroundRotation();
+}
+
+function rotateBackground() {
+  const bgElements = [
+    document.getElementById('bg1'),
+    document.getElementById('bg2'),
+    document.getElementById('bg3')
+  ];
+  
+  // Ocultar el background actual
+  bgElements.forEach(element => {
+    if (element) {
+      element.classList.remove('active');
+    }
+  });
+  
+  // Cambiar al siguiente background
+  currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundImages.length;
+  
+  // Mostrar el nuevo background con un pequeño retraso para la transición
+  setTimeout(() => {
+    if (bgElements[currentBackgroundIndex]) {
+      bgElements[currentBackgroundIndex].classList.add('active');
+    }
+  }, 100);
+}
+
+function startBackgroundRotation() {
+  // Limpiar intervalo existente si hay uno
+  if (backgroundInterval) {
+    clearInterval(backgroundInterval);
+  }
+  
+  // Configurar nuevo intervalo cada 10 minutos
+  backgroundInterval = setInterval(rotateBackground, 600000); // 10 minutos = 600000 ms
+}
+
+function stopBackgroundRotation() {
+  if (backgroundInterval) {
+    clearInterval(backgroundInterval);
+    backgroundInterval = null;
+  }
+}
+
+// Inicializar backgrounds cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+  initRotatingBackgrounds();
+});
+
 // DOM Elements
 const searchInput = document.getElementById('searchInput');
 const productsGrid = document.getElementById('productsGrid');
@@ -3104,7 +3349,8 @@ const modalImage = document.getElementById('modalImage');
 const modalTitle = document.getElementById('modalTitle');
 const modalDescription = document.getElementById('modalDescription');
 const modalFeatures = document.getElementById('modalFeatures');
-const modalAddToCart = document.getElementById('modalAddToCart');
+const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
+const modalAddToCartText = document.getElementById('modalAddToCartText');
 const closeModal = document.getElementById('closeModal');
 const closeModalSecondary = document.getElementById('closeModalSecondary');
 
@@ -3130,9 +3376,9 @@ let currentPage = 1;
 let productsPerPage = 8;
 let filteredProducts = [];
 
-// Featured products pagination state
-let featuredCurrentPage = 1;
-let featuredProductsPerPage = 6;
+// Featured products load more state
+let featuredProductsShown = 6;
+let featuredMaxProducts = 12;
 let allFeaturedProducts = [];
 
 // Offers pagination state
@@ -3361,44 +3607,32 @@ async function loadCategories() {
     todosChip.dataset.category = 'Todos';
     todosChip.textContent = 'Todos';
     todosChip.addEventListener('click', () => {
-      // User is interacting, pause rotation
+      // User is interacting
       isUserInteracting = true;
-      stopCategoryRotation();
       
       document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
       todosChip.classList.add('active');
       activeCategory = 'Todos';
       renderProducts();
       
-      // Resume rotation after 10 seconds of no interaction
-      setTimeout(() => {
-        isUserInteracting = false;
-        startCategoryRotation();
-      }, 10000);
     });
     chipsContainer.appendChild(todosChip);
     
     // Add category chips
-    uniqueCategories.forEach(category => {
+    uniqueCategories.filter(cat => cat.name !== 'Sin categoría').forEach(category => {
       const chip = document.createElement('button');
       chip.className = 'chip';
       chip.dataset.category = category.name;
       chip.textContent = category.name;
       chip.addEventListener('click', () => {
-        // User is interacting, pause rotation
+        // User is interacting
         isUserInteracting = true;
-        stopCategoryRotation();
         
         document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
         activeCategory = category.name;
         renderProducts();
         
-        // Resume rotation after 10 seconds of no interaction
-        setTimeout(() => {
-          isUserInteracting = false;
-          startCategoryRotation();
-        }, 10000);
       });
       chipsContainer.appendChild(chip);
     });
@@ -3408,41 +3642,7 @@ async function loadCategories() {
   }
 }
 
-// Start category rotation
-function startCategoryRotation() {
-  // Clear any existing interval
-  if (categoryRotationInterval) {
-    clearInterval(categoryRotationInterval);
-  }
-  
-  categoryRotationInterval = setInterval(() => {
-    if (!isUserInteracting) {
-      rotateToNextCategory();
-    }
-  }, 3000); // Rotate every 3 seconds
-}
 
-// Rotate to next category
-function rotateToNextCategory() {
-  const chips = document.querySelectorAll('.chip');
-  if (chips.length <= 1) return;
-  
-  const activeChip = document.querySelector('.chip.active');
-  const currentIndex = Array.from(chips).indexOf(activeChip);
-  const nextIndex = (currentIndex + 1) % chips.length;
-  const nextChip = chips[nextIndex];
-  
-  // Simulate click on next category
-  nextChip.click();
-}
-
-// Stop category rotation
-function stopCategoryRotation() {
-  if (categoryRotationInterval) {
-    clearInterval(categoryRotationInterval);
-    categoryRotationInterval = null;
-  }
-}
 
 // Initialize categories display (carousel or grid)
 function initializeCategoriesCarousel() {
@@ -3594,6 +3794,11 @@ async function loadSpecialSections() {
         nuevosProductos.forEach(product => {
           const productCard = createProductCard(product);
           nuevosGrid.appendChild(productCard);
+          
+          // Initialize button state if product has colors
+          if (product.colors && product.colors.length > 0) {
+            updateCardAddToCartButton(product.id);
+          }
         });
       }
     }
@@ -3640,12 +3845,15 @@ async function loadSpecialSections() {
         .limit(8);
       
       if (!regularOffersError && regularProductsForOffers && regularProductsForOffers.length > 0) {
+        // Filter out products with "Sin categoría" from offers
+        const filteredProducts = regularProductsForOffers.filter(product => product.category !== 'Sin categoría');
+        
         const ofertasSection = document.getElementById('ofertas');
         const ofertasCarouselTrack = document.getElementById('ofertasCarouselTrack');
         
         if (ofertasSection && ofertasCarouselTrack) {
           ofertasSection.style.display = 'block';
-          allOffersProducts = regularProductsForOffers;
+          allOffersProducts = filteredProducts;
           renderOffersProducts();
         }
       }
@@ -3704,6 +3912,11 @@ async function loadSpecialSections() {
         lanzamientosProductos.forEach(product => {
           const productCard = createProductCard(product);
           lanzamientosGrid.appendChild(productCard);
+          
+          // Initialize button state if product has colors
+          if (product.colors && product.colors.length > 0) {
+            updateCardAddToCartButton(product.id);
+          }
         });
       }
     }
@@ -3862,19 +4075,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Load products from Supabase - simple como el admin
 async function loadProducts() {
   try {
+    console.log('🔄 Loading products...');
+    console.log('📡 Supabase URL:', supabaseClient.supabaseUrl);
+    
     const { data, error } = await supabaseClient
       .from('products')
       .select('*')
       .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    console.log('📊 Products response:', { data, error });
+    
+    if (error) {
+      console.error('❌ Supabase error:', error);
+      throw error;
+    }
     
     products = data || [];
+    console.log('✅ Products loaded:', products.length, products);
     renderProducts();
     
   } catch (error) {
-    console.error('Error loading products:', error);
-    productsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">Error al cargar los productos. Por favor, recarga la página.</div>';
+    console.error('❌ Error loading products:', error);
+    const productsGrid = document.getElementById('productsGrid');
+    if (productsGrid) {
+      productsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">Error al cargar los productos. Por favor, recarga la página.</div>';
+    }
   }
 }
 
@@ -3918,8 +4143,11 @@ async function loadFeaturedProducts() {
         .limit(6);
       
       if (!regularError && regularProducts && regularProducts.length > 0) {
+        // Filter out products with "Sin categoría" from featured
+        const filteredProducts = regularProducts.filter(product => product.category !== 'Sin categoría');
+        
         // Convert regular products to featured format
-        const featuredData = regularProducts.map((product, index) => ({
+        const featuredData = filteredProducts.map((product, index) => ({
           id: product.id,
           product_id: product.id,
           priority: index + 1,
@@ -3944,7 +4172,7 @@ async function loadFeaturedProducts() {
     if (error) throw error;
     
     allFeaturedProducts = data || [];
-    featuredCurrentPage = 1; // Reset to first page
+    featuredProductsShown = 6; // Reset to initial 6 products
     
     if (allFeaturedProducts.length === 0) {
       // Show empty state
@@ -3972,123 +4200,120 @@ async function loadFeaturedProducts() {
       featuredEmptyState.querySelector('p').textContent = 'Por favor, recarga la página.';
     }
     if (featuredTrack) featuredTrack.style.display = 'none';
-    document.getElementById('featuredPaginationControls').style.display = 'none';
+    const featuredLoadMoreControls = document.getElementById('featuredLoadMoreControls');
+    if (featuredLoadMoreControls) featuredLoadMoreControls.style.display = 'none';
   }
 }
 
-// Render paginated featured products
+// Render featured products with load more functionality
 function renderFeaturedProducts() {
   const featuredTrack = document.getElementById('featuredProductsTrack');
   const featuredEmptyState = document.getElementById('featuredEmptyState');
-  
-  featuredTrack.innerHTML = '';
+  const featuredLoadMoreControls = document.getElementById('featuredLoadMoreControls');
   
   if (allFeaturedProducts.length === 0) {
     if (featuredEmptyState) featuredEmptyState.style.display = 'block';
     featuredTrack.style.display = 'none';
-    document.getElementById('featuredPaginationControls').style.display = 'none';
+    if (featuredLoadMoreControls) featuredLoadMoreControls.style.display = 'none';
     return;
   }
-
-  // Calculate pagination
-  const startIndex = (featuredCurrentPage - 1) * featuredProductsPerPage;
-  const endIndex = startIndex + featuredProductsPerPage;
-  const paginatedProducts = allFeaturedProducts.slice(startIndex, endIndex);
 
   // Show products
   featuredTrack.style.display = 'grid';
   
-  paginatedProducts.forEach((featured, index) => {
+  // Clear and render products up to the shown count
+  featuredTrack.innerHTML = '';
+  const productsToShow = Math.min(featuredProductsShown, allFeaturedProducts.length);
+  
+  for (let i = 0; i < productsToShow; i++) {
+    const featured = allFeaturedProducts[i];
     const product = featured.products;
-    if (!product) return;
+    if (!product) continue;
     
-    const featuredCard = createFeaturedProductCard(product, featured.priority, index);
+    const featuredCard = createFeaturedProductCard(product, featured.priority, i);
     featuredTrack.appendChild(featuredCard);
-  });
+    
+    // Initialize button state if product has colors
+    if (product.colors && product.colors.length > 0) {
+      updateCardAddToCartButton(product.id);
+    }
+  }
 
-  // Update pagination controls
-  updateFeaturedPaginationControls();
+  // Update load more controls
+  updateFeaturedLoadMoreControls();
 }
 
-// Update featured products pagination controls
-function updateFeaturedPaginationControls() {
-  const totalPages = Math.ceil(allFeaturedProducts.length / featuredProductsPerPage);
-  const startIndex = (featuredCurrentPage - 1) * featuredProductsPerPage + 1;
-  const endIndex = Math.min(featuredCurrentPage * featuredProductsPerPage, allFeaturedProducts.length);
-
+// Update featured products load more controls
+function updateFeaturedLoadMoreControls() {
+  const featuredLoadMoreControls = document.getElementById('featuredLoadMoreControls');
+  const featuredLoadMoreInfo = document.getElementById('featuredLoadMoreInfo');
+  const featuredLoadMoreBtn = document.getElementById('featuredLoadMoreBtn');
+  const featuredLoadMoreText = document.getElementById('featuredLoadMoreText');
+  
+  if (!featuredLoadMoreControls) return;
+  
+  // Show controls
+  featuredLoadMoreControls.style.display = 'block';
+  
   // Update info text
-  document.getElementById('featuredPaginationInfo').textContent = 
-    `Mostrando ${startIndex}-${endIndex} de ${allFeaturedProducts.length} productos destacados`;
-
-  // Update button states
-  document.getElementById('featuredPrevPageBtn').disabled = featuredCurrentPage === 1;
-  document.getElementById('featuredNextPageBtn').disabled = featuredCurrentPage === totalPages;
-
-  // Generate page numbers
-  generateFeaturedPageNumbers(totalPages);
-}
-
-// Generate featured products page number buttons
-function generateFeaturedPageNumbers(totalPages) {
-  const paginationNumbers = document.getElementById('featuredPaginationNumbers');
-  paginationNumbers.innerHTML = '';
-
-  if (totalPages <= 1) return;
-
-  // Determine which page numbers to show
-  let startPage = Math.max(1, featuredCurrentPage - 2);
-  let endPage = Math.min(totalPages, featuredCurrentPage + 2);
-
-  // Always show first page if not in range
-  if (startPage > 1) {
-    addFeaturedPageNumber(1);
-    if (startPage > 2) {
-      addFeaturedEllipsis();
+  const currentlyShown = Math.min(featuredProductsShown, allFeaturedProducts.length);
+  featuredLoadMoreInfo.textContent = 
+    `Mostrando ${currentlyShown} de ${allFeaturedProducts.length} productos destacados`;
+  
+  // Update button state and text
+  if (currentlyShown >= allFeaturedProducts.length || currentlyShown >= featuredMaxProducts) {
+    // All products are shown or reached max limit
+    featuredLoadMoreBtn.style.display = 'none';
+  } else {
+    // Show load more button
+    featuredLoadMoreBtn.style.display = 'inline-flex';
+    
+    // Calculate remaining products
+    const remaining = Math.min(
+      allFeaturedProducts.length - currentlyShown,
+      featuredMaxProducts - currentlyShown
+    );
+    
+    // Update button text
+    if (remaining <= 6) {
+      featuredLoadMoreText.textContent = `Ver ${remaining} productos más`;
+    } else {
+      featuredLoadMoreText.textContent = 'Ver más productos';
     }
-  }
-
-  // Show range around current page
-  for (let i = startPage; i <= endPage; i++) {
-    addFeaturedPageNumber(i);
-  }
-
-  // Always show last page if not in range
-  if (endPage < totalPages) {
-    if (endPage < totalPages - 1) {
-      addFeaturedEllipsis();
-    }
-    addFeaturedPageNumber(totalPages);
-  }
-
-  function addFeaturedPageNumber(pageNum) {
-    const pageBtn = document.createElement('button');
-    pageBtn.className = 'pagination-number';
-    if (pageNum === featuredCurrentPage) {
-      pageBtn.classList.add('active');
-    }
-    pageBtn.textContent = pageNum;
-    pageBtn.addEventListener('click', () => goToFeaturedPage(pageNum));
-    paginationNumbers.appendChild(pageBtn);
-  }
-
-  function addFeaturedEllipsis() {
-    const ellipsis = document.createElement('span');
-    ellipsis.className = 'pagination-ellipsis';
-    ellipsis.textContent = '...';
-    paginationNumbers.appendChild(ellipsis);
   }
 }
 
-// Go to specific featured products page
-function goToFeaturedPage(page) {
-  const totalPages = Math.ceil(allFeaturedProducts.length / featuredProductsPerPage);
-  if (page < 1 || page > totalPages) return;
+// Load more featured products
+function loadMoreFeaturedProducts() {
+  const currentShown = Math.min(featuredProductsShown, allFeaturedProducts.length);
+  const remaining = Math.min(
+    allFeaturedProducts.length - currentShown,
+    featuredMaxProducts - currentShown
+  );
   
-  featuredCurrentPage = page;
-  renderFeaturedProducts();
-  
-  // Scroll to top of featured products section
-  document.getElementById('productos-destacados').scrollIntoView({ behavior: 'smooth' });
+  if (remaining > 0) {
+    // Increase the number of products to show (add up to 6 more, but don't exceed limits)
+    featuredProductsShown = Math.min(
+      featuredProductsShown + 6,
+      featuredMaxProducts,
+      allFeaturedProducts.length
+    );
+    
+    // Re-render the products
+    renderFeaturedProducts();
+    
+    // Smooth scroll to the newly loaded products
+    setTimeout(() => {
+      const featuredTrack = document.getElementById('featuredProductsTrack');
+      const productCards = featuredTrack.querySelectorAll('.product-card');
+      if (productCards.length > currentShown) {
+        productCards[currentShown].scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'nearest' 
+        });
+      }
+    }, 100);
+  }
 }
 
 // Render paginated offers products
@@ -4122,10 +4347,19 @@ function renderOffersProducts() {
   paginatedOffers.forEach((product, index) => {
     const productCard = createProductCard(product);
     ofertasCarouselTrack.appendChild(productCard);
+    
+    // Initialize button state if product has colors
+    if (product.colors && product.colors.length > 0) {
+      updateCardAddToCartButton(product.id);
+    }
   });
 
   // Update pagination controls
   updateOffersPaginationControls();
+  
+  // Initialize carousel after rendering
+  initializeOffersCarousel();
+  startAutoRotate();
 }
 
 // Update offers pagination controls
@@ -4237,6 +4471,34 @@ function createFeaturedProductCard(product, priority, index) {
     </div>
     <div class="product-body">
       <h3 class="product-title">${product.name}</h3>
+      ${product.colors && product.colors.length > 0 ? `
+        <div style="font-size: 12px; color: var(--muted); margin: 8px 0;">
+          <div style="font-weight: 600; margin-bottom: 4px;">🎨 Colores disponibles:</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            ${product.colors.map((color, index) => `
+              <div style="
+                display: flex; 
+                align-items: center; 
+                gap: 4px; 
+                padding: 2px 6px; 
+                background: rgba(201,184,212,0.1); 
+                border-radius: 12px; 
+                font-size: 11px;
+                border: 1px solid rgba(201,184,212,0.2);
+              ">
+                <div style="
+                  width: 12px; 
+                  height: 12px; 
+                  background: ${color.color}; 
+                  border-radius: 50%; 
+                  border: 1px solid rgba(0,0,0,0.1);
+                "></div>
+                <span>${color.name}</span>
+              </div>
+            `).join('')}
+          </div>
+                  </div>
+      ` : ''}
       ${product.description ? `<p class="product-description">${product.description}</p>` : ''}
       <div class="product-status">${product.status || 'Por encargue'}</div>
       <div class="product-price">
@@ -4247,7 +4509,7 @@ function createFeaturedProductCard(product, priority, index) {
           `<button class="add-to-cart" data-product-id="${product.id}">
           🛒 Agregar al Carrito
         </button>` :
-          `<a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=${encodeURIComponent('Hola, quiero consultar por ' + product.name + ' de Perfumes de la Tempestad.')}">Consultar</a>`
+          `<button class="soft-btn" onclick="window.open('https://wa.me/5491153899579?text=${encodeURIComponent('Hola, quiero consultar por ' + product.name + ' de Perfumes de la Tempestad.')}', '_blank', 'noopener,noreferrer')">Consultar</button>`
         }
       </div>
     </div>
@@ -4278,8 +4540,8 @@ function openFeaturedProductModal(productId) {
 function renderProducts() {
   const term = searchInput.value.trim().toLowerCase();
   filteredProducts = products.filter(product => {
-    // Ocultar productos "Sin categoría" en la tienda pública
-    if (product.category === 'Sin categoría') return false;
+    // Temporarily show all products including "Sin categoría" for testing
+    // if (product.category === 'Sin categoría') return false;
     
     const matchCategory = activeCategory === 'Todos' || product.category === activeCategory;
     const matchTerm = !term || 
@@ -4317,6 +4579,13 @@ function renderPaginatedProducts() {
   paginatedProducts.forEach(product => {
     const productCard = createProductCard(product);
     productsGrid.appendChild(productCard);
+  });
+
+  // Initialize button states for products with colors
+  paginatedProducts.forEach(product => {
+    if (product.colors && product.colors.length > 0) {
+      updateCardAddToCartButton(product.id);
+    }
   });
 
   // Show pagination controls if there are more products than fit on one page
@@ -4488,6 +4757,34 @@ function createProductCard(product) {
     </div>
     <div class="product-body">
       <h3 class="product-title">${product.name}</h3>
+      ${product.colors && product.colors.length > 0 ? `
+        <div style="font-size: 12px; color: var(--muted); margin: 8px 0;">
+          <div style="font-weight: 600; margin-bottom: 4px;">🎨 Colores disponibles:</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            ${product.colors.map((color, index) => `
+              <div style="
+                display: flex; 
+                align-items: center; 
+                gap: 4px; 
+                padding: 2px 6px; 
+                background: rgba(201,184,212,0.1); 
+                border-radius: 12px; 
+                font-size: 11px;
+                border: 1px solid rgba(201,184,212,0.2);
+              ">
+                <div style="
+                  width: 12px; 
+                  height: 12px; 
+                  background: ${color.color}; 
+                  border-radius: 50%; 
+                  border: 1px solid rgba(0,0,0,0.1);
+                "></div>
+                <span>${color.name}</span>
+              </div>
+            `).join('')}
+          </div>
+                  </div>
+      ` : ''}
       ${product.description ? `<p class="product-description">${product.description}</p>` : ''}
       <div class="product-status">${product.status || 'Por encargue'}</div>
       <div class="product-price">
@@ -4686,7 +4983,15 @@ function renderCartItems() {
       row.className = 'cart-item-row';
       row.style.cssText = 'display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.06);';
       row.innerHTML = `
-        <span>${item.quantity}x ${item.products.name}</span>
+        <div style="flex: 1;">
+          <span>${item.quantity}x ${item.products.name}</span>
+          ${item.selectedColor && item.selectedColor.isToConfirm ? 
+            `<div style="font-size: 11px; color: #E63946; font-weight: 600; margin-top: 2px;">${item.selectedColor.name}</div>` : 
+            item.selectedColor ? 
+            `<div style="font-size: 11px; color: var(--muted); margin-top: 2px;">${item.selectedColor.name}</div>` : 
+            ''
+          }
+        </div>
         <span>${formatPrice(getEffectivePrice(item.products))}</span>
         <div style="display: flex; align-items: center; gap: 4px;">
           <button onclick="updateCartItemQuantity('${item.id}', ${item.quantity - 1})" style="width: 26px; height: 26px; border-radius: 6px; background: #F0F0F0; color: #666; border: none; flex-shrink: 0; font-size: 14px;">-</button>
@@ -4755,10 +5060,22 @@ function createCartItemElement(item, container) {
 
   cartItem.innerHTML = `
     <div class="cart-item-top">
-      <img src="${item.products.image_url || 'https://placehold.co/60x60'}" alt="${item.products.name}" class="cart-item-img">
+      <img src="${item.products.image_url || 'https://via.placeholder.com/60x60/f0f0f0/cccccc?text=Sin+Imagen'}" alt="${item.products.name}" class="cart-item-img">
       <div class="cart-item-info">
-        <p class="cart-item-name">${item.products.name}</p>
-        <p class="cart-item-category">${item.products.category}</p>
+        <div class="cart-item-name">
+          ${item.products.name}
+          ${item.selectedColor ? `
+            <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
+              ${item.selectedColor.isToConfirm ? 
+                `<div style="width: 16px; height: 16px; background: linear-gradient(45deg, #ccc 25%, #eee 25%, #eee 50%, #ccc 50%, #ccc 75%, #eee 75%, #eee); background-size: 8px 8px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.2);"></div>
+                <span style="font-size: 11px; color: #E63946; font-weight: 600;">${item.selectedColor.name}</span>` :
+                `<div style="width: 16px; height: 16px; background: ${item.selectedColor.color}; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1);"></div>
+                <span style="font-size: 11px; color: var(--muted); font-weight: normal;">${item.selectedColor.name}</span>`
+              }
+            </div>
+          ` : ''}
+        </div>
+        <div class="cart-item-category">${item.products.category}</div>
         ${priceDisplay.replace(/div/g, 'p')}
         <p class="product-status ${statusClass}">${item.products.status || 'Por encargue'}</p>
       </div>
@@ -4781,18 +5098,25 @@ function addToCart(productId, quantity = 1) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
 
-  // Check if item already exists in cart
-  const existingItemIndex = cartData.items.findIndex(item => item.id === productId);
+  // Simplified - no color selection needed
+  let selectedColor = null;
+
+  // Create unique key for cart items (product + color combination)
+  const cartItemKey = selectedColor ? `${productId}_${selectedColor.color}` : productId;
+
+  const existingItem = cartData.items.find(item => {
+    const itemKey = item.selectedColor ? `${item.products.id}_${item.selectedColor.color}` : item.products.id;
+    return itemKey === cartItemKey;
+  });
   
-  if (existingItemIndex >= 0) {
-    // Update quantity
-    cartData.items[existingItemIndex].quantity += quantity;
+  if (existingItem) {
+    existingItem.quantity += quantity;
   } else {
-    // Add new item
     cartData.items.push({
-      id: productId,
+      id: Date.now().toString(),
       products: product,
-      quantity: quantity
+      quantity: quantity,
+      selectedColor: selectedColor
     });
   }
 
@@ -4997,6 +5321,74 @@ function resetModalQuantity() {
   currentModalProductId = null;
 }
 
+// Color selection removed - colors handled via WhatsApp
+
+// Modal color selection removed - colors handled via WhatsApp
+
+// Update card add to cart button state - simplified without color logic
+function updateCardAddToCartButton(productId) {
+  // Find all product cards for this product
+  const productCards = document.querySelectorAll(`.product-card[data-product-id="${productId}"]`);
+  
+  productCards.forEach(card => {
+    const addToCartBtn = card.querySelector('.add-to-cart');
+    if (!addToCartBtn) return;
+    
+    // Always enable button - no color selection needed
+    addToCartBtn.disabled = false;
+    addToCartBtn.style.opacity = '1';
+    addToCartBtn.style.cursor = 'pointer';
+    
+    // Update button text based on stock status
+    const product = products.find(p => p.id === productId);
+    if (product.status === 'Disponible') {
+      addToCartBtn.textContent = '🛒 Agregar al Carrito';
+    } else {
+      addToCartBtn.textContent = '➕ Agregar y consultar';
+    }
+  });
+}
+
+// Update modal add to cart button state - simplified without color logic
+function updateModalAddToCartButton(productId) {
+  // Always enable button - no color selection needed
+  modalAddToCartBtn.disabled = false;
+  modalAddToCartBtn.style.opacity = '1';
+  modalAddToCartBtn.style.cursor = 'pointer';
+  modalAddToCartText.textContent = '🛒 Agregar al Carrito';
+}
+
+// Modal add to cart function
+function modalAddToCart() {
+  const productId = currentModalProductId;
+  if (!productId) {
+    console.error('No productId available in modalAddToCart');
+    return;
+  }
+  
+  try {
+    // Add the product to cart
+    addToCart(productId, 1);
+    
+    // Close the modal
+    hideModal();
+    
+    // Trigger bounce animation
+    if (cartBtn) {
+      cartBtn.classList.add('bounce');
+      setTimeout(() => cartBtn.classList.remove('bounce'), 400);
+    }
+    if (cartBtnMobile) {
+      cartBtnMobile.classList.add('bounce');
+      setTimeout(() => cartBtnMobile.classList.remove('bounce'), 400);
+    }
+    
+  } catch (error) {
+    console.error('Error adding to cart from modal:', error);
+    showCartError('No se pudo agregar al carrito, intentá de nuevo');
+  }
+}
+
 // Close tooltips when clicking outside
 document.addEventListener('click', function(event) {
   // Cerrar tooltip del carrito
@@ -5111,14 +5503,30 @@ function sendStockWhatsApp(stockItems) {
       priceText += ` (-${discount}% OFF)`;
     }
     
-    return `${item.quantity}x ${product.name} - ${priceText}`;
+    let itemText = `${item.quantity}x ${product.name} - ${priceText}`;
+    
+    // Add color availability note if product has colors
+    if (product.colors && product.colors.length > 0) {
+      itemText += ` (Varios colores disponibles)`;
+    }
+    
+    return itemText;
   }).join('\n');
 
   const stockTotal = stockItems.reduce((sum, item) => {
     return sum + getEffectivePrice(item.products) * item.quantity;
   }, 0);
 
+  // Check if any product has colors to add the color question
+  const hasColorProducts = stockItems.some(item => 
+    item.products.colors && item.products.colors.length > 0
+  );
+
   let fullMessage = `Hola! Quiero confirmar mi pedido:\n\n${message}\n\nTotal: ${formatPrice(stockTotal)}`;
+  
+  if (hasColorProducts) {
+    fullMessage += `\n\n¿Me podés confirmar los colores disponibles de los productos? Gracias!`;
+  }
   
   window.open(`https://wa.me/5491153899579?text=${encodeURIComponent(fullMessage)}`, '_blank');
 }
@@ -5126,10 +5534,26 @@ function sendStockWhatsApp(stockItems) {
 // Enviar WhatsApp para items por encargue
 function sendEncargueWhatsApp(encargueItems) {
   const message = encargueItems.map(item => {
-    return `- ${item.products.name} x${item.quantity}`;
+    let itemText = `- ${item.products.name} x${item.quantity}`;
+    
+    // Add color availability note if product has colors
+    if (item.products.colors && item.products.colors.length > 0) {
+      itemText += ` (Varios colores disponibles)`;
+    }
+    
+    return itemText;
   }).join('\n');
 
-  const fullMessage = `Hola! Terminé mi pedido. Tengo estos productos por encargue que necesito confirmar:\n${message}\n\n¿Me podés confirmar disponibilidad y tiempo de entrega? Gracias!`;
+  // Check if any product has colors to add the color question
+  const hasColorProducts = encargueItems.some(item => 
+    item.products.colors && item.products.colors.length > 0
+  );
+
+  let fullMessage = `Hola! Terminé mi pedido. Tengo estos productos por encargue que necesito confirmar:\n${message}\n\n¿Me podés confirmar disponibilidad y tiempo de entrega? Gracias!`;
+  
+  if (hasColorProducts) {
+    fullMessage += `\n\n¿Me podés confirmar los colores disponibles de los productos?`;
+  }
   
   window.open(`https://wa.me/5491153899579?text=${encodeURIComponent(fullMessage)}`, '_blank');
 }
@@ -5165,24 +5589,12 @@ function setupEventListeners() {
     });
   }
 
-  // Featured products pagination controls
-  const featuredPrevPageBtn = document.getElementById('featuredPrevPageBtn');
-  const featuredNextPageBtn = document.getElementById('featuredNextPageBtn');
+  // Featured products load more controls
+  const featuredLoadMoreBtn = document.getElementById('featuredLoadMoreBtn');
   
-  if (featuredPrevPageBtn) {
-    featuredPrevPageBtn.addEventListener('click', () => {
-      if (featuredCurrentPage > 1) {
-        goToFeaturedPage(featuredCurrentPage - 1);
-      }
-    });
-  }
-  
-  if (featuredNextPageBtn) {
-    featuredNextPageBtn.addEventListener('click', () => {
-      const totalPages = Math.ceil(allFeaturedProducts.length / featuredProductsPerPage);
-      if (featuredCurrentPage < totalPages) {
-        goToFeaturedPage(featuredCurrentPage + 1);
-      }
+  if (featuredLoadMoreBtn) {
+    featuredLoadMoreBtn.addEventListener('click', () => {
+      loadMoreFeaturedProducts();
     });
   }
 
@@ -5243,31 +5655,11 @@ function setupEventListeners() {
     productsGrid.addEventListener('click', async (e) => {
       if (e.target.classList.contains('add-to-cart')) {
         const productId = e.target.dataset.productId;
-        try {
-          addToCart(productId);
-          
-          // Trigger bounce animation
-          if (cartBtn) {
-            cartBtn.classList.add('bounce');
-            setTimeout(() => cartBtn.classList.remove('bounce'), 400);
-          }
-          if (cartBtnMobile) {
-            cartBtnMobile.classList.add('bounce');
-            setTimeout(() => cartBtnMobile.classList.remove('bounce'), 400);
-          }
-          
-          // Show feedback
-          const originalText = e.target.textContent;
-          e.target.textContent = '✓ Agregado';
-          e.target.disabled = true;
-          
-          setTimeout(() => {
-            e.target.textContent = originalText;
-            e.target.disabled = false;
-          }, 1500);
-        } catch (error) {
-          console.error('Error adding to cart:', error);
-          alert('Error al agregar el producto al carrito. Por favor, intenta nuevamente.');
+        const productCard = e.target.closest('.product-card');
+        
+        // Open modal instead of adding directly to cart
+        if (productCard) {
+          openModal(productCard);
         }
       }
     });
@@ -5279,31 +5671,11 @@ function setupEventListeners() {
     featuredProductsTrack.addEventListener('click', async (e) => {
       if (e.target.classList.contains('add-to-cart')) {
         const productId = e.target.dataset.productId;
-        try {
-          addToCart(productId);
-          
-          // Trigger bounce animation
-          if (cartBtn) {
-            cartBtn.classList.add('bounce');
-            setTimeout(() => cartBtn.classList.remove('bounce'), 400);
-          }
-          if (cartBtnMobile) {
-            cartBtnMobile.classList.add('bounce');
-            setTimeout(() => cartBtnMobile.classList.remove('bounce'), 400);
-          }
-          
-          // Show feedback
-          const originalText = e.target.textContent;
-          e.target.textContent = '✓ Agregado';
-          e.target.disabled = true;
-          
-          setTimeout(() => {
-            e.target.textContent = originalText;
-            e.target.disabled = false;
-          }, 1500);
-        } catch (error) {
-          console.error('Error adding featured product to cart:', error);
-          alert('Error al agregar el producto destacado al carrito. Por favor, intenta nuevamente.');
+        const productCard = e.target.closest('.product-card');
+        
+        // Open modal instead of adding directly to cart
+        if (productCard) {
+          openModal(productCard);
         }
       }
     });
@@ -5315,76 +5687,93 @@ function setupEventListeners() {
     ofertasCarouselTrack.addEventListener('click', async (e) => {
       if (e.target.classList.contains('add-to-cart')) {
         const productId = e.target.dataset.productId;
-        try {
-          addToCart(productId);
-          
-          // Trigger bounce animation
-          if (cartBtn) {
-            cartBtn.classList.add('bounce');
-            setTimeout(() => cartBtn.classList.remove('bounce'), 400);
-          }
-          if (cartBtnMobile) {
-            cartBtnMobile.classList.add('bounce');
-            setTimeout(() => cartBtnMobile.classList.remove('bounce'), 400);
-          }
-          
-          // Show feedback
-          const originalText = e.target.textContent;
-          e.target.textContent = '✓ Agregado';
-          e.target.disabled = true;
-          
-          setTimeout(() => {
-            e.target.textContent = originalText;
-            e.target.disabled = false;
-          }, 1500);
-        } catch (error) {
-          console.error('Error adding offer product to cart:', error);
-          alert('Error al agregar el producto en oferta al carrito. Por favor, intenta nuevamente.');
+        const productCard = e.target.closest('.product-card');
+        
+        // Open modal instead of adding directly to cart
+        if (productCard) {
+          openModal(productCard);
         }
       }
     });
   }
 
-  // Product cards - make entire card clickable to open modal
-  const productCards = document.querySelectorAll('.product-card');
-  if (productCards && productCards.length > 0) {
-    productCards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        // Don't open modal if clicking on action buttons
-        if (e.target.closest('.product-actions')) {
+  // Product cards - make entire card clickable to open modal (event delegation)
+  function setupProductCardClick(container) {
+    if (container) {
+      container.addEventListener('click', (e) => {
+        const productCard = e.target.closest('.product-card');
+        if (!productCard) return;
+        
+        // Don't open modal if clicking on action buttons or their children
+        if (e.target.closest('.product-actions') || 
+            e.target.closest('.add-to-cart') || 
+            e.target.closest('.ghost-btn') ||
+            e.target.closest('.soft-btn')) {
           return;
         }
         // Open modal for the card
-        openModal(card);
+        openModal(productCard);
       });
-    });
+    }
   }
+
+  // Setup event delegation for add-to-cart buttons
+  function setupAddToCartButtons(container) {
+    if (container) {
+      container.addEventListener('click', (e) => {
+        if (e.target.classList.contains('add-to-cart')) {
+          e.preventDefault();
+          
+          const productId = e.target.dataset.productId;
+          if (productId) {
+            addToCart(productId, 1);
+          }
+        }
+      });
+    }
+  }
+
+  // Setup event delegation for all product containers
+  setupProductCardClick(productsGrid);
+  setupProductCardClick(document.getElementById('featuredProductsTrack'));
+  setupProductCardClick(document.getElementById('ofertasCarouselTrack'));
+  setupProductCardClick(document.getElementById('nuevosGrid'));
+  setupProductCardClick(document.getElementById('lanzamientosGrid'));
+  
+  // Global event listener for all product interactions
+  document.body.addEventListener('click', (e) => {
+    // Handle add-to-cart button clicks
+    if (e.target.classList.contains('add-to-cart')) {
+      e.preventDefault();
+      const productId = e.target.dataset.productId;
+      if (productId) {
+        addToCart(productId, 1);
+      }
+      return;
+    }
+    
+    // Handle product card clicks (open modal)
+    const productCard = e.target.closest('.product-card');
+    if (!productCard) return;
+    
+    // Don't open modal if clicking on action buttons or their children
+    if (e.target.closest('.product-actions') || 
+        e.target.closest('.ghost-btn') ||
+        e.target.closest('.soft-btn')) {
+      return;
+    }
+    
+    // Open modal for the card
+    openModal(productCard);
+  });
 
   if (closeModal) closeModal.addEventListener('click', hideModal);
   if (closeModalSecondary) closeModalSecondary.addEventListener('click', hideModal);
   if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
 
-  // Modal "Comprar" button
-  if (modalAddToCart) {
-    modalAddToCart.addEventListener('click', async (e) => {
-      const productId = e.target.dataset.productId;
-      if (!productId) return;
-      
-      // Store the productId for later use
-      currentModalProductId = productId;
-      
-      // Show quantity selector with smooth transition
-      const quantityControls = document.getElementById('modalQuantityControls');
-      quantityControls.style.display = 'flex';
-      quantityControls.style.transition = 'all 0.3s ease';
-      
-      // Hide the "Comprar" button
-      e.target.style.display = 'none';
-      
-      // Reset quantity to 1
-      modalQuantity = 1;
-      document.getElementById('modalQuantity').textContent = modalQuantity;
-    });
+  // Modal "Agregar al Carrito" button
+  if (modalAddToCartBtn) {
+    modalAddToCartBtn.addEventListener('click', modalAddToCart);
   }
 
   // Checkout button
@@ -5523,6 +5912,48 @@ function openModal(card) {
     modalFeatures.appendChild(div);
   });
 
+  // Show color information if product has colors
+  const modalColorSelector = document.getElementById('modalColorSelector');
+  const modalColorOptions = document.getElementById('modalColorOptions');
+  
+  // Get product data from productId
+  const product = products.find(p => p.id === productId);
+  
+  if (product && product.colors && product.colors.length > 0) {
+    modalColorSelector.style.display = 'block';
+    modalColorOptions.innerHTML = product.colors.map((color, index) => `
+      <div style="
+        display: flex; 
+        align-items: center; 
+        gap: 6px; 
+        padding: 6px 10px; 
+        background: rgba(255,255,255,0.7); 
+        border-radius: 16px; 
+        font-size: 13px;
+        border: 1px solid rgba(201,184,212,0.3);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      ">
+        <div style="
+          width: 16px; 
+          height: 16px; 
+          background: ${color.color}; 
+          border-radius: 50%; 
+          border: 1px solid rgba(0,0,0,0.1);
+          flex-shrink: 0;
+        "></div>
+        <span style="color: var(--color-natural); font-weight: 500;">${color.name}</span>
+      </div>
+    `).join('');
+  } else {
+    modalColorSelector.style.display = 'none';
+  }
+  
+  // Always enable the button - no color selection needed
+  modalAddToCartBtn.disabled = false;
+  modalAddToCartBtn.style.opacity = '1';
+  modalAddToCartBtn.style.cursor = 'pointer';
+  modalAddToCartText.textContent = '🛒 Agregar al Carrito';
+
   // Always show quantity controls and sync with cart
   currentModalProductId = productId;
   
@@ -5649,6 +6080,29 @@ function toggleFAQ(button) {
     icon.textContent = '-';
   }
 }
+</script>
+<script>
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('install-btn').style.display = 'block';
+});
+
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    document.getElementById('install-btn').style.display = 'none';
+  }
+  deferredPrompt = null;
+});
+
+window.addEventListener('appinstalled', () => {
+  document.getElementById('install-btn').style.display = 'none';
+});
 </script>
 <script>
 if('serviceWorker' in navigator) {
