@@ -675,22 +675,40 @@
             display: none !important;
         }
         
-        /* ===== MODAL STYLES ===== */
+        /* ===== MODALES MEJORADOS ===== */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: var(--z-modal);
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
             display: none;
             align-items: center;
             justify-content: center;
-            padding: var(--space-4);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
         }
         
         .modal.active {
             display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .modal-overlay {
@@ -699,84 +717,138 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
         }
         
         .modal-card {
             position: relative;
             background: var(--card);
-            border-radius: var(--radius-xl);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
+            border-radius: 16px;
+            max-width: 700px;
+            width: 90%;
             max-height: 90vh;
-            overflow-y: auto;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            border: 1px solid var(--border);
             z-index: 1;
         }
         
         .modal-header {
+            background: linear-gradient(135deg, var(--primary), #2563eb);
+            color: white;
+            padding: 24px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: var(--space-6);
-            border-bottom: 1px solid var(--border);
+            align-items: center;
+            position: relative;
+            border: none;
         }
         
         .modal-header h2 {
             margin: 0;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .modal-header .modal-icon {
+            font-size: 1.8rem;
         }
         
         .modal-close {
-            background: none;
+            background: rgba(255, 255, 255, 0.2);
             border: none;
-            font-size: 1.5rem;
-            color: var(--text-muted);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             cursor: pointer;
-            padding: var(--space-2);
-            border-radius: var(--radius-md);
-            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
         }
         
         .modal-close:hover {
-            background: var(--bg-hover);
-            color: var(--text);
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .modal-body {
+            padding: 32px;
+            max-height: calc(90vh - 200px);
+            overflow-y: auto;
+        }
+        
+        .modal-footer {
+            background: var(--bg-soft);
+            padding: 20px 32px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-4);
-            padding: var(--space-6);
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .modal-card {
+                width: 95%;
+                margin: 20px;
+            }
+            
+            .modal-body {
+                padding: 24px;
+            }
+        }
+        
+        .form-group {
+            position: relative;
         }
         
         .form-group.full {
             grid-column: 1 / -1;
         }
         
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-2);
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.875rem;
         }
         
-        .form-group label {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: var(--text);
+        .form-group label .required {
+            color: var(--error);
+            margin-left: 4px;
         }
         
         .form-group input,
         .form-group select,
         .form-group textarea {
-            padding: var(--space-3);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            font-size: 0.875rem;
-            transition: all var(--transition-fast);
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: var(--bg);
+            color: var(--text);
         }
         
         .form-group input:focus,
@@ -787,26 +859,137 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
-        .image-preview {
-            margin-top: var(--space-2);
+        .form-group input.error,
+        .form-group select.error,
+        .form-group textarea.error {
+            border-color: var(--error);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+        
+        .form-group input.success,
+        .form-group select.success,
+        .form-group textarea.success {
+            border-color: var(--success);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
             min-height: 100px;
-            border: 2px dashed var(--border);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-soft);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+        }
+        
+        .validation-message {
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            font-size: 0.75rem;
+            margin-top: 4px;
+            display: none;
+        }
+        
+        .validation-message.error {
+            color: var(--error);
+            display: block;
+        }
+        
+        .validation-message.success {
+            color: var(--success);
+            display: block;
         }
         
         .form-actions {
             display: flex;
-            gap: var(--space-3);
+            gap: 12px;
             justify-content: flex-end;
-            padding: var(--space-6);
-            border-top: 1px solid var(--border);
+        }
+        
+        .form-status {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-status.saving {
+            color: var(--warning);
+        }
+        
+        .form-status.saved {
+            color: var(--success);
+        }
+        
+        .character-count {
+            position: absolute;
+            right: 16px;
+            bottom: 8px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .image-preview {
+            width: 100%;
+            height: 200px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            margin-top: 16px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .image-preview.has-image {
+            border-color: var(--success);
+        }
+        
+        .preview-actions {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .preview-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        
+        .preview-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+        
+        .keyboard-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 16px;
+        }
+        
+        .keyboard-hint kbd {
+            background: var(--bg-soft);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 0.75rem;
         }
         
         /* ===== BUTTON STYLES ===== */
@@ -1638,99 +1821,169 @@
         </main>
     </div>
 
-    <!-- Modal de Productos -->
+    <!-- Modal de Productos Mejorado -->
     <div class="modal" id="productModal">
         <div class="modal-overlay" onclick="closeProductModal()"></div>
         <div class="modal-card">
             <div class="modal-header">
-                <h2 id="modalTitle">Nuevo Producto</h2>
+                <h2 id="modalTitle">
+                    <span class="modal-icon">📦</span>
+                    Nuevo Producto
+                </h2>
                 <button class="modal-close" onclick="closeProductModal()">×</button>
             </div>
             
-            <form id="productForm" onsubmit="saveProduct(event)">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="productName">Nombre del Producto</label>
-                        <input type="text" id="productName" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="productCategory">Categoría</label>
-                        <select id="productCategory" required>
-                            <option value="">Seleccionar categoría</option>
-                        </select>
-                        <button type="button" class="btn btn-secondary" onclick="addNewCategory()">+ Cat</button>
-                    </div>
-                    
-                    <div class="form-group full">
-                        <label for="productDescription">Descripción</label>
-                        <textarea id="productDescription" rows="3"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="productPrice">Precio</label>
-                        <input type="number" id="productPrice" step="0.01" min="0" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="productStatus">Estado</label>
-                        <select id="productStatus" required>
-                            <option value="Disponible">Disponible</option>
-                            <option value="Por encargue">Por encargue</option>
-                            <option value="Agotado">Agotado</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group full">
-                        <label for="productImage">URL de Imagen</label>
-                        <input type="url" id="productImage" placeholder="https://ejemplo.com/imagen.jpg">
-                        <div class="image-upload-section">
-                            <div class="image-upload-divider">
-                                <span>o</span>
-                            </div>
-                            <div class="file-upload-area">
-                                <input type="file" id="productImageFile" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
-                                <button type="button" class="btn btn-secondary" onclick="document.getElementById('productImageFile').click()">
-                                    📁 Subir Archivo
-                                </button>
-                                <small style="color: var(--text-muted); margin-top: 4px; display: block;">
-                                    Formatos: JPG, PNG, GIF (máx. 5MB)
-                                </small>
-                            </div>
+            <div class="modal-body">
+                <form id="productForm" onsubmit="saveProduct(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="productName">
+                                Nombre del Producto
+                                <span class="required">*</span>
+                            </label>
+                            <input type="text" id="productName" required placeholder="Ej: Perfume Floral">
+                            <div class="validation-message" id="productNameValidation"></div>
                         </div>
-                        <div class="image-preview" id="imagePreview"></div>
+                        
+                        <div class="form-group">
+                            <label for="productCategory">
+                                Categoría
+                                <span class="required">*</span>
+                            </label>
+                            <select id="productCategory" required>
+                                <option value="">Seleccionar categoría</option>
+                            </select>
+                            <button type="button" class="btn btn-secondary" onclick="addNewCategory()" style="margin-top: 8px;">
+                                ➕ Nueva Categoría
+                            </button>
+                            <div class="validation-message" id="productCategoryValidation"></div>
+                        </div>
+                        
+                        <div class="form-group full">
+                            <label for="productDescription">Descripción</label>
+                            <textarea id="productDescription" rows="3" placeholder="Describe el producto..." maxlength="500"></textarea>
+                            <div class="character-count" id="descriptionCount">0/500</div>
+                            <div class="validation-message" id="productDescriptionValidation"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="productPrice">
+                                Precio
+                                <span class="required">*</span>
+                            </label>
+                            <input type="number" id="productPrice" step="0.01" min="0" required placeholder="0.00">
+                            <div class="validation-message" id="productPriceValidation"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="productStatus">
+                                Estado
+                                <span class="required">*</span>
+                            </label>
+                            <select id="productStatus" required>
+                                <option value="Disponible">✅ Disponible</option>
+                                <option value="Por encargue">⏳ Por encargue</option>
+                                <option value="Agotado">❌ Agotado</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group full">
+                            <label for="productImage">Imagen del Producto</label>
+                            <input type="url" id="productImage" placeholder="https://ejemplo.com/imagen.jpg">
+                            
+                            <div class="image-upload-section">
+                                <div class="image-upload-divider">
+                                    <span>o</span>
+                                </div>
+                                <div class="file-upload-area" id="fileUploadArea">
+                                    <input type="file" id="productImageFile" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('productImageFile').click()">
+                                        📁 Subir Archivo
+                                    </button>
+                                    <small style="color: var(--text-muted); margin-top: 4px; display: block;">
+                                        Formatos: JPG, PNG, GIF (máx. 5MB)
+                                    </small>
+                                </div>
+                            </div>
+                            
+                            <div class="image-preview" id="imagePreview">
+                                <span>📷 Vista previa</span>
+                                <div class="preview-actions" id="previewActions" style="display: none;">
+                                    <button class="preview-btn" onclick="clearImagePreview()" title="Limpiar imagen">
+                                        🗑️
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="validation-message" id="productImageValidation"></div>
+                        </div>
                     </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <div class="form-status" id="formStatus">
+                    <span id="statusIcon">📝</span>
+                    <span id="statusText">Listo para guardar</span>
                 </div>
-                
                 <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Producto</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="saveButton">
+                        💾 Guardar Producto
+                    </button>
                 </div>
-            </form>
+            </div>
+            
+            <div class="keyboard-hint">
+                <kbd>Ctrl</kbd> + <kbd>Enter</kbd> para guardar • <kbd>Esc</kbd> para cerrar
+            </div>
         </div>
     </div>
-
-    <!-- Modal de Categorías -->
+                        
+    <!-- Modal de Categorías Mejorado -->
     <div class="modal" id="categoryModal">
         <div class="modal-overlay" onclick="closeCategoryModal()"></div>
         <div class="modal-card">
             <div class="modal-header">
-                <h2 id="categoryModalTitle">Nueva Categoría</h2>
+                <h2 id="categoryModalTitle">
+                    <span class="modal-icon">🏷️</span>
+                    Nueva Categoría
+                </h2>
                 <button class="modal-close" onclick="closeCategoryModal()">×</button>
             </div>
             
-            <form id="categoryForm" onsubmit="saveCategory(event)">
-                <div class="form-group">
-                    <label for="categoryName">Nombre de la Categoría</label>
-                    <input type="text" id="categoryName" required>
+            <div class="modal-body">
+                <form id="categoryForm" onsubmit="saveCategory(event)">
+                    <div class="form-group">
+                        <label for="categoryName">
+                            Nombre de la Categoría
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="categoryName" required placeholder="Ej: Perfumes">
+                        <div class="validation-message" id="categoryNameValidation"></div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <div class="form-status" id="categoryFormStatus">
+                    <span id="categoryStatusIcon">📝</span>
+                    <span id="categoryStatusText">Listo para guardar</span>
                 </div>
-                
                 <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Categoría</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="saveCategoryButton">
+                        💾 Guardar Categoría
+                    </button>
                 </div>
-            </form>
-        </div>
+            </div>
+            
+            <div class="keyboard-hint">
+                <kbd>Ctrl</kbd> + <kbd>Enter</kbd> para guardar • <kbd>Esc</kbd> para cerrar
+            </div>
     </div>
 
     <script>
@@ -2813,19 +3066,164 @@
             };
         }
         
-        // ===== FUNCIONES DE MODALES =====
+        // ===== FUNCIONES MEJORADAS DE MODALES =====
         function openProductModal(productId = null) {
             const modal = document.getElementById('productModal');
             const form = document.getElementById('productForm');
             const title = document.getElementById('modalTitle');
             
-            editingProductId = productId;
+            // Limpiar formulario
+            form.reset();
+            clearAllValidations();
+            clearImagePreview();
             
+            // Configurar título
             if (productId) {
-                const product = products.find(p => p.id === productId);
-                if (!product) return;
-                
-                title.textContent = 'Editar Producto';
+                title.innerHTML = '<span class="modal-icon">✏️</span> Editar Producto';
+                loadProductData(productId);
+            } else {
+                title.innerHTML = '<span class="modal-icon">📦</span> Nuevo Producto';
+            }
+            
+            // Cargar categorías
+            loadCategoriesIntoModal();
+            
+            // Mostrar modal
+            modal.classList.add('active');
+            
+            // Configurar validación
+            setupModalValidation();
+            
+            // Configurar atajos de teclado
+            setupModalKeyboardShortcuts('product');
+            
+            // Focus en primer campo
+            setTimeout(() => {
+                document.getElementById('productName').focus();
+            }, 100);
+            
+            // Actualizar estado
+            updateFormStatus('', 'Listo para guardar', '📝');
+        }
+        
+        function closeProductModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('active');
+            
+            // Limpiar formulario
+            document.getElementById('productForm').reset();
+            clearAllValidations();
+            clearImagePreview();
+            
+            // Resetear estado de edición
+            window.editingProductId = null;
+        }
+        
+        function openCategoryModal(categoryId = null) {
+            const modal = document.getElementById('categoryModal');
+            const form = document.getElementById('categoryForm');
+            const title = document.getElementById('categoryModalTitle');
+            
+            // Limpiar formulario
+            form.reset();
+            clearAllValidations();
+            
+            // Configurar título
+            if (categoryId) {
+                title.innerHTML = '<span class="modal-icon">✏️</span> Editar Categoría';
+                loadCategoryData(categoryId);
+            } else {
+                title.innerHTML = '<span class="modal-icon">🏷️</span> Nueva Categoría';
+            }
+            
+            // Mostrar modal
+            modal.classList.add('active');
+            
+            // Configurar validación
+            setupModalValidation();
+            
+            // Configurar atajos de teclado
+            setupModalKeyboardShortcuts('category');
+            
+            // Focus en primer campo
+            setTimeout(() => {
+                document.getElementById('categoryName').focus();
+            }, 100);
+            
+            // Actualizar estado
+            updateCategoryFormStatus('', 'Listo para guardar', '📝');
+        }
+        
+        function closeCategoryModal() {
+            const modal = document.getElementById('categoryModal');
+            modal.classList.remove('active');
+            
+            // Limpiar formulario
+            document.getElementById('categoryForm').reset();
+            clearAllValidations();
+            
+            // Resetear estado de edición
+            window.editingCategoryId = null;
+        }
+        
+        function setupModalKeyboardShortcuts(type) {
+            // Remover listeners anteriores
+            document.removeEventListener('keydown', handleModalKeyboard);
+            
+            // Agregar nuevo listener
+            document.addEventListener('keydown', handleModalKeyboard);
+        }
+        
+        function handleModalKeyboard(e) {
+            // Ctrl+Enter para guardar
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                const activeModal = document.querySelector('.modal.active');
+                if (activeModal) {
+                    if (activeModal.id === 'productModal') {
+                        document.getElementById('productForm').dispatchEvent(new Event('submit'));
+                    } else if (activeModal.id === 'categoryModal') {
+                        document.getElementById('categoryForm').dispatchEvent(new Event('submit'));
+                    }
+                }
+            }
+            
+            // Escape para cerrar
+            if (e.key === 'Escape') {
+                const activeModal = document.querySelector('.modal.active');
+                if (activeModal) {
+                    e.preventDefault();
+                    if (activeModal.id === 'productModal') {
+                        closeProductModal();
+                    } else if (activeModal.id === 'categoryModal') {
+                        closeCategoryModal();
+                    }
+                }
+            }
+        }
+        
+        function clearAllValidations() {
+            // Limpiar validaciones de productos
+            const productInputs = ['productName', 'productPrice', 'productDescription', 'productCategory', 'productImage'];
+            productInputs.forEach(id => {
+                const input = document.getElementById(id);
+                const validation = document.getElementById(id + 'Validation');
+                if (input && validation) {
+                    clearValidation(input, validation);
+                }
+            });
+            
+            // Limpiar validaciones de categorías
+            const categoryInput = document.getElementById('categoryName');
+            const categoryValidation = document.getElementById('categoryNameValidation');
+            if (categoryInput && categoryValidation) {
+                clearValidation(categoryInput, categoryValidation);
+            }
+        }
+        
+        function loadProductData(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
                 document.getElementById('productName').value = product.name || '';
                 document.getElementById('productCategory').value = product.category || '';
                 document.getElementById('productDescription').value = product.description || '';
@@ -2833,29 +3231,69 @@
                 document.getElementById('productStatus').value = product.status || 'Disponible';
                 document.getElementById('productImage').value = product.image_url || '';
                 
-                updateImagePreview(product.image_url);
-            } else {
-                title.textContent = 'Nuevo Producto';
-                form.reset();
-                updateImagePreview('');
+                // Actualizar contador de descripción
+                updateDescriptionCount();
+                
+                // Mostrar preview de imagen si existe
+                if (product.image_url) {
+                    updateImagePreview(product.image_url);
+                }
+                
+                // Validar campos existentes
+                validateProductName();
+                validateProductPrice();
+                validateProductDescription();
+                validateProductCategory();
+                validateImageUrl();
+                
+                window.editingProductId = productId;
             }
-            
-            modal.classList.add('active');
         }
         
-        function closeProductModal() {
-            const modal = document.getElementById('productModal');
-            modal.classList.remove('active');
-            editingProductId = null;
+        function loadCategoryData(categoryId) {
+            const category = categories.find(c => c.id === categoryId);
+            if (category) {
+                document.getElementById('categoryName').value = category.name || '';
+                
+                // Validar campo existente
+                validateCategoryName();
+                
+                window.editingCategoryId = categoryId;
+            }
+        }
+        
+        function loadCategoriesIntoModal() {
+            const select = document.getElementById('productCategory');
+            if (select) {
+                select.innerHTML = '<option value="">Seleccionar categoría</option>';
+                categories.forEach(category => {
+                    select.innerHTML += `<option value="${category.name}">${category.name}</option>`;
+                });
+            }
         }
         
         async function saveProduct(event) {
             event.preventDefault();
             
+            // Validar todos los campos antes de guardar
+            const isNameValid = validateProductName();
+            const isPriceValid = validateProductPrice();
+            const isCategoryValid = validateProductCategory();
+            const isDescriptionValid = validateProductDescription();
+            const isImageValid = validateImageUrl();
+            
+            if (!isNameValid || !isPriceValid || !isCategoryValid || !isDescriptionValid || !isImageValid) {
+                updateFormStatus('error', 'Por favor corrige los errores', '❌');
+                return;
+            }
+            
+            // Actualizar estado a guardando
+            updateFormStatus('saving', 'Guardando...', '💾');
+            
             const formData = {
-                name: document.getElementById('productName').value,
+                name: document.getElementById('productName').value.trim(),
                 category: document.getElementById('productCategory').value,
-                description: document.getElementById('productDescription').value,
+                description: document.getElementById('productDescription').value.trim(),
                 price: parseFloat(document.getElementById('productPrice').value),
                 status: document.getElementById('productStatus').value,
                 image_url: document.getElementById('productImage').value
@@ -2974,7 +3412,268 @@
             });
         }
         
-        // ===== FUNCIONES DE DESTACADOS =====
+        // ===== FUNCIONES DE VALIDACIÓN EN TIEMPO REAL =====
+        function setupModalValidation() {
+            // Validación de nombre de producto
+            const productNameInput = document.getElementById('productName');
+            if (productNameInput) {
+                productNameInput.addEventListener('input', () => validateProductName());
+                productNameInput.addEventListener('blur', () => validateProductName());
+            }
+            
+            // Validación de precio
+            const productPriceInput = document.getElementById('productPrice');
+            if (productPriceInput) {
+                productPriceInput.addEventListener('input', () => validateProductPrice());
+                productPriceInput.addEventListener('blur', () => validateProductPrice());
+            }
+            
+            // Validación de descripción con contador
+            const productDescriptionInput = document.getElementById('productDescription');
+            if (productDescriptionInput) {
+                productDescriptionInput.addEventListener('input', () => {
+                    updateDescriptionCount();
+                    validateProductDescription();
+                });
+            }
+            
+            // Validación de categoría
+            const productCategoryInput = document.getElementById('productCategory');
+            if (productCategoryInput) {
+                productCategoryInput.addEventListener('change', () => validateProductCategory());
+            }
+            
+            // Validación de nombre de categoría
+            const categoryNameInput = document.getElementById('categoryName');
+            if (categoryNameInput) {
+                categoryNameInput.addEventListener('input', () => validateCategoryName());
+                categoryNameInput.addEventListener('blur', () => validateCategoryName());
+            }
+            
+            // Validación de URL de imagen
+            const productImageInput = document.getElementById('productImage');
+            if (productImageInput) {
+                productImageInput.addEventListener('input', () => validateImageUrl());
+                productImageInput.addEventListener('blur', () => validateImageUrl());
+            }
+        }
+        
+        function validateProductName() {
+            const input = document.getElementById('productName');
+            const validation = document.getElementById('productNameValidation');
+            const value = input.value.trim();
+            
+            if (value.length === 0) {
+                showValidationError(input, validation, 'El nombre del producto es requerido');
+                return false;
+            }
+            
+            if (value.length < 2) {
+                showValidationError(input, validation, 'El nombre debe tener al menos 2 caracteres');
+                return false;
+            }
+            
+            if (value.length > 100) {
+                showValidationError(input, validation, 'El nombre no puede exceder 100 caracteres');
+                return false;
+            }
+            
+            showValidationSuccess(input, validation, 'Nombre válido');
+            return true;
+        }
+        
+        function validateProductPrice() {
+            const input = document.getElementById('productPrice');
+            const validation = document.getElementById('productPriceValidation');
+            const value = parseFloat(input.value);
+            
+            if (isNaN(value) || value < 0) {
+                showValidationError(input, validation, 'El precio debe ser un número válido y positivo');
+                return false;
+            }
+            
+            if (value > 999999) {
+                showValidationError(input, validation, 'El precio no puede exceder 999,999');
+                return false;
+            }
+            
+            showValidationSuccess(input, validation, 'Precio válido');
+            return true;
+        }
+        
+        function validateProductDescription() {
+            const input = document.getElementById('productDescription');
+            const validation = document.getElementById('productDescriptionValidation');
+            const value = input.value.trim();
+            
+            if (value.length > 0 && value.length < 10) {
+                showValidationError(input, validation, 'La descripción debe tener al menos 10 caracteres si se proporciona');
+                return false;
+            }
+            
+            if (value.length > 500) {
+                showValidationError(input, validation, 'La descripción no puede exceder 500 caracteres');
+                return false;
+            }
+            
+            if (value.length === 0) {
+                clearValidation(input, validation);
+            } else {
+                showValidationSuccess(input, validation, 'Descripción válida');
+            }
+            return true;
+        }
+        
+        function validateProductCategory() {
+            const input = document.getElementById('productCategory');
+            const validation = document.getElementById('productCategoryValidation');
+            const value = input.value;
+            
+            if (!value) {
+                showValidationError(input, validation, 'Debes seleccionar una categoría');
+                return false;
+            }
+            
+            showValidationSuccess(input, validation, 'Categoría válida');
+            return true;
+        }
+        
+        function validateCategoryName() {
+            const input = document.getElementById('categoryName');
+            const validation = document.getElementById('categoryNameValidation');
+            const value = input.value.trim();
+            
+            if (value.length === 0) {
+                showValidationError(input, validation, 'El nombre de la categoría es requerido');
+                return false;
+            }
+            
+            if (value.length < 2) {
+                showValidationError(input, validation, 'El nombre debe tener al menos 2 caracteres');
+                return false;
+            }
+            
+            if (value.length > 50) {
+                showValidationError(input, validation, 'El nombre no puede exceder 50 caracteres');
+                return false;
+            }
+            
+            // Verificar si ya existe
+            const exists = categories.some(cat => cat.name.toLowerCase() === value.toLowerCase());
+            if (exists && !window.editingCategoryId) {
+                showValidationError(input, validation, 'Esta categoría ya existe');
+                return false;
+            }
+            
+            showValidationSuccess(input, validation, 'Nombre válido');
+            return true;
+        }
+        
+        function validateImageUrl() {
+            const input = document.getElementById('productImage');
+            const validation = document.getElementById('productImageValidation');
+            const value = input.value.trim();
+            
+            if (value.length === 0) {
+                clearValidation(input, validation);
+                return true; // La imagen es opcional
+            }
+            
+            try {
+                new URL(value);
+                if (!value.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                    showValidationError(input, validation, 'La URL debe terminar en .jpg, .png, .gif o .webp');
+                    return false;
+                }
+                showValidationSuccess(input, validation, 'URL válida');
+                return true;
+            } catch (e) {
+                showValidationError(input, validation, 'URL inválida');
+                return false;
+            }
+        }
+        
+        function showValidationError(input, validationElement, message) {
+            input.classList.remove('success');
+            input.classList.add('error');
+            validationElement.classList.remove('success');
+            validationElement.classList.add('error');
+            validationElement.textContent = message;
+        }
+        
+        function showValidationSuccess(input, validationElement, message) {
+            input.classList.remove('error');
+            input.classList.add('success');
+            validationElement.classList.remove('error');
+            validationElement.classList.add('success');
+            validationElement.textContent = message;
+        }
+        
+        function clearValidation(input, validationElement) {
+            input.classList.remove('error', 'success');
+            validationElement.classList.remove('error', 'success');
+            validationElement.textContent = '';
+        }
+        
+        function updateDescriptionCount() {
+            const textarea = document.getElementById('productDescription');
+            const counter = document.getElementById('descriptionCount');
+            if (textarea && counter) {
+                const length = textarea.value.length;
+                counter.textContent = `${length}/500`;
+                
+                if (length > 450) {
+                    counter.style.color = 'var(--warning)';
+                } else if (length === 500) {
+                    counter.style.color = 'var(--error)';
+                } else {
+                    counter.style.color = 'var(--text-muted)';
+                }
+            }
+        }
+        
+        function clearImagePreview() {
+            const preview = document.getElementById('imagePreview');
+            const input = document.getElementById('productImage');
+            const fileInput = document.getElementById('productImageFile');
+            const actions = document.getElementById('previewActions');
+            
+            if (preview) {
+                preview.style.backgroundImage = '';
+                preview.classList.remove('has-image');
+                preview.innerHTML = '<span>📷 Vista previa</span>';
+            }
+            
+            if (input) input.value = '';
+            if (fileInput) fileInput.value = '';
+            if (actions) actions.style.display = 'none';
+            
+            clearValidation(input, document.getElementById('productImageValidation'));
+        }
+        
+        function updateFormStatus(status, text, icon) {
+            const statusElement = document.getElementById('formStatus');
+            const statusText = document.getElementById('statusText');
+            const statusIcon = document.getElementById('statusIcon');
+            
+            if (statusElement && statusText && statusIcon) {
+                statusElement.className = `form-status ${status}`;
+                statusText.textContent = text;
+                statusIcon.textContent = icon;
+            }
+        }
+        
+        function updateCategoryFormStatus(status, text, icon) {
+            const statusElement = document.getElementById('categoryFormStatus');
+            const statusText = document.getElementById('categoryStatusText');
+            const statusIcon = document.getElementById('categoryStatusIcon');
+            
+            if (statusElement && statusText && statusIcon) {
+                statusElement.className = `form-status ${status}`;
+                statusText.textContent = text;
+                statusIcon.textContent = icon;
+            }
+        }
         async function initializeFeatured() {
             await loadFeaturedProducts();
             renderFeaturedProducts();
@@ -3445,6 +4144,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Initialize notification manager
             notificationManager = new NotificationManager();
+            
+            // Initialize modal validation system
+            setupModalValidation();
             
             // Initialize managers
             const sidebarManager = new SidebarManager();
