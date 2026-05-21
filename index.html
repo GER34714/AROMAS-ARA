@@ -3388,6 +3388,11 @@ async function loadSpecialSections() {
         nuevosProductos.forEach(product => {
           const productCard = createProductCard(product);
           nuevosGrid.appendChild(productCard);
+          
+          // Initialize button state if product has colors
+          if (product.colors && product.colors.length > 0) {
+            updateCardAddToCartButton(product.id);
+          }
         });
       }
     }
@@ -3501,6 +3506,11 @@ async function loadSpecialSections() {
         lanzamientosProductos.forEach(product => {
           const productCard = createProductCard(product);
           lanzamientosGrid.appendChild(productCard);
+          
+          // Initialize button state if product has colors
+          if (product.colors && product.colors.length > 0) {
+            updateCardAddToCartButton(product.id);
+          }
         });
       }
     }
@@ -3816,6 +3826,11 @@ function renderFeaturedProducts() {
     
     const featuredCard = createFeaturedProductCard(product, featured.priority, i);
     featuredTrack.appendChild(featuredCard);
+    
+    // Initialize button state if product has colors
+    if (product.colors && product.colors.length > 0) {
+      updateCardAddToCartButton(product.id);
+    }
   }
 
   // Update load more controls
@@ -3926,6 +3941,11 @@ function renderOffersProducts() {
   paginatedOffers.forEach((product, index) => {
     const productCard = createProductCard(product);
     ofertasCarouselTrack.appendChild(productCard);
+    
+    // Initialize button state if product has colors
+    if (product.colors && product.colors.length > 0) {
+      updateCardAddToCartButton(product.id);
+    }
   });
 
   // Update pagination controls
@@ -4046,18 +4066,8 @@ function createFeaturedProductCard(product, priority, index) {
     <div class="product-body">
       <h3 class="product-title">${product.name}</h3>
       ${product.colors && product.colors.length > 0 ? `
-        <div class="product-colors" style="display: flex; gap: 6px; margin: 8px 0;">
-          <div style="font-size: 12px; color: var(--muted); margin-bottom: 4px; width: 100%;">Colores disponibles:</div>
-          ${product.colors.map((color, index) => `
-            <div class="color-circle ${window.selectedColors && window.selectedColors[product.id] && window.selectedColors[product.id].color === color.color ? 'selected' : ''}" 
-                 data-color='${JSON.stringify(color)}'
-                 data-product-id="${product.id}"
-                 style="width: 18px; height: 18px; background: ${color.color}; border-radius: 50%; border: 2px solid ${window.selectedColors && window.selectedColors[product.id] && window.selectedColors[product.id].color === color.color ? '#667eea' : 'rgba(0,0,0,0.1)'}; cursor: pointer; transition: all 0.2s ease; position: relative;"
-                 title="${color.name}"
-                 onclick="selectColor(this, ${product.id}, '${JSON.stringify(color).replace(/'/g, "\\'")}')">
-              ${window.selectedColors && window.selectedColors[product.id] && window.selectedColors[product.id].color === color.color ? '<div style="position: absolute; top: -2px; right: -2px; background: #667eea; color: white; border-radius: 50%; width: 12px; height: 12px; font-size: 8px; display: flex; align-items: center; justify-content: center;">✓</div>' : ''}
-            </div>
-          `).join('')}
+        <div style="font-size: 12px; color: var(--muted); margin: 8px 0;">
+          💡 Varios colores disponibles - Consultar por WhatsApp
         </div>
       ` : ''}
       ${product.description ? `<p class="product-description">${product.description}</p>` : ''}
@@ -4070,7 +4080,7 @@ function createFeaturedProductCard(product, priority, index) {
           `<button class="add-to-cart" data-product-id="${product.id}">
           🛒 Agregar al Carrito
         </button>` :
-          `<a class="soft-btn" target="_blank" rel="noopener" href="https://wa.me/5491153899579?text=${encodeURIComponent('Hola, quiero consultar por ' + product.name + ' de Perfumes de la Tempestad.')}">Consultar</a>`
+          `<button class="soft-btn" onclick="window.open('https://wa.me/5491153899579?text=${encodeURIComponent('Hola, quiero consultar por ' + product.name + ' de Perfumes de la Tempestad.')}', '_blank', 'noopener,noreferrer')">Consultar</button>`
         }
       </div>
     </div>
@@ -4096,35 +4106,9 @@ function openFeaturedProductModal(productId) {
   
   openModal(tempCard);
   
-  // Load colors in modal if product has variants
-  if (product.colors && product.colors.length > 0) {
-    const modalColorSelector = document.getElementById('modalColorSelector');
-    const modalColorOptions = document.getElementById('modalColorOptions');
-    
-    modalColorSelector.style.display = 'block';
-    modalColorOptions.innerHTML = product.colors.map((color, index) => `
-      <div class="color-circle-enhanced ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'selected' : ''}" 
-           data-color='${JSON.stringify(color)}'
-           data-product-id="${productId}"
-           onclick="selectModalColor(this, '${productId}', ${JSON.stringify(color).replace(/'/g, "&apos;")})"
-           style="
-             width: 50px;
-             height: 50px;
-             border-radius: 50%;
-             background: ${color.color};
-             border: 3px solid ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'var(--color-natural)' : 'rgba(0,0,0,0.1)'};
-             cursor: pointer;
-             transition: all 0.3s ease;
-             position: relative;
-             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-             transform: ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'scale(1.1)' : 'scale(1)'};
-           "
-           title="${color.name}">
-        ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">✓</span>' : ''}
-      </div>
-    `).join('');
-  } else {
-    const modalColorSelector = document.getElementById('modalColorSelector');
+  // Hide color selector - colors handled via WhatsApp
+  const modalColorSelector = document.getElementById('modalColorSelector');
+  if (modalColorSelector) {
     modalColorSelector.style.display = 'none';
   }
 }
@@ -4172,6 +4156,13 @@ function renderPaginatedProducts() {
   paginatedProducts.forEach(product => {
     const productCard = createProductCard(product);
     productsGrid.appendChild(productCard);
+  });
+
+  // Initialize button states for products with colors
+  paginatedProducts.forEach(product => {
+    if (product.colors && product.colors.length > 0) {
+      updateCardAddToCartButton(product.id);
+    }
   });
 
   // Show pagination controls if there are more products than fit on one page
@@ -4344,18 +4335,8 @@ function createProductCard(product) {
     <div class="product-body">
       <h3 class="product-title">${product.name}</h3>
       ${product.colors && product.colors.length > 0 ? `
-        <div class="product-colors" style="display: flex; gap: 6px; margin: 8px 0;">
-          <div style="font-size: 12px; color: var(--muted); margin-bottom: 4px; width: 100%;">Colores disponibles:</div>
-          ${product.colors.map((color, index) => `
-            <div class="color-circle ${window.selectedColors && window.selectedColors[product.id] && window.selectedColors[product.id].color === color.color ? 'selected' : ''}" 
-                 data-color='${JSON.stringify(color)}'
-                 data-product-id="${product.id}"
-                 style="width: 18px; height: 18px; background: ${color.color}; border-radius: 50%; border: 2px solid ${window.selectedColors && window.selectedColors[product.id] && window.selectedColors[product.id].color === color.color ? '#667eea' : 'rgba(0,0,0,0.1)'}; cursor: pointer; transition: all 0.2s ease; position: relative;"
-                 title="${color.name}"
-                 onclick="selectColor(this, ${product.id}, '${JSON.stringify(color).replace(/'/g, "\\'")}')">
-              ${window.selectedColors && window.selectedColors[product.id] && window.selectedColors[product.id].color === color.color ? '<div style="position: absolute; top: -2px; right: -2px; background: #667eea; color: white; border-radius: 50%; width: 12px; height: 12px; font-size: 8px; display: flex; align-items: center; justify-content: center;">✓</div>' : ''}
-            </div>
-          `).join('')}
+        <div style="font-size: 12px; color: var(--muted); margin: 8px 0;">
+          💡 Varios colores disponibles - Consultar por WhatsApp
         </div>
       ` : ''}
       ${product.description ? `<p class="product-description">${product.description}</p>` : ''}
@@ -4556,7 +4537,15 @@ function renderCartItems() {
       row.className = 'cart-item-row';
       row.style.cssText = 'display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.06);';
       row.innerHTML = `
-        <span>${item.quantity}x ${item.products.name}</span>
+        <div style="flex: 1;">
+          <span>${item.quantity}x ${item.products.name}</span>
+          ${item.selectedColor && item.selectedColor.isToConfirm ? 
+            `<div style="font-size: 11px; color: #E63946; font-weight: 600; margin-top: 2px;">${item.selectedColor.name}</div>` : 
+            item.selectedColor ? 
+            `<div style="font-size: 11px; color: var(--muted); margin-top: 2px;">${item.selectedColor.name}</div>` : 
+            ''
+          }
+        </div>
         <span>${formatPrice(getEffectivePrice(item.products))}</span>
         <div style="display: flex; align-items: center; gap: 4px;">
           <button onclick="updateCartItemQuantity('${item.id}', ${item.quantity - 1})" style="width: 26px; height: 26px; border-radius: 6px; background: #F0F0F0; color: #666; border: none; flex-shrink: 0; font-size: 14px;">-</button>
@@ -4631,8 +4620,12 @@ function createCartItemElement(item, container) {
           ${item.products.name}
           ${item.selectedColor ? `
             <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
-              <div style="width: 16px; height: 16px; background: ${item.selectedColor.color}; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1);"></div>
-              <span style="font-size: 11px; color: var(--muted); font-weight: normal;">${item.selectedColor.name}</span>
+              ${item.selectedColor.isToConfirm ? 
+                `<div style="width: 16px; height: 16px; background: linear-gradient(45deg, #ccc 25%, #eee 25%, #eee 50%, #ccc 50%, #ccc 75%, #eee 75%, #eee); background-size: 8px 8px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.2);"></div>
+                <span style="font-size: 11px; color: #E63946; font-weight: 600;">${item.selectedColor.name}</span>` :
+                `<div style="width: 16px; height: 16px; background: ${item.selectedColor.color}; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1);"></div>
+                <span style="font-size: 11px; color: var(--muted); font-weight: normal;">${item.selectedColor.name}</span>`
+              }
             </div>
           ` : ''}
         </div>
@@ -4659,15 +4652,8 @@ function addToCart(productId, quantity = 1) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
 
-  // Get selected color if exists
+  // Simplified - no color selection needed
   let selectedColor = null;
-  if (product.colors && product.colors.length > 0) {
-    selectedColor = window.selectedColors && window.selectedColors[productId];
-    if (!selectedColor) {
-      showCartError('Por favor, selecciona un color antes de agregar al carrito');
-      return;
-    }
-  }
 
   // Create unique key for cart items (product + color combination)
   const cartItemKey = selectedColor ? `${productId}_${selectedColor.color}` : productId;
@@ -4889,100 +4875,41 @@ function resetModalQuantity() {
   currentModalProductId = null;
 }
 
-// Select color for product
-function selectColor(element, productId, colorData) {
-  // Remove selected class from all color circles of this product
-  const productColors = element.parentElement.querySelectorAll('.color-circle');
-  productColors.forEach(circle => {
-    circle.classList.remove('selected');
-    circle.style.border = '3px solid rgba(0,0,0,0.1)';
-    // Remove checkmark
-    const checkmark = circle.querySelector('div[style*="position: absolute"]');
-    if (checkmark) checkmark.remove();
+// Color selection removed - colors handled via WhatsApp
+
+// Modal color selection removed - colors handled via WhatsApp
+
+// Update card add to cart button state - simplified without color logic
+function updateCardAddToCartButton(productId) {
+  // Find all product cards for this product
+  const productCards = document.querySelectorAll(`.product-card[data-product-id="${productId}"]`);
+  
+  productCards.forEach(card => {
+    const addToCartBtn = card.querySelector('.add-to-cart');
+    if (!addToCartBtn) return;
+    
+    // Always enable button - no color selection needed
+    addToCartBtn.disabled = false;
+    addToCartBtn.style.opacity = '1';
+    addToCartBtn.style.cursor = 'pointer';
+    
+    // Update button text based on stock status
+    const product = products.find(p => p.id === productId);
+    if (product.status === 'Disponible') {
+      addToCartBtn.textContent = '🛒 Agregar al Carrito';
+    } else {
+      addToCartBtn.textContent = '➕ Agregar y consultar';
+    }
   });
-  
-  // Add selected class to clicked color
-  element.classList.add('selected');
-  element.style.border = '3px solid #667eea';
-  
-  // Add checkmark
-  const checkmark = document.createElement('div');
-  checkmark.style.cssText = 'position: absolute; top: -2px; right: -2px; background: #667eea; color: white; border-radius: 50%; width: 12px; height: 12px; font-size: 8px; display: flex; align-items: center; justify-content: center;';
-  checkmark.textContent = '✓';
-  element.appendChild(checkmark);
-  
-  // Store selected color for this product
-  if (!window.selectedColors) window.selectedColors = {};
-  window.selectedColors[productId] = JSON.parse(colorData);
-  
-  console.log(`Color seleccionado para producto ${productId}:`, JSON.parse(colorData));
 }
 
-// Select color in modal
-function selectModalColor(element, productId, colorData) {
-  // Remove selected class from all color circles in modal
-  const modalColorOptions = document.getElementById('modalColorOptions');
-  const allColorCircles = modalColorOptions.querySelectorAll('.color-circle-enhanced');
-  
-  allColorCircles.forEach(circle => {
-    circle.classList.remove('selected');
-    circle.style.border = '3px solid rgba(0,0,0,0.1)';
-    circle.style.transform = 'scale(1)';
-    // Remove checkmark
-    const checkmark = circle.querySelector('span');
-    if (checkmark) checkmark.remove();
-  });
-  
-  // Add selected class to clicked color
-  element.classList.add('selected');
-  element.style.border = '3px solid var(--color-natural)';
-  element.style.transform = 'scale(1.1)';
-  
-  // Add checkmark
-  const checkmark = document.createElement('span');
-  checkmark.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.5);';
-  checkmark.textContent = '✓';
-  element.appendChild(checkmark);
-  
-  // Store selected color for this product
-  if (!window.selectedColors) window.selectedColors = {};
-  window.selectedColors[productId] = JSON.parse(colorData);
-  
-  // Show selection message
-  const colorSelectionMessage = document.getElementById('colorSelectionMessage');
-  if (colorSelectionMessage) {
-    colorSelectionMessage.style.display = 'block';
-    setTimeout(() => {
-      colorSelectionMessage.style.display = 'none';
-    }, 2000);
-  }
-  
-  // Update button state
-  updateModalAddToCartButton(productId);
-  
-  console.log(`Color seleccionado en modal para producto ${productId}:`, JSON.parse(colorData));
-}
-
-// Update modal add to cart button state
+// Update modal add to cart button state - simplified without color logic
 function updateModalAddToCartButton(productId) {
-  // Check if product has colors and if one is selected
-  const product = products.find(p => p.id === productId);
-  const hasColors = product && product.colors && product.colors.length > 0;
-  const hasSelectedColor = hasColors && window.selectedColors && window.selectedColors[productId];
-  
-  if (hasColors && !hasSelectedColor) {
-    // Product has colors but none selected - disable button
-    modalAddToCartBtn.disabled = true;
-    modalAddToCartBtn.style.opacity = '0.6';
-    modalAddToCartBtn.style.cursor = 'not-allowed';
-    modalAddToCartText.textContent = 'Seleccioná un color para continuar';
-  } else {
-    // Product has no colors or color is selected - enable button
-    modalAddToCartBtn.disabled = false;
-    modalAddToCartBtn.style.opacity = '1';
-    modalAddToCartBtn.style.cursor = 'pointer';
-    modalAddToCartText.textContent = '🛒 Agregar al Carrito';
-  }
+  // Always enable button - no color selection needed
+  modalAddToCartBtn.disabled = false;
+  modalAddToCartBtn.style.opacity = '1';
+  modalAddToCartBtn.style.cursor = 'pointer';
+  modalAddToCartText.textContent = '🛒 Agregar al Carrito';
 }
 
 // Modal add to cart function
@@ -5130,14 +5057,30 @@ function sendStockWhatsApp(stockItems) {
       priceText += ` (-${discount}% OFF)`;
     }
     
-    return `${item.quantity}x ${product.name} - ${priceText}`;
+    let itemText = `${item.quantity}x ${product.name} - ${priceText}`;
+    
+    // Add color availability note if product has colors
+    if (product.colors && product.colors.length > 0) {
+      itemText += ` (Varios colores disponibles)`;
+    }
+    
+    return itemText;
   }).join('\n');
 
   const stockTotal = stockItems.reduce((sum, item) => {
     return sum + getEffectivePrice(item.products) * item.quantity;
   }, 0);
 
+  // Check if any product has colors to add the color question
+  const hasColorProducts = stockItems.some(item => 
+    item.products.colors && item.products.colors.length > 0
+  );
+
   let fullMessage = `Hola! Quiero confirmar mi pedido:\n\n${message}\n\nTotal: ${formatPrice(stockTotal)}`;
+  
+  if (hasColorProducts) {
+    fullMessage += `\n\n¿Me podés confirmar los colores disponibles de los productos? Gracias!`;
+  }
   
   window.open(`https://wa.me/5491153899579?text=${encodeURIComponent(fullMessage)}`, '_blank');
 }
@@ -5145,10 +5088,26 @@ function sendStockWhatsApp(stockItems) {
 // Enviar WhatsApp para items por encargue
 function sendEncargueWhatsApp(encargueItems) {
   const message = encargueItems.map(item => {
-    return `- ${item.products.name} x${item.quantity}`;
+    let itemText = `- ${item.products.name} x${item.quantity}`;
+    
+    // Add color availability note if product has colors
+    if (item.products.colors && item.products.colors.length > 0) {
+      itemText += ` (Varios colores disponibles)`;
+    }
+    
+    return itemText;
   }).join('\n');
 
-  const fullMessage = `Hola! Terminé mi pedido. Tengo estos productos por encargue que necesito confirmar:\n${message}\n\n¿Me podés confirmar disponibilidad y tiempo de entrega? Gracias!`;
+  // Check if any product has colors to add the color question
+  const hasColorProducts = encargueItems.some(item => 
+    item.products.colors && item.products.colors.length > 0
+  );
+
+  let fullMessage = `Hola! Terminé mi pedido. Tengo estos productos por encargue que necesito confirmar:\n${message}\n\n¿Me podés confirmar disponibilidad y tiempo de entrega? Gracias!`;
+  
+  if (hasColorProducts) {
+    fullMessage += `\n\n¿Me podés confirmar los colores disponibles de los productos?`;
+  }
   
   window.open(`https://wa.me/5491153899579?text=${encodeURIComponent(fullMessage)}`, '_blank');
 }
@@ -5292,20 +5251,54 @@ function setupEventListeners() {
     });
   }
 
-  // Product cards - make entire card clickable to open modal
-  const productCards = document.querySelectorAll('.product-card');
-  if (productCards && productCards.length > 0) {
-    productCards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        // Don't open modal if clicking on action buttons
-        if (e.target.closest('.product-actions')) {
+  // Product cards - make entire card clickable to open modal (event delegation)
+  function setupProductCardClick(container) {
+    if (container) {
+      container.addEventListener('click', (e) => {
+        const productCard = e.target.closest('.product-card');
+        if (!productCard) return;
+        
+        // Don't open modal if clicking on action buttons or their children
+        if (e.target.closest('.product-actions') || 
+            e.target.closest('.add-to-cart') || 
+            e.target.closest('.ghost-btn') ||
+            e.target.closest('.soft-btn') ||
+            e.target.closest('.color-circle')) {
           return;
         }
         // Open modal for the card
-        openModal(card);
+        openModal(productCard);
       });
-    });
+    }
   }
+
+  // Setup event delegation for all product containers
+  setupProductCardClick(productsGrid);
+  setupProductCardClick(document.getElementById('featuredProductsTrack'));
+  setupProductCardClick(document.getElementById('ofertasCarouselTrack'));
+  setupProductCardClick(document.getElementById('nuevosGrid'));
+  setupProductCardClick(document.getElementById('lanzamientosGrid'));
+  
+  // Also setup on document body as fallback for any dynamically added cards
+  document.body.addEventListener('click', (e) => {
+    const productCard = e.target.closest('.product-card');
+    if (!productCard) return;
+    
+    // Check if this card is already handled by a parent container
+    const parentContainer = productCard.closest('#productsGrid, #featuredProductsTrack, #ofertasCarouselTrack, #nuevosGrid, #lanzamientosGrid');
+    if (parentContainer) return; // Let the parent container handle it
+    
+    // Don't open modal if clicking on action buttons or their children
+    if (e.target.closest('.product-actions') || 
+        e.target.closest('.add-to-cart') || 
+        e.target.closest('.ghost-btn') ||
+        e.target.closest('.soft-btn') ||
+        e.target.closest('.color-circle')) {
+      return;
+    }
+    // Open modal for the card
+    openModal(productCard);
+  });
 
   if (closeModal) closeModal.addEventListener('click', hideModal);
   if (closeModalSecondary) closeModalSecondary.addEventListener('click', hideModal);
