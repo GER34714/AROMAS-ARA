@@ -966,6 +966,66 @@
         box-shadow: 0 4px 12px rgba(201,184,212,0.4) !important;
       }
       
+      /* Enhanced color circles for modal */
+      .color-circle-enhanced {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        cursor: pointer !important;
+        position: relative !important;
+      }
+      
+      .color-circle-enhanced:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
+      }
+      
+      .color-circle-enhanced.selected {
+        border-color: var(--color-natural) !important;
+        transform: scale(1.1) !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
+      }
+      
+      /* Modal color selector enhanced */
+      #modalColorSelector {
+        background: linear-gradient(135deg, var(--color-beige), var(--color-crema)) !important;
+        border: 2px solid var(--color-nude) !important;
+        border-radius: 20px !important;
+        padding: 16px !important;
+        margin: 20px 0 !important;
+        box-shadow: 0 4px 16px rgba(201,184,212,0.15) !important;
+      }
+      
+      #modalColorOptions {
+        display: flex !important;
+        gap: 12px !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+      }
+      
+      /* Color selection message */
+      #colorSelectionMessage {
+        background: rgba(74, 124, 89, 0.1) !important;
+        border: 1px solid rgba(74, 124, 89, 0.2) !important;
+        border-radius: 12px !important;
+        color: var(--success) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        padding: 8px 12px !important;
+        margin-top: 12px !important;
+        animation: fadeInUp 0.3s ease !important;
+      }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
       /* Botón Ver más */
       .ghost-btn {
         background: transparent !important;
@@ -2767,13 +2827,19 @@
           </div>
         </div>
         <p id="modalDescription"></p>
-        <div id="modalColorSelector" style="display: none; margin: 12px 0;">
-          <div style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">Colores disponibles:</div>
-          <div id="modalColorOptions" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+        <div id="modalColorSelector" style="display: none; margin: 20px 0; padding: 16px; background: linear-gradient(135deg, var(--color-beige), var(--color-crema)); border-radius: 20px; border: 2px solid var(--color-nude);">
+          <div style="font-size: 16px; font-weight: 600; color: var(--color-natural); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 20px;">🎨</span>
+            Seleccioná un color
+          </div>
+          <div id="modalColorOptions" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;"></div>
+          <div id="colorSelectionMessage" style="display: none; margin-top: 12px; padding: 8px 12px; background: rgba(74, 124, 89, 0.1); border-radius: 12px; color: var(--success); font-size: 14px; font-weight: 500;">
+            ✅ Color seleccionado correctamente
+          </div>
         </div>
         <div class="features" id="modalFeatures"></div>
         <div class="product-actions">
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
             <div id="modalQuantityControls" style="display: flex; align-items: center; gap: 12px; width: 100%;">
               <button onclick="updateModalQuantity(-1)" style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid #ccc; font-size: 18px; background: white; cursor: pointer;">-</button>
               <span id="modalQuantity" style="font-size: 18px; font-weight: 700; min-width: 30px; text-align: center;">1</span>
@@ -2783,7 +2849,15 @@
               </div>
             </div>
           </div>
-          <button class="ghost-btn" id="closeModalSecondary" type="button">Cerrar</button>
+          
+          <!-- Botón principal de agregar al carrito -->
+          <button id="modalAddToCartBtn" class="add-to-cart" style="width: 100%; padding: 16px; font-size: 16px; font-weight: 600; border-radius: 16px; background: linear-gradient(135deg, var(--color-lavanda), var(--color-nude)); color: var(--color-natural); border: none; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;">
+            <span id="modalAddToCartText">Seleccioná un color para continuar</span>
+          </button>
+          
+          <div style="display: flex; gap: 12px; margin-top: 12px;">
+            <button class="ghost-btn" id="closeModalSecondary" type="button" style="flex: 1;">Cerrar</button>
+          </div>
         </div>
       </div>
     </div>
@@ -2869,7 +2943,8 @@ const modalImage = document.getElementById('modalImage');
 const modalTitle = document.getElementById('modalTitle');
 const modalDescription = document.getElementById('modalDescription');
 const modalFeatures = document.getElementById('modalFeatures');
-const modalAddToCart = document.getElementById('modalAddToCart');
+const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
+const modalAddToCartText = document.getElementById('modalAddToCartText');
 const closeModal = document.getElementById('closeModal');
 const closeModalSecondary = document.getElementById('closeModalSecondary');
 
@@ -3584,19 +3659,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Load products from Supabase - simple como el admin
 async function loadProducts() {
   try {
+    console.log('🔄 Loading products...');
+    console.log('📡 Supabase URL:', supabaseClient.supabaseUrl);
+    
     const { data, error } = await supabaseClient
       .from('products')
       .select('*')
       .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    console.log('📊 Products response:', { data, error });
+    
+    if (error) {
+      console.error('❌ Supabase error:', error);
+      throw error;
+    }
     
     products = data || [];
+    console.log('✅ Products loaded:', products.length, products);
     renderProducts();
     
   } catch (error) {
-    console.error('Error loading products:', error);
-    productsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">Error al cargar los productos. Por favor, recarga la página.</div>';
+    console.error('❌ Error loading products:', error);
+    const productsGrid = document.getElementById('productsGrid');
+    if (productsGrid) {
+      productsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">Error al cargar los productos. Por favor, recarga la página.</div>';
+    }
   }
 }
 
@@ -4016,13 +4103,24 @@ function openFeaturedProductModal(productId) {
     
     modalColorSelector.style.display = 'block';
     modalColorOptions.innerHTML = product.colors.map((color, index) => `
-      <div class="color-circle ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'selected' : ''}" 
+      <div class="color-circle-enhanced ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'selected' : ''}" 
            data-color='${JSON.stringify(color)}'
            data-product-id="${productId}"
-           style="width: 18px; height: 18px; background: ${color.color}; border-radius: 50%; border: 2px solid ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? '#667eea' : 'rgba(0,0,0,0.1)'}; cursor: pointer; transition: all 0.2s ease; position: relative;"
-           title="${color.name}"
-           onclick="selectColor(this, ${productId}, '${JSON.stringify(color).replace(/'/g, "\\'")}')">
-        ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? '<div style="position: absolute; top: -2px; right: -2px; background: #667eea; color: white; border-radius: 50%; width: 10px; height: 10px; font-size: 6px; display: flex; align-items: center; justify-content: center;">✓</div>' : ''}
+           onclick="selectModalColor(this, '${productId}', ${JSON.stringify(color).replace(/'/g, "&apos;")})"
+           style="
+             width: 50px;
+             height: 50px;
+             border-radius: 50%;
+             background: ${color.color};
+             border: 3px solid ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'var(--color-natural)' : 'rgba(0,0,0,0.1)'};
+             cursor: pointer;
+             transition: all 0.3s ease;
+             position: relative;
+             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+             transform: ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'scale(1.1)' : 'scale(1)'};
+           "
+           title="${color.name}">
+        ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">✓</span>' : ''}
       </div>
     `).join('');
   } else {
@@ -4035,8 +4133,8 @@ function openFeaturedProductModal(productId) {
 function renderProducts() {
   const term = searchInput.value.trim().toLowerCase();
   filteredProducts = products.filter(product => {
-    // Ocultar productos "Sin categoría" en la tienda pública
-    if (product.category === 'Sin categoría') return false;
+    // Temporarily show all products including "Sin categoría" for testing
+    // if (product.category === 'Sin categoría') return false;
     
     const matchCategory = activeCategory === 'Todos' || product.category === activeCategory;
     const matchTerm = !term || 
@@ -4561,16 +4659,16 @@ function addToCart(productId, quantity = 1) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
 
-  // Check if product has colors and no color is selected
+  // Get selected color if exists
+  let selectedColor = null;
   if (product.colors && product.colors.length > 0) {
-    const selectedColor = window.selectedColors && window.selectedColors[productId];
+    selectedColor = window.selectedColors && window.selectedColors[productId];
     if (!selectedColor) {
       showCartError('Por favor, selecciona un color antes de agregar al carrito');
       return;
     }
   }
 
-  
   // Create unique key for cart items (product + color combination)
   const cartItemKey = selectedColor ? `${productId}_${selectedColor.color}` : productId;
 
@@ -4820,6 +4918,104 @@ function selectColor(element, productId, colorData) {
   console.log(`Color seleccionado para producto ${productId}:`, JSON.parse(colorData));
 }
 
+// Select color in modal
+function selectModalColor(element, productId, colorData) {
+  // Remove selected class from all color circles in modal
+  const modalColorOptions = document.getElementById('modalColorOptions');
+  const allColorCircles = modalColorOptions.querySelectorAll('.color-circle-enhanced');
+  
+  allColorCircles.forEach(circle => {
+    circle.classList.remove('selected');
+    circle.style.border = '3px solid rgba(0,0,0,0.1)';
+    circle.style.transform = 'scale(1)';
+    // Remove checkmark
+    const checkmark = circle.querySelector('span');
+    if (checkmark) checkmark.remove();
+  });
+  
+  // Add selected class to clicked color
+  element.classList.add('selected');
+  element.style.border = '3px solid var(--color-natural)';
+  element.style.transform = 'scale(1.1)';
+  
+  // Add checkmark
+  const checkmark = document.createElement('span');
+  checkmark.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.5);';
+  checkmark.textContent = '✓';
+  element.appendChild(checkmark);
+  
+  // Store selected color for this product
+  if (!window.selectedColors) window.selectedColors = {};
+  window.selectedColors[productId] = JSON.parse(colorData);
+  
+  // Show selection message
+  const colorSelectionMessage = document.getElementById('colorSelectionMessage');
+  if (colorSelectionMessage) {
+    colorSelectionMessage.style.display = 'block';
+    setTimeout(() => {
+      colorSelectionMessage.style.display = 'none';
+    }, 2000);
+  }
+  
+  // Update button state
+  updateModalAddToCartButton(productId);
+  
+  console.log(`Color seleccionado en modal para producto ${productId}:`, JSON.parse(colorData));
+}
+
+// Update modal add to cart button state
+function updateModalAddToCartButton(productId) {
+  // Check if product has colors and if one is selected
+  const product = products.find(p => p.id === productId);
+  const hasColors = product && product.colors && product.colors.length > 0;
+  const hasSelectedColor = hasColors && window.selectedColors && window.selectedColors[productId];
+  
+  if (hasColors && !hasSelectedColor) {
+    // Product has colors but none selected - disable button
+    modalAddToCartBtn.disabled = true;
+    modalAddToCartBtn.style.opacity = '0.6';
+    modalAddToCartBtn.style.cursor = 'not-allowed';
+    modalAddToCartText.textContent = 'Seleccioná un color para continuar';
+  } else {
+    // Product has no colors or color is selected - enable button
+    modalAddToCartBtn.disabled = false;
+    modalAddToCartBtn.style.opacity = '1';
+    modalAddToCartBtn.style.cursor = 'pointer';
+    modalAddToCartText.textContent = '🛒 Agregar al Carrito';
+  }
+}
+
+// Modal add to cart function
+function modalAddToCart() {
+  const productId = currentModalProductId;
+  if (!productId) {
+    console.error('No productId available in modalAddToCart');
+    return;
+  }
+  
+  try {
+    // Add the product to cart
+    addToCart(productId, 1);
+    
+    // Close the modal
+    hideModal();
+    
+    // Trigger bounce animation
+    if (cartBtn) {
+      cartBtn.classList.add('bounce');
+      setTimeout(() => cartBtn.classList.remove('bounce'), 400);
+    }
+    if (cartBtnMobile) {
+      cartBtnMobile.classList.add('bounce');
+      setTimeout(() => cartBtnMobile.classList.remove('bounce'), 400);
+    }
+    
+  } catch (error) {
+    console.error('Error adding to cart from modal:', error);
+    showCartError('No se pudo agregar al carrito, intentá de nuevo');
+  }
+}
+
 // Close tooltips when clicking outside
 document.addEventListener('click', function(event) {
   // Cerrar tooltip del carrito
@@ -5054,31 +5250,11 @@ function setupEventListeners() {
     productsGrid.addEventListener('click', async (e) => {
       if (e.target.classList.contains('add-to-cart')) {
         const productId = e.target.dataset.productId;
-        try {
-          addToCart(productId);
-          
-          // Trigger bounce animation
-          if (cartBtn) {
-            cartBtn.classList.add('bounce');
-            setTimeout(() => cartBtn.classList.remove('bounce'), 400);
-          }
-          if (cartBtnMobile) {
-            cartBtnMobile.classList.add('bounce');
-            setTimeout(() => cartBtnMobile.classList.remove('bounce'), 400);
-          }
-          
-          // Show feedback
-          const originalText = e.target.textContent;
-          e.target.textContent = '✓ Agregado';
-          e.target.disabled = true;
-          
-          setTimeout(() => {
-            e.target.textContent = originalText;
-            e.target.disabled = false;
-          }, 1500);
-        } catch (error) {
-          console.error('Error adding to cart:', error);
-          alert('Error al agregar el producto al carrito. Por favor, intenta nuevamente.');
+        const productCard = e.target.closest('.product-card');
+        
+        // Open modal instead of adding directly to cart
+        if (productCard) {
+          openModal(productCard);
         }
       }
     });
@@ -5090,31 +5266,11 @@ function setupEventListeners() {
     featuredProductsTrack.addEventListener('click', async (e) => {
       if (e.target.classList.contains('add-to-cart')) {
         const productId = e.target.dataset.productId;
-        try {
-          addToCart(productId);
-          
-          // Trigger bounce animation
-          if (cartBtn) {
-            cartBtn.classList.add('bounce');
-            setTimeout(() => cartBtn.classList.remove('bounce'), 400);
-          }
-          if (cartBtnMobile) {
-            cartBtnMobile.classList.add('bounce');
-            setTimeout(() => cartBtnMobile.classList.remove('bounce'), 400);
-          }
-          
-          // Show feedback
-          const originalText = e.target.textContent;
-          e.target.textContent = '✓ Agregado';
-          e.target.disabled = true;
-          
-          setTimeout(() => {
-            e.target.textContent = originalText;
-            e.target.disabled = false;
-          }, 1500);
-        } catch (error) {
-          console.error('Error adding featured product to cart:', error);
-          alert('Error al agregar el producto destacado al carrito. Por favor, intenta nuevamente.');
+        const productCard = e.target.closest('.product-card');
+        
+        // Open modal instead of adding directly to cart
+        if (productCard) {
+          openModal(productCard);
         }
       }
     });
@@ -5126,31 +5282,11 @@ function setupEventListeners() {
     ofertasCarouselTrack.addEventListener('click', async (e) => {
       if (e.target.classList.contains('add-to-cart')) {
         const productId = e.target.dataset.productId;
-        try {
-          addToCart(productId);
-          
-          // Trigger bounce animation
-          if (cartBtn) {
-            cartBtn.classList.add('bounce');
-            setTimeout(() => cartBtn.classList.remove('bounce'), 400);
-          }
-          if (cartBtnMobile) {
-            cartBtnMobile.classList.add('bounce');
-            setTimeout(() => cartBtnMobile.classList.remove('bounce'), 400);
-          }
-          
-          // Show feedback
-          const originalText = e.target.textContent;
-          e.target.textContent = '✓ Agregado';
-          e.target.disabled = true;
-          
-          setTimeout(() => {
-            e.target.textContent = originalText;
-            e.target.disabled = false;
-          }, 1500);
-        } catch (error) {
-          console.error('Error adding offer product to cart:', error);
-          alert('Error al agregar el producto en oferta al carrito. Por favor, intenta nuevamente.');
+        const productCard = e.target.closest('.product-card');
+        
+        // Open modal instead of adding directly to cart
+        if (productCard) {
+          openModal(productCard);
         }
       }
     });
@@ -5175,27 +5311,9 @@ function setupEventListeners() {
   if (closeModalSecondary) closeModalSecondary.addEventListener('click', hideModal);
   if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
 
-  // Modal "Comprar" button
-  if (modalAddToCart) {
-    modalAddToCart.addEventListener('click', async (e) => {
-      const productId = e.target.dataset.productId;
-      if (!productId) return;
-      
-      // Store the productId for later use
-      currentModalProductId = productId;
-      
-      // Show quantity selector with smooth transition
-      const quantityControls = document.getElementById('modalQuantityControls');
-      quantityControls.style.display = 'flex';
-      quantityControls.style.transition = 'all 0.3s ease';
-      
-      // Hide the "Comprar" button
-      e.target.style.display = 'none';
-      
-      // Reset quantity to 1
-      modalQuantity = 1;
-      document.getElementById('modalQuantity').textContent = modalQuantity;
-    });
+  // Modal "Agregar al Carrito" button
+  if (modalAddToCartBtn) {
+    modalAddToCartBtn.addEventListener('click', modalAddToCart);
   }
 
   // Checkout button
@@ -5333,6 +5451,48 @@ function openModal(card) {
     div.textContent = item;
     modalFeatures.appendChild(div);
   });
+
+  // Load colors in modal if product has variants
+  const product = products.find(p => p.id === productId);
+  if (product && product.colors && product.colors.length > 0) {
+    const modalColorSelector = document.getElementById('modalColorSelector');
+    const modalColorOptions = document.getElementById('modalColorOptions');
+    
+    modalColorSelector.style.display = 'block';
+    modalColorOptions.innerHTML = product.colors.map((color, index) => `
+      <div class="color-circle-enhanced ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'selected' : ''}" 
+           data-color='${JSON.stringify(color)}'
+           data-product-id="${productId}"
+           onclick="selectModalColor(this, '${productId}', ${JSON.stringify(color).replace(/'/g, "&apos;")})"
+           style="
+             width: 50px;
+             height: 50px;
+             border-radius: 50%;
+             background: ${color.color};
+             border: 3px solid ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'var(--color-natural)' : 'rgba(0,0,0,0.1)'};
+             cursor: pointer;
+             transition: all 0.3s ease;
+             position: relative;
+             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+             transform: ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? 'scale(1.1)' : 'scale(1)'};
+           "
+           title="${color.name}">
+        ${window.selectedColors && window.selectedColors[productId] && window.selectedColors[productId].color === color.color ? '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">✓</span>' : ''}
+      </div>
+    `).join('');
+    
+    // Update button state based on color selection
+    updateModalAddToCartButton(productId);
+  } else {
+    const modalColorSelector = document.getElementById('modalColorSelector');
+    modalColorSelector.style.display = 'none';
+    
+    // If no colors, enable the button directly
+    modalAddToCartBtn.disabled = false;
+    modalAddToCartBtn.style.opacity = '1';
+    modalAddToCartBtn.style.cursor = 'pointer';
+    modalAddToCartText.textContent = '🛒 Agregar al Carrito';
+  }
 
   // Always show quantity controls and sync with cart
   currentModalProductId = productId;
