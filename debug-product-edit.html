@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Product Edit</title>
+</head>
+<body>
+    <h1>Debug de Edición de Productos</h1>
+    
+    <button onclick="testValidation()">Probar Validaciones</button>
+    <button onclick="testProductLoad()">Probar Carga de Producto</button>
+    <button onclick="checkElements()">Verificar Elementos del Modal</button>
+    
+    <div id="results"></div>
+    
+    <script>
+        function checkElements() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<h2>Verificación de Elementos:</h2>';
+            
+            const elements = [
+                'productModal',
+                'productForm', 
+                'modalTitle',
+                'productName',
+                'productCategory',
+                'productDescription', 
+                'productPrice',
+                'productStatus',
+                'productImage',
+                'saveButton'
+            ];
+            
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                const status = element ? '✅ Encontrado' : '❌ No encontrado';
+                results.innerHTML += `<p>${id}: ${status}</p>`;
+            });
+        }
+        
+        function testValidation() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<h2>Prueba de Validaciones:</h2>';
+            
+            try {
+                // Probar función validateImageUrl si existe
+                if (typeof validateImageUrl === 'function') {
+                    results.innerHTML += '<p>✅ validateImageUrl existe</p>';
+                    
+                    // Probar con URL de Supabase
+                    const testUrl = 'https://test.supabase.co/storage/v1/object/public/products/test-image';
+                    document.getElementById('productImage').value = testUrl;
+                    const result = validateImageUrl();
+                    results.innerHTML += `<p>Validación URL Supabase: ${result ? '✅' : '❌'}</p>`;
+                } else {
+                    results.innerHTML += '<p>❌ validateImageUrl no existe</p>';
+                }
+            } catch (error) {
+                results.innerHTML += `<p>❌ Error en validación: ${error.message}</p>`;
+            }
+        }
+        
+        function testProductLoad() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<h2>Prueba de Carga de Producto:</h2>';
+            
+            try {
+                if (typeof loadProductData === 'function') {
+                    results.innerHTML += '<p>✅ loadProductData existe</p>';
+                    
+                    // Probar con ID de prueba
+                    const testId = 'test-id';
+                    loadProductData(testId);
+                    results.innerHTML += '<p>✅ loadProductData ejecutado</p>';
+                } else {
+                    results.innerHTML += '<p>❌ loadProductData no existe</p>';
+                }
+            } catch (error) {
+                results.innerHTML += `<p>❌ Error en carga: ${error.message}</p>`;
+            }
+        }
+    </script>
+    
+    <!-- Cargar el admin.html en un iframe para tener acceso a sus funciones -->
+    <iframe src="admin.html" style="display:none;" onload="setupFrame()"></iframe>
+    
+    <script>
+        function setupFrame() {
+            const iframe = document.querySelector('iframe');
+            const iframeWindow = iframe.contentWindow;
+            
+            // Exponer funciones del iframe al window principal
+            window.validateImageUrl = iframeWindow.validateImageUrl;
+            window.loadProductData = iframeWindow.loadProductData;
+            window.checkElements = function() {
+                const results = document.getElementById('results');
+                results.innerHTML = '<h2>Verificación de Elementos del Modal:</h2>';
+                
+                const elements = [
+                    'productModal',
+                    'productForm', 
+                    'modalTitle',
+                    'productName',
+                    'productCategory',
+                    'productDescription', 
+                    'productPrice',
+                    'productStatus',
+                    'productImage',
+                    'saveButton'
+                ];
+                
+                elements.forEach(id => {
+                    const element = iframeWindow.document.getElementById(id);
+                    const status = element ? '✅ Encontrado' : '❌ No encontrado';
+                    results.innerHTML += `<p>${id}: ${status}</p>`;
+                });
+            };
+        }
+    </script>
+</body>
+</html>

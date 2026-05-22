@@ -1681,6 +1681,17 @@
                         </select>
                     </div>
                     
+                    <div class="form-group">
+                        <label for="productActive">Visibilidad en Tienda</label>
+                        <select id="productActive" required>
+                            <option value="true">Activo (visible en tienda)</option>
+                            <option value="false">Inactivo (solo panel admin)</option>
+                        </select>
+                        <small style="color: var(--text-muted); margin-top: 4px; display: block;">
+                            Los productos inactivos no se mostrarán en la tienda pública
+                        </small>
+                    </div>
+                    
                     <div class="form-group full">
                         <label for="productImage">URL de Imagen</label>
                         <input type="url" id="productImage" placeholder="https://ejemplo.com/imagen.jpg">
@@ -1750,6 +1761,7 @@
         let searchQuery = '';
         let selectedCategory = 'all';
         let selectedStatus = 'all';
+        let selectedActive = 'all';
         let editingProductId = null;
         let notificationManager = null;
         let adminPassword = 'admin123';
@@ -2156,6 +2168,11 @@
                                         <option value="Por encargue">Por encargue</option>
                                         <option value="Agotado">Agotado</option>
                                     </select>
+                                    <select id="activeFilter" class="filter-select">
+                                        <option value="all">Todos los productos</option>
+                                        <option value="true">Activos (visibles en tienda)</option>
+                                        <option value="false">Inactivos (solo admin)</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -2169,12 +2186,13 @@
                                         <th>Categoría</th>
                                         <th>Precio</th>
                                         <th>Estado</th>
+                                        <th>Activo</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="productsTableBody">
                                     <tr>
-                                        <td colspan="6" style="text-align: center; padding: 40px;">
+                                        <td colspan="7" style="text-align: center; padding: 40px;">
                                             <div class="loading-spinner">⏳ Cargando productos...</div>
                                         </td>
                                     </tr>
@@ -2607,6 +2625,10 @@
                     query = query.eq('status', selectedStatus);
                 }
                 
+                if (selectedActive !== 'all') {
+                    query = query.eq('activo', selectedActive === 'true');
+                }
+                
                 if (searchQuery) {
                     query = query.or(`name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
                 }
@@ -2671,9 +2693,9 @@
             if (paginatedProducts.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="6" style="text-align: center; padding: 40px;">
+                        <td colspan="7" style="text-align: center; padding: 40px;">
                             <div style="color: var(--text-muted);">
-                                ${searchQuery || selectedCategory !== 'all' || selectedStatus !== 'all' ? 'No se encontraron productos con los filtros seleccionados' : 'No hay productos registrados'}
+                                ${searchQuery || selectedCategory !== 'all' || selectedStatus !== 'all' || selectedActive !== 'all' ? 'No se encontraron productos con los filtros seleccionados' : 'No hay productos registrados'}
                             </div>
                         </td>
                     </tr>
@@ -2694,6 +2716,11 @@
                     <td>$${parseFloat(product.price || 0).toFixed(2)}</td>
                     <td>
                         <span class="status-badge ${getStatusClass(product.status)}">${product.status || 'Disponible'}</span>
+                    </td>
+                    <td>
+                        <span class="status-badge ${product.activo ? 'available' : 'unavailable'}">
+                            ${product.activo ? '✅ Activo' : '❌ Inactivo'}
+                        </span>
                     </td>
                     <td>
                         <div class="action-buttons-cell">
@@ -2775,6 +2802,7 @@
             const searchInput = document.getElementById('productSearch');
             const categoryFilter = document.getElementById('categoryFilter');
             const statusFilter = document.getElementById('statusFilter');
+            const activeFilter = document.getElementById('activeFilter');
             
             if (searchInput) {
                 searchInput.addEventListener('input', debounce((e) => {
@@ -2795,6 +2823,14 @@
             if (statusFilter) {
                 statusFilter.addEventListener('change', (e) => {
                     selectedStatus = e.target.value;
+                    currentPage = 1;
+                    loadProducts();
+                });
+            }
+            
+            if (activeFilter) {
+                activeFilter.addEventListener('change', (e) => {
+                    selectedActive = e.target.value;
                     currentPage = 1;
                     loadProducts();
                 });
@@ -2831,6 +2867,7 @@
                 document.getElementById('productDescription').value = product.description || '';
                 document.getElementById('productPrice').value = product.price || '';
                 document.getElementById('productStatus').value = product.status || 'Disponible';
+                document.getElementById('productActive').value = product.activo !== undefined ? product.activo.toString() : 'true';
                 document.getElementById('productImage').value = product.image_url || '';
                 
                 updateImagePreview(product.image_url);
@@ -2858,6 +2895,7 @@
                 description: document.getElementById('productDescription').value,
                 price: parseFloat(document.getElementById('productPrice').value),
                 status: document.getElementById('productStatus').value,
+                activo: document.getElementById('productActive').value === 'true',
                 image_url: document.getElementById('productImage').value
             };
             

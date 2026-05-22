@@ -657,7 +657,7 @@
     .search-box span{color:var(--muted);font-size:16px;transition:color 0.3s ease}
     .search-box:focus-within span{color:var(--accent-dark)}
     .search-box input{border:none;background:transparent;outline:none;width:100%;color:var(--text);font-size:15px;font-weight:500}
-    .chips{display:flex;gap:10px;flex-wrap:wrap}
+    .chips{display:flex;gap:10px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--accent) var(--color-beige);-webkit-overflow-scrolling:touch;white-space:nowrap;padding:5px 0}
     .chip{border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:999px;cursor:pointer;color:var(--muted)}
     .chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
 
@@ -956,6 +956,23 @@
     }
     
     @media (max-width: 768px) {
+      /* Estilos mejorados para chips en mobile */
+      .chips{
+        overflow-x:auto;
+        scrollbar-width:none;
+        -ms-overflow-style:none;
+        padding:5px 0;
+        margin:0 -5px;
+      }
+      .chips::-webkit-scrollbar{
+        display:none;
+      }
+      .chip{
+        flex-shrink:0;
+        min-width:fit-content;
+        margin:0 5px;
+      }
+      
       /* Estilos mejorados para cards de productos en mobile */
       
       /* Nombre del producto */
@@ -1214,6 +1231,17 @@
     }
     
     @media (max-width: 480px) {
+      /* Chips extra optimizados para very small mobile */
+      .chips{
+        gap:8px;
+        padding:3px 0;
+      }
+      .chip{
+        padding:8px 12px;
+        font-size:0.85rem;
+        margin:0 3px;
+      }
+      
       .carousel-track .product-card {
         flex: 0 0 100%;
       }
@@ -3491,6 +3519,9 @@ async function loadSpecialSections() {
       .from('products')
       .select('*')
       .eq('es_nuevo', true)
+      .eq('activo', true)
+      .not('category', 'is', null)
+      .not('category', 'eq', '')
       .order('created_at', { ascending: false })
       .limit(6);
     
@@ -3530,7 +3561,10 @@ async function loadSpecialSections() {
     const { data: ofertasProductos, error: ofertasError } = await supabaseClient
       .from('products')
       .select('*')
-      .eq('en_oferta', true);
+      .eq('en_oferta', true)
+      .eq('activo', true)
+      .not('category', 'is', null)
+      .not('category', 'eq', '');
     
     console.log('Ofertas cargadas:', { ofertasProductos, ofertasError });
     console.log('Número de ofertas encontradas:', ofertasProductos?.length || 0);
@@ -3539,36 +3573,19 @@ async function loadSpecialSections() {
     const { data: ofertasProductos2, error: ofertasError2 } = await supabaseClient
       .from('products')
       .select('*')
-      .in('en_oferta', [true, 'true', 1, '1']);
+      .in('en_oferta', [true, 'true', 1, '1'])
+      .eq('activo', true)
+      .not('category', 'is', null)
+      .not('category', 'eq', '');
     
     console.log('Ofertas cargadas (query alternativa):', { ofertasProductos2, ofertasError2 });
     
     // Use the query that returns results
     const ofertasResults = ofertasProductos2?.length > 0 ? ofertasProductos2 : ofertasProductos;
     
-    // If no offers found, load regular products as offers
-    if ((ofertasError || !ofertasResults || ofertasResults.length === 0) && !allProductsError && allProducts && allProducts.length > 0) {
-      console.log('No offers found, loading regular products as offers...');
-      const { data: regularProductsForOffers, error: regularOffersError } = await supabaseClient
-        .from('products')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(8);
-      
-      if (!regularOffersError && regularProductsForOffers && regularProductsForOffers.length > 0) {
-        // Filter out products with "Sin categoría" from offers
-        const filteredProducts = regularProductsForOffers.filter(product => product.category !== 'Sin categoría');
-        
-        const ofertasSection = document.getElementById('ofertas');
-        const ofertasCarouselTrack = document.getElementById('ofertasCarouselTrack');
-        
-        if (ofertasSection && ofertasCarouselTrack) {
-          ofertasSection.style.display = 'block';
-          allOffersProducts = filteredProducts;
-          renderOffersProducts();
-        }
-      }
-    } else if (!ofertasError && !ofertasError2 && ofertasResults && ofertasResults.length > 0) {
+    // Only show products that are actually marked as en_oferta = true
+    // No fallback to regular products - if no offers, show "no offers" message
+    if (!ofertasError && !ofertasError2 && ofertasResults && ofertasResults.length > 0) {
       console.log('Mostrando sección de ofertas con', ofertasResults.length, 'productos');
       
       // Store all offers for pagination
@@ -3586,11 +3603,11 @@ async function loadSpecialSections() {
       if (ofertasSection && ofertasCarouselTrack) {
         ofertasSection.style.display = 'block';
         ofertasCarouselTrack.innerHTML = `
-          <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--muted);">
+          <div style="grid-column: 1/-1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 20px; color: var(--muted); min-height: 300px;">
             <div style="font-size: 3rem; margin-bottom: 16px;">🔥</div>
             <h3 style="font-size: 1.5rem; margin-bottom: 8px; color: var(--text);">Próximamente Ofertas</h3>
-            <p style="margin-bottom: 20px;">Estamos preparando las mejores ofertas para vos. Volvé pronto para ver nuestras promociones exclusivas.</p>
-            <div style="background: var(--bg-soft); padding: 16px; border-radius: 12px; border: 1px solid var(--line);">
+            <p style="margin-bottom: 20px; max-width: 600px;">Estamos preparando las mejores ofertas para vos. Volvé pronto para ver nuestras promociones exclusivas.</p>
+            <div style="background: var(--bg-soft); padding: 16px; border-radius: 12px; border: 1px solid var(--line); max-width: 500px;">
               <strong style="color: var(--accent);">💡 Tip para administradores:</strong><br>
               Para probar el carrusel, activá la opción "En oferta" en cualquier producto desde el panel de administración.
             </div>
@@ -3609,6 +3626,9 @@ async function loadSpecialSections() {
       .from('products')
       .select('*')
       .eq('proximo_lanzamiento', true)
+      .eq('activo', true)
+      .not('category', 'is', null)
+      .not('category', 'eq', '')
       .order('created_at', { ascending: false })
       .limit(6);
     
@@ -3792,6 +3812,9 @@ async function loadProducts() {
     const { data, error } = await supabaseClient
       .from('products')
       .select('*')
+      .eq('activo', true)
+      .not('category', 'is', null)
+      .not('category', 'eq', '')
       .order('created_at', { ascending: false });
     
     console.log('📊 Products response:', { data, error });
@@ -3844,37 +3867,17 @@ async function loadFeaturedProducts() {
       .eq('active', true)
       .order('priority', { ascending: true });
     
-    // If no featured products, load regular products as featured
+    // If no featured products, show empty state (only show manually added featured products)
     if (error || !data || data.length === 0) {
-      console.log('No featured products found, loading regular products as featured...');
-      const { data: regularProducts, error: regularError } = await supabaseClient
-        .from('products')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(6);
+      console.log('No featured products found - only manually added featured products will be shown');
       
-      if (!regularError && regularProducts && regularProducts.length > 0) {
-        // Filter out products with "Sin categoría" from featured
-        const filteredProducts = regularProducts.filter(product => product.category !== 'Sin categoría');
-        
-        // Convert regular products to featured format
-        const featuredData = filteredProducts.map((product, index) => ({
-          id: product.id,
-          product_id: product.id,
-          priority: index + 1,
-          active: true,
-          products: product
-        }));
-        
-        // Hide loading state and show products
-        if (featuredLoadingState) featuredLoadingState.style.display = 'none';
-        if (featuredEmptyState) featuredEmptyState.style.display = 'none';
-        if (featuredTrack) featuredTrack.style.display = 'grid';
-        
-        allFeaturedProducts = featuredData;
-        renderFeaturedProducts();
-        return;
-      }
+      // Hide loading state and show empty state
+      if (featuredLoadingState) featuredLoadingState.style.display = 'none';
+      if (featuredEmptyState) featuredEmptyState.style.display = 'block';
+      if (featuredTrack) featuredTrack.style.display = 'none';
+      
+      allFeaturedProducts = [];
+      return;
     }
     
     // Hide loading state
@@ -4039,10 +4042,10 @@ function renderOffersProducts() {
   
   if (allOffersProducts.length === 0) {
     ofertasCarouselTrack.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--muted);">
+      <div style="grid-column: 1/-1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 20px; color: var(--muted); min-height: 300px;">
         <div style="font-size: 3rem; margin-bottom: 16px;">🔥</div>
         <h3 style="font-size: 1.5rem; margin-bottom: 8px; color: var(--text);">Próximamente Ofertas</h3>
-        <p style="margin-bottom: 20px;">Estamos preparando las mejores ofertas para vos. Volvé pronto para ver nuestras promociones exclusivas.</p>
+        <p style="margin-bottom: 20px; max-width: 600px;">Estamos preparando las mejores ofertas para vos. Volvé pronto para ver nuestras promociones exclusivas.</p>
       </div>
     `;
     document.getElementById('offersPaginationControls').style.display = 'none';

@@ -16,8 +16,14 @@ CREATE TABLE IF NOT EXISTS featured_products (
 
 -- Políticas de seguridad para featured_products
 ALTER TABLE featured_products ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS "Public featured products are viewable by everyone" ON featured_products FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Authenticated users can manage featured products" ON featured_products FOR ALL USING (auth.role() = 'authenticated');
+
+-- Eliminar políticas si existen para evitar errores
+DROP POLICY IF EXISTS "Public featured products are viewable by everyone" ON featured_products;
+DROP POLICY IF EXISTS "Authenticated users can manage featured products" ON featured_products;
+
+-- Crear políticas de seguridad
+CREATE POLICY "Public featured products are viewable by everyone" ON featured_products FOR SELECT USING (true);
+CREATE POLICY "Authenticated users can manage featured products" ON featured_products FOR ALL USING (auth.role() = 'authenticated');
 
 -- Índices para mejor rendimiento
 CREATE INDEX IF NOT EXISTS idx_products_es_destacado ON products(es_destacado);
