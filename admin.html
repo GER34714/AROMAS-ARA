@@ -581,6 +581,290 @@
             color: var(--text-muted);
         }
 
+        /* ===== ANALYTICS DASHBOARD ===== */
+        .analytics-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-8);
+        }
+
+        /* KPI Cards */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-6);
+        }
+
+        .kpi-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .kpi-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .kpi-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            background: var(--bg-soft);
+        }
+
+        .kpi-card.primary .kpi-icon {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .kpi-card.success .kpi-icon {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .kpi-card.warning .kpi-icon {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .kpi-card.info .kpi-icon {
+            background: var(--info-light);
+            color: var(--info);
+        }
+
+        .kpi-title {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: var(--space-3);
+        }
+
+        .kpi-change {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .kpi-change.positive {
+            color: var(--success);
+        }
+
+        .kpi-change.negative {
+            color: var(--error);
+        }
+
+        .kpi-change.neutral {
+            color: var(--text-muted);
+        }
+
+        .change-arrow {
+            font-weight: 700;
+        }
+
+        .change-value {
+            font-weight: 600;
+        }
+
+        .change-period {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Charts */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-6);
+        }
+
+        .chart-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .chart-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chart-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        .chart-period-select {
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 0.875rem;
+        }
+
+        .chart-content {
+            padding: var(--space-6);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .chart-placeholder {
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .chart-placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-3);
+            opacity: 0.5;
+        }
+
+        /* Data Table */
+        .data-table-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .table-controls {
+            display: flex;
+            gap: var(--space-3);
+            align-items: center;
+        }
+
+        .table-search {
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 0.875rem;
+            min-width: 200px;
+        }
+
+        .table-content {
+            overflow-x: auto;
+        }
+
+        .analytics-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .analytics-table th {
+            background: var(--bg-soft);
+            padding: var(--space-3) var(--space-4);
+            text-align: left;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.875rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .analytics-table td {
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--border-light);
+            font-size: 0.875rem;
+        }
+
+        .analytics-table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-row {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .kpi-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-4);
+            }
+            
+            .table-header {
+                flex-direction: column;
+                gap: var(--space-4);
+                align-items: stretch;
+            }
+            
+            .table-controls {
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .kpi-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-value {
+                font-size: 2rem;
+            }
+        }
+
         /* ===== RESPONSIVE DESIGN ===== */
         
         /* Desktop Medium (1024px - 1200px) */
@@ -2858,11 +3142,225 @@
             border-radius: var(--radius-md);
             margin-bottom: var(--space-3);
         }
+
+        /* ===== LOGIN SCREEN ===== */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: var(--space-6);
+        }
+
+        .login-card {
+            background: var(--card);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: var(--space-8);
+            border: 1px solid var(--border);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+
+        .login-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .login-brand-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .login-brand h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .login-brand p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-5);
+        }
+
+        .login-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .login-form label {
+            font-weight: 500;
+            color: var(--text);
+            font-size: 0.875rem;
+        }
+
+        .login-form input {
+            padding: var(--space-3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .login-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-error {
+            background: var(--error-light);
+            color: var(--error);
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            text-align: center;
+            border: 1px solid var(--error);
+        }
+
+        .admin-panel {
+            width: 100%;
+            height: 100vh;
+            overflow: auto;
+        }
+
+        .login-footer {
+            margin-top: var(--space-6);
+            text-align: center;
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--border);
+        }
+
+        .back-to-store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+
+        .back-to-store-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .back-to-store-btn span:first-child {
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
-    <!-- Mobile Overlay -->
-    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-brand">
+                        <div class="login-brand-icon">🌸</div>
+                        <h1>Aromas Ara</h1>
+                        <p>Panel de Administración</p>
+                    </div>
+                </div>
+                
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="admin@aromasara.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" required placeholder="••••••••">
+                    </div>
+                    
+                    <button type="submit" class="login-btn" id="loginBtn">
+                        <span class="btn-text">Iniciar Sesión</span>
+                        <span class="btn-loading" style="display: none;">Iniciando...</span>
+                    </button>
+                </form>
+                
+                <div id="loginError" class="login-error" style="display: none;"></div>
+                
+                <div class="login-footer">
+                    <a href="index.html" class="back-to-store-btn">
+                        <span>🏪</span>
+                        <span>Volver a la Tienda</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel (hidden until login) -->
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay" id="mobileOverlay"></div>
     
     <!-- Sidebar -->
     <aside class="admin-sidebar" id="adminSidebar">
@@ -3023,61 +3521,152 @@
                 </a>
             </div>
             
-            <!-- Dashboard Stats -->
-            <div class="dashboard-stats">
-                <div class="stat-card primary">
-                    <div class="stat-header">
-                        <div class="stat-icon">📦</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="totalProducts">0</div>
-                            <div class="stat-label">Total Productos</div>
+            <!-- Dashboard Analytics Style -->
+            <div class="analytics-dashboard">
+                <!-- KPI Cards Row -->
+                <div class="kpi-row">
+                    <div class="kpi-card primary">
+                        <div class="kpi-header">
+                            <div class="kpi-icon">📦</div>
+                            <div class="kpi-title">Total Productos</div>
+                        </div>
+                        <div class="kpi-value" id="totalProducts">0</div>
+                        <div class="kpi-change positive">
+                            <span class="change-arrow">↑</span>
+                            <span class="change-value" id="productsChange">+0%</span>
+                            <span class="change-period">vs mes anterior</span>
                         </div>
                     </div>
-                    <div class="stat-footer">
-                        <span class="stat-change positive" id="productsChange">+0%</span>
-                        <span class="stat-period">vs mes anterior</span>
+                    
+                    <div class="kpi-card success">
+                        <div class="kpi-header">
+                            <div class="kpi-icon">✅</div>
+                            <div class="kpi-title">Productos Activos</div>
+                        </div>
+                        <div class="kpi-value" id="activeProducts">0</div>
+                        <div class="kpi-change positive">
+                            <span class="change-arrow">↑</span>
+                            <span class="change-value" id="activeChange">+0%</span>
+                            <span class="change-period">vs mes anterior</span>
+                        </div>
+                    </div>
+                    
+                    <div class="kpi-card warning">
+                        <div class="kpi-header">
+                            <div class="kpi-icon">⏸️</div>
+                            <div class="kpi-title">Productos Inactivos</div>
+                        </div>
+                        <div class="kpi-value" id="inactiveProducts">0</div>
+                        <div class="kpi-change negative">
+                            <span class="change-arrow">↓</span>
+                            <span class="change-value" id="inactiveChange">-0%</span>
+                            <span class="change-period">vs mes anterior</span>
+                        </div>
+                    </div>
+                    
+                    <div class="kpi-card info">
+                        <div class="kpi-header">
+                            <div class="kpi-icon">📈</div>
+                            <div class="kpi-title">Categorías</div>
+                        </div>
+                        <div class="kpi-value" id="totalCategories">0</div>
+                        <div class="kpi-change neutral">
+                            <span class="change-arrow">→</span>
+                            <span class="change-value" id="categoriesChange">0</span>
+                            <span class="change-period">total</span>
+                        </div>
+                    </div>
+                    
+                    <div class="kpi-card success">
+                        <div class="kpi-header">
+                            <div class="kpi-icon">💰</div>
+                            <div class="kpi-title">Valor Total Inventario</div>
+                        </div>
+                        <div class="kpi-value" id="totalInventoryValue">$0</div>
+                        <div class="kpi-change positive">
+                            <span class="change-arrow">↑</span>
+                            <span class="change-value" id="inventoryChange">+0%</span>
+                            <span class="change-period">vs mes anterior</span>
+                        </div>
+                    </div>
+                    
+                    <div class="kpi-card warning">
+                        <div class="kpi-header">
+                            <div class="kpi-icon">🏆</div>
+                            <div class="kpi-title">Categoría Top</div>
+                        </div>
+                        <div class="kpi-value" id="topCategory">N/A</div>
+                        <div class="kpi-change neutral">
+                            <span class="change-arrow">→</span>
+                            <span class="change-value" id="topCategoryCount">0</span>
+                            <span class="change-period">productos</span>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="stat-card success">
-                    <div class="stat-header">
-                        <div class="stat-icon">✅</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="availableProducts">0</div>
-                            <div class="stat-label">Disponibles</div>
+
+                <!-- Charts Row -->
+                <div class="charts-row">
+                    <!-- Main Chart -->
+                    <div class="chart-container main-chart">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Visión General de Productos</h3>
+                            <div class="chart-controls">
+                                <select class="chart-period-select">
+                                    <option>Últimos 7 días</option>
+                                    <option>Últimos 30 días</option>
+                                    <option>Últimos 3 meses</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-content">
+                            <div class="chart-placeholder">
+                                <div class="chart-placeholder-icon">📊</div>
+                                <p>Gráfico de tendencia de productos</p>
+                                <p style="font-size: 0.875rem; margin-top: var(--space-2);">Próximamente disponible</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="stat-footer">
-                        <span class="stat-change positive" id="availableChange">+0%</span>
-                        <span class="stat-period">vs mes anterior</span>
+                    
+                    <!-- Categories Distribution -->
+                    <div class="chart-container categories-chart">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Distribución por Categorías</h3>
+                        </div>
+                        <div class="chart-content">
+                            <div class="chart-placeholder">
+                                <div class="chart-placeholder-icon">🥧</div>
+                                <p>Gráfico de categorías</p>
+                                <p style="font-size: 0.875rem; margin-top: var(--space-2);">Próximamente disponible</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="stat-card warning">
-                    <div class="stat-header">
-                        <div class="stat-icon">⏳</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="orderProducts">0</div>
-                            <div class="stat-label">Por Encargue</div>
+
+                <!-- Data Table -->
+                <div class="data-table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">Productos Recientes</h3>
+                        <div class="table-controls">
+                            <input type="text" class="table-search" placeholder="Buscar productos...">
+                            <button class="btn btn-primary">Exportar</button>
                         </div>
                     </div>
-                    <div class="stat-footer">
-                        <span class="stat-change negative" id="orderChange">-0%</span>
-                        <span class="stat-period">vs mes anterior</span>
-                    </div>
-                </div>
-                
-                <div class="stat-card info">
-                    <div class="stat-header">
-                        <div class="stat-icon">📈</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="totalCategories">0</div>
-                            <div class="stat-label">Categorías</div>
-                        </div>
-                    </div>
-                    <div class="stat-footer">
-                        <span class="stat-change positive" id="categoriesChange">+0%</span>
-                        <span class="stat-period">total</span>
+                    <div class="table-content">
+                        <table class="analytics-table">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentProductsTable">
+                                <!-- Products will be loaded here -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -3438,23 +4027,28 @@
                 document.body.appendChild(this.container);
             }
             
-            show(message, type = 'info', duration = 4000) {
+            show(message, type = 'info', duration = 3000) {
                 const notification = document.createElement('div');
                 notification.className = `notification notification-${type}`;
+                
+                // Estilos más sutiles
+                const isSubtle = ['success', 'info'].includes(type);
                 notification.style.cssText = `
-                    background: ${this.getBackground(type)};
+                    background: ${isSubtle ? 'rgba(0,0,0,0.8)' : this.getBackground(type)};
                     color: white;
-                    padding: 16px 20px;
-                    border-radius: 8px;
-                    margin-bottom: 10px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    padding: ${isSubtle ? '10px 14px' : '12px 16px'};
+                    border-radius: 6px;
+                    margin-bottom: 8px;
+                    box-shadow: ${isSubtle ? '0 2px 8px rgba(0,0,0,0.1)' : '0 4px 12px rgba(0,0,0,0.15)'};
                     pointer-events: auto;
-                    animation: slideIn 0.3s ease;
-                    max-width: 400px;
-                    font-size: 14px;
+                    animation: slideIn 0.2s ease;
+                    max-width: ${isSubtle ? '300px' : '350px'};
+                    font-size: ${isSubtle ? '12px' : '13px'};
                     display: flex;
                     align-items: center;
-                    gap: 12px;
+                    gap: 8px;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255,255,255,0.1);
                 `;
                 
                 const icon = this.getIcon(type);
@@ -3463,8 +4057,8 @@
                 this.container.appendChild(notification);
                 
                 setTimeout(() => {
-                    notification.style.animation = 'slideOut 0.3s ease';
-                    setTimeout(() => notification.remove(), 300);
+                    notification.style.animation = 'slideOut 0.2s ease';
+                    setTimeout(() => notification.remove(), 200);
                 }, duration);
             }
             
@@ -3657,16 +4251,29 @@
                 this.currentView = null;
                 this.adminContainer = document.getElementById('adminContainer');
                 this.viewsContainer = null;
+                this.originalMainContent = null;
                 
                 this.init();
             }
             
             init() {
+                // Forzar actualización del contenido original del main con los KPIs actualizados
+                this.updateOriginalMainContent();
+                
                 // Setup navigation
                 this.setupNavigation();
                 
                 // Setup mobile menu
                 this.setupMobileMenu();
+            }
+            
+            updateOriginalMainContent() {
+                const main = this.adminContainer.querySelector('main');
+                if (main) {
+                    // Forzar una actualización del contenido para incluir los nuevos KPIs
+                    this.originalMainContent = main.innerHTML;
+                    console.log('📝 Contenido original del main actualizado');
+                }
             }
             
             setupNavigation() {
@@ -3785,23 +4392,155 @@
             }
             
             showDashboard() {
-                // Show dashboard content
-                const dashboardContent = this.adminContainer.querySelector('.content-section, .action-buttons, .dashboard-stats');
-                if (dashboardContent) {
-                    dashboardContent.style.display = 'block';
+                console.log('🔄 Navegando al dashboard...');
+                
+                // Renderizar el dashboard desde cero para evitar problemas
+                this.renderDashboardView();
+                
+                // Cargar datos frescos del dashboard
+                if (window.dashboardManager) {
+                    console.log('📊 Cargando estadísticas del dashboard...');
+                    window.dashboardManager.loadDashboardStats();
+                } else {
+                    console.error('❌ DashboardManager no encontrado');
                 }
                 
-                // Forzar actualización de estadísticas con datos reales
-                updateProductCounters();
+                // Llenar tabla de productos recientes
+                loadRecentProductsTable();
+                
+                // Cargar datos adicionales de analytics
+                loadAnalyticsData();
+            }
+            
+            renderDashboardView() {
+                const main = this.adminContainer.querySelector('main');
+                if (!main) return;
+                
+                console.log('📝 Renderizando dashboard desde cero...');
+                
+                main.innerHTML = `
+                    <!-- KPI Cards Row -->
+                    <div class="kpi-cards-row">
+                        <div class="kpi-card primary">
+                            <div class="kpi-header">
+                                <div class="kpi-icon">📦</div>
+                                <div class="kpi-title">Total Productos</div>
+                            </div>
+                            <div class="kpi-value" id="totalProducts">0</div>
+                            <div class="kpi-change positive">
+                                <span class="change-arrow">↑</span>
+                                <span class="change-value" id="productsChange">+0%</span>
+                                <span class="change-period">vs mes anterior</span>
+                            </div>
+                        </div>
+                        
+                        <div class="kpi-card success">
+                            <div class="kpi-header">
+                                <div class="kpi-icon">✅</div>
+                                <div class="kpi-title">Productos Activos</div>
+                            </div>
+                            <div class="kpi-value" id="activeProducts">0</div>
+                            <div class="kpi-change positive">
+                                <span class="change-arrow">↑</span>
+                                <span class="change-value" id="activeChange">+0%</span>
+                                <span class="change-period">vs mes anterior</span>
+                            </div>
+                        </div>
+                        
+                        <div class="kpi-card warning">
+                            <div class="kpi-header">
+                                <div class="kpi-icon">⏸️</div>
+                                <div class="kpi-title">Productos Inactivos</div>
+                            </div>
+                            <div class="kpi-value" id="inactiveProducts">0</div>
+                            <div class="kpi-change negative">
+                                <span class="change-arrow">↓</span>
+                                <span class="change-value" id="inactiveChange">-0%</span>
+                                <span class="change-period">vs mes anterior</span>
+                            </div>
+                        </div>
+                        
+                        <div class="kpi-card info">
+                            <div class="kpi-header">
+                                <div class="kpi-icon">📈</div>
+                                <div class="kpi-title">Categorías</div>
+                            </div>
+                            <div class="kpi-value" id="totalCategories">0</div>
+                            <div class="kpi-change neutral">
+                                <span class="change-arrow">→</span>
+                                <span class="change-value" id="categoriesChange">0</span>
+                                <span class="change-period">total</span>
+                            </div>
+                        </div>
+                        
+                        <div class="kpi-card success">
+                            <div class="kpi-header">
+                                <div class="kpi-icon">💰</div>
+                                <div class="kpi-title">Valor Total Inventario</div>
+                            </div>
+                            <div class="kpi-value" id="totalInventoryValue">$0</div>
+                            <div class="kpi-change positive">
+                                <span class="change-arrow">↑</span>
+                                <span class="change-value" id="inventoryChange">+0%</span>
+                                <span class="change-period">vs mes anterior</span>
+                            </div>
+                        </div>
+                        
+                        <div class="kpi-card warning">
+                            <div class="kpi-header">
+                                <div class="kpi-icon">🏆</div>
+                                <div class="kpi-title">Categoría Top</div>
+                            </div>
+                            <div class="kpi-value" id="topCategory">N/A</div>
+                            <div class="kpi-change neutral">
+                                <span class="change-arrow">→</span>
+                                <span class="change-value" id="topCategoryCount">0</span>
+                                <span class="change-period">productos</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <!-- Recent Products Table -->
+                    <div class="recent-products-section">
+                        <div class="section-header">
+                            <h3 class="section-title">Productos Recientes</h3>
+                            <div class="section-actions">
+                                <button class="btn btn-sm btn-outline">Ver todos</button>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Categoría</th>
+                                        <th>Precio</th>
+                                        <th>Estado</th>
+                                        <th>Fecha</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentProductsTable">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                                            Cargando productos...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                
+                console.log('✅ Dashboard renderizado desde cero');
             }
             
             showProducts() {
-                this.hideDashboard();
                 this.renderProductsView();
             }
             
             showOffers() {
-                this.hideDashboard();
                 this.renderOffersView();
             }
             
@@ -3821,7 +4560,7 @@
                         </div>
                         
                         <div id="productStatsDisplay" class="product-stats-container">
-                            <div class="loading-stats">⏳ Cargando estadísticas...</div>
+                            <div class="loading-stats">📊 Mostrar estadísticas</div>
                         </div>
                         
                         <div class="products-header">
@@ -3878,7 +4617,6 @@
             }
             
             showCategories() {
-                this.hideDashboard();
                 this.renderCategoriesView();
             }
             
@@ -3904,7 +4642,6 @@
             }
             
             showExport() {
-                this.hideDashboard();
                 this.renderExportView();
             }
             
@@ -4052,13 +4789,7 @@
                 `;
             }
             
-            hideDashboard() {
-                // Hide dashboard content
-                const dashboardContent = this.adminContainer.querySelector('.content-section, .action-buttons, .dashboard-stats');
-                if (dashboardContent) {
-                    dashboardContent.style.display = 'none';
-                }
-            }
+            // hideDashboard() eliminado - ya no es necesario con el nuevo enfoque
             
             closeCurrentView() {
                 if (this.currentView) {
@@ -4074,7 +4805,6 @@
             }
             
             showFeatured() {
-                this.hideDashboard();
                 this.renderFeaturedView();
             }
             
@@ -4114,7 +4844,6 @@
             }
             
             showAnalytics() {
-                this.hideDashboard();
                 this.renderAnalyticsView();
             }
             
@@ -4147,14 +4876,7 @@
                                 </div>
                             </div>
                             
-                            <div class="analytics-card">
-                                <h3>🏷️ Categorías Populares</h3>
-                                <p>Distribución de productos por categoría</p>
-                                <div style="margin-top: 16px; padding: 20px; background: var(--bg-soft); border-radius: var(--radius-md);">
-                                    ${this.getCategoryStats()}
-                                </div>
-                            </div>
-                            
+                                                        
                             <div class="analytics-card">
                                 <h3>📊 Estado del Inventario</h3>
                                 <p>Estado actual de disponibilidad</p>
@@ -4205,7 +4927,6 @@
             }
             
             showSettings() {
-                this.hideDashboard();
                 this.renderSettingsView();
             }
             
@@ -4315,35 +5036,61 @@
             }
             
             init() {
-                this.loadDashboardStats();
+                // Cargar datos del dashboard al inicializar
+                setTimeout(() => {
+                    this.loadDashboardStats();
+                }, 1000); // Esperar 1 segundo para que el DOM esté listo
             }
             
             async loadDashboardStats() {
                 try {
+                    console.log('🔍 Cargando estadísticas del dashboard...');
+                    console.log('🔗 Verificando conexión a Supabase:', supabaseClient.supabaseUrl);
+                    
                     // Obtener datos reales de la base de datos
                     const { data: allProducts, error: productsError } = await supabaseClient
                         .from('products')
                         .select('status, activo, category');
                     
-                    if (productsError) throw productsError;
+                    if (productsError) {
+                        console.error('❌ Error en consulta de productos:', productsError);
+                        throw productsError;
+                    }
                     
-                    const { data: categories, error: categoriesError } = await supabaseClient
+                    console.log('📦 Productos obtenidos:', allProducts?.length || 0);
+                    console.log('📊 Muestra de productos:', allProducts?.slice(0, 3));
+                    
+                    const { count: totalCategories, error: categoriesError } = await supabaseClient
                         .from('categories')
-                        .select('count', { count: 'exact', head: true });
+                        .select('*', { count: 'exact', head: true });
                     
                     if (categoriesError) throw categoriesError;
                     
-                    // Calcular estadísticas reales
+                    console.log('🏷️ Categorías obtenidas:', totalCategories || 0);
+                    
+                    // Calcular estadísticas reales basadas en campo 'activo'
                     const totalProducts = allProducts.length;
-                    const availableProducts = allProducts.filter(p => p.status === 'Disponible').length;
-                    const orderProducts = allProducts.filter(p => p.status === 'Por encargue').length;
-                    const totalCategories = categories || 0;
+                    const activeProducts = allProducts.filter(p => p.activo === true).length;
+                    const inactiveProducts = allProducts.filter(p => p.activo === false).length;
+                    
+                    console.log('📈 Estadísticas calculadas:');
+                    console.log('  - Total productos:', totalProducts);
+                    console.log('  - Productos activos:', activeProducts);
+                    console.log('  - Productos inactivos:', inactiveProducts);
+                    console.log('  - Total categorías:', totalCategories);
+                    
+                    // Verificar si los elementos DOM existen
+                    console.log('🔍 Verificando elementos DOM:');
+                    console.log('  - totalProducts element:', document.getElementById('totalProducts'));
+                    console.log('  - activeProducts element:', document.getElementById('activeProducts'));
+                    console.log('  - inactiveProducts element:', document.getElementById('inactiveProducts'));
+                    console.log('  - totalCategories element:', document.getElementById('totalCategories'));
                     
                     // Actualizar dashboard con datos reales
                     this.updateStats({
                         totalProducts,
-                        availableProducts,
-                        orderProducts,
+                        activeProducts,
+                        inactiveProducts,
                         totalCategories
                     });
                     
@@ -4352,26 +5099,33 @@
                     // En caso de error, mostrar 0
                     this.updateStats({
                         totalProducts: 0,
-                        availableProducts: 0,
-                        orderProducts: 0,
+                        activeProducts: 0,
+                        inactiveProducts: 0,
                         totalCategories: 0
                     });
                 }
             }
             
             updateStats(stats) {
+                console.log('🔄 Actualizando estadísticas en el DOM:', stats);
+                
                 // Update main stats
                 const elements = {
                     totalProducts: stats.totalProducts || 0,
-                    availableProducts: stats.availableProducts || 0,
-                    orderProducts: stats.orderProducts || 0,
+                    activeProducts: stats.activeProducts || 0,
+                    inactiveProducts: stats.inactiveProducts || 0,
                     totalCategories: stats.totalCategories || 0
                 };
+                
+                console.log('📝 Elementos a actualizar:', elements);
                 
                 Object.keys(elements).forEach(key => {
                     const element = document.getElementById(key);
                     if (element) {
+                        console.log(`✅ Actualizando ${key}: ${elements[key]}`);
                         element.textContent = elements[key];
+                    } else {
+                        console.log(`❌ Elemento no encontrado: ${key}`);
                     }
                 });
                 
@@ -4396,6 +5150,9 @@
             await loadProducts();
             await loadCategories();
             setupProductFilters();
+            
+            // Mostrar estadísticas de productos
+            await getRealProductCounts();
         }
         
         async function loadProducts() {
@@ -4458,8 +5215,187 @@
         }
         
         function updateProductCounters() {
-            // Actualizar contadores con datos reales de la base de datos
-            getRealProductCounts();
+            // Esta función ya no es necesaria para el dashboard
+            // Los datos se cargan a través de DashboardManager.loadDashboardStats()
+            console.log('📊 updateProductCounters() - Datos ya cargados por DashboardManager');
+        }
+
+        // Función para cargar la tabla de productos recientes
+        async function loadRecentProductsTable() {
+            try {
+                const { data: recentProducts, error } = await supabaseClient
+                    .from('products')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+                
+                if (error) throw error;
+                
+                const tableBody = document.getElementById('recentProductsTable');
+                if (!tableBody) return;
+                
+                if (!recentProducts || recentProducts.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 20px; color: var(--text-muted);">
+                                No hay productos registrados
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                tableBody.innerHTML = recentProducts.map(product => `
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                ${product.image ? 
+                                    `<img src="${product.image}" alt="${product.name}" style="width: 30px; height: 30px; border-radius: 4px; object-fit: cover;">` : 
+                                    `<div style="width: 30px; height: 30px; border-radius: 4px; background: var(--bg-soft); display: flex; align-items: center; justify-content: center; font-size: 12px;">📦</div>`
+                                }
+                                <span>${product.name || 'Sin nombre'}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="category-badge" style="background: var(--bg-soft); padding: 4px 8px; border-radius: 12px; font-size: 12px;">
+                                ${product.category || 'Sin categoría'}
+                            </span>
+                        </td>
+                        <td>
+                            <strong>$${product.price ? parseFloat(product.price).toFixed(2) : '0.00'}</strong>
+                        </td>
+                        <td>
+                            ${getStatusBadge(product.status)}
+                        </td>
+                        <td>
+                            <span style="font-size: 12px; color: var(--text-muted);">
+                                ${product.created_at ? new Date(product.created_at).toLocaleDateString('es-ES') : 'N/A'}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editProduct('${product.id}')" style="padding: 4px 8px; font-size: 12px;">
+                                Editar
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error loading recent products:', error);
+                const tableBody = document.getElementById('recentProductsTable');
+                if (tableBody) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 20px; color: var(--error);">
+                                Error al cargar productos
+                            </td>
+                        </tr>
+                    `;
+                }
+            }
+        }
+
+        // Función helper para obtener badge de estado
+        function getStatusBadge(status) {
+            const statusConfig = {
+                'Disponible': { color: 'var(--success)', icon: '✅' },
+                'Por encargue': { color: 'var(--warning)', icon: '⏳' },
+                'Agotado': { color: 'var(--error)', icon: '❌' },
+                'Inactivo': { color: 'var(--text-muted)', icon: '⏸️' }
+            };
+            
+            const config = statusConfig[status] || { color: 'var(--text-muted)', icon: '❓' };
+            
+            return `
+                <span class="status-badge" style="
+                    background: ${config.color}20; 
+                    color: ${config.color}; 
+                    padding: 4px 8px; 
+                    border-radius: 12px; 
+                    font-size: 12px; 
+                    font-weight: 500;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 4px;
+                ">
+                    <span>${config.icon}</span>
+                    <span>${status || 'Desconocido'}</span>
+                </span>
+            `;
+        }
+
+        // Función para cargar datos adicionales de analytics
+        async function loadAnalyticsData() {
+            try {
+                console.log('📊 Cargando datos adicionales de analytics...');
+                
+                // Obtener productos por categoría
+                const { data: productsByCategory, error: categoryError } = await supabaseClient
+                    .from('products')
+                    .select('category, activo')
+                    .eq('activo', true);
+                
+                if (categoryError) throw categoryError;
+                
+                // Contar productos por categoría
+                const categoryCounts = {};
+                productsByCategory?.forEach(product => {
+                    const category = product.category || 'Sin categoría';
+                    categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+                });
+                
+                // Encontrar categoría más popular
+                const topCategory = Object.entries(categoryCounts)
+                    .sort(([,a], [,b]) => b - a)[0];
+                
+                // Calcular valor total del inventario
+                const { data: productsWithPrice, error: priceError } = await supabaseClient
+                    .from('products')
+                    .select('price, activo')
+                    .eq('activo', true)
+                    .not('price', 'is', null);
+                
+                if (priceError) throw priceError;
+                
+                const totalInventoryValue = productsWithPrice?.reduce((sum, product) => {
+                    return sum + (parseFloat(product.price) || 0);
+                }, 0) || 0;
+                
+                // Actualizar elementos de analytics si existen
+                updateAnalyticsElements({
+                    topCategory: topCategory ? topCategory[0] : 'N/A',
+                    topCategoryCount: topCategory ? topCategory[1] : 0,
+                    totalValue: totalInventoryValue,
+                    avgPrice: productsWithPrice?.length ? totalInventoryValue / productsWithPrice.length : 0
+                });
+                
+                console.log('✅ Analytics cargados:', {
+                    topCategory,
+                    categoryCounts,
+                    totalInventoryValue
+                });
+                
+            } catch (error) {
+                console.error('❌ Error cargando analytics:', error);
+            }
+        }
+
+        // Función para actualizar elementos de analytics en el DOM
+        function updateAnalyticsElements(data) {
+            const elements = {
+                'topCategory': data.topCategory || 'N/A',
+                'topCategoryCount': data.topCategoryCount || 0,
+                'totalInventoryValue': `$${data.totalValue.toFixed(2)}`,
+                'avgProductPrice': `$${data.avgPrice.toFixed(2)}`
+            };
+            
+            Object.keys(elements).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = elements[key];
+                    console.log(`✅ Analytics actualizado ${key}: ${elements[key]}`);
+                }
+            });
         }
         
         async function getRealProductCounts() {
@@ -5122,7 +6058,8 @@
             console.log('currentEditingId:', currentEditingId);
             
             try {
-                notificationManager.loading(editingProductId ? 'Actualizando producto...' : 'Guardando producto...');
+                // Silenciar notificaciones de carga para no interferir
+                // notificationManager.loading(editingProductId ? 'Actualizando producto...' : 'Guardando producto...');
                 
                 // MODO DEMO - Simular guardado sin conexión a Supabase
                 if (DEMO_MODE) {
@@ -5217,7 +6154,8 @@
             if (!confirm('¿Estás seguro de que deseas eliminar este producto?')) return;
             
             try {
-                notificationManager.loading('Eliminando producto...');
+                // Silenciar notificaciones de carga para no interferir
+                // notificationManager.loading('Eliminando producto...');
                 
                 const { error } = await supabaseClient.from('products').delete().eq('id', productId);
                 if (error) throw error;
@@ -5272,7 +6210,8 @@
             }
             
             try {
-                notificationManager.loading('Subiendo imagen...');
+                // Silenciar notificaciones de carga para no interferir
+                // notificationManager.loading('Subiendo imagen...');
                 
                 // For now, convert to base64 (in production you'd upload to Supabase Storage)
                 const imageUrl = await convertToBase64(file);
@@ -6289,18 +7228,234 @@
         
         // ===== INICIALIZACIÓN =====
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize notification manager
-            notificationManager = new NotificationManager();
+            // Sistema de autenticación
+            const authSystem = {
+                // Elementos DOM
+                loginScreen: document.getElementById('loginScreen'),
+                adminPanel: document.getElementById('adminPanel'),
+                loginForm: document.getElementById('loginForm'),
+                loginBtn: document.getElementById('loginBtn'),
+                logoutBtn: document.getElementById('logoutBtn'),
+                loginError: document.getElementById('loginError'),
+                
+                // Estado de autenticación
+                isAuthenticated: false,
+                currentUser: null,
+                
+                // Inicializar sistema de autenticación
+                init() {
+                    this.setupEventListeners();
+                    this.checkAuthState();
+                },
+                
+                // Configurar event listeners
+                setupEventListeners() {
+                    // Formulario de login
+                    if (this.loginForm) {
+                        this.loginForm.addEventListener('submit', (e) => {
+                            e.preventDefault();
+                            this.handleLogin();
+                        });
+                    }
+                    
+                    // Botón de logout
+                    if (this.logoutBtn) {
+                        this.logoutBtn.addEventListener('click', () => {
+                            this.handleLogout();
+                        });
+                    }
+                },
+                
+                // Verificar estado de autenticación
+                async checkAuthState() {
+                    try {
+                        const { data: { session }, error } = await supabaseClient.auth.getSession();
+                        
+                        if (error) {
+                            console.error('Error checking auth state:', error);
+                            this.showLogin();
+                            return;
+                        }
+                        
+                        if (session) {
+                            this.handleAuthSuccess(session.user);
+                        } else {
+                            this.showLogin();
+                        }
+                    } catch (error) {
+                        console.error('Error checking auth state:', error);
+                        this.showLogin();
+                    }
+                },
+                
+                // Manejar login
+                async handleLogin() {
+                    const email = document.getElementById('email').value.trim();
+                    const password = document.getElementById('password').value;
+                    
+                    if (!email || !password) {
+                        this.showLoginError('Por favor completa todos los campos');
+                        return;
+                    }
+                    
+                    this.setLoginLoading(true);
+                    this.hideLoginError();
+                    
+                    try {
+                        const { data, error } = await supabaseClient.auth.signInWithPassword({
+                            email,
+                            password
+                        });
+                        
+                        if (error) {
+                            this.showLoginError('Credenciales incorrectas. Intenta nuevamente.');
+                            return;
+                        }
+                        
+                        if (data.user) {
+                            this.handleAuthSuccess(data.user);
+                        }
+                    } catch (error) {
+                        console.error('Login error:', error);
+                        this.showLoginError('Error al iniciar sesión. Intenta nuevamente.');
+                    } finally {
+                        this.setLoginLoading(false);
+                    }
+                },
+                
+                // Manejar logout
+                async handleLogout() {
+                    console.log('Iniciando logout...');
+                    
+                    try {
+                        // Cerrar sesión en Supabase
+                        const { error } = await supabaseClient.auth.signOut();
+                        
+                        if (error) {
+                            console.error('Error en Supabase logout:', error);
+                        }
+                        
+                        // Forzar logout local independientemente del resultado
+                        this.forceLogout();
+                        
+                    } catch (error) {
+                        console.error('Logout error:', error);
+                        // Forzar logout incluso si hay error
+                        this.forceLogout();
+                    }
+                },
+                
+                // Forzar logout local
+                forceLogout() {
+                    console.log('Forzando logout local...');
+                    
+                    // Resetear estado de autenticación
+                    this.isAuthenticated = false;
+                    this.currentUser = null;
+                    
+                    // Limpiar formulario de login
+                    if (this.loginForm) {
+                        this.loginForm.reset();
+                    }
+                    
+                    // Ocultar errores de login
+                    this.hideLoginError();
+                    
+                    // Mostrar pantalla de login y ocultar panel admin
+                    this.showLogin();
+                    
+                    // Forzar recarga de estado para asegurar que no quede rastro de la sesión
+                    setTimeout(() => {
+                        this.checkAuthState();
+                    }, 100);
+                },
+                
+                // Manejar éxito de autenticación
+                handleAuthSuccess(user) {
+                    this.isAuthenticated = true;
+                    this.currentUser = user;
+                    this.showAdmin();
+                    
+                    // Inicializar el resto del sistema solo después del login
+                    initializeAdminSystem();
+                },
+                
+                // Mostrar pantalla de login
+                showLogin() {
+                    if (this.loginScreen) this.loginScreen.style.display = 'flex';
+                    if (this.adminPanel) this.adminPanel.style.display = 'none';
+                    this.isAuthenticated = false;
+                    this.currentUser = null;
+                },
+                
+                // Mostrar panel de admin
+                showAdmin() {
+                    if (this.loginScreen) this.loginScreen.style.display = 'none';
+                    if (this.adminPanel) this.adminPanel.style.display = 'block';
+                },
+                
+                // Mostrar error de login
+                showLoginError(message) {
+                    if (this.loginError) {
+                        this.loginError.textContent = message;
+                        this.loginError.style.display = 'block';
+                    }
+                },
+                
+                // Ocultar error de login
+                hideLoginError() {
+                    if (this.loginError) {
+                        this.loginError.style.display = 'none';
+                    }
+                },
+                
+                // Configurar estado de carga del botón de login
+                setLoginLoading(loading) {
+                    if (this.loginBtn) {
+                        this.loginBtn.disabled = loading;
+                        const btnText = this.loginBtn.querySelector('.btn-text');
+                        const btnLoading = this.loginBtn.querySelector('.btn-loading');
+                        
+                        if (btnText && btnLoading) {
+                            btnText.style.display = loading ? 'none' : 'block';
+                            btnLoading.style.display = loading ? 'block' : 'none';
+                        }
+                    }
+                }
+            };
             
-            // Initialize modal validation system
-            setupModalValidation();
+            // Escuchar cambios de autenticación
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+                console.log('Auth state changed:', event, session);
+                
+                if (event === 'SIGNED_IN' && session) {
+                    // Solo procesar si no está ya autenticado (evitar duplicados)
+                    if (!authSystem.isAuthenticated) {
+                        authSystem.handleAuthSuccess(session.user);
+                    }
+                } else if (event === 'SIGNED_OUT') {
+                    // Solo procesar si está autenticado (evitar duplicados)
+                    if (authSystem.isAuthenticated) {
+                        console.log('Sesión cerrada detectada por onAuthStateChange');
+                        authSystem.forceLogout();
+                    }
+                }
+            });
             
-            // Initialize managers
-            const sidebarManager = new SidebarManager();
-            const pageNavigationManager = new PageNavigationManager();
-            const dashboardManager = new DashboardManager();
-            
-            // Make available globally
+            // Función para inicializar el sistema admin
+            function initializeAdminSystem() {
+                // Initialize notification manager
+                notificationManager = new NotificationManager();
+                
+                // Initialize modal validation system
+                setupModalValidation();
+                
+                // Initialize managers
+                const sidebarManager = new SidebarManager();
+                const pageNavigationManager = new PageNavigationManager();
+                const dashboardManager = new DashboardManager();
+                
+                // Make available globally
             window.sidebarManager = sidebarManager;
             window.pageNavigationManager = pageNavigationManager;
             window.dashboardManager = dashboardManager;
@@ -6312,8 +7467,7 @@
             // Setup theme toggle
             setupThemeToggle();
             
-            // Setup logout
-            setupLogout();
+            // Logout ahora manejado por authSystem
             
             // Setup category form submission
             const categoryForm = document.getElementById('categoryForm');
@@ -6335,21 +7489,8 @@
                 console.log('Event listener directo al botón agregado');
             }
             
-            // Setup product form submission
-            const productForm = document.getElementById('productForm');
-            if (productForm) {
-                productForm.addEventListener('submit', saveProduct);
-            }
-            
-            // Setup direct button click as backup
-            const saveButton = document.getElementById('saveButton');
-            if (saveButton) {
-                saveButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('Botón guardar clickeado directamente');
-                    saveProduct(e);
-                });
-            }
+            // Event listeners eliminados - ya se manejan desde el HTML con onclick
+            // Esto evita múltiples ejecuciones de saveProduct
             
             // Setup product filters
             setupProductFilters();
@@ -6361,6 +7502,13 @@
             loadInitialData();
             
             console.log('Panel Admin - Aromas Ara inicializado');
+            }
+            
+            // Inicializar sistema de autenticación
+            authSystem.init();
+            
+            // Hacer authSystem globalmente disponible
+            window.authSystem = authSystem;
         });
         
         // ===== FUNCIÓN DE CARGA INICIAL =====
@@ -6791,19 +7939,7 @@
             }
         }
         
-        function setupLogout() {
-            const logoutBtn = document.getElementById('logoutBtn');
-            if (!logoutBtn) return;
-            
-            logoutBtn.addEventListener('click', () => {
-                if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                    notificationManager.info('Cerrando sesión...');
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1000);
-                }
-            });
-        }
+        // setupLogout() eliminado - ahora manejado por authSystem
         
         // ===== FUNCIONES DE EXPORTACIÓN =====
         async function exportProducts(format = 'csv') {
@@ -6884,7 +8020,8 @@
         async function loadOffers() {
             try {
                 console.log('Cargando ofertas...');
-                notificationManager.loading('Cargando ofertas...');
+                // Silenciar notificaciones de carga para no interferir
+                // notificationManager.loading('Cargando ofertas...');
                 
                 // Query básica para productos en oferta
                 let query = supabaseClient.from('products').select('*').eq('en_oferta', true);
@@ -6916,7 +8053,8 @@
                 renderOffersTable();
                 updateOffersStats();
                 
-                notificationManager.success(`Se cargaron ${offers.length} ofertas correctamente`);
+                // Silenciar notificaciones de éxito para no interferir
+                // notificationManager.success(`Se cargaron ${offers.length} ofertas correctamente`);
                 
             } catch (error) {
                 console.error('Error cargando ofertas:', error);
@@ -7075,7 +8213,8 @@
         
         async function removeFromOffers(productId) {
             try {
-                notificationManager.loading('Quitando producto de ofertas...');
+                // Silenciar notificaciones de carga para no interferir
+                // notificationManager.loading('Quitando producto de ofertas...');
                 
                 const { error } = await supabaseClient
                     .from('products')
@@ -7087,7 +8226,8 @@
                 
                 if (error) throw error;
                 
-                notificationManager.success('✅ Producto quitado de ofertas correctamente');
+                // Silenciar notificaciones de éxito para no interferir
+                // notificationManager.success('✅ Producto quitado de ofertas correctamente');
                 await loadOffers();
                 await loadProducts(); // Actualizar tabla principal también
                 
@@ -7385,5 +8525,8 @@
         window.exportSettings = exportSettings;
         window.showSystemInfo = showSystemInfo;
     </script>
+    
+    <!-- Cerrar contenedor del admin panel -->
+    </div>
 </body>
 </html>
