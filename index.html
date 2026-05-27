@@ -3064,6 +3064,7 @@
           </div>
         </div>
         <p id="modalDescription"></p>
+        <div id="modalPrice" style="margin: 16px 0;"></div>
         <div id="modalColorSelector" style="display: none; margin: 20px 0; padding: 16px; background: linear-gradient(135deg, var(--color-beige), var(--color-crema)); border-radius: 20px; border: 2px solid var(--color-nude);">
           <div style="font-size: 16px; font-weight: 600; color: var(--color-natural); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
             <span style="font-size: 20px;">🎨</span>
@@ -3257,6 +3258,7 @@ const modal = document.getElementById('productModal');
 const modalImage = document.getElementById('modalImage');
 const modalTitle = document.getElementById('modalTitle');
 const modalDescription = document.getElementById('modalDescription');
+const modalPrice = document.getElementById('modalPrice');
 const modalFeatures = document.getElementById('modalFeatures');
 const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
 const modalAddToCartText = document.getElementById('modalAddToCartText');
@@ -6055,6 +6057,28 @@ function openModal(card) {
   
   // Get product data from productId
   const product = products.find(p => p.id === productId);
+  
+  // Display price
+  if (product) {
+    if (product.en_oferta && product.precio_oferta && product.price) {
+      const discount = ((product.price - product.precio_oferta) / product.price * 100).toFixed(1);
+      modalPrice.innerHTML = `
+        <div class="offer-pricing">
+          <span class="original-price">$${product.price.toFixed(2)}</span>
+          <span class="offer-price">$${product.precio_oferta.toFixed(2)}</span>
+          <span class="discount-percentage">-${discount}% OFF</span>
+        </div>
+      `;
+    } else {
+      modalPrice.innerHTML = `
+        <div class="product-price">
+          <span class="price-current">$${product.price ? product.price.toFixed(2) : '0.00'}</span>
+        </div>
+      `;
+    }
+  } else {
+    modalPrice.innerHTML = '';
+  }
   
   if (product && product.colors && product.colors.length > 0) {
     modalColorSelector.style.display = 'block';
