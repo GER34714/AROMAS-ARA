@@ -871,22 +871,172 @@
       scroll-snap-align: start;
     }
     
-    /* Ofertas Especiales - Cards con altura fija y consistente */
-    #ofertas .carousel-track {
-      align-items: stretch;
+    /* Ofertas Especiales - Carrusel Simple */
+    .ofertas-carousel-simple {
+      width: 100%;
+      margin: 30px 0;
     }
     
-    #ofertas .carousel-track .product-card {
-      height: 420px; /* Altura fija para todas las cards */
-      flex: 0 0 260px;
-      min-width: 0;
-      max-width: 260px;
-      scroll-snap-align: start;
+    .ofertas-carousel-simple .carousel-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+    
+    .ofertas-carousel-simple .carousel-track {
+      display: flex;
+      align-items: stretch;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      cursor: grab;
+      user-select: none;
+      -webkit-overflow-scrolling: touch; /* Para iOS */
+      scrollbar-width: thin; /* Para Firefox */
+      scrollbar-color: var(--color-lavanda) transparent; /* Para Firefox */
+    }
+    
+    /* Scrollbar personalizado para Webkit */
+    .ofertas-carousel-simple .carousel-track::-webkit-scrollbar {
+      height: 6px;
+    }
+    
+    .ofertas-carousel-simple .carousel-track::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .ofertas-carousel-simple .carousel-track::-webkit-scrollbar-thumb {
+      background: var(--color-lavanda);
+      border-radius: 3px;
+    }
+    
+    .ofertas-carousel-simple .carousel-track::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+    
+    .ofertas-carousel-simple .carousel-track.dragging {
+      cursor: grabbing;
+    }
+    
+    .ofertas-carousel-simple .carousel-track .product-card {
+      flex: 0 0 280px;
+      height: 420px;
+      margin-right: 20px;
+      border-radius: 12px;
+      box-sizing: border-box;
+    }
+    
+    .ofertas-carousel-simple .carousel-track .product-card:last-child {
+      margin-right: 0;
+    }
+    
+    .ofertas-carousel-simple .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 250, 0.95);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: all 0.3s ease;
+      color: var(--text);
+    }
+    
+    .ofertas-carousel-simple .carousel-btn:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-50%) scale(1.05);
+    }
+    
+    .ofertas-carousel-simple .carousel-btn.prev {
+      left: 10px;
+    }
+    
+    .ofertas-carousel-simple .carousel-btn.next {
+      right: 10px;
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .ofertas-carousel-simple .carousel-track .product-card {
+        flex: 0 0 240px;
+        height: 380px;
+        margin-right: 16px;
+      }
+      
+      .ofertas-carousel-simple .carousel-btn {
+        width: 36px;
+        height: 36px;
+      }
+      
+      .ofertas-carousel-simple .carousel-btn.prev {
+        left: 8px;
+      }
+      
+      .ofertas-carousel-simple .carousel-btn.next {
+        right: 8px;
+      }
+    }
+    
+    /* Carrusel de ofertas con imagen separada */
+    .ofertas-carousel-card {
+      position: relative;
+    }
+    
+    .ofertas-carousel-card .ofertas-media-container {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      border-radius: 12px 12px 0 0;
+    }
+    
+    .ofertas-carousel-card .ofertas-image-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .ofertas-carousel-card .ofertas-image-track img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .ofertas-carousel-card .ofertas-media-container .product-badges {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .ofertas-carousel-card .ofertas-media-container .product-badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.9);
     }
     
     #ofertas .carousel-track .product-media {
       height: 200px;
       overflow: hidden;
+      touch-action: none; /* Desactivar gestos en imágenes */
     }
     
     #ofertas .carousel-track .product-media img {
@@ -895,6 +1045,7 @@
       object-fit: contain;
       object-position: center;
       background-color: #F5EDE0;
+      pointer-events: none; /* Prevenir interacción con imagen */
     }
     
     .carousel-btn {
@@ -1127,12 +1278,18 @@
         min-width: unset !important;
       }
       
-      /* Forzar ofertas especiales a 2 columnas en mobile */
+      /* Ofertas especiales - ajustado para mobile */
       #ofertas .carousel-track .product-card {
-        flex: 0 0 calc(50% - 8px) !important;
-        width: calc(50% - 8px) !important;
-        max-width: calc(50% - 8px) !important;
-        min-width: unset !important;
+        flex: 0 0 calc(50% - 12px) !important;
+        width: calc(50% - 12px) !important;
+        max-width: calc(50% - 12px) !important;
+        margin-right: 24px !important;
+        min-width: calc(50% - 12px) !important;
+        height: 380px !important; /* Altura reducida para mobile */
+      }
+      
+      #ofertas .carousel-track .product-card:last-child {
+        margin-right: 0 !important;
       }
       
       .carousel-track .product-card {
@@ -2702,30 +2859,25 @@
         </div>
       </div>
       
-      <div class="offers-carousel">
-        <div class="carousel-wrapper">
-          <div class="carousel-container">
-            <button class="carousel-btn prev" id="ofertasPrevBtn">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </button>
-            
-            <div class="carousel-track" id="ofertasCarouselTrack">
-              <!-- Offer products will be loaded dynamically -->
-            </div>
-            
-            <button class="carousel-btn next" id="ofertasNextBtn">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
+      <div class="ofertas-carousel-simple">
+        <div class="carousel-container">
+          <div class="carousel-track" id="ofertasCarouselTrack">
+            <!-- Offer products will be loaded dynamically -->
           </div>
+          
+          <!-- Navigation buttons -->
+          <button class="carousel-btn prev" id="ofertasPrevBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="carousel-btn next" id="ofertasNextBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
         </div>
-        
-        <div class="carousel-indicators" id="ofertasIndicators">
-          <!-- Indicators will be added dynamically -->
-        </div>
+      </div>
         
         <!-- Offers Pagination Controls -->
         <div class="pagination-controls" id="offersPaginationControls" style="display: none; margin-top: 20px;">
@@ -3557,6 +3709,22 @@ async function loadSpecialSections() {
     console.log('Todos los productos (primeros 10):', allProducts);
     console.log('Error todos los productos:', allProductsError);
     
+    // Debug: Verificar todos los productos activos primero
+    const { data: todosActivos, error: todosError } = await supabaseClient
+      .from('products')
+      .select('*')
+      .eq('activo', true);
+    
+    console.log('🔍 DEBUG - Todos los productos activos:', todosActivos?.length || 0);
+    console.log('🔍 DEBUG - Muestra de productos activos:', todosActivos?.slice(0, 3));
+    
+    // Debug: Verificar el campo en_oferta de todos los productos
+    if (todosActivos) {
+      const conOferta = todosActivos.filter(p => p.en_oferta === true || p.en_oferta === 'true' || p.en_oferta === 1);
+      console.log('🔍 DEBUG - Productos con en_oferta=true:', conOferta.length);
+      console.log('🔍 DEBUG - Productos en oferta:', conOferta.map(p => ({ name: p.name, en_oferta: p.en_oferta })));
+    }
+    
     // Now try the specific query for offers (load all for pagination)
     const { data: ofertasProductos, error: ofertasError } = await supabaseClient
       .from('products')
@@ -3581,7 +3749,10 @@ async function loadSpecialSections() {
     console.log('Ofertas cargadas (query alternativa):', { ofertasProductos2, ofertasError2 });
     
     // Use the query that returns results
-    const ofertasResults = ofertasProductos2?.length > 0 ? ofertasProductos2 : ofertasProductos;
+    let ofertasResults = ofertasProductos2?.length > 0 ? ofertasProductos2 : ofertasProductos;
+    
+    console.log('🎯 RESULTADO FINAL - Ofertas a mostrar:', ofertasResults?.length || 0);
+    console.log('🎯 PRODUCTOS EN OFERTA:', ofertasResults?.map(p => ({ id: p.id, name: p.name, en_oferta: p.en_oferta })));
     
     // Only show products that are actually marked as en_oferta = true
     // No fallback to regular products - if no offers, show "no offers" message
@@ -3657,14 +3828,10 @@ async function loadSpecialSections() {
   }
 }
 
-// Offers Carousel Functionality
-let ofertasCarousel = {
+// Carrusel Simple de Ofertas
+let ofertasCarouselSimple = {
   currentIndex: 0,
-  totalSlides: 0,
-  autoRotateInterval: null,
-  resumeTimeout: null,
-  isPaused: false,
-  autoRotateDelay: 4000 // 4 seconds between slides
+  totalSlides: 0
 };
 
 function initializeOffersCarousel() {
@@ -3674,110 +3841,193 @@ function initializeOffersCarousel() {
   
   if (!track) return;
   
-  ofertasCarousel.totalSlides = track.children.length;
+  console.log('🎯 DEBUG - Carrusel de ofertas inicializado con botones');
+  console.log(`🎯 DEBUG - Total de productos: ${track.children.length}`);
   
-  // Event listeners for navigation
+  // Calcular el ancho de cada tarjeta
+  const isMobile = window.innerWidth <= 768;
+  const cardWidth = isMobile ? 240 : 280;
+  const gap = isMobile ? 16 : 20;
+  const scrollAmount = cardWidth + gap;
+  
+  // Event listeners para botones
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-      pauseCarousel();
-      previousSlide();
+      track.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth'
+      });
     });
   }
   
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      pauseCarousel();
-      nextSlide();
+      track.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
     });
   }
   
-  // Pause on carousel interaction
-  track.addEventListener('mouseenter', pauseCarousel);
-  track.addEventListener('touchstart', pauseCarousel);
-  track.addEventListener('click', pauseCarousel);
+  console.log(`🎯 DEBUG - Scroll amount: ${scrollAmount}px`);
   
-  // Resume on mouse leave (with 45 second delay)
+  // Event listeners para swipe gestures
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
+  
+  // Mouse events
+  track.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX;
+    currentX = startX;
+    track.style.cursor = 'grabbing';
+    track.classList.add('dragging');
+    track.style.transition = 'none';
+  });
+  
+  track.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    
+    currentX = e.clientX;
+    const diff = currentX - startX;
+    
+    // Calcular dinámicamente
+    const isMobile = window.innerWidth <= 768;
+    const cardWidth = isMobile ? 240 : 280;
+    const gap = isMobile ? 16 : 20;
+    
+    const currentPosition = -ofertasCarouselSimple.currentIndex * (cardWidth + gap);
+    track.style.transform = `translateX(${currentPosition + diff}px)`;
+  });
+  
+  track.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+    
+    isDragging = false;
+    track.classList.remove('dragging');
+    
+    const diff = currentX - startX;
+    const threshold = 100; // 100px para cambiar de slide
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        previousSlide();
+      } else {
+        nextSlide();
+      }
+    } else {
+      updateCarouselPosition();
+    }
+  });
+  
   track.addEventListener('mouseleave', () => {
-    if (ofertasCarousel.isPaused) {
-      scheduleCarouselResume();
+    if (isDragging) {
+      isDragging = false;
+      track.classList.remove('dragging');
+      updateCarouselPosition();
     }
   });
   
-  // Start auto-rotation
-  startAutoRotate();
-}
-
-function startAutoRotate() {
-  stopAutoRotate();
-  ofertasCarousel.autoRotateInterval = setInterval(() => {
-    if (!ofertasCarousel.isPaused) {
-      nextSlide();
+  // Touch events para mobile
+  track.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].clientX;
+    currentX = startX;
+    track.style.transition = 'none';
+  }, { passive: true });
+  
+  track.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    
+    currentX = e.touches[0].clientX;
+    const diff = currentX - startX;
+    
+    // Calcular dinámicamente
+    const isMobile = window.innerWidth <= 768;
+    const cardWidth = isMobile ? 240 : 280;
+    const gap = isMobile ? 16 : 20;
+    
+    const currentPosition = -ofertasCarouselSimple.currentIndex * (cardWidth + gap);
+    track.style.transform = `translateX(${currentPosition + diff}px)`;
+  }, { passive: true });
+  
+  track.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    
+    isDragging = false;
+    
+    const diff = currentX - startX;
+    const threshold = 100;
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        previousSlide();
+      } else {
+        nextSlide();
+      }
+    } else {
+      updateCarouselPosition();
     }
-  }, ofertasCarousel.autoRotateDelay);
-}
-
-function stopAutoRotate() {
-  if (ofertasCarousel.autoRotateInterval) {
-    clearInterval(ofertasCarousel.autoRotateInterval);
-    ofertasCarousel.autoRotateInterval = null;
-  }
-}
-
-function pauseCarousel() {
-  ofertasCarousel.isPaused = true;
-  
-  // Clear any pending resume timeout
-  if (ofertasCarousel.resumeTimeout) {
-    clearTimeout(ofertasCarousel.resumeTimeout);
-    ofertasCarousel.resumeTimeout = null;
-  }
-}
-
-function scheduleCarouselResume() {
-  // Clear any existing timeout
-  if (ofertasCarousel.resumeTimeout) {
-    clearTimeout(ofertasCarousel.resumeTimeout);
-  }
-  
-  // Schedule resume after 45 seconds
-  ofertasCarousel.resumeTimeout = setTimeout(() => {
-    ofertasCarousel.isPaused = false;
-    startAutoRotate();
-  }, 45000); // 45 seconds
-}
-
-function goToSlide(index) {
-  pauseCarousel();
-  
-  const track = document.getElementById('ofertasCarouselTrack');
-  const indicators = document.querySelectorAll('#ofertasIndicators .indicator');
-  
-  if (!track || index < 0 || index >= ofertasCarousel.totalSlides) return;
-  
-  ofertasCarousel.currentIndex = index;
-  
-  // Move carousel
-  const slideWidth = 25; // 25% per slide
-  track.style.transform = `translateX(-${slideWidth * index}%)`;
-  
-  // Update indicators
-  indicators.forEach((indicator, i) => {
-    indicator.classList.toggle('active', i === index);
   });
   
-  // Schedule resume
-  scheduleCarouselResume();
-}
-
-function nextSlide() {
-  const nextIndex = (ofertasCarousel.currentIndex + 1) % ofertasCarousel.totalSlides;
-  goToSlide(nextIndex);
+  // Posición inicial
+  updateCarouselPosition(true); // instant para evitar animación inicial
 }
 
 function previousSlide() {
-  const prevIndex = ofertasCarousel.currentIndex === 0 ? 
-    ofertasCarousel.totalSlides - 1 : ofertasCarousel.currentIndex - 1;
-  goToSlide(prevIndex);
+  // Mover un producto a la vez
+  if (ofertasCarouselSimple.currentIndex > 0) {
+    ofertasCarouselSimple.currentIndex--;
+  } else {
+    // Volver al último producto
+    ofertasCarouselSimple.currentIndex = ofertasCarouselSimple.totalSlides - 1;
+  }
+  updateCarouselPosition();
+}
+
+function nextSlide() {
+  // Mover un producto a la vez
+  if (ofertasCarouselSimple.currentIndex < ofertasCarouselSimple.totalSlides - 1) {
+    ofertasCarouselSimple.currentIndex++;
+  } else {
+    // Volver al primer producto
+    ofertasCarouselSimple.currentIndex = 0;
+  }
+  updateCarouselPosition();
+}
+
+function updateCarouselPosition(instant = false) {
+  const track = document.getElementById('ofertasCarouselTrack');
+  const container = document.querySelector('.ofertas-carousel-simple .carousel-container');
+  if (!track || !container) return;
+  
+  // Calcular dinámicamente el ancho de las tarjetas
+  const isMobile = window.innerWidth <= 768;
+  const cardWidth = isMobile ? 240 : 280;
+  const gap = isMobile ? 16 : 20;
+  
+  // Calcular cuántos productos se ven a la vez
+  const containerWidth = container.clientWidth;
+  const productsVisible = Math.floor(containerWidth / (cardWidth + gap));
+  
+  // Los botones deben mover solo un producto a la vez
+  const slideDistance = (cardWidth + gap) * ofertasCarouselSimple.currentIndex;
+  
+  console.log(`🎯 DEBUG - Container: ${containerWidth}px, Card: ${cardWidth}px, Gap: ${gap}px`);
+  console.log(`🎯 DEBUG - Productos visibles: ${productsVisible}, Current index: ${ofertasCarouselSimple.currentIndex}`);
+  console.log(`🎯 DEBUG - Slide distance: ${slideDistance}px`);
+  
+  // Unificar el mecanismo: siempre usar transform: translateX
+  if (instant) {
+    track.style.transition = 'none';
+    track.style.transform = `translateX(-${slideDistance}px)`;
+    // Forzar reflow y restaurar transición
+    void track.offsetWidth;
+    track.style.transition = 'transform 0.3s ease';
+  } else {
+    track.style.transform = `translateX(-${slideDistance}px)`;
+  }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -4030,7 +4280,7 @@ function loadMoreFeaturedProducts() {
   }
 }
 
-// Render paginated offers products
+// Render offers products in carousel (botones solo)
 function renderOffersProducts() {
   const ofertasSection = document.getElementById('ofertas');
   const ofertasCarouselTrack = document.getElementById('ofertasCarouselTrack');
@@ -4042,7 +4292,7 @@ function renderOffersProducts() {
   
   if (allOffersProducts.length === 0) {
     ofertasCarouselTrack.innerHTML = `
-      <div style="grid-column: 1/-1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 20px; color: var(--muted); min-height: 300px;">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 20px; color: var(--muted); min-height: 300px; width: 100%;">
         <div style="font-size: 3rem; margin-bottom: 16px;">🔥</div>
         <h3 style="font-size: 1.5rem; margin-bottom: 8px; color: var(--text);">Próximamente Ofertas</h3>
         <p style="margin-bottom: 20px; max-width: 600px;">Estamos preparando las mejores ofertas para vos. Volvé pronto para ver nuestras promociones exclusivas.</p>
@@ -4052,14 +4302,12 @@ function renderOffersProducts() {
     return;
   }
 
-  // Calculate pagination
-  const startIndex = (offersCurrentPage - 1) * offersPerPage;
-  const endIndex = startIndex + offersPerPage;
-  const paginatedOffers = allOffersProducts.slice(startIndex, endIndex);
-
-  // Show offers
-  paginatedOffers.forEach((product, index) => {
-    const productCard = createProductCard(product);
+  // Show offers in carousel
+  console.log('🎨 RENDER - Iniciando renderizado de', allOffersProducts.length, 'productos');
+  
+  allOffersProducts.forEach((product, index) => {
+    console.log(`🎨 RENDER - Agregando producto ${index + 1}/${allOffersProducts.length}:`, product.name);
+    const productCard = createOfertasCarouselCard(product);
     ofertasCarouselTrack.appendChild(productCard);
     
     // Initialize button state if product has colors
@@ -4067,13 +4315,14 @@ function renderOffersProducts() {
       updateCardAddToCartButton(product.id);
     }
   });
-
-  // Update pagination controls
-  updateOffersPaginationControls();
+  
+  console.log('🎨 RENDER - Total de elementos en el carrusel después de renderizar:', ofertasCarouselTrack.children.length);
+  
+  // Hide pagination controls since we're using carousel with buttons
+  document.getElementById('offersPaginationControls').style.display = 'none';
   
   // Initialize carousel after rendering
   initializeOffersCarousel();
-  startAutoRotate();
 }
 
 // Update offers pagination controls
@@ -4521,6 +4770,107 @@ function createProductCard(product) {
         </button>`
         }
       </div>
+    </div>
+  `;
+
+  return article;
+}
+
+// Create product card para carrusel de ofertas (con imagen separada)
+function createOfertasCarouselCard(product) {
+  const article = document.createElement('article');
+  article.className = 'product-card ofertas-carousel-card';
+  article.dataset.category = product.category;
+  article.dataset.name = product.name;
+  article.dataset.image = product.image_url;
+  article.dataset.description = product.description || '';
+  article.dataset.features = JSON.stringify(product.features || []);
+  article.dataset.productId = product.id;
+  article.dataset.status = product.status || 'Por encargue';
+  article.dataset.modalidad = product.modalidad || 'stock';
+
+  const statusClass = product.status === 'Disponible' ? 'status-disponible' : 
+                     product.status === 'Agotado' ? 'status-agotado' : 'status-encargue';
+  
+  const modalidad = product.modalidad || 'stock';
+  const isStock = modalidad === 'stock';
+
+  // Sin badges para productos en ofertas especiales
+  let badgesHtml = '';
+
+  // Create pricing HTML
+  let pricingHtml = '';
+  if (product.en_oferta && product.precio_oferta && product.price) {
+    const discount = ((product.price - product.precio_oferta) / product.price * 100).toFixed(1);
+    pricingHtml = `
+      <div class="offer-pricing">
+        <span class="original-price">$${product.price.toFixed(2)}</span>
+        <span class="offer-price">$${product.precio_oferta.toFixed(2)}</span>
+        <span class="discount-percentage">-${discount}% OFF</span>
+      </div>
+    `;
+  } else {
+    pricingHtml = `<div class="status">$${product.price ? product.price.toFixed(2) : '0.00'}</div>`;
+  }
+
+  article.innerHTML = `
+    <div class="ofertas-media-container">
+      <div class="ofertas-image-track">
+        ${product.image_url ? 
+          `<img src="${product.image_url}" alt="${product.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x180/f0f0f0/cccccc?text=Sin+Imagen'"/>` : 
+          `<div class="product-no-image">
+            <div class="no-image-icon">📷</div>
+          </div>`
+        }
+      </div>
+      ${badgesHtml}
+    </div>
+    <div class="product-body">
+      <h3 class="product-title">${product.name}</h3>
+      ${product.colors && product.colors.length > 0 ? `
+        <div style="font-size: 12px; color: var(--muted); margin: 8px 0;">
+          <div style="font-weight: 600; margin-bottom: 4px;">🎨 Colores disponibles:</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            ${product.colors.map((color, index) => `
+              <div style="
+                display: flex; 
+                align-items: center; 
+                gap: 4px; 
+                padding: 2px 6px; 
+                background: rgba(201,184,212,0.1); 
+                border-radius: 12px; 
+                font-size: 11px;
+                border: 1px solid rgba(201,184,212,0.2);
+              ">
+                <div style="
+                  width: 12px; 
+                  height: 12px; 
+                  background: ${color.color}; 
+                  border-radius: 50%; 
+                  border: 1px solid rgba(0,0,0,0.1);
+                "></div>
+                <span>${color.name}</span>
+              </div>
+            `).join('')}
+          </div>
+                  </div>
+      ` : ''}
+      ${product.description ? `<p class="product-description">${product.description}</p>` : ''}
+      <div class="product-status">${product.status || 'Por encargue'}</div>
+      <div class="product-price">
+        ${product.en_oferta && product.precio_oferta && product.price ? 
+          `<div class="offer-pricing">
+            <span class="original-price">$${product.price.toFixed(2)}</span>
+            <span class="offer-price">$${product.precio_oferta.toFixed(2)}</span>
+            <span class="discount-percentage">-${((product.price - product.precio_oferta) / product.price * 100).toFixed(1)}% OFF</span>
+          </div>` : 
+          `<div class="status">$${product.price ? product.price.toFixed(2) : '0.00'}</div>`
+        }
+      </div>
+      <button class="add-to-cart" data-product-id="${product.id}" data-product-name="${product.name}" data-price="${product.en_oferta ? product.precio_oferta : product.price}">
+        <span class="btn-icon">🛒</span>
+        <span class="btn-text">Agregar al carrito</span>
+      </button>
     </div>
   `;
 
