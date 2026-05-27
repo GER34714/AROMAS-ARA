@@ -952,6 +952,9 @@
       line-height: 1;
       display: inline-block;
       white-space: nowrap;
+      width: fit-content;
+      min-width: fit-content;
+      max-width: none;
     }
     
     .badge-nuevo { background: #2D6A4F; }
@@ -1189,11 +1192,25 @@
     }
     
     .ofertas-carousel-card .ofertas-media-container .product-badge {
+      padding: 4px 6px;
+      border-radius: 20px;
+      color: white;
+      white-space: nowrap;
       font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, 0.9);
+      display: inline-block;
+      width: fit-content;
+    }
+    
+    .ofertas-carousel-card .ofertas-media-container .product-badge.badge-oferta {
+      background: #E63946;
+    }
+    
+    .ofertas-carousel-card .ofertas-media-container .product-badge.badge-stock {
+      background: #2D6A4F;
+    }
+    
+    .ofertas-carousel-card .ofertas-media-container .product-badge.badge-encargue {
+      background: #F4A261;
     }
     
     #ofertas .carousel-track .product-media {
@@ -4594,11 +4611,55 @@ function renderOffersProducts() {
     return;
   }
 
-  // Show offers in carousel
+  // Show offers in carousel con mezcla de categorías
   console.log('🎨 RENDER - Iniciando renderizado de', allOffersProducts.length, 'productos');
   
-  allOffersProducts.forEach((product, index) => {
-    console.log(`🎨 RENDER - Agregando producto ${index + 1}/${allOffersProducts.length}:`, product.name);
+  // Agrupar productos por categoría
+  const productsByCategory = {};
+  allOffersProducts.forEach(product => {
+    const category = product.category || 'Sin categoría';
+    if (!productsByCategory[category]) {
+      productsByCategory[category] = [];
+    }
+    productsByCategory[category].push(product);
+  });
+  
+  console.log('📊 Categorías encontradas:', Object.keys(productsByCategory));
+  console.log('📊 Productos por categoría:', 
+    Object.fromEntries(
+      Object.entries(productsByCategory).map(([cat, products]) => [cat, products.length])
+    )
+  );
+  
+  // Crear lista mezclada para evitar dominancia de una categoría
+  const mixedProducts = [];
+  const categories = Object.keys(productsByCategory);
+  const maxPerCategory = Math.max(1, Math.floor(allOffersProducts.length / categories.length));
+  
+  console.log(`🎯 MIX - Máximo por categoría: ${maxPerCategory}`);
+  
+  // Tomar productos de cada categoría de forma equilibrada
+  categories.forEach(category => {
+    const categoryProducts = productsByCategory[category];
+    const productsToTake = Math.min(categoryProducts.length, maxPerCategory);
+    
+    console.log(`🎯 MIX - ${category}: tomando ${productsToTake} de ${categoryProducts.length}`);
+    
+    // Mezclar aleatoriamente los productos de esta categoría
+    const shuffled = [...categoryProducts].sort(() => Math.random() - 0.5);
+    const selected = shuffled.slice(0, productsToTake);
+    
+    mixedProducts.push(...selected);
+  });
+  
+  // Mezclar final para que no queden agrupados por categoría
+  const finalMixed = mixedProducts.sort(() => Math.random() - 0.5);
+  
+  console.log(`🎨 RENDER - Productos mezclados: ${finalMixed.length} de ${allOffersProducts.length} totales`);
+  
+  // Renderizar productos mezclados
+  finalMixed.forEach((product, index) => {
+    console.log(`🎨 RENDER - Agregando producto ${index + 1}/${finalMixed.length}:`, product.name, `(${product.category})`);
     const productCard = createOfertasCarouselCard(product);
     ofertasCarouselTrack.appendChild(productCard);
     
@@ -5087,8 +5148,19 @@ function createOfertasCarouselCard(product) {
   const modalidad = product.modalidad || 'stock';
   const isStock = modalidad === 'stock';
 
-  // Sin badges para productos en ofertas especiales
-  let badgesHtml = '';
+  // Badge de oferta para productos en ofertas especiales
+  let badgesHtml = '<div class="product-badges">';
+  
+  // Badge de oferta (siempre visible en carrusel de ofertas)
+  badgesHtml += '<span class="product-badge badge-oferta">Oferta</span>';
+  
+  // Badge de modalidad adicional
+  if (isStock) {
+    badgesHtml += '<span class="product-badge badge-stock">Disponible</span>';
+  } else {
+    badgesHtml += '<span class="product-badge badge-encargue">Por encargue</span>';
+  }
+  badgesHtml += '</div>';
 
   // Create pricing HTML
   let pricingHtml = '';
