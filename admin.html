@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Aromas Ara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <style>
@@ -88,7 +91,7 @@
             --text-muted: #6b7280;
             --text-light: #9ca3af;
             
-            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             
             --transition-fast: 150ms ease;
             --transition-normal: 250ms ease;
@@ -116,7 +119,8 @@
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            line-height: 1.6;
+            line-height: 1.5;
+            letter-spacing: -0.01em;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
@@ -170,8 +174,9 @@
 
         .sidebar-brand-text {
             font-size: 1.25rem;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text);
+            letter-spacing: -0.02em;
         }
 
         .sidebar-nav {
@@ -285,9 +290,10 @@
 
         .header-left h1 {
             font-size: 1.875rem;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text);
             margin-bottom: var(--space-1);
+            letter-spacing: -0.02em;
         }
 
         .header-left p {
@@ -353,9 +359,10 @@
 
         .section-title {
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text);
             margin-bottom: var(--space-2);
+            letter-spacing: -0.01em;
         }
 
         .section-subtitle {
@@ -1124,14 +1131,7 @@
                 display: none;
             }
             
-            /* Mostrar nombres completos en los botones móviles */
-            .header-btn#themeToggle::after {
-                content: "Cambiar Tema";
-                margin-left: var(--space-1);
-                font-size: 0.75rem;
-                font-weight: 500;
-            }
-            
+                        
             .header-btn[href="index.html"]::after {
                 content: "Ir a Tienda";
                 margin-left: var(--space-1);
@@ -1190,14 +1190,7 @@
                 left: 3px !important;
             }
             
-            /* Mantener nombres completos pero más compactos en very small mobile */
-            .header-btn#themeToggle::after {
-                content: "Tema";
-                margin-left: var(--space-1);
-                font-size: 0.7rem;
-                font-weight: 500;
-            }
-            
+                        
             .header-btn[href="index.html"]::after {
                 content: "Tienda";
                 margin-left: var(--space-1);
@@ -3434,10 +3427,7 @@
                         <input type="text" placeholder="Buscar productos..." id="globalSearch">
                     </div>
                     <div class="header-actions">
-                        <button class="header-btn" id="themeToggle" title="Cambiar tema">
-                            <span>🌙</span>
-                        </button>
-                        <a class="header-btn" href="index.html" title="Volver a tienda">
+                                                <a class="header-btn" href="index.html" title="Volver a tienda">
                             <span>🏪</span>
                         </a>
                         <button class="header-btn" id="logoutBtn" title="Cerrar sesión">
@@ -7464,9 +7454,6 @@
             // Setup global search
             setupGlobalSearch();
             
-            // Setup theme toggle
-            setupThemeToggle();
-            
             // Logout ahora manejado por authSystem
             
             // Setup category form submission
@@ -7908,37 +7895,8 @@
             }, 300));
         }
         
-        function setupThemeToggle() {
-            const themeToggle = document.getElementById('themeToggle');
-            if (!themeToggle) return;
-            
-            // Check for saved theme preference or default to light
-            const currentTheme = localStorage.getItem('theme') || 'light';
-            applyTheme(currentTheme);
-            
-            themeToggle.addEventListener('click', () => {
-                const newTheme = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
-                applyTheme(newTheme);
-                localStorage.setItem('theme', newTheme);
-                notificationManager.success(`Tema cambiado a ${newTheme === 'dark' ? 'oscuro' : 'claro'}`);
-            });
-        }
-        
-        function applyTheme(theme) {
-            const themeToggle = document.getElementById('themeToggle');
-            const body = document.body;
-            
-            if (theme === 'dark') {
-                body.classList.add('dark-theme');
-                body.classList.remove('light-theme');
-                if (themeToggle) themeToggle.innerHTML = '<span>☀️</span>';
-            } else {
-                body.classList.add('light-theme');
-                body.classList.remove('dark-theme');
-                if (themeToggle) themeToggle.innerHTML = '<span>🌙</span>';
-            }
-        }
-        
+                
+                
         // setupLogout() eliminado - ahora manejado por authSystem
         
         // ===== FUNCIONES DE EXPORTACIÓN =====
