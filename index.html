@@ -673,44 +673,6 @@
       color:var(--accent-dark);font-weight:700;
     }
     
-    /* Category Carousel Arrows */
-    
-    .category-carousel-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      border: none;
-      border-radius: 50%;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-      transition: all 0.3s ease;
-      opacity: 0.8;
-    }
-    
-    .category-carousel-arrow:hover {
-      opacity: 1;
-      transform: translateY(-50%) scale(1.1);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-    }
-    
-    .category-carousel-arrow.left {
-      left: 10px;
-    }
-    
-    .category-carousel-arrow.right {
-      right: 10px;
-    }
-    
     @keyframes highlightPulse{
       0%{
         box-shadow:0 20px 60px rgba(102,126,234,0.5);
@@ -3157,15 +3119,20 @@
       .categories-carousel-track{
         width: max-content;
       }
-      .categories-carousel .category-carousel-card{width:196px;height:252px;flex-shrink:0}
-      .categories-carousel .cloned-card{width:196px;height:252px;flex-shrink:0}
-      .categories-carousel{padding:10px 20px}
-      .categories-carousel .category-body h3{font-size:1.05rem; font-weight:800; color:#2c3e50; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; max-width: 100%; text-shadow: 0 0.5px 0.5px rgba(0,0,0,0.1);}
-      .categories-carousel .category-img-wrap{width:75%;height:105px;border-radius:5px}
+      .categories-carousel{margin:20px 0;padding:10px 4px;width:100%}
+      .categories-carousel .category-carousel-card{width:min(68vw,320px);height:auto;min-height:250px;flex-shrink:0}
+      .categories-carousel .cloned-card{width:min(68vw,320px);height:auto;min-height:250px;flex-shrink:0}
+      .categories-carousel .category-body h3{font-size:1.08rem; font-weight:800; color:#2c3e50; line-height:1.25; white-space:normal; word-wrap:break-word; overflow-wrap:anywhere; hyphens:auto; max-width:100%; text-shadow:0 0.5px 0.5px rgba(0,0,0,0.1);}
+      .categories-carousel .category-img-wrap{width:100%;height:170px;border-radius:5px}
       .categories-carousel .categories-carousel-track{animation: scrollCategoriesMobile 25s linear infinite}
-      .products-grid{grid-template-columns:repeat(4,minmax(0,160px));gap:10px}
-      .product-card{max-width:160px}
-      .product-media{height:140px}
+      .catalog-shell{padding:10px 0}
+      .products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:0}
+      .product-card{max-width:100%;width:100%;min-height:0;height:auto}
+      .product-media{height:130px;min-height:130px}
+      .product-media img{height:100%;max-height:130px}
+      .product-body{padding:10px}
+      .product-body p{display:none}
+      .product-actions{padding:0 10px 10px;min-height:0}
       .bands{grid-template-columns:1fr}
       .banner-card,.catalog-shell{border-radius:24px}
       .modal-media{min-height:300px}
@@ -3173,7 +3140,7 @@
     
     @media (max-width:480px){
       :root{--header-h:68px}
-      .container{width:min(100% - 18px,1180px)}
+      .container{width:min(100% - 8px,1180px)}
       .brand strong{font-size:1.06rem}
       
       /* Mobile tooltip/popover fixes */
@@ -3266,25 +3233,27 @@
       .categories-carousel-track{
         width: max-content;
       }
-      .categories-carousel .category-carousel-card{width:140px;height:168px;flex-shrink:0}
-      .categories-carousel .cloned-card{width:140px;height:168px;flex-shrink:0}
-      .categories-carousel{padding:8px 15px}
-      .categories-carousel .category-body h3{font-size:0.95rem; font-weight:800; color:#2c3e50; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; max-width: 100%; text-shadow: 0 0.5px 0.5px rgba(0,0,0,0.1);}
-      .categories-carousel .category-img-wrap{width:70%;height:84px;border-radius:4px}
-      .categories-carousel .category-body{padding:10px; min-height: 50px; display: flex; align-items: center; justify-content: center;}
+      .categories-carousel{margin:16px 0;padding:8px 2px;width:100%}
+      .categories-carousel .category-carousel-card{width:72vw;height:auto;min-height:230px;flex-shrink:0}
+      .categories-carousel .cloned-card{width:72vw;height:auto;min-height:230px;flex-shrink:0}
+      .categories-carousel .category-body h3{font-size:1rem; font-weight:800; color:#2c3e50; line-height:1.25; white-space:normal; word-wrap:break-word; overflow-wrap:anywhere; hyphens:auto; max-width:100%; text-shadow:0 0.5px 0.5px rgba(0,0,0,0.1);}
+      .categories-carousel .category-img-wrap{width:100%;height:150px;border-radius:4px}
+      .categories-carousel .category-body{padding:12px; min-height: 56px; display: flex; align-items: center; justify-content: center;}
       .categories-carousel .categories-carousel-track{animation: scrollCategoriesSmall 30s linear infinite}
       .cat-card .body{padding:11px}
       .cat-card h3{font-size:.9rem}
       .cat-card p{display:none}
-      .products-grid{grid-template-columns:repeat(3,minmax(0,120px));gap:8px}
-      .product-card{border-radius:20px;max-width:120px}
-      .product-media{height:120px;padding:10px}
-      .product-body{padding:12px}
-      .product-title{font-size:.9rem}
+      .catalog-shell{padding:8px 0}
+      .products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:0}
+      .product-card{border-radius:16px;max-width:100%;width:100%;min-height:0;height:auto}
+      .product-media{height:118px;min-height:118px;padding:6px}
+      .product-media img{height:100%;max-height:118px}
+      .product-body{padding:8px}
+      .product-title{font-size:.84rem;line-height:1.18;margin-bottom:6px}
       .product-body p{display:none}
-      .product-actions{flex-direction:column;gap:8px}
-      .product-actions .soft-btn,.product-actions .ghost-btn{font-size:.82rem;padding:10px}
-      .status{font-size:.88rem}
+      .product-actions{flex-direction:column;gap:6px;padding:0 8px 8px;min-height:0}
+      .product-actions .soft-btn,.product-actions .ghost-btn{font-size:.78rem;padding:8px}
+      .status{font-size:.8rem;margin-bottom:8px;padding:5px 10px}
       .cta-box{padding:22px}
       .modal{padding:10px}
       .modal-card{border-radius:22px;padding:12px}
@@ -3957,11 +3926,9 @@ async function loadCategories() {
     if (shouldUseCarousel) {
       // Carousel mode for many categories
       container.innerHTML = `
-        <button class="category-carousel-arrow left" onclick="scrollCategories('left')">‹</button>
         <div class="categories-carousel-track" id="categoriesCarouselTrack">
           <!-- Category cards will be inserted here -->
         </div>
-        <button class="category-carousel-arrow right" onclick="scrollCategories('right')">›</button>
       `;
     } else {
       // Grid mode for few categories
@@ -4182,34 +4149,6 @@ function initializeCategoriesCarousel() {
   track.addEventListener('mouseleave', () => {
     track.style.animationPlayState = 'running';
   });
-}
-
-// Manual scroll function for category carousel
-function scrollCategories(direction) {
-  const track = document.getElementById('categoriesCarouselTrack');
-  if (!track) return;
-  
-  const scrollAmount = 300; // Amount to scroll in pixels
-  
-  if (direction === 'left') {
-    track.scrollBy({
-      left: -scrollAmount,
-      behavior: 'smooth'
-    });
-  } else {
-    track.scrollBy({
-      left: scrollAmount,
-      behavior: 'smooth'
-    });
-  }
-  
-  // Pause auto-scroll temporarily when user manually scrolls
-  if (track.style.animationPlayState !== 'paused') {
-    track.style.animationPlayState = 'paused';
-    setTimeout(() => {
-      track.style.animationPlayState = 'running';
-    }, 3000); // Resume after 3 seconds
-  }
 }
 
 // Auto rotation for categories carousel
