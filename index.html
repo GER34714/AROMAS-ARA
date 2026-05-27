@@ -5048,6 +5048,24 @@ function openFeaturedProductModal(productId) {
   openModal(tempCard);
 }
 
+// Open product modal from "Detalles / Ver más" buttons
+function openProductModal(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  const tempCard = document.createElement('div');
+  tempCard.dataset.category = product.category;
+  tempCard.dataset.name = product.name;
+  tempCard.dataset.image = product.image_url;
+  tempCard.dataset.description = product.description || '';
+  tempCard.dataset.features = JSON.stringify(product.features || []);
+  tempCard.dataset.productId = product.id;
+  tempCard.dataset.status = product.status || 'Por encargue';
+  tempCard.dataset.modalidad = product.modalidad || 'stock';
+
+  openModal(tempCard);
+}
+
 // Render products
 function renderProducts() {
   const term = searchInput.value.trim().toLowerCase();
