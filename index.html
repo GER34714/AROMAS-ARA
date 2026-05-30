@@ -4825,7 +4825,7 @@ function createFeaturedProductCard(product, priority, index) {
       ${product.description ? `<p class="product-description">${product.description}</p>` : ''}
       <div class="product-status">${product.status || 'Por encargue'}</div>
       <div class="product-price">
-        <span class="price-current">$${product.price ? product.price.toFixed(2) : '0.00'}</span>
+        <span class="price-current">$${product.price ? product.price.toLocaleString('es-AR') : '0.00'}</span>
       </div>
       <div class="product-actions">
         ${product.status === 'Disponible' ? 
@@ -5275,13 +5275,13 @@ function createProductCard(product) {
     const discount = ((product.price - product.precio_oferta) / product.price * 100).toFixed(1);
     pricingHtml = `
       <div class="offer-pricing">
-        <span class="original-price">$${product.price.toFixed(2)}</span>
-        <span class="offer-price">$${product.precio_oferta.toFixed(2)}</span>
+        <span class="original-price">$${product.price.toLocaleString('es-AR')}</span>
+        <span class="offer-price">$${product.precio_oferta.toLocaleString('es-AR')}</span>
         <span class="discount-percentage">-${discount}% OFF</span>
       </div>
     `;
   } else {
-    pricingHtml = `<div class="status">$${product.price ? product.price.toFixed(2) : '0.00'}</div>`;
+    pricingHtml = `<div class="status">$${product.price ? product.price.toLocaleString('es-AR') : '0.00'}</div>`;
   }
 
   article.innerHTML = `
@@ -5337,11 +5337,11 @@ function createProductCard(product) {
       <div class="product-price">
         ${product.en_oferta && product.precio_oferta && product.price ? 
           `<div class="offer-pricing">
-            <span class="original-price">$${product.price.toFixed(2)}</span>
-            <span class="offer-price">$${product.precio_oferta.toFixed(2)}</span>
+            <span class="original-price">$${product.price.toLocaleString('es-AR')}</span>
+            <span class="offer-price">$${product.precio_oferta.toLocaleString('es-AR')}</span>
             <span class="discount-percentage">-${((product.price - product.precio_oferta) / product.price * 100).toFixed(1)}% OFF</span>
           </div>` :
-          `<span class="price-current">$${product.price ? product.price.toFixed(2) : '0.00'}</span>`
+          `<span class="price-current">$${product.price ? product.price.toLocaleString('es-AR') : '0.00'}</span>`
         }
       </div>
       
@@ -5416,13 +5416,13 @@ function createOfertasCarouselCard(product) {
     const discount = ((product.price - product.precio_oferta) / product.price * 100).toFixed(1);
     pricingHtml = `
       <div class="offer-pricing">
-        <span class="original-price">$${product.price.toFixed(2)}</span>
-        <span class="offer-price">$${product.precio_oferta.toFixed(2)}</span>
+        <span class="original-price">$${product.price.toLocaleString('es-AR')}</span>
+        <span class="offer-price">$${product.precio_oferta.toLocaleString('es-AR')}</span>
         <span class="discount-percentage">-${discount}% OFF</span>
       </div>
     `;
   } else {
-    pricingHtml = `<div class="status">$${product.price ? product.price.toFixed(2) : '0.00'}</div>`;
+    pricingHtml = `<div class="status">$${product.price ? product.price.toLocaleString('es-AR') : '0.00'}</div>`;
   }
 
   article.innerHTML = `
@@ -5473,11 +5473,11 @@ function createOfertasCarouselCard(product) {
       <div class="product-price">
         ${product.en_oferta && product.precio_oferta && product.price ? 
           `<div class="offer-pricing">
-            <span class="original-price">$${product.price.toFixed(2)}</span>
-            <span class="offer-price">$${product.precio_oferta.toFixed(2)}</span>
+            <span class="original-price">$${product.price.toLocaleString('es-AR')}</span>
+            <span class="offer-price">$${product.precio_oferta.toLocaleString('es-AR')}</span>
             <span class="discount-percentage">-${((product.price - product.precio_oferta) / product.price * 100).toFixed(1)}% OFF</span>
           </div>` : 
-          `<div class="status">$${product.price ? product.price.toFixed(2) : '0.00'}</div>`
+          `<div class="status">$${product.price ? product.price.toLocaleString('es-AR') : '0.00'}</div>`
         }
       </div>
       <button class="add-to-cart" data-product-id="${product.id}" data-product-name="${product.name}" data-price="${product.en_oferta ? product.precio_oferta : product.price}">
@@ -6569,15 +6569,15 @@ function openModal(card) {
       const discount = ((product.price - product.precio_oferta) / product.price * 100).toFixed(1);
       modalPrice.innerHTML = `
         <div class="offer-pricing">
-          <span class="original-price">$${product.price.toFixed(2)}</span>
-          <span class="offer-price">$${product.precio_oferta.toFixed(2)}</span>
+          <span class="original-price">$${product.price.toLocaleString('es-AR')}</span>
+          <span class="offer-price">$${product.precio_oferta.toLocaleString('es-AR')}</span>
           <span class="discount-percentage">-${discount}% OFF</span>
         </div>
       `;
     } else {
       modalPrice.innerHTML = `
         <div class="product-price">
-          <span class="price-current">$${product.price ? product.price.toFixed(2) : '0.00'}</span>
+          <span class="price-current">$${product.price ? product.price.toLocaleString('es-AR') : '0.00'}</span>
         </div>
       `;
     }
