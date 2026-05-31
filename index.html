@@ -3972,6 +3972,7 @@ function startAutoCarouselRotation() {
           const diff = e.touches[0].clientX - touchStartX;
           currentPosition += diff * 0.5;
           touchStartX = e.touches[0].clientX;
+          track.style.transform = `translateX(${currentPosition}px)`;
         }, { passive: true });
         
         track.addEventListener('touchend', () => {
