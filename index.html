@@ -4604,10 +4604,7 @@ function initializeOffersCarousel() {
     track.style.transform = `translateX(${currentPosition + diff}px)`;
   }, { passive: true });
   
-  track.addEventListener('track.addEventListener('touchend', () => {
-          isPaused = false;
-          track.style.animationPlayState = 'running';
-        });', (e) => {
+  track.addEventListener('touchend', (e) => {
     if (!isDragging) return;
     
     isDragging = false;
