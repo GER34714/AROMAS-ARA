@@ -7914,6 +7914,18 @@
         // ===== ACTUALIZAR SORT ORDER INLINE =====
         async function updateSortOrder(productId, newValue) {
             const newSortOrder = parseInt(newValue) || 0;
+            if (newSortOrder < 1) {
+                notificationManager.error('El orden debe ser 1 o mayor');
+                await loadProducts();
+                return;
+            }
+            // Verificar que el numero no exista en otro producto
+            const existing = products.find(p => p.sort_order === newSortOrder && p.id !== productId);
+            if (existing) {
+                notificationManager.error(`El numero ${newSortOrder} ya lo tiene "${existing.name}". Usa otro numero.`);
+                await loadProducts();
+                return;
+            }
             try {
                 const { error } = await supabaseClient
                     .from('products')
