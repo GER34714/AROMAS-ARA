@@ -4741,8 +4741,9 @@ async function loadProducts() {
   try {
     console.log('🔄 Loading products...');
     console.log('📡 Supabase URL:', supabaseClient.supabaseUrl);
-    
-    const { data, error } = await supabaseClient
+
+    // Intentar cargar con orden por display_order
+    let { data, error } = await supabaseClient
       .from('products')
       .select('*')
       .eq('activo', true)
@@ -4750,18 +4751,33 @@ async function loadProducts() {
       .not('category', 'eq', '')
       .order('display_order', { ascending: true, nullsFirst: false })
       .order('created_at', { ascending: false });
-    
+
+    // Si display_order no existe en la base de datos, fallback a created_at
+    if (error && (error.code === '42703' || error.message?.includes('display_order'))) {
+      console.warn('⚠️ Columna display_order no encontrada, usando fallback created_at');
+      const fallback = await supabaseClient
+        .from('products')
+        .select('*')
+        .eq('activo', true)
+        .not('category', 'is', null)
+        .not('category', 'eq', '')
+        .order('created_at', { ascending: false });
+      data = fallback.data;
+      error = fallback.error;
+    }
+
     console.log('📊 Products response:', { data, error });
-    
+
     if (error) {
       console.error('❌ Supabase error:', error);
       throw error;
     }
-    
+
     products = data || [];
-    console.log('✅ Products loaded:', products.length, products);
+    console.log('✅ Products loaded:', products.length);
+    console.log('DEBUG - Primeros 5 productos orden:', products.slice(0, 5).map(p => ({ name: p.name, display_order: p.display_order })));
     renderProducts();
-    
+
   } catch (error) {
     console.error('❌ Error loading products:', error);
     const productsGrid = document.getElementById('productsGrid');
