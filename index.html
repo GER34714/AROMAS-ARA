@@ -3960,26 +3960,6 @@ function startAutoCarouselRotation() {
         track.addEventListener('mouseleave', () => {
           isPaused = false;
         });
-        
-        // Touch swipe para mobile
-        let touchStartX = 0;
-        track.addEventListener('touchstart', (e) => {
-          isPaused = true;
-          track.style.animationPlayState = 'paused';
-          touchStartX = e.touches[0].clientX;
-        }, { passive: true });
-        
-        track.addEventListener('touchmove', (e) => {
-          const diff = e.touches[0].clientX - touchStartX;
-          currentPosition += diff * 0.5;
-          touchStartX = e.touches[0].clientX;
-          track.style.transform = `translateX(${currentPosition}px)`;
-        }, { passive: true });
-        
-        track.addEventListener('touchend', () => {
-          isPaused = false;
-          track.style.animationPlayState = 'running';
-        
       }
       
       console.log('Smooth automatic carousel started');
@@ -4208,7 +4188,6 @@ function initializeOffersCarousel() {
   
   // Calcular el ancho de cada tarjeta
   const isMobile = window.innerWidth <= 768;
-  const firstCard = track.children[0];
   const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
   const gap = isMobile ? 8 : 20;
   const scrollAmount = cardWidth + gap;
@@ -4216,13 +4195,19 @@ function initializeOffersCarousel() {
   // Event listeners para botones
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-      previousSlide();
+      track.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth'
+      });
     });
   }
   
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      nextSlide();
+      track.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
     });
   }
   
@@ -4363,7 +4348,6 @@ function updateCarouselPosition(instant = false) {
   
   // Calcular dinámicamente el ancho de las tarjetas
   const isMobile = window.innerWidth <= 768;
-  const firstCard = track.children[0];
   const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
   const gap = isMobile ? 8 : 20;
   
