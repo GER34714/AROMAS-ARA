@@ -5207,9 +5207,12 @@
                 }
                 
                 products = data || [];
-                // Ordenar por sort_order igual que en la tienda (menor primero)
-                products.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
-                console.log('Productos cargados y ordenados por sort_order:', products.length);
+                // Ordenar: activos primero (por sort_order), luego inactivos
+                products.sort((a, b) => {
+                    if (a.activo !== b.activo) return a.activo ? -1 : 1; // Activos primero
+                    return (a.sort_order ?? 0) - (b.sort_order ?? 0); // Luego por sort_order
+                });
+                console.log('Productos ordenados (activos primero, luego sort_order):', products.length);
                 
                 // Renderizar tabla solo si existe el elemento
                 const tbody = document.getElementById('productsTableBody');
