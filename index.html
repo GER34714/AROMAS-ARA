@@ -4251,6 +4251,23 @@ function startAutoCarouselRotation() {
         track.addEventListener('mouseleave', () => {
           isPaused = false;
         });
+        
+        // Touch swipe para mobile
+        let touchStartX = 0;
+        track.addEventListener('touchstart', (e) => {
+          isPaused = true;
+          touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        
+        track.addEventListener('touchmove', (e) => {
+          const diff = e.touches[0].clientX - touchStartX;
+          currentPosition += diff * 0.5;
+          touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        
+        track.addEventListener('touchend', () => {
+          isPaused = false;
+        });
       }
       
       console.log('Smooth automatic carousel started');
@@ -4486,19 +4503,13 @@ function initializeOffersCarousel() {
   // Event listeners para botones
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-      track.scrollBy({
-        left: -scrollAmount,
-        behavior: 'smooth'
-      });
+      previousSlide();
     });
   }
   
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      track.scrollBy({
-        left: scrollAmount,
-        behavior: 'smooth'
-      });
+      nextSlide();
     });
   }
   
