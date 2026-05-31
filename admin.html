@@ -5622,7 +5622,7 @@
             }
             
             tbody.innerHTML = paginatedProducts.map(product => `
-                <tr onclick="editProduct('${product.id}')" style="cursor: pointer;">
+                <tr onclick="if(!event.target.closest('input') && !event.target.closest('button') && !event.target.closest('.product-actions')) editProduct('${product.id}')" style="cursor: pointer;">
                     <td data-label="Imagen">
                         ${product.image_url ? 
                             `<img src="${product.image_url}" alt="${product.name}" class="product-image" onerror="this.style.display='none'">` : 
