@@ -3634,6 +3634,15 @@ function formatPrice(price) {
     }).format(price)
 }
 
+// Mezclar array aleatoriamente (Fisher-Yates)
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 // Load categories once and use in both sections
 async function loadCategories() {
   try {
@@ -4457,6 +4466,7 @@ async function loadProducts() {
       .eq('activo', true)
       .not('category', 'is', null)
       .not('category', 'eq', '')
+      .order('display_order', { ascending: true, nullsLast: true })
       .order('created_at', { ascending: false });
     
     console.log('📊 Products response:', { data, error });
@@ -5167,6 +5177,11 @@ function renderProducts() {
     
     return matchCategory && matchTerm;
   });
+
+  // Si es la vista "Todos", mezclar los productos para que no dominen categorías
+  if (activeCategory === 'Todos' && !term) {
+    filteredProducts = shuffleArray([...filteredProducts]);
+  }
 
   // Reset to page 1 when filters change
   currentPage = 1;

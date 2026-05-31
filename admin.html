@@ -3745,6 +3745,16 @@
                                 <option value="Agotado">❌ Agotado</option>
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label for="productDisplayOrder">
+                                Orden de Visualización
+                            </label>
+                            <input type="number" id="productDisplayOrder" min="0" value="0" placeholder="0 = primero">
+                            <small style="color: var(--text-muted); margin-top: 4px; display: block;">
+                                Número menor = aparece primero. 0 = primero en la lista.
+                            </small>
+                        </div>
                         
                         <div class="form-group">
                             <label for="productActive">
@@ -4594,12 +4604,13 @@
                                         <th>Precio</th>
                                         <th>Estado</th>
                                         <th>Activo</th>
+                                        <th>Orden</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="productsTableBody">
                                     <tr>
-                                        <td colspan="7" style="text-align: center; padding: 40px;">
+                                        <td colspan="8" style="text-align: center; padding: 40px;">
                                             <div class="loading-spinner">⏳ Cargando productos...</div>
                                         </td>
                                     </tr>
@@ -5183,7 +5194,9 @@
                 }
                 
                 // Ejecutar consulta
-                const { data, error, count } = await query.order('created_at', { ascending: false });
+                const { data, error, count } = await query
+                    .order('display_order', { ascending: true, nullsLast: true })
+                    .order('created_at', { ascending: false });
                 
                 if (error) {
                     console.error('Error en consulta de productos:', error);
@@ -5590,7 +5603,7 @@
             if (paginatedProducts.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="7" style="text-align: center; padding: 40px;">
+                        <td colspan="8" style="text-align: center; padding: 40px;">
                             <div style="color: var(--text-muted);">
                                 ${searchQuery || selectedCategory !== 'all' || selectedStatus !== 'all' || selectedActive !== 'all' ? 'No se encontraron productos con los filtros seleccionados' : 'No hay productos registrados'}
                             </div>
@@ -5620,6 +5633,11 @@
                                 title="${product.activo ? 'Desactivar producto' : 'Activar producto'}">
                             ${product.activo ? '👁️ Activo' : '🚫 Inactivo'}
                         </button>
+                    </td>
+                    <td data-label="Orden">
+                        <span style="font-weight: 600; color: var(--accent); font-size: 0.9rem;">
+                            ${product.display_order !== undefined ? product.display_order : 0}
+                        </span>
                     </td>
                     <td data-label="Acciones">
                         <div class="product-actions">
@@ -5924,6 +5942,7 @@
                 document.getElementById('productPrice').value = product.price || '';
                 document.getElementById('productStatus').value = product.status || 'Disponible';
                 document.getElementById('productActive').value = product.activo !== undefined ? product.activo.toString() : 'true';
+                document.getElementById('productDisplayOrder').value = product.display_order !== undefined ? product.display_order : 0;
                 document.getElementById('productImage').value = product.image_url || '';
                 
                 // Cargar características especiales
@@ -6035,20 +6054,22 @@
             // Actualizar estado a guardando
             updateFormStatus('saving', 'Guardando...', '💾');
             
+            const displayOrderVal = document.getElementById('productDisplayOrder').value;
             const formData = {
                 name: document.getElementById('productName').value.trim(),
                 category: document.getElementById('productCategory').value,
                 description: document.getElementById('productDescription').value.trim(),
                 price: parseFloat(document.getElementById('productPrice').value),
                 status: document.getElementById('productStatus').value,
-                activo: currentEditingId ? 
-                    document.getElementById('productActive').value === 'true' : 
+                activo: currentEditingId ?
+                    document.getElementById('productActive').value === 'true' :
                     false, // Productos nuevos siempre inactivos por defecto
+                display_order: displayOrderVal !== '' ? parseInt(displayOrderVal) : 0,
                 en_oferta: document.getElementById('productEnOferta').checked,
                 es_destacado: document.getElementById('productEsDestacado').checked,
                 es_nuevo: document.getElementById('productEsNuevo').checked,
                 proximo_lanzamiento: document.getElementById('productProximoLanzamiento').checked,
-                precio_oferta: document.getElementById('productEnOferta').checked ? 
+                precio_oferta: document.getElementById('productEnOferta').checked ?
                     parseFloat(document.getElementById('precioOferta').value) || 0 : null,
                 image_url: document.getElementById('productImage').value
             };
@@ -7740,6 +7761,7 @@
                         price: price,
                         status: status,
                         activo: false, // Siempre inactivos por defecto
+                        display_order: product.display_order !== undefined ? parseInt(product.display_order) || 0 : 0,
                         image_url: imageUrl
                     };
                     
@@ -7783,10 +7805,13 @@
                 'COLUMNAS OBLIGATORIAS (exactamente estos nombres):',
                 'name,category,description,price,status,image_url',
                 '',
+                'COLUMNA OPCIONAL:',
+                'display_order (número, menor = aparece primero, 0 = primero)',
+                '',
                 'EJEMPLOS DE PRODUCTOS:',
-                'Difusor de Lavanda,Difusores,"Difusor con aroma a lavanda, ideal para relajación",2500,"Disponible",https://ejemplo.com/imagen.jpg',
-                'Spray Textil,Textiles,"Spray para telas con aroma fresco",1800,"Disponible",',
-                'Sahumerio de Sándalo,Sahumerios,"Sahumerio para meditación",1200,"Por encargue",',
+                'Difusor de Lavanda,Difusores,"Difusor con aroma a lavanda, ideal para relajación",2500,"Disponible",,0',
+                'Spray Textil,Textiles,"Spray para telas con aroma fresco",1800,"Disponible",,1',
+                'Sahumerio de Sándalo,Sahumerios,"Sahumerio para meditación",1200,"Por encargue",,2',
                 '',
                 '===== INSTRUCCIONES PARA USAR CON CHATGPT =====',
                 '',
@@ -7802,6 +7827,7 @@
                 '4. price (precio en números sin símbolo $)',
                 '5. status (Disponible, Por encargue, o Agotado)',
                 '6. image_url (URL de la imagen, o déjalo vacío si no tienes)',
+                '7. display_order (opcional, número menor = aparece primero)',
                 '',
                 'Genera 50 productos variados con precios realistas entre $500 y $8000.',
                 'Usa descripciones atractivas y categorías variadas.',
@@ -7812,7 +7838,7 @@
                 '===== IMPORTANTE =====',
                 '',
                 '• Las columnas DEBEN llamarse exactamente: name,category,description,price,status,image_url',
-                '• No agregues columnas adicionales',
+                '• display_order es opcional (número, menor = aparece primero)',
                 '• No cambies el orden de las columnas',
                 '• Los precios deben ser números (ej: 2500, no $2.500)',
                 '• Las URLs de imágenes son opcionales (pueden ir vacías)',
@@ -7913,9 +7939,13 @@
             try {
                 notificationManager.loading(`Exportando productos a ${format.toUpperCase()}...`);
                 
-                const { data, error } = await supabaseClient.from('products').select('*');
+                const { data, error } = await supabaseClient
+                    .from('products')
+                    .select('*')
+                    .order('display_order', { ascending: true, nullsLast: true })
+                    .order('created_at', { ascending: false });
                 if (error) throw error;
-                
+
                 if (!data || data.length === 0) {
                     notificationManager.warning('No hay productos para exportar');
                     return;
@@ -8010,7 +8040,9 @@
                     query = query.or(`name.ilike.%${offersSearchQuery}%,description.ilike.%${offersSearchQuery}%`);
                 }
                 
-                const { data, error } = await query.order('created_at', { ascending: false });
+                const { data, error } = await query
+                    .order('display_order', { ascending: true, nullsLast: true })
+                    .order('created_at', { ascending: false });
                 
                 if (error) throw error;
                 
