@@ -7258,7 +7258,7 @@
             }
         }
         
-        // ===== ACTUALIZAR SORT ORDER DE CATEGORIAS INLINE =====
+        // ===== ACTUALIZAR SORT ORDER DE CATEGORIAS INLINE (con swap) =====
         async function updateCategorySortOrder(categoryId, newValue) {
             const newSortOrder = parseInt(newValue) || 0;
             if (newSortOrder < 1) {
@@ -7272,15 +7272,16 @@
             const oldSortOrder = targetCategory.sort_order || 0;
             if (oldSortOrder === newSortOrder) return;
             const existing = categories.find(c => c.sort_order === newSortOrder && c.id !== categoryId);
-            if (existing) {
-                notificationManager.error(`El numero ${newSortOrder} ya lo tiene "${existing.name}". Elegi otro numero.`);
-                await loadCategories();
-                renderCategoriesGrid();
-                return;
-            }
             try {
-                await supabaseClient.from('categories').update({ sort_order: newSortOrder }).eq('id', categoryId);
-                notificationManager.success('Orden actualizado');
+                if (existing) {
+                    // Intercambiar: la otra categoria recibe el numero viejo
+                    await supabaseClient.from('categories').update({ sort_order: oldSortOrder }).eq('id', existing.id);
+                    await supabaseClient.from('categories').update({ sort_order: newSortOrder }).eq('id', categoryId);
+                    notificationManager.success(`Intercambiado: "${targetCategory.name}" ahora es #${newSortOrder}, "${existing.name}" ahora es #${oldSortOrder}`);
+                } else {
+                    await supabaseClient.from('categories').update({ sort_order: newSortOrder }).eq('id', categoryId);
+                    notificationManager.success('Orden actualizado');
+                }
                 await loadCategories();
                 renderCategoriesGrid();
             } catch (err) {
