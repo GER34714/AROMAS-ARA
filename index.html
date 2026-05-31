@@ -614,12 +614,10 @@
     
     .categories-carousel-track{
       display:flex;flex-direction:row;gap:12px;
-      overflow:hidden;padding-bottom:6px;scrollbar-width:none;
-      cursor:grab;user-select:none;min-width:max-content;
-      width: max-content;
-      /* Velocidad más lenta y suave del auto-scroll en desktop */
-      animation: scrollCategories 60s linear infinite;
-      animation-play-state: running;
+      overflow-x:auto;padding-bottom:6px;scrollbar-width:none;
+      cursor:grab;user-select:none;min-width:0;
+      touch-action: auto;
+      width: 100%;
     }
     
     .categories-carousel-track:active{
@@ -3151,16 +3149,20 @@
       .carousel-btn{display:none}
       .carousel-track{grid-auto-columns:52%}
       .categories-carousel-track{
-        width: max-content;
+        width: 100%;
+        min-width: 0;
+        overflow-x: auto;
+        animation: none;
+        cursor: default;
+        touch-action: auto;
       }
+      .categories-carousel-track::-webkit-scrollbar{display:none}
       /* Más padding lateral en mobile para que no se corten las cards */
       .categories-carousel{margin:20px 0;padding:10px 16px;width:100%;scroll-padding-inline:16px}
-      .categories-carousel .category-carousel-card{width:min(68vw,320px);height:auto;min-height:250px;flex-shrink:0}
-      .categories-carousel .cloned-card{width:min(68vw,320px);height:auto;min-height:250px;flex-shrink:0}
+      .categories-carousel .category-carousel-card{width:min(68vw,320px);height:auto;min-height:250px;flex-shrink:0;pointer-events:auto}
+      .categories-carousel .cloned-card{display:none}
       .categories-carousel .category-body h3{font-size:1.08rem; font-weight:800; color:#2c3e50; line-height:1.25; white-space:normal; word-wrap:break-word; overflow-wrap:anywhere; hyphens:auto; max-width:100%; text-shadow:0 0.5px 0.5px rgba(0,0,0,0.1);}
       .categories-carousel .category-img-wrap{width:100%;height:170px;border-radius:5px}
-      /* Auto-scroll más lento en mobile */
-      .categories-carousel .categories-carousel-track{animation: scrollCategoriesMobile 45s linear infinite}
       .catalog-shell{padding:10px 0}
       .products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:0}
       .product-card{max-width:100%;width:100%;min-height:0;height:auto}
@@ -3267,17 +3269,20 @@
       .banner-content p{font-size:.92rem}
       .carousel-track{grid-auto-columns:40%}
       .categories-carousel-track{
-        width: max-content;
+        width: 100%;
+        min-width: 0;
+        overflow-x: auto;
+        animation: none;
+        cursor: default;
+        touch-action: auto;
       }
       /* Más padding lateral en pantallas muy pequeñas */
       .categories-carousel{margin:16px 0;padding:8px 12px;width:100%;scroll-padding-inline:12px}
-      .categories-carousel .category-carousel-card{width:72vw;height:auto;min-height:230px;flex-shrink:0}
-      .categories-carousel .cloned-card{width:72vw;height:auto;min-height:230px;flex-shrink:0}
+      .categories-carousel .category-carousel-card{width:72vw;height:auto;min-height:230px;flex-shrink:0;pointer-events:auto}
+      .categories-carousel .cloned-card{display:none}
       .categories-carousel .category-body h3{font-size:1rem; font-weight:800; color:#2c3e50; line-height:1.25; white-space:normal; word-wrap:break-word; overflow-wrap:anywhere; hyphens:auto; max-width:100%; text-shadow:0 0.5px 0.5px rgba(0,0,0,0.1);}
       .categories-carousel .category-img-wrap{width:100%;height:150px;border-radius:4px}
       .categories-carousel .category-body{padding:12px; min-height: 56px; display: flex; align-items: center; justify-content: center;}
-      /* Auto-scroll más lento en pantallas muy pequeñas */
-      .categories-carousel .categories-carousel-track{animation: scrollCategoriesSmall 60s linear infinite}
       .cat-card .body{padding:11px}
       .cat-card h3{font-size:.9rem}
       .cat-card p{display:none}
@@ -4002,11 +4007,11 @@ async function loadCategories() {
       categoryCard.className = 'category-carousel-card';
       categoryCard.style.cursor = 'pointer';
       categoryCard.dataset.category = category.name;
-      
+
       categoryCard.innerHTML = `
         <div class="category-img-wrap">
-          ${category.image_url ? 
-            `<img src="${category.image_url}" alt="${category.name}" />` : 
+          ${category.image_url ?
+            `<img src="${category.image_url}" alt="${category.name}" />` :
             `<div class="category-no-image">
               <div class="category-no-image-icon">🏷️</div>
               <span>Sin imagen</span>
@@ -4017,109 +4022,70 @@ async function loadCategories() {
           <h3>${category.name}</h3>
         </div>
       `;
-      
-      // Add haptic feedback and visual states
-      categoryCard.addEventListener('mouseenter', () => {
-        categoryCard.style.transform = 'translateY(-8px) scale(1.08)';
-        categoryCard.style.boxShadow = '0 16px 40px rgba(102,126,234,0.3)';
-      });
-      
-      categoryCard.addEventListener('mouseleave', () => {
-        if (!categoryCard.classList.contains('selected')) {
-          categoryCard.style.transform = '';
-          categoryCard.style.boxShadow = '';
-        }
-      });
-      
-      // Enhanced touch feedback for mobile
-      categoryCard.addEventListener('touchstart', (e) => {
-        // Haptic feedback if available
-        if (navigator.vibrate) {
-          navigator.vibrate(50);
-        }
-        
-        categoryCard.style.transform = 'translateY(-8px) scale(0.95)';
-        categoryCard.style.transition = 'transform 0.1s ease';
-        
-        // Add visual pulse effect
-        const pulse = document.createElement('div');
-        pulse.style.cssText = `
-          position: absolute;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(102,126,234,0.1);
-          border-radius: 16px;
-          animation: pulse 0.3s ease-out;
-          pointer-events: none;
-        `;
-        categoryCard.appendChild(pulse);
-        setTimeout(() => pulse.remove(), 300);
-      });
-      
-      categoryCard.addEventListener('touchend', () => {
-        categoryCard.style.transition = 'transform 0.3s cubic-bezier(0.4,0,0.2,1)';
-        if (!categoryCard.classList.contains('selected')) {
-          categoryCard.style.transform = '';
-        }
-      });
-      
-      categoryCard.addEventListener('click', () => {
-        // Remove previous selection
-        document.querySelectorAll('.category-carousel-card').forEach(card => {
-          card.classList.remove('selected');
-          card.style.transform = '';
-          card.style.boxShadow = '';
-        });
-        
-        // Add selection to clicked card
-        categoryCard.classList.add('selected');
-        categoryCard.style.transform = 'translateY(-8px) scale(1.08)';
-        categoryCard.style.boxShadow = '0 16px 40px rgba(102,126,234,0.4)';
-        
-        // Visual feedback - ripple effect
-        const ripple = document.createElement('div');
-        ripple.style.cssText = `
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 20px;
-          height: 20px;
-          background: rgba(102,126,234,0.3);
-          border-radius: 50%;
-          transform: translate(-50%, -50%) scale(0);
-          animation: ripple 0.6s ease-out;
-          pointer-events: none;
-        `;
-        categoryCard.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 600);
-        
-        // User is interacting, pause rotation
-        isUserInteracting = true;
-        stopAutoCarouselRotation();
-        
-        // Set active category filter
-        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        activeCategory = category.name;
-        renderProducts();
-        // Scroll to catalog
-        document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
-        
-        // Update chip states in catalog toolbar
-        const catalogChips = document.querySelectorAll('#chips .chip');
-        catalogChips.forEach(chip => {
-          chip.classList.toggle('active', chip.dataset.category === category.name);
-        });
-        
-        // Resume rotation after 10 seconds of no interaction
-        setTimeout(() => {
-          isUserInteracting = false;
-          startAutoCarouselRotation();
-        }, 10000);
-      });
       track.appendChild(categoryCard);
     });
-    
+
+    // Event delegation on track: works for originals + clones
+    track.addEventListener('click', (e) => {
+      const card = e.target.closest('.category-carousel-card');
+      if (!card) return;
+      const catName = card.dataset.category;
+      if (!catName) return;
+
+      // Remove previous selection
+      document.querySelectorAll('.category-carousel-card').forEach(c => {
+        c.classList.remove('selected');
+        c.style.transform = '';
+        c.style.boxShadow = '';
+      });
+
+      // Add selection to clicked card
+      card.classList.add('selected');
+      card.style.transform = 'translateY(-8px) scale(1.08)';
+      card.style.boxShadow = '0 16px 40px rgba(102,126,234,0.4)';
+
+      // Visual feedback - ripple effect
+      const ripple = document.createElement('div');
+      ripple.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        background: rgba(102,126,234,0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        animation: ripple 0.6s ease-out;
+        pointer-events: none;
+      `;
+      card.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+
+      // Pause rotation
+      isUserInteracting = true;
+      stopAutoCarouselRotation();
+
+      // Filter products
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      activeCategory = catName;
+      renderProducts();
+      document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+
+      // Update chips
+      document.querySelectorAll('#chips .chip').forEach(chip => {
+        chip.classList.toggle('active', chip.dataset.category === catName);
+      });
+
+      // Resume after 10s
+      setTimeout(() => {
+        isUserInteracting = false;
+        startAutoCarouselRotation();
+      }, 10000);
+    });
+
     // Initialize carousel
     initializeCategoriesCarousel();
+    startAutoCarouselRotation();
     
     // Load chips for catalog toolbar
     const chipsContainer = document.getElementById('chips');
@@ -4173,19 +4139,45 @@ function initializeCategoriesCarousel() {
   const track = document.getElementById('categoriesCarouselTrack');
   if (!track) return;
 
-  // Clonar todos los items y agregarlos al final
-  const originalCards = Array.from(track.children);
-  originalCards.forEach(card => {
-    const clone = card.cloneNode(true);
-    track.appendChild(clone);
+  // Clone cards once for infinite loop
+  if (!track.dataset.cloned) {
+    const originalCards = Array.from(track.children);
+    originalCards.forEach(card => {
+      const clone = card.cloneNode(true);
+      clone.classList.add('cloned-card');
+      track.appendChild(clone);
+    });
+    track.dataset.cloned = 'true';
+  }
+
+  // Desktop mouse drag support
+  let isDragging = false;
+  let startX = 0;
+  let scrollStart = 0;
+
+  track.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.pageX - track.offsetLeft;
+    scrollStart = track.scrollLeft;
+    track.style.cursor = 'grabbing';
   });
 
-  // Pausar al hover
-  track.addEventListener('mouseenter', () => {
-    track.style.animationPlayState = 'paused';
+  track.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - track.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    track.scrollLeft = scrollStart - walk;
   });
+
+  track.addEventListener('mouseup', () => {
+    isDragging = false;
+    track.style.cursor = 'grab';
+  });
+
   track.addEventListener('mouseleave', () => {
-    track.style.animationPlayState = 'running';
+    isDragging = false;
+    track.style.cursor = 'grab';
   });
 }
 
@@ -4196,96 +4188,107 @@ function startAutoCarouselRotation() {
   if (autoCarouselInterval) {
     clearInterval(autoCarouselInterval);
   }
-  
+
   const categoriesBadges = document.getElementById('categoriesBadges');
   const useCarousel = categoriesBadges?.dataset.useCarousel === 'true';
-  
-  console.log('Starting rotation - Mode:', useCarousel ? 'carousel' : 'grid');
-  
-  if (useCarousel) {
-    const track = document.getElementById('categoriesCarouselTrack');
-    
-    if (track) {
-      // Clone cards for seamless loop
-      const cards = track.querySelectorAll('.category-carousel-card');
-      const cardCount = cards.length;
-      
-      if (cardCount > 0 && !track.dataset.cloned) {
-        // Clone cards once for seamless infinite loop
-        cards.forEach(card => {
-          const clone = card.cloneNode(true);
-          clone.classList.remove('carousel-highlighted');
-          clone.classList.add('cloned-card');
-          track.appendChild(clone);
-        });
-        track.dataset.cloned = 'true';
-        
-        // JavaScript infinite carousel
-        let currentPosition = 0;
-        const cardWidth = cards[0].offsetWidth + 12; // card width + gap
-        const totalWidth = cardCount * cardWidth;
-        let isPaused = false;
-        
-        function scrollCarousel() {
-          if (!isPaused) {
-            currentPosition -= 0.5; // Scroll speed
-            
-            // When we've scrolled past the original set, reset to beginning
-            if (Math.abs(currentPosition) >= totalWidth) {
-              currentPosition = 0;
-            }
-            
-            track.style.transform = `translateX(${currentPosition}px)`;
-          }
-          requestAnimationFrame(scrollCarousel);
-        }
-        
-        // Start the infinite scroll
-        scrollCarousel();
-        
-        // Pause on hover
-        track.addEventListener('mouseenter', () => {
-          isPaused = true;
-        });
-        
-        track.addEventListener('mouseleave', () => {
-          isPaused = false;
-        });
-      }
-      
-      console.log('Smooth automatic carousel started');
-    }
-  } else {
+
+  if (!useCarousel) {
     // Grid mode: highlight rotation
     const gridTrack = document.getElementById('categoriesGridTrack');
     if (gridTrack) {
       const cards = gridTrack.querySelectorAll('.category-carousel-card');
       console.log('Grid mode - cards found:', cards.length);
-      
       if (cards.length > 0) {
-        // Remove previous highlight
         cards.forEach(card => card.classList.remove('highlighted'));
-        
-        // Find current highlighted index
         let currentIndex = -1;
         cards.forEach((card, index) => {
-          if (card.classList.contains('highlighted')) {
-            currentIndex = index;
-          }
+          if (card.classList.contains('highlighted')) currentIndex = index;
         });
-        
-        // If no card is highlighted, start with first one
-        if (currentIndex === -1) {
-          currentIndex = -1; // Will become 0 after +1
-        }
-        
-        // Move to next card
         const nextIndex = (currentIndex + 1) % cards.length;
         console.log('Highlighting card:', nextIndex);
         cards[nextIndex].classList.add('highlighted');
       }
     }
+    return;
   }
+
+  const track = document.getElementById('categoriesCarouselTrack');
+  if (!track) return;
+
+  // Unified: setInterval auto-scroll for all breakpoints
+  if (!window.categoryCarouselState) {
+    window.categoryCarouselState = { intervalId: null, paused: false, resumeTimer: null, track: track };
+  } else {
+    window.categoryCarouselState.track = track;
+  }
+
+  if (!window.categoryCarouselState.intervalId) {
+    window.categoryCarouselState.intervalId = setInterval(() => {
+      const state = window.categoryCarouselState;
+      if (state && !state.paused && state.track) {
+        state.track.scrollLeft += 0.8;
+        if (state.track.scrollLeft >= state.track.scrollWidth - state.track.clientWidth - 1) {
+          state.track.scrollLeft = 0;
+        }
+      }
+    }, 16);
+  }
+
+  if (!track.dataset.carouselListeners) {
+    // Touch (mobile)
+    track.addEventListener('touchstart', () => {
+      const state = window.categoryCarouselState;
+      if (state) {
+        state.paused = true;
+        clearTimeout(state.resumeTimer);
+      }
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+      const state = window.categoryCarouselState;
+      if (state) {
+        clearTimeout(state.resumeTimer);
+        state.resumeTimer = setTimeout(() => {
+          if (window.categoryCarouselState) window.categoryCarouselState.paused = false;
+        }, 2000);
+      }
+    }, { passive: true });
+
+    track.addEventListener('touchcancel', () => {
+      const state = window.categoryCarouselState;
+      if (state) {
+        clearTimeout(state.resumeTimer);
+        state.resumeTimer = setTimeout(() => {
+          if (window.categoryCarouselState) window.categoryCarouselState.paused = false;
+        }, 2000);
+      }
+    }, { passive: true });
+
+    // Mouse (desktop) — same 2s delay logic
+    track.addEventListener('mouseenter', () => {
+      const state = window.categoryCarouselState;
+      if (state) {
+        state.paused = true;
+        clearTimeout(state.resumeTimer);
+      }
+    });
+
+    track.addEventListener('mouseleave', () => {
+      const state = window.categoryCarouselState;
+      if (state) {
+        clearTimeout(state.resumeTimer);
+        state.resumeTimer = setTimeout(() => {
+          if (window.categoryCarouselState) window.categoryCarouselState.paused = false;
+        }, 2000);
+      }
+    });
+
+    track.dataset.carouselListeners = 'true';
+  }
+
+  // Reanudar si se llamo desde stopAutoCarouselRotation
+  window.categoryCarouselState.paused = false;
+  clearTimeout(window.categoryCarouselState.resumeTimer);
 }
 
 function stopAutoCarouselRotation() {
@@ -4293,6 +4296,135 @@ function stopAutoCarouselRotation() {
     clearInterval(autoCarouselInterval);
     autoCarouselInterval = null;
   }
+  if (window.categoryCarouselState) {
+    window.categoryCarouselState.paused = true;
+    clearTimeout(window.categoryCarouselState.resumeTimer);
+  }
+}
+
+// Enable swipe/drag on the categories carousel (mobile)
+function setupCategoryCarouselSwipe() {
+  const track = document.getElementById('categoriesCarouselTrack');
+  if (!track) return;
+
+  let startX = 0;
+  let currentTranslate = 0;
+  let isSwiping = false;
+
+  function getTranslateX() {
+    const style = window.getComputedStyle(track);
+    const transform = style.transform;
+    if (!transform || transform === 'none') return 0;
+    const matrix = new DOMMatrix(transform);
+    return matrix.m41;
+  }
+
+  function startRAFLoop() {
+    if (!window.categoryCarouselState) return;
+    if (window.categoryCarouselState.rafId) return;
+
+    window.categoryCarouselState.rafId = requestAnimationFrame(function loop() {
+      const s = window.categoryCarouselState;
+      if (!s) return;
+      if (!s.isPaused) {
+        s.currentPosition -= 0.5;
+        if (Math.abs(s.currentPosition) >= s.totalWidth) {
+          s.currentPosition = 0;
+        }
+        track.style.transform = `translateX(${s.currentPosition}px)`;
+      }
+      if (window.categoryCarouselState) {
+        window.categoryCarouselState.rafId = requestAnimationFrame(loop);
+      }
+    });
+  }
+
+  track.addEventListener('touchstart', (e) => {
+    isSwiping = true;
+    startX = e.touches[0].clientX;
+    currentTranslate = getTranslateX();
+
+    // CRITICAL: Kill CSS animation immediately so inline transform wins
+    track.style.animation = 'none';
+
+    // Pause RAF if running
+    if (window.categoryCarouselState) {
+      window.categoryCarouselState.isPaused = true;
+      if (window.categoryCarouselState.rafId) {
+        cancelAnimationFrame(window.categoryCarouselState.rafId);
+        window.categoryCarouselState.rafId = null;
+      }
+      // Sync visual position into state
+      window.categoryCarouselState.currentPosition = currentTranslate;
+    }
+  }, { passive: true });
+
+  track.addEventListener('touchmove', (e) => {
+    if (!isSwiping) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - startX;
+    const newTranslate = currentTranslate + diff;
+    track.style.transform = `translateX(${newTranslate}px)`;
+  }, { passive: true });
+
+  track.addEventListener('touchend', () => {
+    isSwiping = false;
+
+    const finalTranslate = getTranslateX();
+    let state = window.categoryCarouselState;
+
+    // Determine card metrics
+    let cardWidth, totalWidth;
+    if (state) {
+      cardWidth = state.cardWidth;
+      totalWidth = state.totalWidth;
+    } else {
+      const cards = track.querySelectorAll('.category-carousel-card:not(.cloned-card)');
+      if (cards.length > 0) {
+        cardWidth = cards[0].offsetWidth + 12;
+        totalWidth = cards.length * cardWidth;
+      } else {
+        cardWidth = 262;
+        totalWidth = cardWidth * 6;
+      }
+    }
+
+    if (cardWidth && totalWidth) {
+      // Snap to nearest card
+      const snapIndex = Math.round(-finalTranslate / cardWidth);
+      let snapPosition = -(snapIndex * cardWidth);
+
+      // Wrap within totalWidth for seamless loop
+      snapPosition = ((snapPosition % totalWidth) + totalWidth) % totalWidth;
+      if (snapPosition > 0) snapPosition -= totalWidth;
+
+      track.style.transform = `translateX(${snapPosition}px)`;
+
+      // Ensure state exists and is synced
+      if (!window.categoryCarouselState) {
+        window.categoryCarouselState = {
+          currentPosition: snapPosition,
+          cardWidth: cardWidth,
+          totalWidth: totalWidth,
+          isPaused: true,
+          rafId: null
+        };
+      } else {
+        window.categoryCarouselState.currentPosition = snapPosition;
+        window.categoryCarouselState.isPaused = true;
+        window.categoryCarouselState.cardWidth = cardWidth;
+        window.categoryCarouselState.totalWidth = totalWidth;
+      }
+    }
+
+    // Resume auto-scroll after 2 seconds of inactivity
+    setTimeout(() => {
+      if (!isSwiping && window.categoryCarouselState) {
+        window.categoryCarouselState.isPaused = false;
+        startRAFLoop();
+      }
+    }, 2000);
+  });
 }
 
 // Initialize app
@@ -4479,6 +4611,7 @@ function initializeOffersCarousel() {
   
   // Calcular el ancho de cada tarjeta
   const isMobile = window.innerWidth <= 768;
+  const firstCard = track.children[0];
   const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
   const gap = isMobile ? 8 : 20;
   const scrollAmount = cardWidth + gap;
@@ -4639,6 +4772,7 @@ function updateCarouselPosition(instant = false) {
   
   // Calcular dinámicamente el ancho de las tarjetas
   const isMobile = window.innerWidth <= 768;
+  const firstCard = track.children[0];
   const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
   const gap = isMobile ? 8 : 20;
   
