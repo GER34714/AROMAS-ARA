@@ -4562,9 +4562,6 @@
                                 <button class="btn btn-primary" onclick="openProductModal()">
                                     <span>➕</span> Agregar Producto
                                 </button>
-                                <button class="btn btn-secondary" onclick="reorderProducts()" style="background: var(--success); color: white;">
-                                    <span>🔢</span> Reordenar
-                                </button>
                                 <button class="btn btn-secondary" onclick="diagnoseDatabase()" style="background: var(--warning); color: white;">
                                     <span>🔍</span> Diagnóstico BD
                                 </button>
@@ -7892,25 +7889,6 @@
             }
         });
         
-        // ===== REORDENAR PRODUCTOS (reasignar sort_order consecutivo) =====
-        async function reorderProducts() {
-            if (!confirm('¿Reasignar orden consecutivo a todos los productos activos?\n\nLos productos se ordenarán de 1 en adelante según su posición actual.')) return;
-            try {
-                notificationManager.loading('Reordenando productos...');
-                // Filtrar solo activos y ordenarlos por sort_order actual
-                const activeProducts = products.filter(p => p.activo).sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
-                // Actualizar cada uno con sort_order consecutivo (empieza en 1)
-                for (let i = 0; i < activeProducts.length; i++) {
-                    await supabaseClient.from('products').update({ sort_order: i + 1 }).eq('id', activeProducts[i].id);
-                }
-                notificationManager.success(`${activeProducts.length} productos reordenados`);
-                await loadProducts();
-            } catch (err) {
-                console.error('Error reordenando:', err);
-                notificationManager.error('Error al reordenar');
-            }
-        }
-
         // ===== ACTUALIZAR SORT ORDER INLINE (con swap) =====
         async function updateSortOrder(productId, newValue) {
             const newSortOrder = parseInt(newValue) || 0;
