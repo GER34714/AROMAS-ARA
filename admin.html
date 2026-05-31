@@ -3757,16 +3757,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="productSortOrder">
-                                Sort Order
-                            </label>
-                            <input type="number" id="productSortOrder" min="0" value="0" placeholder="0 = primero">
-                            <small style="color: var(--text-muted); margin-top: 4px; display: block;">
-                                Orden en la tienda. Número menor = aparece primero.
-                            </small>
-                        </div>
-
-                        <div class="form-group">
                             <label for="productActive">
                                 Visibilidad en Tienda
                                 <span class="required">*</span>
@@ -5803,19 +5793,13 @@
                 loadProductData(productId);
             } else {
                 title.innerHTML = '<span class="modal-icon">📦</span> Nuevo Producto';
-                // Producto nuevo: asignar siguiente numero de orden automaticamente
-                const maxOrder = products.length > 0
-                    ? Math.max(...products.map(p => p.display_order !== undefined && p.display_order !== null ? p.display_order : 0))
-                    : -1;
-                const nextOrder = maxOrder + 1;
-                document.getElementById('productDisplayOrder').value = nextOrder;
-                console.log('DEBUG - Nuevo producto, display_order asignado:', nextOrder);
-                // sort_order: usar el max actual + 1
+                // Producto nuevo: asignar siguiente numero de orden automaticamente (sort_order)
                 const maxSortOrder = products.length > 0
                     ? Math.max(...products.map(p => p.sort_order !== undefined && p.sort_order !== null ? p.sort_order : 0))
                     : -1;
                 const nextSortOrder = maxSortOrder + 1;
-                document.getElementById('productSortOrder').value = nextSortOrder;
+                document.getElementById('productDisplayOrder').value = nextSortOrder;
+                console.log('DEBUG - Nuevo producto, sort_order asignado:', nextSortOrder);
             }
 
             // Cargar categorías
@@ -5973,10 +5957,8 @@
                 document.getElementById('productStatus').value = product.status || 'Disponible';
                 document.getElementById('productActive').value = product.activo !== undefined ? product.activo.toString() : 'true';
                 // Manejar null/undefined: si es null o undefined, mostrar 0
-                const displayOrder = (product.display_order !== undefined && product.display_order !== null) ? product.display_order : 0;
-                document.getElementById('productDisplayOrder').value = displayOrder;
                 const sortOrder = (product.sort_order !== undefined && product.sort_order !== null) ? product.sort_order : 0;
-                document.getElementById('productSortOrder').value = sortOrder;
+                document.getElementById('productDisplayOrder').value = sortOrder;
                 document.getElementById('productImage').value = product.image_url || '';
                 
                 // Cargar características especiales
@@ -6089,10 +6071,8 @@
             updateFormStatus('saving', 'Guardando...', '💾');
             
             const displayOrderVal = document.getElementById('productDisplayOrder').value;
-            const parsedDisplayOrder = displayOrderVal !== '' ? parseInt(displayOrderVal) : 0;
-            const sortOrderVal = document.getElementById('productSortOrder').value;
-            const parsedSortOrder = sortOrderVal !== '' ? parseInt(sortOrderVal) : 0;
-            console.log('DEBUG - display_order input value:', displayOrderVal, 'parsed:', parsedDisplayOrder, 'sort_order:', sortOrderVal, 'parsed:', parsedSortOrder);
+            const parsedSortOrder = displayOrderVal !== '' ? parseInt(displayOrderVal) : 0;
+            console.log('DEBUG - sort_order input value:', displayOrderVal, 'parsed:', parsedSortOrder);
             const formData = {
                 name: document.getElementById('productName').value.trim(),
                 category: document.getElementById('productCategory').value,
@@ -6102,7 +6082,6 @@
                 activo: currentEditingId ?
                     document.getElementById('productActive').value === 'true' :
                     false, // Productos nuevos siempre inactivos por defecto
-                display_order: parsedDisplayOrder,
                 sort_order: parsedSortOrder,
                 en_oferta: document.getElementById('productEnOferta').checked,
                 es_destacado: document.getElementById('productEsDestacado').checked,
