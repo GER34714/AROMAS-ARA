@@ -5642,9 +5642,9 @@
                             ${product.activo ? '👁️ Activo' : '🚫 Inactivo'}
                         </button>
                     </td>
-                    <td data-label="Orden">
+                    <td data-label="Orden" onclick="event.stopPropagation();">
                         ${product.activo
-                            ? `<input type="number" min="1" value="${product.sort_order !== undefined && product.sort_order !== null ? product.sort_order : 0}" style="width: 60px; padding: 4px; border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; font-weight: 600; color: var(--accent); background: white;" onclick="event.stopPropagation();" onkeydown="if(event.key==='Enter'){event.stopPropagation();updateSortOrder('${product.id}',this.value);}" onblur="event.stopPropagation();updateSortOrder('${product.id}',this.value)">`
+                            ? `<input type="number" min="1" value="${product.sort_order !== undefined && product.sort_order !== null ? product.sort_order : 0}" style="width: 60px; padding: 4px; border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; font-weight: 600; color: var(--accent); background: white;" onclick="event.stopPropagation();" onkeydown="if(event.key==='Enter'){event.stopPropagation();updateSortOrder('${product.id}',this.value);}" onchange="event.stopPropagation();updateSortOrder('${product.id}',this.value)">`
                             : `<span style="color: var(--text-muted); font-size: 0.85rem;">—</span>`
                         }
                     </td>
