@@ -5795,7 +5795,7 @@
                 // Producto nuevo: asignar siguiente numero de orden automaticamente (sort_order)
                 const maxSortOrder = products.length > 0
                     ? Math.max(...products.map(p => p.sort_order !== undefined && p.sort_order !== null ? p.sort_order : 0))
-                    : -1;
+                    : 0;
                 const nextSortOrder = maxSortOrder + 1;
                 document.getElementById('productDisplayOrder').value = nextSortOrder;
                 console.log('DEBUG - Nuevo producto, sort_order asignado:', nextSortOrder);
@@ -7891,14 +7891,14 @@
         
         // ===== REORDENAR PRODUCTOS (reasignar sort_order consecutivo) =====
         async function reorderProducts() {
-            if (!confirm('¿Reasignar orden consecutivo a todos los productos activos?\n\nLos productos se ordenarán de 0 en adelante según su posición actual.')) return;
+            if (!confirm('¿Reasignar orden consecutivo a todos los productos activos?\n\nLos productos se ordenarán de 1 en adelante según su posición actual.')) return;
             try {
                 notificationManager.loading('Reordenando productos...');
                 // Filtrar solo activos y ordenarlos por sort_order actual
                 const activeProducts = products.filter(p => p.activo).sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
-                // Actualizar cada uno con sort_order consecutivo
+                // Actualizar cada uno con sort_order consecutivo (empieza en 1)
                 for (let i = 0; i < activeProducts.length; i++) {
-                    await supabaseClient.from('products').update({ sort_order: i }).eq('id', activeProducts[i].id);
+                    await supabaseClient.from('products').update({ sort_order: i + 1 }).eq('id', activeProducts[i].id);
                 }
                 notificationManager.success(`${activeProducts.length} productos reordenados`);
                 await loadProducts();
