@@ -5205,6 +5205,7 @@
                 
                 products = data || [];
                 console.log('Productos cargados exitosamente:', products.length);
+                console.log('DEBUG - Primeros 5 productos ordenados:', products.slice(0, 5).map(p => ({ name: p.name, display_order: p.display_order })));
                 
                 // Renderizar tabla solo si existe el elemento
                 const tbody = document.getElementById('productsTableBody');
@@ -5942,7 +5943,9 @@
                 document.getElementById('productPrice').value = product.price || '';
                 document.getElementById('productStatus').value = product.status || 'Disponible';
                 document.getElementById('productActive').value = product.activo !== undefined ? product.activo.toString() : 'true';
-                document.getElementById('productDisplayOrder').value = product.display_order !== undefined ? product.display_order : 0;
+                // Manejar null/undefined: si es null o undefined, mostrar 0
+                const displayOrder = (product.display_order !== undefined && product.display_order !== null) ? product.display_order : 0;
+                document.getElementById('productDisplayOrder').value = displayOrder;
                 document.getElementById('productImage').value = product.image_url || '';
                 
                 // Cargar características especiales
@@ -6055,6 +6058,8 @@
             updateFormStatus('saving', 'Guardando...', '💾');
             
             const displayOrderVal = document.getElementById('productDisplayOrder').value;
+            const parsedDisplayOrder = displayOrderVal !== '' ? parseInt(displayOrderVal) : 0;
+            console.log('DEBUG - display_order input value:', displayOrderVal, 'parsed:', parsedDisplayOrder);
             const formData = {
                 name: document.getElementById('productName').value.trim(),
                 category: document.getElementById('productCategory').value,
@@ -6064,7 +6069,7 @@
                 activo: currentEditingId ?
                     document.getElementById('productActive').value === 'true' :
                     false, // Productos nuevos siempre inactivos por defecto
-                display_order: displayOrderVal !== '' ? parseInt(displayOrderVal) : 0,
+                display_order: parsedDisplayOrder,
                 en_oferta: document.getElementById('productEnOferta').checked,
                 es_destacado: document.getElementById('productEsDestacado').checked,
                 es_nuevo: document.getElementById('productEsNuevo').checked,
@@ -6130,7 +6135,7 @@
                         throw new Error('El producto que intentas editar no existe');
                     }
                     
-                    const { data, error } = await supabaseClient.from('products').update(formData).eq('id', currentEditingId);
+                    const { data, error } = await supabaseClient.from('products').update(formData).eq('id', currentEditingId).select();
                     console.log('Resultado update - data:', data);
                     console.log('Resultado update - error:', error);
                     
@@ -6143,7 +6148,7 @@
                 } else {
                     console.log('Insertando nuevo producto:', formData);
                     
-                    const { data, error } = await supabaseClient.from('products').insert(formData);
+                    const { data, error } = await supabaseClient.from('products').insert(formData).select();
                     console.log('Resultado insert - data:', data);
                     console.log('Resultado insert - error:', error);
                     
