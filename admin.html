@@ -4605,13 +4605,12 @@
                                         <th>Estado</th>
                                         <th>Activo</th>
                                         <th>Orden</th>
-                                        <th>Sort</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="productsTableBody">
                                     <tr>
-                                        <td colspan="9" style="text-align: center; padding: 40px;">
+                                        <td colspan="8" style="text-align: center; padding: 40px;">
                                             <div class="loading-spinner">⏳ Cargando productos...</div>
                                         </td>
                                     </tr>
@@ -5609,7 +5608,7 @@
             if (paginatedProducts.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="9" style="text-align: center; padding: 40px;">
+                        <td colspan="8" style="text-align: center; padding: 40px;">
                             <div style="color: var(--text-muted);">
                                 ${searchQuery || selectedCategory !== 'all' || selectedStatus !== 'all' || selectedActive !== 'all' ? 'No se encontraron productos con los filtros seleccionados' : 'No hay productos registrados'}
                             </div>
@@ -5641,14 +5640,10 @@
                         </button>
                     </td>
                     <td data-label="Orden">
-                        <span style="font-weight: 600; color: var(--accent); font-size: 0.9rem;">
-                            ${product.display_order !== undefined ? product.display_order : 0}
-                        </span>
-                    </td>
-                    <td data-label="Sort">
-                        <span style="font-weight: 600; color: var(--accent); font-size: 0.9rem;">
-                            ${product.sort_order !== undefined ? product.sort_order : 0}
-                        </span>
+                        ${product.activo
+                            ? `<input type="number" min="0" value="${product.sort_order !== undefined && product.sort_order !== null ? product.sort_order : 0}" style="width: 60px; padding: 4px; border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; font-weight: 600; color: var(--accent); background: white;" onkeydown="if(event.key==='Enter'){event.stopPropagation();updateSortOrder('${product.id}',this.value);}" onblur="event.stopPropagation();updateSortOrder('${product.id}',this.value)">`
+                            : `<span style="color: var(--text-muted); font-size: 0.85rem;">—</span>`
+                        }
                     </td>
                     <td data-label="Acciones">
                         <div class="product-actions">
@@ -7894,6 +7889,23 @@
             }
         });
         
+        // ===== ACTUALIZAR SORT ORDER INLINE =====
+        async function updateSortOrder(productId, newValue) {
+            const newSortOrder = parseInt(newValue) || 0;
+            try {
+                const { error } = await supabaseClient
+                    .from('products')
+                    .update({ sort_order: newSortOrder })
+                    .eq('id', productId);
+                if (error) throw error;
+                notificationManager.success('Orden actualizado');
+                await loadProducts();
+            } catch (err) {
+                console.error('Error actualizando sort_order:', err);
+                notificationManager.error('Error al actualizar orden');
+            }
+        }
+
         // ===== FUNCIÓN TOGGLE ACTIVO =====
         async function toggleProductActive(productId, newActiveState) {
             try {
