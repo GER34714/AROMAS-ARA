@@ -4562,6 +4562,9 @@
                                 <button class="btn btn-primary" onclick="openProductModal()">
                                     <span>➕</span> Agregar Producto
                                 </button>
+                                <button class="btn btn-secondary" onclick="normalizeSortOrder()" style="background: var(--success); color: white;">
+                                    <span>🔢</span> Normalizar
+                                </button>
                                 <button class="btn btn-secondary" onclick="diagnoseDatabase()" style="background: var(--warning); color: white;">
                                     <span>🔍</span> Diagnóstico BD
                                 </button>
@@ -7889,7 +7892,24 @@
             }
         });
         
-        // ===== ACTUALIZAR SORT ORDER INLINE (con swap) =====
+        // ===== NORMALIZAR SORT ORDER (asignar 1,2,3... sin duplicados) =====
+        async function normalizeSortOrder() {
+            if (!confirm('¿Normalizar orden de productos activos?\n\nSe asignaran numeros 1, 2, 3... consecutivos sin duplicados.')) return;
+            try {
+                notificationManager.loading('Normalizando orden...');
+                const activeProducts = products.filter(p => p.activo).sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+                for (let i = 0; i < activeProducts.length; i++) {
+                    await supabaseClient.from('products').update({ sort_order: i + 1 }).eq('id', activeProducts[i].id);
+                }
+                notificationManager.success(`${activeProducts.length} productos normalizados`);
+                await loadProducts();
+            } catch (err) {
+                console.error('Error normalizando:', err);
+                notificationManager.error('Error al normalizar');
+            }
+        }
+
+        // ===== ACTUALIZAR SORT ORDER INLINE (sin duplicados) =====
         async function updateSortOrder(productId, newValue) {
             const newSortOrder = parseInt(newValue) || 0;
             if (newSortOrder < 1) {
@@ -7901,18 +7921,16 @@
             if (!targetProduct) return;
             const oldSortOrder = targetProduct.sort_order || 0;
             if (oldSortOrder === newSortOrder) return; // No cambio
-            // Buscar si otro producto tiene ese numero
-            const existing = products.find(p => p.sort_order === newSortOrder && p.id !== productId);
+            // Buscar si otro producto activo ya tiene ese numero
+            const existing = products.find(p => p.activo && p.sort_order === newSortOrder && p.id !== productId);
+            if (existing) {
+                notificationManager.error(`El numero ${newSortOrder} ya lo tiene "${existing.name}". Elegi otro numero.`);
+                await loadProducts();
+                return;
+            }
             try {
-                if (existing) {
-                    // Intercambiar: el otro producto recibe el numero viejo de este
-                    await supabaseClient.from('products').update({ sort_order: oldSortOrder }).eq('id', existing.id);
-                    await supabaseClient.from('products').update({ sort_order: newSortOrder }).eq('id', productId);
-                    notificationManager.success(`Intercambiado: "${targetProduct.name}" ahora es #${newSortOrder}, "${existing.name}" ahora es #${oldSortOrder}`);
-                } else {
-                    await supabaseClient.from('products').update({ sort_order: newSortOrder }).eq('id', productId);
-                    notificationManager.success('Orden actualizado');
-                }
+                await supabaseClient.from('products').update({ sort_order: newSortOrder }).eq('id', productId);
+                notificationManager.success('Orden actualizado');
                 await loadProducts();
             } catch (err) {
                 console.error('Error actualizando sort_order:', err);
