@@ -4603,200 +4603,114 @@ function initializeOffersCarousel() {
   const track = document.getElementById('ofertasCarouselTrack');
   const prevBtn = document.getElementById('ofertasPrevBtn');
   const nextBtn = document.getElementById('ofertasNextBtn');
-  
+
   if (!track) return;
-  
+
   console.log('🎯 DEBUG - Carrusel de ofertas inicializado con botones');
   console.log(`🎯 DEBUG - Total de productos: ${track.children.length}`);
-  
+
   // Calcular el ancho de cada tarjeta
   const isMobile = window.innerWidth <= 768;
   const firstCard = track.children[0];
   const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
   const gap = isMobile ? 8 : 20;
   const scrollAmount = cardWidth + gap;
-  
+
   // Event listeners para botones
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-      track.scrollBy({
-        left: -scrollAmount,
-        behavior: 'smooth'
-      });
+      track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     });
   }
-  
+
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      track.scrollBy({
-        left: scrollAmount,
-        behavior: 'smooth'
-      });
+      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     });
   }
-  
+
   console.log(`🎯 DEBUG - Scroll amount: ${scrollAmount}px`);
-  
-  // Event listeners para swipe gestures
+
+  // Drag support usando scrollLeft nativo
   let startX = 0;
-  let currentX = 0;
+  let startScroll = 0;
   let isDragging = false;
-  
-  // Mouse events
+
   track.addEventListener('mousedown', (e) => {
     isDragging = true;
-    startX = e.clientX;
-    currentX = startX;
+    startX = e.pageX;
+    startScroll = track.scrollLeft;
     track.style.cursor = 'grabbing';
     track.classList.add('dragging');
-    track.style.transition = 'none';
   });
-  
+
   track.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
-    
-    currentX = e.clientX;
-    const diff = currentX - startX;
-    
-    // Calcular dinámicamente
-    const isMobile = window.innerWidth <= 768;
-    const firstCard = track.children[0];
-    const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
-    const gap = isMobile ? 8 : 20;
-    
-    const currentPosition = -ofertasCarouselSimple.currentIndex * (cardWidth + gap);
-    track.style.transform = `translateX(${currentPosition + diff}px)`;
+    e.preventDefault();
+    const diff = e.pageX - startX;
+    track.scrollLeft = startScroll - diff;
   });
-  
-  track.addEventListener('mouseup', (e) => {
-    if (!isDragging) return;
-    
+
+  track.addEventListener('mouseup', () => {
     isDragging = false;
+    track.style.cursor = 'grab';
     track.classList.remove('dragging');
-    
-    const diff = currentX - startX;
-    const threshold = 100; // 100px para cambiar de slide
-    
-    if (Math.abs(diff) > threshold) {
-      if (diff > 0) {
-        previousSlide();
-      } else {
-        nextSlide();
-      }
-    } else {
-      updateCarouselPosition();
-    }
   });
-  
+
   track.addEventListener('mouseleave', () => {
-    if (isDragging) {
-      isDragging = false;
-      track.classList.remove('dragging');
-      updateCarouselPosition();
-    }
+    isDragging = false;
+    track.style.cursor = 'grab';
+    track.classList.remove('dragging');
   });
-  
-  // Touch events para mobile
+
+  // Touch support
   track.addEventListener('touchstart', (e) => {
     isDragging = true;
     startX = e.touches[0].clientX;
-    currentX = startX;
-    track.style.transition = 'none';
+    startScroll = track.scrollLeft;
   }, { passive: true });
-  
+
   track.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
-    
-    currentX = e.touches[0].clientX;
-    const diff = currentX - startX;
-    
-    // Calcular dinámicamente
-    const isMobile = window.innerWidth <= 768;
-    const firstCard = track.children[0];
-    const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
-    const gap = isMobile ? 8 : 20;
-    
-    const currentPosition = -ofertasCarouselSimple.currentIndex * (cardWidth + gap);
-    track.style.transform = `translateX(${currentPosition + diff}px)`;
+    const diff = e.touches[0].clientX - startX;
+    track.scrollLeft = startScroll - diff;
   }, { passive: true });
-  
-  track.addEventListener('touchend', (e) => {
-    if (!isDragging) return;
-    
+
+  track.addEventListener('touchend', () => {
     isDragging = false;
-    
-    const diff = currentX - startX;
-    const threshold = 100;
-    
-    if (Math.abs(diff) > threshold) {
-      if (diff > 0) {
-        previousSlide();
-      } else {
-        nextSlide();
-      }
-    } else {
-      updateCarouselPosition();
-    }
-  });
-  
-  // Posición inicial
-  updateCarouselPosition(true); // instant para evitar animación inicial
+  }, { passive: true });
+
+  track.addEventListener('touchcancel', () => {
+    isDragging = false;
+  }, { passive: true });
 }
 
 function previousSlide() {
-  // Mover un producto a la vez
-  if (ofertasCarouselSimple.currentIndex > 0) {
-    ofertasCarouselSimple.currentIndex--;
-  } else {
-    // Volver al último producto
-    ofertasCarouselSimple.currentIndex = ofertasCarouselSimple.totalSlides - 1;
-  }
-  updateCarouselPosition();
-}
-
-function nextSlide() {
-  // Mover un producto a la vez
-  if (ofertasCarouselSimple.currentIndex < ofertasCarouselSimple.totalSlides - 1) {
-    ofertasCarouselSimple.currentIndex++;
-  } else {
-    // Volver al primer producto
-    ofertasCarouselSimple.currentIndex = 0;
-  }
-  updateCarouselPosition();
-}
-
-function updateCarouselPosition(instant = false) {
   const track = document.getElementById('ofertasCarouselTrack');
-  const container = document.querySelector('.ofertas-carousel-simple .carousel-container');
-  if (!track || !container) return;
-  
-  // Calcular dinámicamente el ancho de las tarjetas
+  if (!track) return;
   const isMobile = window.innerWidth <= 768;
   const firstCard = track.children[0];
   const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
   const gap = isMobile ? 8 : 20;
-  
-  // Calcular cuántos productos se ven a la vez
-  const containerWidth = container.clientWidth;
-  const productsVisible = Math.floor(containerWidth / (cardWidth + gap));
-  
-  // Los botones deben mover solo un producto a la vez
-  const slideDistance = (cardWidth + gap) * ofertasCarouselSimple.currentIndex;
-  
-  console.log(`🎯 DEBUG - Container: ${containerWidth}px, Card: ${cardWidth}px, Gap: ${gap}px`);
-  console.log(`🎯 DEBUG - Productos visibles: ${productsVisible}, Current index: ${ofertasCarouselSimple.currentIndex}`);
-  console.log(`🎯 DEBUG - Slide distance: ${slideDistance}px`);
-  
-  // Unificar el mecanismo: siempre usar transform: translateX
-  if (instant) {
-    track.style.transition = 'none';
-    track.style.transform = `translateX(-${slideDistance}px)`;
-    // Forzar reflow y restaurar transición
-    void track.offsetWidth;
-    track.style.transition = 'transform 0.3s ease';
-  } else {
-    track.style.transform = `translateX(-${slideDistance}px)`;
-  }
+  track.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+}
+
+function nextSlide() {
+  const track = document.getElementById('ofertasCarouselTrack');
+  if (!track) return;
+  const isMobile = window.innerWidth <= 768;
+  const firstCard = track.children[0];
+  const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
+  const gap = isMobile ? 8 : 20;
+  track.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+}
+
+function updateCarouselPosition(instant = false) {
+  const track = document.getElementById('ofertasCarouselTrack');
+  if (!track) return;
+  // scroll-behavior: smooth en CSS maneja la animación
+  // Esta función ahora solo limpia inline styles si quedaron de debug
+  track.style.transform = '';
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
