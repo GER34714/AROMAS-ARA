@@ -4742,19 +4742,19 @@ async function loadProducts() {
     console.log('🔄 Loading products...');
     console.log('📡 Supabase URL:', supabaseClient.supabaseUrl);
 
-    // Intentar cargar con orden por display_order
+    // Intentar cargar con orden por sort_order
     let { data, error } = await supabaseClient
       .from('products')
       .select('*')
       .eq('activo', true)
       .not('category', 'is', null)
       .not('category', 'eq', '')
-      .order('display_order', { ascending: true, nullsFirst: false })
+      .order('sort_order', { ascending: true, nullsFirst: false })
       .order('created_at', { ascending: false });
 
-    // Si display_order no existe en la base de datos, fallback a created_at
-    if (error && (error.code === '42703' || error.message?.includes('display_order'))) {
-      console.warn('⚠️ Columna display_order no encontrada, usando fallback created_at');
+    // Si sort_order no existe en la base de datos, fallback a created_at
+    if (error && (error.code === '42703' || error.message?.includes('sort_order'))) {
+      console.warn('⚠️ Columna sort_order no encontrada, usando fallback created_at');
       const fallback = await supabaseClient
         .from('products')
         .select('*')
@@ -4775,7 +4775,7 @@ async function loadProducts() {
 
     products = data || [];
     console.log('✅ Products loaded:', products.length);
-    console.log('DEBUG - Primeros 5 productos orden:', products.slice(0, 5).map(p => ({ name: p.name, display_order: p.display_order })));
+    console.log('DEBUG - Primeros 5 productos orden:', products.slice(0, 5).map(p => ({ name: p.name, sort_order: p.sort_order })));
     renderProducts();
 
   } catch (error) {

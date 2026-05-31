@@ -3755,7 +3755,17 @@
                                 Número menor = aparece primero. 0 = primero en la lista.
                             </small>
                         </div>
-                        
+
+                        <div class="form-group">
+                            <label for="productSortOrder">
+                                Sort Order
+                            </label>
+                            <input type="number" id="productSortOrder" min="0" value="0" placeholder="0 = primero">
+                            <small style="color: var(--text-muted); margin-top: 4px; display: block;">
+                                Orden en la tienda. Número menor = aparece primero.
+                            </small>
+                        </div>
+
                         <div class="form-group">
                             <label for="productActive">
                                 Visibilidad en Tienda
@@ -4605,12 +4615,13 @@
                                         <th>Estado</th>
                                         <th>Activo</th>
                                         <th>Orden</th>
+                                        <th>Sort</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="productsTableBody">
                                     <tr>
-                                        <td colspan="8" style="text-align: center; padding: 40px;">
+                                        <td colspan="9" style="text-align: center; padding: 40px;">
                                             <div class="loading-spinner">⏳ Cargando productos...</div>
                                         </td>
                                     </tr>
@@ -5195,7 +5206,7 @@
                 
                 // Ejecutar consulta
                 const { data, error, count } = await query
-                    .order('display_order', { ascending: true, nullsFirst: false })
+                    .order('sort_order', { ascending: true, nullsFirst: false })
                     .order('created_at', { ascending: false });
                 
                 if (error) {
@@ -5205,7 +5216,7 @@
                 
                 products = data || [];
                 console.log('Productos cargados exitosamente:', products.length);
-                console.log('DEBUG - Primeros 5 productos ordenados:', products.slice(0, 5).map(p => ({ name: p.name, display_order: p.display_order })));
+                console.log('DEBUG - Primeros 5 productos ordenados:', products.slice(0, 5).map(p => ({ name: p.name, sort_order: p.sort_order })));
                 
                 // Renderizar tabla solo si existe el elemento
                 const tbody = document.getElementById('productsTableBody');
@@ -5604,7 +5615,7 @@
             if (paginatedProducts.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="8" style="text-align: center; padding: 40px;">
+                        <td colspan="9" style="text-align: center; padding: 40px;">
                             <div style="color: var(--text-muted);">
                                 ${searchQuery || selectedCategory !== 'all' || selectedStatus !== 'all' || selectedActive !== 'all' ? 'No se encontraron productos con los filtros seleccionados' : 'No hay productos registrados'}
                             </div>
@@ -5638,6 +5649,11 @@
                     <td data-label="Orden">
                         <span style="font-weight: 600; color: var(--accent); font-size: 0.9rem;">
                             ${product.display_order !== undefined ? product.display_order : 0}
+                        </span>
+                    </td>
+                    <td data-label="Sort">
+                        <span style="font-weight: 600; color: var(--accent); font-size: 0.9rem;">
+                            ${product.sort_order !== undefined ? product.sort_order : 0}
                         </span>
                     </td>
                     <td data-label="Acciones">
@@ -5794,6 +5810,12 @@
                 const nextOrder = maxOrder + 1;
                 document.getElementById('productDisplayOrder').value = nextOrder;
                 console.log('DEBUG - Nuevo producto, display_order asignado:', nextOrder);
+                // sort_order: usar el max actual + 1
+                const maxSortOrder = products.length > 0
+                    ? Math.max(...products.map(p => p.sort_order !== undefined && p.sort_order !== null ? p.sort_order : 0))
+                    : -1;
+                const nextSortOrder = maxSortOrder + 1;
+                document.getElementById('productSortOrder').value = nextSortOrder;
             }
 
             // Cargar categorías
@@ -5953,6 +5975,8 @@
                 // Manejar null/undefined: si es null o undefined, mostrar 0
                 const displayOrder = (product.display_order !== undefined && product.display_order !== null) ? product.display_order : 0;
                 document.getElementById('productDisplayOrder').value = displayOrder;
+                const sortOrder = (product.sort_order !== undefined && product.sort_order !== null) ? product.sort_order : 0;
+                document.getElementById('productSortOrder').value = sortOrder;
                 document.getElementById('productImage').value = product.image_url || '';
                 
                 // Cargar características especiales
@@ -6066,7 +6090,9 @@
             
             const displayOrderVal = document.getElementById('productDisplayOrder').value;
             const parsedDisplayOrder = displayOrderVal !== '' ? parseInt(displayOrderVal) : 0;
-            console.log('DEBUG - display_order input value:', displayOrderVal, 'parsed:', parsedDisplayOrder);
+            const sortOrderVal = document.getElementById('productSortOrder').value;
+            const parsedSortOrder = sortOrderVal !== '' ? parseInt(sortOrderVal) : 0;
+            console.log('DEBUG - display_order input value:', displayOrderVal, 'parsed:', parsedDisplayOrder, 'sort_order:', sortOrderVal, 'parsed:', parsedSortOrder);
             const formData = {
                 name: document.getElementById('productName').value.trim(),
                 category: document.getElementById('productCategory').value,
@@ -6077,6 +6103,7 @@
                     document.getElementById('productActive').value === 'true' :
                     false, // Productos nuevos siempre inactivos por defecto
                 display_order: parsedDisplayOrder,
+                sort_order: parsedSortOrder,
                 en_oferta: document.getElementById('productEnOferta').checked,
                 es_destacado: document.getElementById('productEsDestacado').checked,
                 es_nuevo: document.getElementById('productEsNuevo').checked,
@@ -7954,7 +7981,7 @@
                 const { data, error } = await supabaseClient
                     .from('products')
                     .select('*')
-                    .order('display_order', { ascending: true, nullsFirst: false })
+                    .order('sort_order', { ascending: true, nullsFirst: false })
                     .order('created_at', { ascending: false });
                 if (error) throw error;
 
@@ -8053,7 +8080,7 @@
                 }
                 
                 const { data, error } = await query
-                    .order('display_order', { ascending: true, nullsFirst: false })
+                    .order('sort_order', { ascending: true, nullsFirst: false })
                     .order('created_at', { ascending: false });
                 
                 if (error) throw error;
