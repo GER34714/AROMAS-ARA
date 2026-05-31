@@ -1,7 +1,7 @@
 -- Agregar columna sort_order a tabla categories
 ALTER TABLE categories ADD COLUMN IF NOT EXISTS sort_order INTEGER DEFAULT 0;
 
--- Asignar orden consecutivo basado en el orden actual por nombre
+-- Asignar orden consecutivo 1, 2, 3... basado en el orden actual por nombre
 UPDATE categories
 SET sort_order = sub.row_num
 FROM (
