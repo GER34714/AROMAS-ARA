@@ -7911,7 +7911,7 @@
             }
         }
 
-        // ===== ACTUALIZAR SORT ORDER INLINE =====
+        // ===== ACTUALIZAR SORT ORDER INLINE (con swap) =====
         async function updateSortOrder(productId, newValue) {
             const newSortOrder = parseInt(newValue) || 0;
             if (newSortOrder < 1) {
@@ -7919,20 +7919,22 @@
                 await loadProducts();
                 return;
             }
-            // Verificar que el numero no exista en otro producto
+            const targetProduct = products.find(p => p.id === productId);
+            if (!targetProduct) return;
+            const oldSortOrder = targetProduct.sort_order || 0;
+            if (oldSortOrder === newSortOrder) return; // No cambio
+            // Buscar si otro producto tiene ese numero
             const existing = products.find(p => p.sort_order === newSortOrder && p.id !== productId);
-            if (existing) {
-                notificationManager.error(`El numero ${newSortOrder} ya lo tiene "${existing.name}". Usa otro numero.`);
-                await loadProducts();
-                return;
-            }
             try {
-                const { error } = await supabaseClient
-                    .from('products')
-                    .update({ sort_order: newSortOrder })
-                    .eq('id', productId);
-                if (error) throw error;
-                notificationManager.success('Orden actualizado');
+                if (existing) {
+                    // Intercambiar: el otro producto recibe el numero viejo de este
+                    await supabaseClient.from('products').update({ sort_order: oldSortOrder }).eq('id', existing.id);
+                    await supabaseClient.from('products').update({ sort_order: newSortOrder }).eq('id', productId);
+                    notificationManager.success(`Intercambiado: "${targetProduct.name}" ahora es #${newSortOrder}, "${existing.name}" ahora es #${oldSortOrder}`);
+                } else {
+                    await supabaseClient.from('products').update({ sort_order: newSortOrder }).eq('id', productId);
+                    notificationManager.success('Orden actualizado');
+                }
                 await loadProducts();
             } catch (err) {
                 console.error('Error actualizando sort_order:', err);
