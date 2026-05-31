@@ -4256,6 +4256,7 @@ function startAutoCarouselRotation() {
         let touchStartX = 0;
         track.addEventListener('touchstart', (e) => {
           isPaused = true;
+          track.style.animationPlayState = 'paused';
           touchStartX = e.touches[0].clientX;
         }, { passive: true });
         
