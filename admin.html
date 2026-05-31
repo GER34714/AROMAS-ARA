@@ -5808,9 +5808,10 @@
                 loadProductData(productId);
             } else {
                 title.innerHTML = '<span class="modal-icon">📦</span> Nuevo Producto';
-                // Producto nuevo: asignar siguiente numero de orden automaticamente (sort_order)
-                const maxSortOrder = products.length > 0
-                    ? Math.max(...products.map(p => p.sort_order !== undefined && p.sort_order !== null ? p.sort_order : 0))
+                // Producto nuevo: asignar siguiente numero de orden automaticamente (solo activos)
+                const activeProducts = products.filter(p => p.activo);
+                const maxSortOrder = activeProducts.length > 0
+                    ? Math.max(...activeProducts.map(p => p.sort_order !== undefined && p.sort_order !== null ? p.sort_order : 0))
                     : 0;
                 const nextSortOrder = maxSortOrder + 1;
                 document.getElementById('productDisplayOrder').value = nextSortOrder;
@@ -5974,8 +5975,15 @@
                 document.getElementById('productPrice').value = product.price || '';
                 document.getElementById('productStatus').value = product.status || 'Disponible';
                 document.getElementById('productActive').value = product.activo !== undefined ? product.activo.toString() : 'true';
-                // Manejar null/undefined: si es null o undefined, mostrar 0
-                const sortOrder = (product.sort_order !== undefined && product.sort_order !== null) ? product.sort_order : 0;
+                // Manejar null/undefined/0: si no tiene numero asignado, calcular siguiente
+                let sortOrder = (product.sort_order !== undefined && product.sort_order !== null) ? product.sort_order : 0;
+                if (sortOrder === 0) {
+                    const activeProducts = products.filter(p => p.activo);
+                    const maxSortOrder = activeProducts.length > 0
+                        ? Math.max(...activeProducts.map(p => p.sort_order !== undefined && p.sort_order !== null ? p.sort_order : 0))
+                        : 0;
+                    sortOrder = maxSortOrder + 1;
+                }
                 document.getElementById('productDisplayOrder').value = sortOrder;
                 document.getElementById('productImage').value = product.image_url || '';
                 
