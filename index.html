@@ -3976,12 +3976,10 @@ function startAutoCarouselRotation() {
           track.style.transform = `translateX(${currentPosition}px)`;
         }, { passive: true });
         
-        track.addEventListener('touchend('touchend', () => {
+        track.addEventListener('touchend', () => {
           isPaused = false;
           track.style.animationPlayState = 'running';
-        });', () => {
-          isPaused = false;
-        });
+        
       }
       
       console.log('Smooth automatic carousel started');
