@@ -3976,7 +3976,10 @@ function startAutoCarouselRotation() {
           track.style.transform = `translateX(${currentPosition}px)`;
         }, { passive: true });
         
-        track.addEventListener('touchend', () => {
+        track.addEventListener('track.addEventListener('touchend', () => {
+          isPaused = false;
+          track.style.animationPlayState = 'running';
+        });', () => {
           isPaused = false;
         });
       }
@@ -4310,7 +4313,10 @@ function initializeOffersCarousel() {
     track.style.transform = `translateX(${currentPosition + diff}px)`;
   }, { passive: true });
   
-  track.addEventListener('touchend', (e) => {
+  track.addEventListener('track.addEventListener('touchend', () => {
+          isPaused = false;
+          track.style.animationPlayState = 'running';
+        });', (e) => {
     if (!isDragging) return;
     
     isDragging = false;
