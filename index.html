@@ -4757,7 +4757,7 @@ async function loadProducts() {
       .eq('activo', true)
       .not('category', 'is', null)
       .not('category', 'eq', '')
-      .order('display_order', { ascending: true, nullsLast: true })
+      .order('display_order', { ascending: true, nullsFirst: false })
       .order('created_at', { ascending: false });
     
     console.log('📊 Products response:', { data, error });

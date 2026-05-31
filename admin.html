@@ -5195,7 +5195,7 @@
                 
                 // Ejecutar consulta
                 const { data, error, count } = await query
-                    .order('display_order', { ascending: true, nullsLast: true })
+                    .order('display_order', { ascending: true, nullsFirst: false })
                     .order('created_at', { ascending: false });
                 
                 if (error) {
@@ -7942,7 +7942,7 @@
                 const { data, error } = await supabaseClient
                     .from('products')
                     .select('*')
-                    .order('display_order', { ascending: true, nullsLast: true })
+                    .order('display_order', { ascending: true, nullsFirst: false })
                     .order('created_at', { ascending: false });
                 if (error) throw error;
 
@@ -8041,7 +8041,7 @@
                 }
                 
                 const { data, error } = await query
-                    .order('display_order', { ascending: true, nullsLast: true })
+                    .order('display_order', { ascending: true, nullsFirst: false })
                     .order('created_at', { ascending: false });
                 
                 if (error) throw error;
