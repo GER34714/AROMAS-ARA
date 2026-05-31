@@ -5185,8 +5185,9 @@ function renderProducts() {
     return matchCategory && matchTerm;
   });
 
-  // Vista "Todos" usa el orden numerico del admin (display_order) sin modificar
-  // El orden ya viene correcto desde loadProducts() ordenado por display_order
+  // Ordenar localmente por sort_order como respaldo (menor primero)
+  filteredProducts.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+  console.log('DEBUG - Productos ordenados por sort_order:', filteredProducts.slice(0, 5).map(p => ({ name: p.name, sort_order: p.sort_order })));
 
   // Reset to page 1 when filters change
   currentPage = 1;
