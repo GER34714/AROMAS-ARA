@@ -3885,6 +3885,11 @@
                             <div class="validation-message" id="categoryDescriptionValidation"></div>
                         </div>
                         
+                        <div class="form-group">
+                            <label for="categorySortOrder">Orden de Visualización</label>
+                            <input type="number" id="categorySortOrder" min="1" placeholder="Ej: 1">
+                        </div>
+                        
                         <div class="form-group full">
                             <label for="categoryImage">Imagen de la Categoría</label>
                             <input type="url" id="categoryImage" placeholder="https://ejemplo.com/imagen.jpg">
@@ -4639,9 +4644,14 @@
                     <div class="categories-view">
                         <div class="categories-header">
                             <h2>Gestión de Categorías</h2>
-                            <button class="btn btn-primary" onclick="openCategoryModal()">
-                                <span>➕</span> Agregar Categoría
-                            </button>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-secondary" onclick="normalizeCategorySortOrder()" style="background: var(--success); color: white;">
+                                    <span>🔢</span> Normalizar
+                                </button>
+                                <button class="btn btn-primary" onclick="openCategoryModal()">
+                                    <span>➕</span> Agregar Categoría
+                                </button>
+                            </div>
                         </div>
                         
                         <div class="categories-grid" id="categoriesGrid">
@@ -5551,7 +5561,7 @@
             try {
                 console.log('Iniciando carga de categorías desde Supabase...');
                 
-                const { data, error } = await supabaseClient.from('categories').select('*').order('name');
+                const { data, error } = await supabaseClient.from('categories').select('*').order('sort_order', { ascending: true, nullsFirst: false });
                 
                 if (error) {
                     console.error('Error en consulta de categorías:', error);
@@ -5859,6 +5869,12 @@
                 loadCategoryData(categoryId);
             } else {
                 title.innerHTML = '<span class="modal-icon">🏷️</span> Nueva Categoría';
+                // Nueva categoria: asignar siguiente numero de orden
+                const maxSortOrder = categories.length > 0
+                    ? Math.max(...categories.map(c => c.sort_order !== undefined && c.sort_order !== null ? c.sort_order : 0))
+                    : 0;
+                const nextSortOrder = maxSortOrder + 1;
+                document.getElementById('categorySortOrder').value = nextSortOrder;
             }
             
             // Mostrar modal
@@ -6001,6 +6017,8 @@
                 document.getElementById('categoryName').value = category.name || '';
                 document.getElementById('categoryDescription').value = category.description || '';
                 document.getElementById('categoryImage').value = category.image_url || '';
+                const sortOrder = (category.sort_order !== undefined && category.sort_order !== null) ? category.sort_order : 0;
+                document.getElementById('categorySortOrder').value = sortOrder;
                 
                 // Actualizar contador de descripción
                 updateCategoryDescriptionCount();
@@ -7143,7 +7161,10 @@
                         ${!category.image_url ? '<span>🏷️</span>' : ''}
                     </div>
                     <div class="category-content">
-                        <div class="category-name">${category.name}</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div class="category-name">${category.name}</div>
+                            <input type="number" min="1" value="${category.sort_order !== undefined && category.sort_order !== null ? category.sort_order : 0}" style="width: 50px; padding: 4px; border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; font-weight: 600; color: var(--accent); background: white; font-size: 0.85rem;" onkeydown="if(event.key==='Enter'){event.stopPropagation();updateCategorySortOrder('${category.id}',this.value);}" onblur="updateCategorySortOrder('${category.id}',this.value)">
+                        </div>
                         <div class="category-description">
                             ${category.description || 'Sin descripción'}
                         </div>
@@ -7180,10 +7201,12 @@
             // Actualizar estado a guardando
             updateCategoryFormStatus('saving', 'Guardando...', '💾');
             
+            const sortOrderVal = document.getElementById('categorySortOrder').value;
             const categoryData = {
                 name: document.getElementById('categoryName').value.trim(),
                 description: document.getElementById('categoryDescription').value.trim(),
-                image_url: document.getElementById('categoryImage').value.trim()
+                image_url: document.getElementById('categoryImage').value.trim(),
+                sort_order: sortOrderVal !== '' ? parseInt(sortOrderVal) : 0
             };
             
             try {
@@ -7232,6 +7255,55 @@
             } catch (error) {
                 console.error('Error deleting category:', error);
                 notificationManager.error('Error al eliminar la categoría');
+            }
+        }
+        
+        // ===== ACTUALIZAR SORT ORDER DE CATEGORIAS INLINE =====
+        async function updateCategorySortOrder(categoryId, newValue) {
+            const newSortOrder = parseInt(newValue) || 0;
+            if (newSortOrder < 1) {
+                notificationManager.error('El orden debe ser 1 o mayor');
+                await loadCategories();
+                renderCategoriesGrid();
+                return;
+            }
+            const targetCategory = categories.find(c => c.id === categoryId);
+            if (!targetCategory) return;
+            const oldSortOrder = targetCategory.sort_order || 0;
+            if (oldSortOrder === newSortOrder) return;
+            const existing = categories.find(c => c.sort_order === newSortOrder && c.id !== categoryId);
+            if (existing) {
+                notificationManager.error(`El numero ${newSortOrder} ya lo tiene "${existing.name}". Elegi otro numero.`);
+                await loadCategories();
+                renderCategoriesGrid();
+                return;
+            }
+            try {
+                await supabaseClient.from('categories').update({ sort_order: newSortOrder }).eq('id', categoryId);
+                notificationManager.success('Orden actualizado');
+                await loadCategories();
+                renderCategoriesGrid();
+            } catch (err) {
+                console.error('Error actualizando sort_order:', err);
+                notificationManager.error('Error al actualizar orden');
+            }
+        }
+        
+        // ===== NORMALIZAR SORT ORDER DE CATEGORIAS =====
+        async function normalizeCategorySortOrder() {
+            if (!confirm('¿Normalizar orden de categorías?\n\nSe asignaran numeros 1, 2, 3... consecutivos sin duplicados.')) return;
+            try {
+                notificationManager.loading('Normalizando orden...');
+                const sortedCategories = categories.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+                for (let i = 0; i < sortedCategories.length; i++) {
+                    await supabaseClient.from('categories').update({ sort_order: i + 1 }).eq('id', sortedCategories[i].id);
+                }
+                notificationManager.success(`${sortedCategories.length} categorías normalizadas`);
+                await loadCategories();
+                renderCategoriesGrid();
+            } catch (err) {
+                console.error('Error normalizando:', err);
+                notificationManager.error('Error al normalizar');
             }
         }
         
@@ -8343,7 +8415,7 @@
         
         async function loadOffersCategories() {
             try {
-                const { data, error } = await supabaseClient.from('categories').select('*').order('name');
+                const { data, error } = await supabaseClient.from('categories').select('*').order('sort_order', { ascending: true, nullsFirst: false });
                 if (error) throw error;
                 
                 const select = document.getElementById('offersCategoryFilter');
