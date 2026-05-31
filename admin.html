@@ -5205,8 +5205,9 @@
                 }
                 
                 products = data || [];
-                console.log('Productos cargados exitosamente:', products.length);
-                console.log('DEBUG - Primeros 5 productos ordenados:', products.slice(0, 5).map(p => ({ name: p.name, sort_order: p.sort_order })));
+                // Garantizar orden por sort_order (menor primero)
+                products.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+                console.log('Productos cargados y ordenados por sort_order:', products.length);
                 
                 // Renderizar tabla solo si existe el elemento
                 const tbody = document.getElementById('productsTableBody');
