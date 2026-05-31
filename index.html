@@ -3925,44 +3925,6 @@ function formatPrice(price) {
     }).format(price)
 }
 
-// Mezclar array aleatoriamente (Fisher-Yates)
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-// Intercalar productos por categoria para vista "Todos"
-// Ej: Difusor #1, Sahumerio #1, Vela #1, Difusor #2, Sahumerio #2...
-function interleaveByCategory(productsArray) {
-    const byCategory = {};
-    productsArray.forEach(p => {
-        const cat = p.category || 'Sin categoría';
-        if (!byCategory[cat]) byCategory[cat] = [];
-        byCategory[cat].push(p);
-    });
-
-    const result = [];
-    const categories = Object.keys(byCategory);
-    let idx = 0;
-    let hasMore = true;
-
-    while (hasMore) {
-        hasMore = false;
-        for (const cat of categories) {
-            if (idx < byCategory[cat].length) {
-                result.push(byCategory[cat][idx]);
-                hasMore = true;
-            }
-        }
-        idx++;
-    }
-
-    return result;
-}
-
 // Load categories once and use in both sections
 async function loadCategories() {
   try {
@@ -5498,12 +5460,8 @@ function renderProducts() {
     return matchCategory && matchTerm;
   });
 
-  // Si es la vista "Todos", intercalar por categoria para que no dominen
-  if (activeCategory === 'Todos' && !term) {
-    console.log('DEBUG - Intercalando productos por categoria para vista Todos');
-    filteredProducts = interleaveByCategory([...filteredProducts]);
-    console.log('DEBUG - Primeros 6 productos intercalados:', filteredProducts.slice(0, 6).map(p => ({ name: p.name, category: p.category })));
-  }
+  // Vista "Todos" usa el orden numerico del admin (display_order) sin modificar
+  // El orden ya viene correcto desde loadProducts() ordenado por display_order
 
   // Reset to page 1 when filters change
   currentPage = 1;
