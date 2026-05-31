@@ -4188,7 +4188,7 @@ function initializeOffersCarousel() {
   
   // Calcular el ancho de cada tarjeta
   const isMobile = window.innerWidth <= 768;
-  const cardWidth = isMobile ? 240 : 280;
+  const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
   const gap = isMobile ? 8 : 20;
   const scrollAmount = cardWidth + gap;
   
@@ -4236,7 +4236,8 @@ function initializeOffersCarousel() {
     
     // Calcular dinámicamente
     const isMobile = window.innerWidth <= 768;
-    const cardWidth = isMobile ? 240 : 280;
+    const firstCard = track.children[0];
+    const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
     const gap = isMobile ? 8 : 20;
     
     const currentPosition = -ofertasCarouselSimple.currentIndex * (cardWidth + gap);
@@ -4287,7 +4288,8 @@ function initializeOffersCarousel() {
     
     // Calcular dinámicamente
     const isMobile = window.innerWidth <= 768;
-    const cardWidth = isMobile ? 240 : 280;
+    const firstCard = track.children[0];
+    const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
     const gap = isMobile ? 8 : 20;
     
     const currentPosition = -ofertasCarouselSimple.currentIndex * (cardWidth + gap);
@@ -4346,7 +4348,7 @@ function updateCarouselPosition(instant = false) {
   
   // Calcular dinámicamente el ancho de las tarjetas
   const isMobile = window.innerWidth <= 768;
-  const cardWidth = isMobile ? 240 : 280;
+  const cardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 240 : 280);
   const gap = isMobile ? 8 : 20;
   
   // Calcular cuántos productos se ven a la vez
