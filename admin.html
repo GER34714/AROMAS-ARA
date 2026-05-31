@@ -5787,8 +5787,15 @@
                 loadProductData(productId);
             } else {
                 title.innerHTML = '<span class="modal-icon">📦</span> Nuevo Producto';
+                // Producto nuevo: asignar siguiente numero de orden automaticamente
+                const maxOrder = products.length > 0
+                    ? Math.max(...products.map(p => p.display_order !== undefined && p.display_order !== null ? p.display_order : 0))
+                    : -1;
+                const nextOrder = maxOrder + 1;
+                document.getElementById('productDisplayOrder').value = nextOrder;
+                console.log('DEBUG - Nuevo producto, display_order asignado:', nextOrder);
             }
-            
+
             // Cargar categorías
             loadCategoriesIntoModal();
             
