@@ -5644,7 +5644,7 @@
                     </td>
                     <td data-label="Orden">
                         ${product.activo
-                            ? `<input type="number" min="0" value="${product.sort_order !== undefined && product.sort_order !== null ? product.sort_order : 0}" style="width: 60px; padding: 4px; border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; font-weight: 600; color: var(--accent); background: white;" onkeydown="if(event.key==='Enter'){event.stopPropagation();updateSortOrder('${product.id}',this.value);}" onblur="event.stopPropagation();updateSortOrder('${product.id}',this.value)">`
+                            ? `<input type="number" min="1" value="${product.sort_order !== undefined && product.sort_order !== null ? product.sort_order : 0}" style="width: 60px; padding: 4px; border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; font-weight: 600; color: var(--accent); background: white;" onclick="event.stopPropagation();" onkeydown="if(event.key==='Enter'){event.stopPropagation();updateSortOrder('${product.id}',this.value);}" onblur="event.stopPropagation();updateSortOrder('${product.id}',this.value)">`
                             : `<span style="color: var(--text-muted); font-size: 0.85rem;">—</span>`
                         }
                     </td>
@@ -5789,6 +5789,9 @@
             clearAllValidations();
             clearImagePreview();
             
+            // Cargar categorías primero (para que loadProductData pueda setear la categoría correctamente)
+            loadCategoriesIntoModal();
+
             // Configurar título
             if (productId) {
                 title.innerHTML = '<span class="modal-icon">✏️</span> Editar Producto';
@@ -5803,9 +5806,6 @@
                 document.getElementById('productDisplayOrder').value = nextSortOrder;
                 console.log('DEBUG - Nuevo producto, sort_order asignado:', nextSortOrder);
             }
-
-            // Cargar categorías
-            loadCategoriesIntoModal();
             
             // Mostrar modal
             modal.classList.add('active');
